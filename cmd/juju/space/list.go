@@ -10,9 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/apiserver/params"
 	jujucmd "github.com/juju/juju/cmd"
@@ -56,7 +56,7 @@ func (c *ListCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.printTabular,
+		"tabular": cmd.FormatterFunc(c.printTabular),
 	})
 	f.BoolVar(&c.Short, "short", false, "only display spaces.")
 }

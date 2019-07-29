@@ -8,7 +8,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/loggo"
 	"github.com/juju/os/series"
 	"github.com/juju/utils/arch"

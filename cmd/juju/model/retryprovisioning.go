@@ -6,7 +6,7 @@ package model
 import (
 	"fmt"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"gopkg.in/juju/names.v2"
 

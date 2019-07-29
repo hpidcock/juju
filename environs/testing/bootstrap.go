@@ -4,7 +4,7 @@
 package testing
 
 import (
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/loggo"
 	"github.com/juju/testing"
 	"github.com/juju/utils/ssh"

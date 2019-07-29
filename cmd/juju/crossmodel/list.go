@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/charm.v6"
@@ -124,8 +124,8 @@ func (c *listCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatListTabular,
-		"summary": formatListSummary,
+		"tabular": cmd.FormatterFunc(formatListTabular),
+		"summary": cmd.FormatterFunc(formatListSummary),
 	})
 }
 

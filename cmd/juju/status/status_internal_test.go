@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	jc "github.com/juju/testing/checkers"
 	"github.com/juju/utils"
 	"github.com/juju/version"

@@ -7,7 +7,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/gnuflag"
 	"github.com/juju/loggo"
 	"github.com/juju/version"

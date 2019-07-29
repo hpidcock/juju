@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 
 	jujucmd "github.com/juju/juju/cmd"
 	"github.com/juju/juju/cmd/modelcmd"
@@ -72,7 +72,7 @@ func (c *ListCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	defaultFormat := "tabular"
 	c.out.AddFlags(f, defaultFormat, map[string]cmd.Formatter{
-		"tabular": FormatTabular,
+		"tabular": cmd.FormatterFunc(FormatTabular),
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
 	})

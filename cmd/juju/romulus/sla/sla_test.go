@@ -6,8 +6,8 @@ package sla_test
 import (
 	stdtesting "testing"
 
-	"github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/errors"
 	slawire "github.com/juju/romulus/wireformat/sla"
 	"github.com/juju/testing"

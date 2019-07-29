@@ -287,8 +287,8 @@
   revision = "9c5c9712527c7986f012361e7d13756b4d99543d"
 
 [[constraint]]
-  name = "github.com/juju/cmd"
-  revision = "a8c88215d37e4d65036822bca0522d11f888f7eb"
+  name = "gopkg.in/juju/cmd.v2"
+  revision = "22709c156db65b1184b2aeea2e05bdf37eff88fc"
 
 [[constraint]]
   name = "github.com/juju/collections"

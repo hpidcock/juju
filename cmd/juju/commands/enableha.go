@@ -8,7 +8,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -149,7 +149,7 @@ func (c *enableHACommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "simple", map[string]cmd.Formatter{
 		"yaml":   cmd.FormatYaml,
 		"json":   cmd.FormatJson,
-		"simple": formatSimple,
+		"simple": cmd.FormatterFunc(formatSimple),
 	})
 
 }

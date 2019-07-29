@@ -6,7 +6,7 @@ package resource_test
 import (
 	"bytes"
 
-	jujucmd "github.com/juju/cmd"
+	jujucmd "gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/juju/apiserver/params"
 	"github.com/juju/testing"

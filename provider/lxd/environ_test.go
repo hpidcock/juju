@@ -5,7 +5,7 @@ package lxd_test
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/errors"
 	gitjujutesting "github.com/juju/testing"
 	jc "github.com/juju/testing/checkers"

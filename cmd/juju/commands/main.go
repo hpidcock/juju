@@ -11,7 +11,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/loggo"
 	utilsos "github.com/juju/os"

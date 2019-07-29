@@ -4,7 +4,7 @@
 package featuretests
 
 import (
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/juju/cmd/juju/application"
 	jc "github.com/juju/testing/checkers"
 	gc "gopkg.in/check.v1"

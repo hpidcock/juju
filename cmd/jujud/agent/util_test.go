@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/collections/set"
 	"github.com/juju/os/series"
 	jc "github.com/juju/testing/checkers"

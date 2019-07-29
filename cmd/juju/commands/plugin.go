@@ -14,7 +14,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/gnuflag"
 	"github.com/juju/utils"
 	"github.com/juju/utils/set"

@@ -8,7 +8,7 @@ import (
 	"io"
 
 	"github.com/juju/ansiterm"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/core/status"
 )
@@ -18,6 +18,7 @@ import (
 var DefaultFormatters = map[string]cmd.Formatter{
 	"yaml": cmd.FormatYaml,
 	"json": cmd.FormatJson,
+	"template": cmd.FormatTemplate,
 }
 
 // TabWriter returns a new tab writer with common layout definition.

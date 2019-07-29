@@ -13,8 +13,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/collections/set"
 	"github.com/juju/gnuflag"
 	"github.com/juju/os/series"

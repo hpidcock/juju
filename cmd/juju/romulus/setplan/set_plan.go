@@ -11,7 +11,7 @@ import (
 
 	"github.com/juju/juju/core/model"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	api "github.com/juju/romulus/api/plan"
 	"gopkg.in/juju/names.v2"

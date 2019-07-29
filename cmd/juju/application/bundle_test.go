@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/errors"
 	"github.com/juju/juju/caas"
 	"github.com/juju/juju/cloud"

@@ -8,12 +8,12 @@ import (
 	"io"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"github.com/juju/loggo"
 	api "github.com/juju/romulus/api/budget"
 	wireformat "github.com/juju/romulus/wireformat/budget"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/macaroon-bakery.v2-unstable/httpbakery"
 
 	jujucmd "github.com/juju/juju/cmd"
@@ -68,7 +68,7 @@ func (c *showWalletCommand) Init(args []string) error {
 func (c *showWalletCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.CommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
-		"tabular": c.formatTabular,
+		"tabular": cmd.FormatterFunc(c.formatTabular),
 		"json":    cmd.FormatJson,
 	})
 }

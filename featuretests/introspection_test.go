@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/juju/agent"
 	"github.com/juju/juju/state"
 	jc "github.com/juju/testing/checkers"

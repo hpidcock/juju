@@ -5,7 +5,7 @@ package user
 
 import (
 	"github.com/juju/clock"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"

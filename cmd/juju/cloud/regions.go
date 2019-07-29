@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/yaml.v2"
@@ -57,7 +57,7 @@ func (c *listRegionsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.formatRegionsListTabular,
+		"tabular": cmd.FormatterFunc(c.formatRegionsListTabular),
 	})
 }
 

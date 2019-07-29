@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/apiserver/params"
 	jujucmd "github.com/juju/juju/cmd"
@@ -56,7 +56,7 @@ func (c *listCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatListTabularOne,
+		"tabular": cmd.FormatterFunc(formatListTabularOne),
 	})
 	// TODO(axw) deprecate these flags, and introduce separate commands
 	// for listing just filesystems or volumes.

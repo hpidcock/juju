@@ -7,8 +7,8 @@ import (
 	"bytes"
 	"strings"
 
-	jujucmd "github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	jujucmd "gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	jc "github.com/juju/testing/checkers"
 	gc "gopkg.in/check.v1"
 	charmresource "gopkg.in/juju/charm.v6/resource"

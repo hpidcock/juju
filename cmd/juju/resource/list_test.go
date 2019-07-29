@@ -6,7 +6,7 @@ package resource_test
 import (
 	"time"
 
-	jujucmd "github.com/juju/cmd"
+	jujucmd "gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/testing"
 	jc "github.com/juju/testing/checkers"

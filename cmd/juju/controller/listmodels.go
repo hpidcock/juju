@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/juju/ansiterm"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -76,7 +76,7 @@ func (c *modelsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.formatTabular,
+		"tabular": cmd.FormatterFunc(c.formatTabular),
 	})
 }
 

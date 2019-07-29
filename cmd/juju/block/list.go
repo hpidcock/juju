@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -74,7 +74,7 @@ func (c *listCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.formatter,
+		"tabular": cmd.FormatterFunc(c.formatter),
 	})
 }
 

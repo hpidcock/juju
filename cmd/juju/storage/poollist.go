@@ -4,8 +4,8 @@
 package storage
 
 import (
-	"github.com/juju/cmd"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/apiserver/params"
 	jujucmd "github.com/juju/juju/cmd"
@@ -89,7 +89,7 @@ func (c *poolListCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatPoolListTabular,
+		"tabular": cmd.FormatterFunc(formatPoolListTabular),
 	})
 }
 

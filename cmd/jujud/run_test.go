@@ -12,8 +12,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/loggo"
 	jujuos "github.com/juju/os"
 	jc "github.com/juju/testing/checkers"

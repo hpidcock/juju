@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 
@@ -46,7 +46,7 @@ func (c *baselistMachinesCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, c.defaultFormat, map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.tabular,
+		"tabular": cmd.FormatterFunc(c.tabular),
 	})
 }
 

@@ -5,7 +5,7 @@
 package commands
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/cmd/juju/romulus/agree"
 	"github.com/juju/juju/cmd/juju/romulus/budget"

@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/environschema.v1"
@@ -114,7 +114,7 @@ func (c *configCommand) SetFlags(f *gnuflag.FlagSet) {
 
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"json":    cmd.FormatJson,
-		"tabular": formatConfigTabular,
+		"tabular": cmd.FormatterFunc(formatConfigTabular),
 		"yaml":    cmd.FormatYaml,
 	})
 	f.Var(cmd.NewAppendStringsValue(&c.reset), "reset", "Reset the provided comma delimited keys")

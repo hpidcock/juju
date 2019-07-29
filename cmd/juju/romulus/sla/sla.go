@@ -11,12 +11,12 @@ import (
 	"io"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"github.com/juju/loggo"
 	"github.com/juju/romulus/api/sla"
 	slawire "github.com/juju/romulus/wireformat/sla"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/macaroon.v2-unstable"
 
 	"github.com/juju/juju/api"
@@ -93,7 +93,7 @@ type slaCommand struct {
 func (c *slaCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
-		"tabular": formatTabular,
+		"tabular": cmd.FormatterFunc(formatTabular),
 		"json":    cmd.FormatJson,
 		"yaml":    cmd.FormatYaml,
 	})

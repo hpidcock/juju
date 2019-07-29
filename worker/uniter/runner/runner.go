@@ -13,7 +13,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/juju/clock"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/loggo"
 	jujuos "github.com/juju/os"

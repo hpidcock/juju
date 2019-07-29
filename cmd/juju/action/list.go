@@ -8,10 +8,10 @@ import (
 	"io"
 	"strings"
 
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"github.com/juju/naturalsort"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/juju/names.v2"
 
 	"github.com/juju/juju/apiserver/params"
@@ -56,8 +56,8 @@ func (c *listCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "default", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.printTabular,
-		"default": c.dummyDefault,
+		"tabular": cmd.FormatterFunc(c.printTabular),
+		"default": cmd.FormatterFunc(c.dummyDefault),
 	})
 	f.BoolVar(&c.fullSchema, "schema", false, "Display the full action schema")
 }
@@ -147,7 +147,7 @@ func (c *listCommand) Run(ctx *cmd.Context) error {
 	}
 
 	if c.out.Name() == "default" {
-		return c.out.WriteFormatter(ctx, c.printTabular, output)
+		return c.out.WriteFormatter(ctx, cmd.FormatterFunc(c.printTabular), output)
 	} else {
 		return c.out.Write(ctx, output)
 	}

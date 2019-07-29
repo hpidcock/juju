@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	gc "gopkg.in/check.v1"
 
 	"github.com/juju/juju/apiserver/common"

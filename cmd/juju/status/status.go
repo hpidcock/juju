@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/juju/clock"
-	"github.com/juju/cmd"
 	"github.com/juju/collections/set"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"github.com/juju/loggo"
+	"gopkg.in/juju/cmd.v2"
 
 	storageapi "github.com/juju/juju/api/storage"
 	"github.com/juju/juju/apiserver/params"
@@ -165,11 +165,11 @@ func (c *statusCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, defaultFormat, map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"short":   FormatOneline,
-		"oneline": FormatOneline,
-		"line":    FormatOneline,
-		"tabular": c.FormatTabular,
-		"summary": FormatSummary,
+		"short":   cmd.FormatterFunc(FormatOneline),
+		"oneline": cmd.FormatterFunc(FormatOneline),
+		"line":    cmd.FormatterFunc(FormatOneline),
+		"tabular": cmd.FormatterFunc(c.FormatTabular),
+		"summary": cmd.FormatterFunc(FormatSummary),
 	})
 }
 

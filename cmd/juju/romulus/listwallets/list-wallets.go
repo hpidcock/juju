@@ -9,11 +9,11 @@ import (
 	"sort"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	api "github.com/juju/romulus/api/budget"
 	wireformat "github.com/juju/romulus/wireformat/budget"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/macaroon-bakery.v2-unstable/httpbakery"
 
 	jujucmd "github.com/juju/juju/cmd"
@@ -54,7 +54,7 @@ func (c *listWalletsCommand) Info() *cmd.Info {
 func (c *listWalletsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.CommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
-		"tabular": formatTabular,
+		"tabular": cmd.FormatterFunc(formatTabular),
 		"json":    cmd.FormatJson,
 	})
 }

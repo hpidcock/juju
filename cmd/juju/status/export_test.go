@@ -4,7 +4,7 @@
 package status
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/cmd/juju/storage"
 	"github.com/juju/juju/cmd/modelcmd"

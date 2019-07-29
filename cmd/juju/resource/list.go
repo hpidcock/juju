@@ -6,7 +6,7 @@ package resource
 import (
 	"sort"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -67,7 +67,7 @@ func (c *ListCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	const defaultFormat = "tabular"
 	c.out.AddFlags(f, defaultFormat, map[string]cmd.Formatter{
-		defaultFormat: FormatAppTabular,
+		defaultFormat: cmd.FormatterFunc(FormatAppTabular),
 		"yaml":        cmd.FormatYaml,
 		"json":        cmd.FormatJson,
 	})

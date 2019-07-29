@@ -4,7 +4,7 @@
 package resource
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/charm.v6"
@@ -90,7 +90,7 @@ func (c *baseCharmResourcesCommand) setBaseFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	defaultFormat := "tabular"
 	c.out.AddFlags(f, defaultFormat, map[string]cmd.Formatter{
-		"tabular": FormatCharmTabular,
+		"tabular": cmd.FormatterFunc(FormatCharmTabular),
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
 	})

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -118,7 +118,7 @@ func formatConstraints(writer io.Writer, value interface{}) error {
 func (c *applicationGetConstraintsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	c.out.AddFlags(f, "constraints", map[string]cmd.Formatter{
-		"constraints": formatConstraints,
+		"constraints": cmd.FormatterFunc(formatConstraints),
 		"yaml":        cmd.FormatYaml,
 		"json":        cmd.FormatJson,
 	})

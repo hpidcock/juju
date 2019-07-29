@@ -13,11 +13,11 @@ import (
 	"strings"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	api "github.com/juju/romulus/api/plan"
 	wireformat "github.com/juju/romulus/wireformat/plan"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/macaroon-bakery.v2-unstable/httpbakery"
 	"gopkg.in/yaml.v2"
 
@@ -89,8 +89,8 @@ func (c *ListPlansCommand) SetFlags(f *gnuflag.FlagSet) {
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
 		"smart":   cmd.FormatSmart,
-		"summary": formatSummary,
-		"tabular": formatTabular,
+		"summary": cmd.FormatterFunc(formatSummary),
+		"tabular": cmd.FormatterFunc(formatTabular),
 	})
 }
 

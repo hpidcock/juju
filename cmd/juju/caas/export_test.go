@@ -7,7 +7,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 
 	"github.com/juju/juju/caas/kubernetes/clientconfig"
 	jujucmdcloud "github.com/juju/juju/cmd/juju/cloud"

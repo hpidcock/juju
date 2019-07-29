@@ -6,8 +6,8 @@ package application
 import (
 	"time"
 
-	"github.com/juju/cmd"
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/errors"
 	"github.com/juju/juju/api/application"
 	"github.com/juju/testing"

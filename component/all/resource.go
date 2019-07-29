@@ -4,7 +4,7 @@
 package all
 
 import (
-	jujucmd "github.com/juju/cmd"
+	jujucmd "gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"gopkg.in/juju/names.v2"
 

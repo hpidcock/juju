@@ -4,7 +4,7 @@
 package cloud
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 
 	jujucloud "github.com/juju/juju/cloud"

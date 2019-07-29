@@ -4,7 +4,7 @@
 package crossmodel
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/charm.v6"
@@ -86,7 +86,7 @@ func (c *showCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatShowTabular,
+		"tabular": cmd.FormatterFunc(formatShowTabular),
 	})
 }
 

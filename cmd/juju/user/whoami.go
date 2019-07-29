@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/juju/cmd"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/juju/names.v2"
 
 	jujucmd "github.com/juju/juju/cmd"
@@ -56,7 +56,7 @@ func (c *whoAmICommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatWhoAmITabular,
+		"tabular": cmd.FormatterFunc(formatWhoAmITabular),
 	})
 }
 

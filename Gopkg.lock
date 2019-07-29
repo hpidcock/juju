@@ -468,14 +468,12 @@
   revision = "9c5c9712527c7986f012361e7d13756b4d99543d"
 
 [[projects]]
-  digest = "1:760e8f7e7dc275407516bf0c0cfcec9f946810f28da4952bbb46de8391d6a348"
+  branch = "master"
+  digest = "1:c14a973d9b66b6a4b8b21ae7a345a032c80d3574cc1391d37d59a2c793892356"
   name = "github.com/juju/cmd"
-  packages = [
-    ".",
-    "cmdtesting",
-  ]
+  packages = ["."]
   pruneopts = ""
-  revision = "a8c88215d37e4d65036822bca0522d11f888f7eb"
+  revision = "0da83481efa1ddf673ad490aa74c63003f0ecaf4"
 
 [[projects]]
   digest = "1:243ec2217cb77ad028a956bf4d886b0f070d2dbfe861ceadfcf270412c2e7b90"
@@ -1526,6 +1524,16 @@
   revision = "743b5ab3209d901b82aaa6594c405e017e0761a9"
 
 [[projects]]
+  digest = "1:84a57f3f918bf6aaca9da41f36109792e6f5fc0cdce0aa5062af39983bf42b13"
+  name = "gopkg.in/juju/cmd.v2"
+  packages = [
+    ".",
+    "cmdtesting",
+  ]
+  pruneopts = ""
+  revision = "22709c156db65b1184b2aeea2e05bdf37eff88fc"
+
+[[projects]]
   digest = "1:7654e769ed719c292d72af4420ca772d9c850299271e15c6f5af4fb89526c3fd"
   name = "gopkg.in/juju/environschema.v1"
   packages = [
@@ -1904,8 +1912,6 @@
     "github.com/juju/bundlechanges",
     "github.com/juju/clock",
     "github.com/juju/clock/testclock",
-    "github.com/juju/cmd",
-    "github.com/juju/cmd/cmdtesting",
     "github.com/juju/collections/deque",
     "github.com/juju/collections/set",
     "github.com/juju/description",
@@ -2055,6 +2061,8 @@
     "gopkg.in/juju/charmrepo.v3/csclient/params",
     "gopkg.in/juju/charmrepo.v3/testing",
     "gopkg.in/juju/charmstore.v5",
+    "gopkg.in/juju/cmd.v2",
+    "gopkg.in/juju/cmd.v2/cmdtesting",
     "gopkg.in/juju/environschema.v1",
     "gopkg.in/juju/environschema.v1/form",
     "gopkg.in/juju/names.v2",

@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/juju/cmd/cmdtesting"
+	"gopkg.in/juju/cmd.v2/cmdtesting"
 	"github.com/juju/errors"
 	"github.com/juju/os/series"
 	"github.com/juju/testing"

@@ -4,7 +4,7 @@
 package firewall
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 
@@ -65,7 +65,7 @@ func (c *listFirewallRulesCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": formatListTabular,
+		"tabular": cmd.FormatterFunc(formatListTabular),
 	})
 }
 

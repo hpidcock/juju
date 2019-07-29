@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"gopkg.in/juju/names.v2"
@@ -74,7 +74,7 @@ func (c *MetricsCommand) Init(args []string) error {
 func (c *MetricsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ModelCommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
-		"tabular": formatTabular,
+		"tabular": cmd.FormatterFunc(formatTabular),
 		"json":    cmd.FormatJson,
 		"yaml":    cmd.FormatYaml,
 	})

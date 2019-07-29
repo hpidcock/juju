@@ -8,10 +8,10 @@ import (
 
 	"github.com/juju/ansiterm"
 	"github.com/juju/clock"
-	"github.com/juju/cmd"
 	"github.com/juju/collections/set"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
+	"gopkg.in/juju/cmd.v2"
 	"gopkg.in/juju/names.v2"
 
 	"github.com/juju/juju/api/usermanager"
@@ -99,7 +99,7 @@ func (c *listCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"yaml":    cmd.FormatYaml,
 		"json":    cmd.FormatJson,
-		"tabular": c.formatTabular,
+		"tabular": cmd.FormatterFunc(c.formatTabular),
 	})
 }
 

@@ -9,7 +9,7 @@ import (
 	"io"
 
 	"github.com/gosuri/uitable"
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
 	"github.com/juju/terms-client/api"
@@ -68,8 +68,8 @@ type listAgreementsCommand struct {
 func (c *listAgreementsCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.CommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
-		"tabular": formatTabular,
-		"json":    formatJSON,
+		"tabular": cmd.FormatterFunc(formatTabular),
+		"json":    cmd.FormatterFunc(formatJSON),
 		"yaml":    cmd.FormatYaml,
 	})
 }

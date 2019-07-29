@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/collections/set"
 	"github.com/juju/errors"
 	"github.com/juju/gnuflag"
@@ -105,7 +105,7 @@ func (c *configCommand) SetFlags(f *gnuflag.FlagSet) {
 	c.ControllerCommandBase.SetFlags(f)
 	c.out.AddFlags(f, "tabular", map[string]cmd.Formatter{
 		"json":    cmd.FormatJson,
-		"tabular": formatConfigTabular,
+		"tabular": cmd.FormatterFunc(formatConfigTabular),
 		"yaml":    cmd.FormatYaml,
 	})
 }

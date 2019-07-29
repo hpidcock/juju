@@ -4,7 +4,7 @@
 package block
 
 import (
-	"github.com/juju/cmd"
+	"gopkg.in/juju/cmd.v2"
 	"github.com/juju/juju/jujuclient"
 
 	"github.com/juju/juju/apiserver/params"
