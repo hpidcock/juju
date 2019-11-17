@@ -6,7 +6,9 @@ package modelcmd_test
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
+	stdtesting "testing"
 
 	"github.com/golang/mock/gomock"
 	"github.com/juju/cmd/cmdtesting"
@@ -22,7 +24,7 @@ import (
 	_ "github.com/juju/juju/provider/dummy"
 )
 
-func init() {
+func TestMain(m *stdtesting.M) {
 	dummyProvider, err := environs.Provider("dummy")
 	if err != nil {
 		panic(err)
@@ -30,6 +32,7 @@ func init() {
 	// dummy does implement CloudEnvironProvider
 	asCloud := dummyProvider.(environs.CloudEnvironProvider)
 	environs.RegisterProvider("fake", mockProvider{asCloud})
+	os.Exit(m.Run())
 }
 
 type mockProvider struct {

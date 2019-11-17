@@ -77,22 +77,29 @@ type BootstrapSuite struct {
 
 var _ = gc.Suite(&BootstrapSuite{})
 
-func init() {
+func (s *BootstrapSuite) SetUpSuite(c *gc.C) {
+	s.FakeJujuXDGDataHomeSuite.SetUpSuite(c)
+	s.MgoSuite.SetUpSuite(c)
+
 	dummyProvider, err := environs.Provider("dummy")
 	if err != nil {
 		panic(err)
 	}
-	environs.RegisterProvider("no-cloud-region-detection", noCloudRegionDetectionProvider{})
-	environs.RegisterProvider("no-cloud-regions", noCloudRegionsProvider{
-		dummyProvider.(environs.CloudEnvironProvider)})
-	environs.RegisterProvider("no-credentials", noCredentialsProvider{})
-	environs.RegisterProvider("many-credentials", manyCredentialsProvider{
-		dummyProvider.(environs.CloudEnvironProvider)})
-}
+	unreg := []func(){
+		environs.RegisterProvider("no-cloud-region-detection", noCloudRegionDetectionProvider{}),
+		environs.RegisterProvider("no-cloud-regions", noCloudRegionsProvider{
+			dummyProvider.(environs.CloudEnvironProvider)}),
+		environs.RegisterProvider("no-credentials", noCredentialsProvider{}),
+		environs.RegisterProvider("many-credentials", manyCredentialsProvider{
+			dummyProvider.(environs.CloudEnvironProvider)}),
+	}
+	for _, f := range unreg {
+		ff := f
+		s.AddCleanup(func(_ *gc.C) {
+			ff()
+		})
+	}
 
-func (s *BootstrapSuite) SetUpSuite(c *gc.C) {
-	s.FakeJujuXDGDataHomeSuite.SetUpSuite(c)
-	s.MgoSuite.SetUpSuite(c)
 	s.PatchValue(&keys.JujuPublicKey, sstesting.SignedMetadataPublicKey)
 	s.PatchValue(&cert.NewCA, coretesting.NewCA)
 	s.PatchValue(&cert.NewLeafKeyBits, 1024)

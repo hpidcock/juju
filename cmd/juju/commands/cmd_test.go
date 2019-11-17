@@ -16,7 +16,13 @@ import (
 )
 
 // flagRunMain is used to indicate that the -run-main flag was used.
-var flagRunMain = flag.Bool("run-main", false, "Run the application's main function for recursive testing")
+var flagRunMain *bool
+
+func TestMain(m *stdtesting.M) {
+	flagRunMain = flag.Bool("run-main", false, "Run the application's main function for recursive testing")
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 type CmdSuite struct {
 	testing.IsolationSuite

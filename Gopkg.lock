@@ -1414,11 +1414,13 @@
   revision = "8c3190dff075bf5442c9eedbf8f8ed6144a099e7"
 
 [[projects]]
-  digest = "1:1b27622885bab97241f7b5e909a1d69e90bb874dd330243b7ecf71be00ff6ce9"
+  branch = "v1"
+  digest = "1:0ca454f3b2ebcc50d3e987be24af1c10cd00215239b2b667a78c622dd8781514"
   name = "gopkg.in/check.v1"
   packages = ["."]
   pruneopts = ""
-  revision = "4f90aeace3a26ad7021961c297b22c42160c7b25"
+  revision = "0cd3cf11bf4115e9d2695ece833a16fb95a3f1d8"
+  source = "github.com/hpidcock/check"
 
 [[projects]]
   digest = "1:77b4e2069b2966911133cb54f2b266bb4bc454483ab1ac5011ed811cdde06314"

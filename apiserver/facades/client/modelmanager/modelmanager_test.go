@@ -4,7 +4,9 @@
 package modelmanager_test
 
 import (
+	"os"
 	"regexp"
+	"testing"
 	"time"
 
 	"github.com/juju/errors"
@@ -1893,6 +1895,7 @@ func (*fakeProvider) PrepareForCreateEnvironment(controllerUUID string, cfg *con
 	return cfg, nil
 }
 
-func init() {
+func TestMain(m *testing.M) {
 	environs.RegisterProvider("fake", &fakeProvider{})
+	os.Exit(m.Run())
 }

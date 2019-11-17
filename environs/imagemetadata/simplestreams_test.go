@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"flag"
 	"net/http"
+	"os"
 	"reflect"
 	"strings"
 	stdtesting "testing"
@@ -22,8 +23,15 @@ import (
 	"github.com/juju/juju/juju/keys"
 )
 
-var live = flag.Bool("live", false, "Include live simplestreams tests")
-var vendor = flag.String("vendor", "", "The vendor representing the source of the simplestream data")
+var live *bool
+var vendor *string
+
+func TestMain(m *stdtesting.M) {
+	live = flag.Bool("live", false, "Include live simplestreams tests")
+	vendor = flag.String("vendor", "", "The vendor representing the source of the simplestream data")
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 type liveTestData struct {
 	baseURL        string

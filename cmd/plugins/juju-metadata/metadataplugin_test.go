@@ -43,9 +43,14 @@ var metadataCommandNames = []string{
 	"validate-tools",
 }
 
-var (
+// flagRunMain is used to indicate that the -run-main flag was used.
+var flagRunMain *bool
+
+func TestMain(m *stdtesting.M) {
 	flagRunMain = flag.Bool("run-main", false, "Run the application's main function for recursive testing")
-)
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 // Reentrancy point for testing (something as close as possible to) the juju
 // tool itself.

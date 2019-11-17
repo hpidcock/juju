@@ -41,7 +41,14 @@ type MainSuite struct{}
 
 var _ = gc.Suite(&MainSuite{})
 
-var flagRunMain = flag.Bool("run-main", false, "Run the application's main function for recursive testing")
+// flagRunMain is used to indicate that the -run-main flag was used.
+var flagRunMain *bool
+
+func TestMain(m *stdtesting.M) {
+	flagRunMain = flag.Bool("run-main", false, "Run the application's main function for recursive testing")
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 // Reentrancy point for testing (something as close as possible to) the jujud
 // tool itself.
@@ -157,15 +164,11 @@ func run(c *gc.C, sockPath sockets.Socket, contextId string, exit int, stdin []b
 	ps := exec.Command(os.Args[0], args...)
 	ps.Stdin = bytes.NewBuffer(stdin)
 	ps.Dir = c.MkDir()
-	ps.Env = []string{
+	ps.Env = append([]string{
 		fmt.Sprintf("JUJU_AGENT_SOCKET_ADDRESS=%s", sockPath.Address),
 		fmt.Sprintf("JUJU_AGENT_SOCKET_NETWORK=%s", sockPath.Network),
 		fmt.Sprintf("JUJU_CONTEXT_ID=%s", contextId),
-		// Code that imports github.com/juju/juju/testing needs to
-		// be able to find that module at runtime (via build.Import),
-		// so we have to preserve that env variable.
-		os.ExpandEnv("GOPATH=${GOPATH}"),
-	}
+	}, os.Environ()...)
 	output, err := ps.CombinedOutput()
 	if exit == 0 {
 		c.Assert(err, jc.ErrorIsNil)

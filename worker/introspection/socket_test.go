@@ -9,9 +9,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"net/http"
 	"os"
 	"regexp"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/juju/clock/testclock"
@@ -109,7 +111,12 @@ func (s *introspectionSuite) call(c *gc.C, url string) []byte {
 func (s *introspectionSuite) TestCmdLine(c *gc.C) {
 	buf := s.call(c, "/debug/pprof/cmdline")
 	c.Assert(buf, gc.NotNil)
-	matches(c, buf, ".*/introspection.test")
+	res, err := http.ReadResponse(bufio.NewReader(bytes.NewBuffer(buf)), nil)
+	c.Assert(err, jc.ErrorIsNil)
+	body, err := ioutil.ReadAll(res.Body)
+	c.Assert(err, jc.ErrorIsNil)
+	args := strings.Split(string(body), "\x00")
+	c.Assert(args, jc.DeepEquals, os.Args)
 }
 
 func (s *introspectionSuite) TestGoroutineProfile(c *gc.C) {

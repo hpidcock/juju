@@ -5,6 +5,8 @@ package cloudinit_test
 
 import (
 	"regexp"
+	"testing"
+	"os"
 
 	"github.com/juju/packaging"
 	jc "github.com/juju/testing/checkers"
@@ -36,8 +38,9 @@ type testProvider struct {
 	environs.CloudEnvironProvider
 }
 
-func init() {
+func TestMain(m *testing.M) {
 	environs.RegisterProvider("sshinit_test", &testProvider{})
+	os.Exit(m.Run())
 }
 
 func testConfig(c *gc.C, controller bool, vers version.Binary) *config.Config {

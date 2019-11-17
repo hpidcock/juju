@@ -36,8 +36,15 @@ import (
 	coretools "github.com/juju/juju/tools"
 )
 
-var live = flag.Bool("live", false, "Include live simplestreams tests")
-var vendor = flag.String("vendor", "", "The vendor representing the source of the simplestream data")
+var live *bool
+var vendor *string
+
+func TestMain(m *testing.M) {
+	live = flag.Bool("live", false, "Include live simplestreams tests")
+	vendor = flag.String("vendor", "", "The vendor representing the source of the simplestream data")
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 type liveTestData struct {
 	baseURL        string

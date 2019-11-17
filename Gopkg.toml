@@ -480,7 +480,8 @@
 
 [[constraint]]
   name = "gopkg.in/check.v1"
-  revision = "4f90aeace3a26ad7021961c297b22c42160c7b25"
+  source = "github.com/hpidcock/check"
+  branch = "v1" 
 
 [[constraint]]
   name = "gopkg.in/errgo.v1"

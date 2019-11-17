@@ -5,13 +5,20 @@ package openstack_test
 
 import (
 	"flag"
+	"os"
 	"testing"
 
 	gc "gopkg.in/check.v1"
 	"gopkg.in/goose.v2/identity"
 )
 
-var live = flag.Bool("live", false, "Include live OpenStack tests")
+var live *bool
+
+func TestMain(m *testing.M) {
+	live = flag.Bool("live", false, "Include live OpenStack tests")
+	flag.Parse()
+	os.Exit(m.Run())
+}
 
 func Test(t *testing.T) {
 	if *live {
