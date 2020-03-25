@@ -80,13 +80,13 @@ func (p InitializeUnitParams) Validate() error {
 // InitializeUnit with the charm and configuration.
 func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 	if err := params.Validate(); err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "validating params")
 	}
 
 	params.Logger.Infof("started pod init on %q", params.UnitTag.Id())
 	providerID, err := params.UnitProviderIDFunc(params.UnitTag)
 	if err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "fetching unit provider id")
 	}
 
 	rootToolsDir := tools.ToolsDir(cmdutil.DataDir, "")
@@ -106,7 +106,7 @@ func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 		Stderr:        &bytes.Buffer{},
 	}, cancel)
 	if err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "creating remote temp dir %q", tempDir)
 	}
 
 	tempCharmDir := filepath.Join(tempDir, "charm")
@@ -121,12 +121,12 @@ func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 		},
 	}, cancel)
 	if err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "copying charm")
 	}
 
 	tempCACertFile := filepath.Join(tempDir, caas.CACertFile)
 	if err := params.WriteFile(tempCACertFile, []byte(params.OperatorInfo.CACert), 0644); err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "writing temp ca cert")
 	}
 	err = params.ExecClient.Copy(exec.CopyParams{
 		Src: exec.FileResource{
@@ -139,7 +139,7 @@ func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 		},
 	}, cancel)
 	if err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "copying ca cert to remote")
 	}
 
 	serviceAddress := os.Getenv(provider.OperatorServiceIPEnvName)
@@ -158,7 +158,7 @@ func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 	}
 	operatorCacheFile := filepath.Join(unitPaths.State.BaseDir, caas.OperatorClientInfoCacheFile)
 	if err := params.WriteFile(operatorCacheFile, data, 0644); err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "writing operator client info")
 	}
 	tempOperatorCacheFile := filepath.Join(tempDir, caas.OperatorClientInfoCacheFile)
 	err = params.ExecClient.Copy(exec.CopyParams{
@@ -172,7 +172,7 @@ func InitializeUnit(params InitializeUnitParams, cancel <-chan struct{}) error {
 		},
 	}, cancel)
 	if err != nil {
-		return errors.Trace(err)
+		return errors.Annotatef(err, "copying operator client info to remote")
 	}
 
 	stdout := &bytes.Buffer{}
