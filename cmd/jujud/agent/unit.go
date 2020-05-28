@@ -4,6 +4,8 @@
 package agent
 
 import (
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/juju/clock"
@@ -16,11 +18,11 @@ import (
 	"github.com/juju/worker/v2"
 	"github.com/juju/worker/v2/dependency"
 	"github.com/prometheus/client_golang/prometheus"
-	"gopkg.in/natefinch/lumberjack.v2"
 
 	"github.com/juju/juju/agent"
 	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/api/uniter"
+	caasprovider "github.com/juju/juju/caas/kubernetes/provider"
 	jujucmd "github.com/juju/juju/cmd"
 	"github.com/juju/juju/cmd/jujud/agent/unit"
 	cmdutil "github.com/juju/juju/cmd/jujud/util"
@@ -42,15 +44,16 @@ var (
 type UnitAgent struct {
 	cmd.CommandBase
 	AgentConf
-	configChangedVal *voyeur.Value
-	UnitName         string
-	runner           *worker.Runner
-	bufferedLogger   *logsender.BufferedLogWriter
-	setupLogging     func(agent.Config) error
-	logToStdErr      bool
-	ctx              *cmd.Context
-	dead             chan struct{}
-	errReason        error
+	configChangedVal     *voyeur.Value
+	UnitName             string
+	runner               *worker.Runner
+	bufferedLogger       *logsender.BufferedLogWriter
+	setupLogging         func(agent.Config) error
+	logToStdErr          bool
+	connectAsApplication bool
+	ctx                  *cmd.Context
+	dead                 chan struct{}
+	errReason            error
 
 	// Used to signal that the upgrade worker will not
 	// reboot the agent on startup because there are no
@@ -92,6 +95,7 @@ func (a *UnitAgent) SetFlags(f *gnuflag.FlagSet) {
 	a.AgentConf.AddFlags(f)
 	f.StringVar(&a.UnitName, "unit-name", "", "name of the unit to run")
 	f.BoolVar(&a.logToStdErr, "log-to-stderr", false, "whether to log to standard error instead of log files")
+	f.BoolVar(&a.connectAsApplication, "use-application", false, "use application tag for credentials")
 }
 
 // Init initializes the command for running.
@@ -110,21 +114,45 @@ func (a *UnitAgent) Init(args []string) error {
 		MoreImportant: cmdutil.MoreImportant,
 		RestartDelay:  jworker.RestartDelay,
 	})
+	return nil
+}
 
-	if err := a.ReadConfig(a.Tag().String()); err != nil {
+func (a *UnitAgent) maybeCopyAgentConfig() error {
+	err := a.ReadConfig(a.Tag().String())
+	if err == nil {
+		return nil
+	}
+	if !os.IsNotExist(errors.Cause(err)) {
+		logger.Errorf("reading initial agent config file: %v", err)
+		return errors.Trace(err)
+	}
+	agentDir := agent.Dir(a.DataDir(), a.Tag())
+	err = os.MkdirAll(agentDir, 0755)
+	if err != nil {
 		return err
 	}
-	agentConfig := a.CurrentConfig()
-
-	if !a.logToStdErr {
-
-		// the writer in ctx.stderr gets set as the loggo writer in github.com/juju/cmd/logging.go
-		a.ctx.Stderr = &lumberjack.Logger{
-			Filename:   agent.LogFilename(agentConfig),
-			MaxSize:    300, // megabytes
-			MaxBackups: 2,
-			Compress:   true,
-		}
+	appName, err := names.UnitApplication(a.Tag().Id())
+	if err != nil {
+		return err
+	}
+	appTag := names.NewApplicationTag(appName)
+	templateFile := filepath.Join(agent.Dir(a.DataDir(), appTag), caasprovider.TemplateFileNameAgentConf)
+	agentConf := agent.ConfigPath(a.DataDir(), a.Tag())
+	logger.Infof("copying agent config file from %q to %q", templateFile, agentConf)
+	if err := copyFile(agentConf, templateFile); err != nil {
+		logger.Errorf("copying agent config file template: %v", err)
+		return errors.Trace(err)
+	}
+	err = a.ReadConfig(a.Tag().String())
+	if err != nil {
+		return err
+	}
+	err = a.AgentConf.ChangeConfig(func(setter agent.ConfigSetter) error {
+		setter.SetTag(a.Tag())
+		return nil
+	})
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -158,6 +186,10 @@ func (a *UnitAgent) isInitialUpgradeCheckPending() bool {
 // Run runs a unit agent.
 func (a *UnitAgent) Run(ctx *cmd.Context) (err error) {
 	defer a.Done(err)
+	if err := a.maybeCopyAgentConfig(); err != nil {
+		return err
+	}
+
 	if err := a.ReadConfig(a.Tag().String()); err != nil {
 		return err
 	}
@@ -205,6 +237,7 @@ func (a *UnitAgent) APIWorkers() (worker.Worker, error) {
 		UpgradeCheckLock:     a.initialUpgradeCheckComplete,
 		MachineLock:          machineLock,
 		Clock:                clock.WallClock,
+		ConnectAsApplication: a.connectAsApplication,
 	})
 
 	engine, err := dependency.NewEngine(dependencyEngineConfig())

@@ -89,9 +89,9 @@ type WatcherConfig struct {
 
 func (w WatcherConfig) validate() error {
 	if w.ModelType == model.CAAS {
-		if w.ApplicationChannel == nil {
-			return errors.NotValidf("watcher config for CAAS model with nil application channel")
-		}
+		// if w.ApplicationChannel == nil {
+		// 	return errors.NotValidf("watcher config for CAAS model with nil application channel")
+		// }
 		if w.ContainerRunningStatusChannel != nil &&
 			w.ContainerRunningStatusFunc == nil {
 			return errors.NotValidf("watcher config for CAAS model with nil container running status func")
@@ -318,21 +318,21 @@ func (w *RemoteStateWatcher) loop(unitTag names.UnitTag) (err error) {
 	// CAAS models don't use an application watcher
 	// which fires an initial event.
 	if w.modelType == model.CAAS {
-		seenApplicationChange = true
+		//seenApplicationChange = true
 	}
 
+	// This is in IAAS model so we need to watch state for application
+	// charm changes instead of being informed by the operator.
+	applicationw, err := w.application.Watch()
+	if err != nil {
+		return errors.Trace(err)
+	}
+	if err := w.catacomb.Add(applicationw); err != nil {
+		return errors.Trace(err)
+	}
+	w.applicationChannel = applicationw.Changes()
+	requiredEvents++
 	if w.modelType == model.IAAS {
-		// This is in IAAS model so we need to watch state for application
-		// charm changes instead of being informed by the operator.
-		applicationw, err := w.application.Watch()
-		if err != nil {
-			return errors.Trace(err)
-		}
-		if err := w.catacomb.Add(applicationw); err != nil {
-			return errors.Trace(err)
-		}
-		w.applicationChannel = applicationw.Changes()
-		requiredEvents++
 
 		// Only IAAS models support upgrading the machine series.
 		// TODO(externalreality) This pattern should probably be extracted

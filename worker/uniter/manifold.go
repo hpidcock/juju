@@ -114,7 +114,7 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 			uniter, err := NewUniter(&UniterParams{
 				UniterFacade:          uniterFacade,
 				UnitTag:               unitTag,
-				ModelType:             model.IAAS,
+				ModelType:             model.CAAS,
 				LeadershipTrackerFunc: leadershipTrackerFunc,
 				DataDir:               agentConfig.DataDir(),
 				Downloader:            downloader,

@@ -119,14 +119,14 @@ clean:
 
 go-install:
 ## go-install: Install Juju binaries without updating dependencies
-	@echo 'go install -mod=$(JUJU_GOMOD_MODE) -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $$MAIN_PACKAGES'
-	@go install -mod=$(JUJU_GOMOD_MODE) -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $(strip $(MAIN_PACKAGES))
+	@echo 'CGO_ENABLED=0 go install -mod=$(JUJU_GOMOD_MODE) -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $$MAIN_PACKAGES'
+	@CGO_ENABLED=0 go install -mod=$(JUJU_GOMOD_MODE) -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $(strip $(MAIN_PACKAGES))
 
 go-build:
 ## go-build: Build Juju binaries without updating dependencies
 	@mkdir -p $(BUILD_DIR)/bin
-	@echo 'go build -mod=$(JUJU_GOMOD_MODE) -o $(BUILD_DIR)/bin -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $$MAIN_PACKAGES'
-	@go build -mod=$(JUJU_GOMOD_MODE) -o $(BUILD_DIR)/bin -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $(strip $(MAIN_PACKAGES))
+	@echo 'CGO_ENABLED=0 go build -mod=$(JUJU_GOMOD_MODE) -o $(BUILD_DIR)/bin -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $$MAIN_PACKAGES'
+	@CGO_ENABLED=0 go build -mod=$(JUJU_GOMOD_MODE) -o $(BUILD_DIR)/bin -tags "$(BUILD_TAGS)" $(COMPILE_FLAGS) $(LINK_FLAGS) -v $(strip $(MAIN_PACKAGES))
 
 vendor-dependencies:
 ## vendor-dependencies: updates vendored dependencies

@@ -619,12 +619,20 @@ func (r *apiHandler) AuthApplicationAgent() bool {
 // AuthUnitAgent returns whether the current client is a unit agent.
 func (r *apiHandler) AuthUnitAgent() bool {
 	_, isUnit := r.GetAuthTag().(names.UnitTag)
-	return isUnit
+	return isUnit || r.AuthApplicationAgent()
 }
 
 // AuthOwner returns whether the authenticated user's tag matches the
 // given entity tag.
 func (r *apiHandler) AuthOwner(tag names.Tag) bool {
+	appTag, isApp := r.GetAuthTag().(names.ApplicationTag)
+	if isApp {
+		unitTag, isUnit := tag.(names.UnitTag)
+		if isUnit {
+			unitApp, _ := names.UnitApplication(unitTag.Id())
+			return unitApp == appTag.Id()
+		}
+	}
 	return r.entity.Tag() == tag
 }
 

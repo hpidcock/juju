@@ -9,6 +9,7 @@ import (
 	"github.com/juju/clock"
 	"github.com/juju/errors"
 	"github.com/juju/loggo"
+	"github.com/juju/names/v4"
 	"github.com/juju/utils/voyeur"
 	"github.com/juju/version"
 	"github.com/juju/worker/v2/dependency"
@@ -17,13 +18,10 @@ import (
 	coreagent "github.com/juju/juju/agent"
 	"github.com/juju/juju/api"
 	"github.com/juju/juju/api/base"
-	commonapi "github.com/juju/juju/api/common"
-	msapi "github.com/juju/juju/api/meterstatus"
 	"github.com/juju/juju/cmd/jujud/agent/engine"
 	"github.com/juju/juju/core/machinelock"
 	"github.com/juju/juju/core/status"
 	"github.com/juju/juju/state"
-	"github.com/juju/juju/utils/proxy"
 	"github.com/juju/juju/worker"
 	"github.com/juju/juju/worker/agent"
 	"github.com/juju/juju/worker/apiaddressupdater"
@@ -34,13 +32,8 @@ import (
 	"github.com/juju/juju/worker/leadership"
 	"github.com/juju/juju/worker/logger"
 	"github.com/juju/juju/worker/logsender"
-	"github.com/juju/juju/worker/meterstatus"
-	"github.com/juju/juju/worker/metrics/collect"
-	"github.com/juju/juju/worker/metrics/sender"
-	"github.com/juju/juju/worker/metrics/spool"
 	"github.com/juju/juju/worker/migrationflag"
 	"github.com/juju/juju/worker/migrationminion"
-	"github.com/juju/juju/worker/proxyupdater"
 	"github.com/juju/juju/worker/retrystrategy"
 	"github.com/juju/juju/worker/uniter"
 	"github.com/juju/juju/worker/upgrader"
@@ -103,6 +96,9 @@ type ManifoldsConfig struct {
 
 	// Clock supplies timekeeping services to various workers.
 	Clock clock.Clock
+
+	// ConnectAsApplication
+	ConnectAsApplication bool
 }
 
 // Manifolds returns a set of co-configured manifolds covering the various
@@ -124,6 +120,21 @@ func Manifolds(config ManifoldsConfig) dependency.Manifolds {
 			return worker.ErrTerminateAgent
 		}
 		return err
+	}
+
+	open := api.Open
+	connect := apicaller.ScaryConnect
+	if config.ConnectAsApplication {
+		open = func(info *api.Info, opts api.DialOpts) (api.Connection, error) {
+			infoCopy := *info
+			appName, err := names.UnitApplication(infoCopy.Tag.Id())
+			if err != nil {
+				return nil, err
+			}
+			infoCopy.Tag = names.NewApplicationTag(appName)
+			return api.Open(&infoCopy, opts)
+		}
+		connect = apicaller.OnlyConnect
 	}
 
 	return dependency.Manifolds{
@@ -150,8 +161,8 @@ func Manifolds(config ManifoldsConfig) dependency.Manifolds {
 		apiCallerName: apicaller.Manifold(apicaller.ManifoldConfig{
 			AgentName:            agentName,
 			APIConfigWatcherName: apiConfigWatcherName,
-			APIOpen:              api.Open,
-			NewConnection:        apicaller.ScaryConnect,
+			APIOpen:              open,
+			NewConnection:        connect,
 			Filter:               connectFilter,
 			Logger:               loggo.GetLogger("juju.worker.apicaller"),
 		}),
@@ -277,13 +288,13 @@ func Manifolds(config ManifoldsConfig) dependency.Manifolds {
 		// code trying to run this early; if that ever helped, it was only by
 		// coincidence. Probably we ought to be making components that might
 		// need proxy config into explicit dependencies of the proxy updater...
-		proxyConfigUpdaterName: ifNotMigrating(proxyupdater.Manifold(proxyupdater.ManifoldConfig{
-			AgentName:       agentName,
-			APICallerName:   apiCallerName,
-			Logger:          loggo.GetLogger("juju.worker.proxyupdater"),
-			WorkerFunc:      proxyupdater.NewWorker,
-			InProcessUpdate: proxy.DefaultConfig.Set,
-		})),
+		// proxyConfigUpdaterName: ifNotMigrating(proxyupdater.Manifold(proxyupdater.ManifoldConfig{
+		// 	AgentName:       agentName,
+		// 	APICallerName:   apiCallerName,
+		// 	Logger:          loggo.GetLogger("juju.worker.proxyupdater"),
+		// 	WorkerFunc:      proxyupdater.NewWorker,
+		// 	InProcessUpdate: proxy.DefaultConfig.Set,
+		// })),
 
 		// The charmdir resource coordinates whether the charm directory is
 		// available or not; after 'start' hook and before 'stop' hook
@@ -328,39 +339,39 @@ func Manifolds(config ManifoldsConfig) dependency.Manifolds {
 			Logger:                loggo.GetLogger("juju.worker.uniter"),
 		})),
 
-		// TODO (mattyw) should be added to machine agent.
-		metricSpoolName: ifNotMigrating(spool.Manifold(spool.ManifoldConfig{
-			AgentName: agentName,
-		})),
+		// // TODO (mattyw) should be added to machine agent.
+		// metricSpoolName: ifNotMigrating(spool.Manifold(spool.ManifoldConfig{
+		// 	AgentName: agentName,
+		// })),
 
-		// The metric collect worker executes the collect-metrics hook in a
-		// restricted context that can safely run concurrently with other hooks.
-		metricCollectName: ifNotMigrating(collect.Manifold(collect.ManifoldConfig{
-			AgentName:       agentName,
-			MetricSpoolName: metricSpoolName,
-			CharmDirName:    charmDirName,
-		})),
+		// // The metric collect worker executes the collect-metrics hook in a
+		// // restricted context that can safely run concurrently with other hooks.
+		// metricCollectName: ifNotMigrating(collect.Manifold(collect.ManifoldConfig{
+		// 	AgentName:       agentName,
+		// 	MetricSpoolName: metricSpoolName,
+		// 	CharmDirName:    charmDirName,
+		// })),
 
-		// The meter status worker executes the meter-status-changed hook when it detects
-		// that the meter status has changed.
-		meterStatusName: ifNotMigrating(meterstatus.Manifold(meterstatus.ManifoldConfig{
-			AgentName:                agentName,
-			APICallerName:            apiCallerName,
-			MachineLock:              config.MachineLock,
-			Clock:                    config.Clock,
-			NewHookRunner:            meterstatus.NewHookRunner,
-			NewMeterStatusAPIClient:  msapi.NewClient,
-			NewUniterStateAPIClient:  commonapi.NewUniterStateAPI,
-			NewConnectedStatusWorker: meterstatus.NewConnectedStatusWorker,
-			NewIsolatedStatusWorker:  meterstatus.NewIsolatedStatusWorker,
-		})),
+		// // The meter status worker executes the meter-status-changed hook when it detects
+		// // that the meter status has changed.
+		// meterStatusName: ifNotMigrating(meterstatus.Manifold(meterstatus.ManifoldConfig{
+		// 	AgentName:                agentName,
+		// 	APICallerName:            apiCallerName,
+		// 	MachineLock:              config.MachineLock,
+		// 	Clock:                    config.Clock,
+		// 	NewHookRunner:            meterstatus.NewHookRunner,
+		// 	NewMeterStatusAPIClient:  msapi.NewClient,
+		// 	NewUniterStateAPIClient:  commonapi.NewUniterStateAPI,
+		// 	NewConnectedStatusWorker: meterstatus.NewConnectedStatusWorker,
+		// 	NewIsolatedStatusWorker:  meterstatus.NewIsolatedStatusWorker,
+		// })),
 
-		// The metric sender worker periodically sends accumulated metrics to the controller.
-		metricSenderName: ifNotMigrating(sender.Manifold(sender.ManifoldConfig{
-			AgentName:       agentName,
-			APICallerName:   apiCallerName,
-			MetricSpoolName: metricSpoolName,
-		})),
+		// // The metric sender worker periodically sends accumulated metrics to the controller.
+		// metricSenderName: ifNotMigrating(sender.Manifold(sender.ManifoldConfig{
+		// 	AgentName:       agentName,
+		// 	APICallerName:   apiCallerName,
+		// 	MetricSpoolName: metricSpoolName,
+		// })),
 	}
 }
 

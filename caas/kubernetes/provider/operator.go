@@ -652,7 +652,6 @@ func operatorPod(
 	}
 
 	appTag := names.NewApplicationTag(appName)
-	jujudCmd := fmt.Sprintf("$JUJU_TOOLS_DIR/jujud caasoperator --application-name=%s --debug", appName)
 	jujuDataDir, err := paths.DataDir("kubernetes")
 	if err != nil {
 		return nil, errors.Trace(err)
@@ -668,24 +667,41 @@ func operatorPod(
 		Spec: core.PodSpec{
 			ServiceAccountName:           serviceAccountName,
 			AutomountServiceAccountToken: &mountToken,
-			Containers: []core.Container{{
-				Name:            operatorContainerName,
+			InitContainers: []core.Container{{
+				Name:            "init",
 				ImagePullPolicy: core.PullIfNotPresent,
 				Image:           operatorImagePath,
-				WorkingDir:      jujuDataDir,
 				Command: []string{
 					"/bin/sh",
 				},
 				Args: []string{
 					"-c",
+					caas.InitSh,
+				},
+				VolumeMounts: []core.VolumeMount{{
+					Name:      "shared",
+					MountPath: "/shared",
+				}},
+			}},
+			Containers: []core.Container{{
+				Name:            operatorContainerName,
+				ImagePullPolicy: core.PullAlways,
+				Image:           "hpidcock/simple-charm:latest",
+				Command: []string{
+					"/shared/bin/busybox",
+				},
+				Args: []string{
+					"sh",
+					"-c",
 					fmt.Sprintf(
-						caas.JujudStartUpSh,
+						caas.HackStartUpSh,
 						jujuDataDir,
 						"tools",
-						jujudCmd,
+						appTag.Id(),
 					),
 				},
 				Env: []core.EnvVar{
+					{Name: "PATH", Value: "/shared/bin:/shared/sbin:/shared/usr/bin:/shared/usr/sbin:$(PATH)"},
 					{Name: "JUJU_APPLICATION", Value: appName},
 					{Name: OperatorServiceIPEnvName, Value: operatorServiceIP},
 					{
@@ -706,6 +722,9 @@ func operatorPod(
 					},
 				},
 				VolumeMounts: []core.VolumeMount{{
+					Name:      "shared",
+					MountPath: "/shared",
+				}, {
 					Name:      configVolName,
 					MountPath: filepath.Join(agent.Dir(agentPath, appTag), TemplateFileNameAgentConf),
 					SubPath:   TemplateFileNameAgentConf,
@@ -730,6 +749,11 @@ func operatorPod(
 							Path: caas.OperatorInfoFile,
 						}},
 					},
+				},
+			}, {
+				Name: "shared",
+				VolumeSource: core.VolumeSource{
+					EmptyDir: &core.EmptyDirVolumeSource{},
 				},
 			}},
 		},

@@ -339,6 +339,9 @@ type configSetterOnly interface {
 
 	// SetLoggingConfig sets the logging config value for the agent.
 	SetLoggingConfig(string)
+
+	// SetTag to change config tag.
+	SetTag(names.Tag)
 }
 
 // LogFileName returns the filename for the Agent's log file.
@@ -644,6 +647,10 @@ func (c *configInternal) SetPassword(newPassword string) {
 	if c.apiDetails != nil {
 		c.apiDetails.password = newPassword
 	}
+}
+
+func (c *configInternal) SetTag(newTag names.Tag) {
+	c.tag = newTag
 }
 
 func (c *configInternal) Write() error {
