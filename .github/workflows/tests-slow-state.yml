@@ -1,0 +1,32 @@
+name: "Tests Slow github.com/juju/juju/state/..."
+on: [push, pull_request]
+jobs:
+  linux-amd64:
+    name: linux-amd64
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+    - name: Set up Go 1.14
+      uses: actions/setup-go@v1
+      with:
+        go-version: "1.14"
+      id: go
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install
+      run: |
+        set -euxo pipefail
+        sudo apt-get remove lxd lxd-client
+        sudo snap install lxd
+        sudo lxd waitready
+        sudo lxd init --auto
+        sudo chmod a+wr /var/snap/lxd/common/lxd/unix.socket
+        sudo snap install juju-db
+        echo "##[add-path]/snap/bin"
+        echo "##[add-path]$(go env GOPATH)/bin"
+    - name: Build
+      run: |
+        go mod download
+    - name: Run
+      run: |
+        go test "github.com/juju/juju/state/..." -timeout 30m -check.v
