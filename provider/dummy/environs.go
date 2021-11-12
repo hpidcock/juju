@@ -288,12 +288,13 @@ type environState struct {
 // state.
 type environ struct {
 	storage.ProviderRegistry
-	name         string
-	modelUUID    string
-	cloud        environscloudspec.CloudSpec
-	ecfgMutex    sync.Mutex
-	ecfgUnlocked *environConfig
-	spacesMutex  sync.RWMutex
+	name             string
+	modelUUID        string
+	cloud            environscloudspec.CloudSpec
+	ecfgMutex        sync.Mutex
+	ecfgUnlocked     *environConfig
+	spacesMutex      sync.RWMutex
+	initDatabaseFunc state.InitDatabaseFunc
 }
 
 var _ environs.Environ = (*environ)(nil)
@@ -449,6 +450,11 @@ func (s *environState) destroyLocked() {
 // expect some errors when closing things down.
 func mongoAlive() bool {
 	return gitjujutesting.MgoServer.Addr() != ""
+}
+
+// SetInitDatabaseFunc is used by JujuConnSuite.
+func (e *environ) SetInitDatabaseFunc(initDatabaseFunc state.InitDatabaseFunc) {
+	e.initDatabaseFunc = initDatabaseFunc
 }
 
 // GetStateInAPIServer returns the state connection used by the API server
@@ -908,6 +914,7 @@ func (e *environ) Bootstrap(ctx environs.BootstrapContext, callCtx context.Provi
 				MongoSession:     session,
 				NewPolicy:        estate.newStatePolicy,
 				AdminPassword:    icfg.APIInfo.Password,
+				InitDatabaseFunc: e.initDatabaseFunc,
 			})
 			if err != nil {
 				return err
