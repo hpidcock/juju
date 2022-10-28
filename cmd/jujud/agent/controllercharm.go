@@ -11,6 +11,7 @@ import (
 	"github.com/juju/charm/v9"
 	"github.com/juju/errors"
 	"github.com/juju/schema"
+	"github.com/juju/utils/v3/arch"
 	"gopkg.in/juju/environschema.v1"
 
 	"github.com/juju/juju/agent"
@@ -20,7 +21,6 @@ import (
 	"github.com/juju/juju/apiserver/facades/client/charms/interfaces"
 	"github.com/juju/juju/apiserver/facades/client/charms/services"
 	"github.com/juju/juju/charmhub"
-	corearch "github.com/juju/juju/core/arch"
 	corecharm "github.com/juju/juju/core/charm"
 	"github.com/juju/juju/core/config"
 	"github.com/juju/juju/core/constraints"
@@ -35,7 +35,7 @@ import (
 const controllerCharmURL = "ch:juju-controller"
 
 func (c *BootstrapCommand) deployControllerCharm(st *state.State, cons constraints.Value, charmPath string, channel charm.Channel, isCAAS bool, unitPassword string) (resultErr error) {
-	arch := corearch.DefaultArchitecture
+	arch := arch.HostArch()
 	base := jujuversion.DefaultSupportedLTSBase()
 	if cons.HasArch() {
 		arch = *cons.Arch
