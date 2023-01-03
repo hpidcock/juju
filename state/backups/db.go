@@ -127,7 +127,8 @@ const (
 	dumpName       = "mongodump"
 	restoreName    = "mongorestore"
 	snapToolPrefix = "juju-db."
-	snapTmpDir     = "/tmp/snap.juju-db"
+	oldSnapTmpDir  = "/tmp/snap.juju-db"
+	snapTmpDir     = "/tmp/snap-private-tmp/snap.juju-db"
 )
 
 // DBDumper is any type that dumps something to a dump dir.
@@ -218,12 +219,24 @@ func (md *mongoDumper) dump(dumpDir string) error {
 	// If running the juju-db.mongodump Snap, it outputs to
 	// /tmp/snap.juju-db/DUMPDIR, so move to /DUMPDIR as our code expects.
 	if md.isSnap() && strings.HasPrefix(dumpDir, "/tmp") {
-		actualDir := filepath.Join(snapTmpDir, dumpDir)
-		logger.Tracef("moving from Snap dump dir %q to %q", actualDir, dumpDir)
 		err := os.Remove(dumpDir) // will be empty, delete
 		if err != nil {
 			return errors.Trace(err)
 		}
+
+		actualDir := filepath.Join(snapTmpDir, dumpDir)
+		_, err = os.Stat(actualDir)
+		if errors.Is(err, os.ErrNotExist) {
+			// if the directory doesn't exist, we might be on an old
+			// snap runtime.
+			actualDir = filepath.Join(oldSnapTmpDir, dumpDir)
+			_, err = os.Stat(actualDir)
+		}
+		if err != nil {
+			return errors.Trace(err)
+		}
+
+		logger.Tracef("moving from Snap dump dir %q to %q", actualDir, dumpDir)
 		err = os.Rename(actualDir, dumpDir)
 		if err != nil {
 			return errors.Trace(err)
