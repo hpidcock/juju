@@ -490,17 +490,25 @@ simplify:
 ## simplify: Format and simplify the go source code
 	gofmt -w -l -s .
 
+SCHEMA_PATH ?= ./apiserver/facades/schema.json
+
 .PHONY: rebuild-schema
 rebuild-schema:
 ## rebuild-schema: Rebuild the schema for clients with the latest facades
-	@echo "Generating facade schema..."
-# GOOS and GOARCH environment variables are cleared in case the user is trying to cross architecture compilation.
-ifdef SCHEMA_PATH
-	@env GOOS= GOARCH= go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades "$(SCHEMA_PATH)"
-else
-	@env GOOS= GOARCH= go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades \
-		./apiserver/facades/schema.json
-endif
+	@go build $(COMPILE_FLAGS) -o $(BUILD_DIR)/apiserver.a.tmp; \
+	if [ -e $(BUILD_DIR)/apiserver.a ]; then \
+		LAST_BUILD_ID=`go tool buildid $(BUILD_DIR)/apiserver.a`; \
+		CURRENT_BUILD_ID=`go tool buildid $(BUILD_DIR)/apiserver.a.tmp`; \
+		if [ "$$LAST_BUILD_ID" = "$$CURRENT_BUILD_ID" ]; then \
+			rm $(BUILD_DIR)/apiserver.a.tmp; \
+			echo "Skipping facade schema generation."; \
+			exit 0; \
+		fi; \
+		rm $(BUILD_DIR)/apiserver.a; \
+	fi; \
+	echo "Generating facade schema..."; \
+	GOOS= GOARCH= go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades "$(SCHEMA_PATH)"; \
+	mv $(BUILD_DIR)/apiserver.a.tmp $(BUILD_DIR)/apiserver.a;
 
 .PHONY: install-snap-dependencies
 # Install packages required to develop Juju and run tests. The stable
