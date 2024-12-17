@@ -11,6 +11,7 @@ import (
 	"github.com/juju/errors"
 	"github.com/juju/loggo"
 	"github.com/juju/worker/v3"
+	"github.com/juju/worker/v3/catacomb"
 	"github.com/juju/worker/v3/dependency"
 	"github.com/prometheus/client_golang/prometheus"
 
@@ -46,16 +47,12 @@ type IntrospectionConfig struct {
 
 // StartIntrospection creates the introspection worker. It cannot and should
 // not be in the engine itself as it reports on the engine, and other aspects
-// of the runtime. If we put it in the engine, then it is mostly likely shut
-// down in the times we need it most, which is when the agent is having
-// problems shutting down. Here we effectively start the worker and tie its
-// life to that of the engine that is returned.
-func StartIntrospection(cfg IntrospectionConfig) error {
+// of the runtime.
+func StartIntrospection(cfg IntrospectionConfig) (worker.Worker, error) {
 	if runtime.GOOS != "linux" {
 		logger.Debugf("introspection worker not supported on %q", runtime.GOOS)
-		return nil
+		return nil, nil
 	}
-
 	socketName := path.Join(cfg.AgentDir, IntrospectionSocketName)
 	w, err := cfg.WorkerFunc(introspection.Config{
 		SocketName:         socketName,
@@ -71,17 +68,9 @@ func StartIntrospection(cfg IntrospectionConfig) error {
 		Leases:             cfg.LeaseFSM,
 	})
 	if err != nil {
-		return errors.Trace(err)
+		return nil, errors.Trace(err)
 	}
-	go func() {
-		_ = cfg.Engine.Wait()
-		logger.Debugf("engine stopped, stopping introspection")
-		w.Kill()
-		_ = w.Wait()
-		logger.Debugf("introspection stopped")
-	}()
-
-	return nil
+	return w, nil
 }
 
 // NewPrometheusRegistry returns a new prometheus.Registry with
@@ -113,4 +102,47 @@ func RegisterEngineMetrics(registry prometheus.Registerer, metrics prometheus.Co
 		_ = registry.Unregister(metrics)
 	}()
 	return nil
+}
+
+// IntrospectedEngine binds any number of introspection workers to die after the engine worker.
+func IntrospectedEngine(engine *dependency.Engine, workers ...worker.Worker) (worker.Worker, error) {
+	w := &introspectedEngineWorker{
+		engine: engine,
+	}
+	init := []worker.Worker{}
+	for _, worker := range workers {
+		if worker == nil {
+			continue
+		}
+		init = append(init, worker)
+	}
+	err := catacomb.Invoke(catacomb.Plan{
+		Site: &w.catacomb,
+		Work: engine.Wait,
+		Init: init,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return w, nil
+}
+
+type introspectedEngineWorker struct {
+	engine   *dependency.Engine
+	catacomb catacomb.Catacomb
+}
+
+func (w *introspectedEngineWorker) Kill() {
+	w.engine.Kill()
+}
+
+func (w *introspectedEngineWorker) Wait() error {
+	err := w.engine.Wait()
+	w.catacomb.Kill(nil)
+	_ = w.catacomb.Wait()
+	return err
+}
+
+func (w *introspectedEngineWorker) Report() map[string]interface{} {
+	return w.engine.Report()
 }

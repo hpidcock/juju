@@ -14,6 +14,7 @@ import (
 	jc "github.com/juju/testing/checkers"
 	"github.com/juju/worker/v3"
 	"github.com/juju/worker/v3/dependency"
+	"github.com/juju/worker/v3/workertest"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.uber.org/mock/gomock"
 	gc "gopkg.in/check.v1"
@@ -43,9 +44,10 @@ func (s *introspectionSuite) TestStartNonLinux(c *gc.C) {
 		},
 	}
 
-	err := addons.StartIntrospection(cfg)
+	w, err := addons.StartIntrospection(cfg)
 	c.Assert(err, jc.ErrorIsNil)
 	c.Assert(started, jc.IsFalse)
+	workertest.CleanKill(c, w)
 }
 
 func (s *introspectionSuite) TestStartError(c *gc.C) {
@@ -60,7 +62,7 @@ func (s *introspectionSuite) TestStartError(c *gc.C) {
 		},
 	}
 
-	err := addons.StartIntrospection(cfg)
+	_, err := addons.StartIntrospection(cfg)
 	c.Check(err, gc.ErrorMatches, "boom")
 }
 
@@ -91,14 +93,17 @@ func (s *introspectionSuite) TestStartSuccess(c *gc.C) {
 		},
 	}
 
-	err = addons.StartIntrospection(cfg)
+	w, err := addons.StartIntrospection(cfg)
 	c.Assert(err, jc.ErrorIsNil)
 
 	c.Check(fake.config.DepEngine, gc.Equals, engine)
 	c.Check(fake.config.SocketName, jc.HasSuffix, "introspection.socket")
 
+	ie, err := addons.IntrospectedEngine(engine, w)
+	c.Assert(err, jc.ErrorIsNil)
+
 	// Stopping the engine causes the introspection worker to stop.
-	engine.Kill()
+	ie.Kill()
 
 	select {
 	case <-fake.done:

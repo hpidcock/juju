@@ -257,7 +257,7 @@ func (op *CaasOperatorAgent) Workers() (worker.Worker, error) {
 		}
 		return nil, err
 	}
-	if err := addons.StartIntrospection(addons.IntrospectionConfig{
+	introspectionWorker, err := addons.StartIntrospection(addons.IntrospectionConfig{
 		AgentDir:           agentConfig.Dir(),
 		Engine:             engine,
 		MachineLock:        op.machineLock,
@@ -268,7 +268,8 @@ func (op *CaasOperatorAgent) Workers() (worker.Worker, error) {
 		// If the caas operator gains the ability to interact with the
 		// introspection worker, the introspection worker should be configured
 		// with a clock and hub. See the machine agent.
-	}); err != nil {
+	})
+	if err != nil {
 		// If the introspection worker failed to start, we just log error
 		// but continue. It is very unlikely to happen in the real world
 		// as the only issue is connecting to the abstract domain socket
@@ -281,7 +282,7 @@ func (op *CaasOperatorAgent) Workers() (worker.Worker, error) {
 		// agent.
 		logger.Errorf("failed to start the dependency engine metrics %v", err)
 	}
-	return engine, nil
+	return addons.IntrospectedEngine(engine, introspectionWorker)
 }
 
 // Tag implements Agent.

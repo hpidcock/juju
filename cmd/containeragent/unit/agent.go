@@ -290,7 +290,7 @@ func (c *containerUnitAgent) workers(sigTermCh chan os.Signal) (worker.Worker, e
 		}
 		return nil, err
 	}
-	if err := addons.StartIntrospection(addons.IntrospectionConfig{
+	introspectionWorker, err := addons.StartIntrospection(addons.IntrospectionConfig{
 		AgentDir:           agentConfig.Dir(),
 		Engine:             eng,
 		MachineLock:        c.machineLock,
@@ -298,7 +298,8 @@ func (c *containerUnitAgent) workers(sigTermCh chan os.Signal) (worker.Worker, e
 		WorkerFunc:         introspection.NewWorker,
 		Clock:              c.clk,
 		LocalHub:           localHub,
-	}); err != nil {
+	})
+	if err != nil {
 		// If the introspection worker failed to start, we just log error
 		// but continue. It is very unlikely to happen in the real world
 		// as the only issue is connecting to the abstract domain socket
@@ -312,7 +313,7 @@ func (c *containerUnitAgent) workers(sigTermCh chan os.Signal) (worker.Worker, e
 		logger.Errorf("failed to start the dependency engine metrics %v", err)
 	}
 
-	return eng, nil
+	return addons.IntrospectedEngine(eng, introspectionWorker)
 }
 
 func (c *containerUnitAgent) Run(ctx *cmd.Context) (err error) {

@@ -643,7 +643,7 @@ func (a *MachineAgent) makeEngineCreator(
 			}
 			return nil, err
 		}
-		if err := addons.StartIntrospection(addons.IntrospectionConfig{
+		introspectionWorker, err := addons.StartIntrospection(addons.IntrospectionConfig{
 			AgentDir:           agentConfig.Dir(),
 			Engine:             engine,
 			StatePoolReporter:  &statePoolReporter,
@@ -656,7 +656,8 @@ func (a *MachineAgent) makeEngineCreator(
 			LocalHub:           localHub,
 			CentralHub:         a.centralHub,
 			LeaseFSM:           manifoldsCfg.LeaseFSM,
-		}); err != nil {
+		})
+		if err != nil {
 			// If the introspection worker failed to start, we just log error
 			// but continue. It is very unlikely to happen in the real world
 			// as the only issue is connecting to the abstract domain socket
@@ -669,7 +670,7 @@ func (a *MachineAgent) makeEngineCreator(
 			// agent.
 			logger.Errorf("failed to start the dependency engine metrics %v", err)
 		}
-		return engine, nil
+		return addons.IntrospectedEngine(engine, introspectionWorker)
 	}
 }
 

@@ -213,32 +213,40 @@ func (a *UnitAgent) start() (worker.Worker, error) {
 		}
 		return nil, err
 	}
-	a.mu.Lock()
-	a.workerRunning = true
-	a.mu.Unlock()
-	go func() {
-		// Wait for the worker to finish, then mark not running.
-		_ = engine.Wait()
-		a.mu.Lock()
-		a.workerRunning = false
-		closeLogging()
-		a.mu.Unlock()
-	}()
-	if err := addons.StartIntrospection(addons.IntrospectionConfig{
+	a.logger.Tracef("engine for %q running", a.name)
+
+	introspectionWorker, err := addons.StartIntrospection(addons.IntrospectionConfig{
 		AgentDir:           a.CurrentConfig().Dir(),
 		Engine:             engine,
 		PrometheusGatherer: a.prometheusRegistry,
 		MachineLock:        machineLock,
 		WorkerFunc:         introspection.NewWorker,
-	}); err != nil {
+	})
+	if err != nil {
 		// If the introspection worker failed to start, we just log error
 		// but continue. It is very unlikely to happen in the real world
 		// as the only issue is connecting to the abstract domain socket
 		// and the agent is controlled by by the OS to only have one.
 		a.logger.Errorf("failed to start introspection worker: %v", err)
 	}
-	a.logger.Tracef("engine for %q running", a.name)
-	return engine, nil
+
+	w, err := addons.IntrospectedEngine(engine, introspectionWorker)
+	if err != nil {
+		return nil, err
+	}
+
+	a.mu.Lock()
+	a.workerRunning = true
+	a.mu.Unlock()
+	go func() {
+		// Wait for the worker to finish, then mark not running.
+		_ = w.Wait()
+		a.mu.Lock()
+		a.workerRunning = false
+		closeLogging()
+		a.mu.Unlock()
+	}()
+	return w, nil
 }
 
 func (a *UnitAgent) running() bool {
