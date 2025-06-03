@@ -416,10 +416,12 @@ func (w *bootstrapWorker) seedStoragePools(ctx context.Context, poolParams map[s
 }
 
 func (w *bootstrapWorker) reportInternalState(state string) {
+	if w.internalStates == nil {
+		return
+	}
 	select {
 	case <-w.tomb.Dying():
 	case w.internalStates <- state:
-	default:
 	}
 }
 

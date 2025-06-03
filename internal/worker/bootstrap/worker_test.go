@@ -355,9 +355,7 @@ func (s *workerSuite) newWorker(c *tc.C) worker.Worker {
 }
 
 func (s *workerSuite) setupMocks(c *tc.C) *gomock.Controller {
-	// Ensure we buffer the channel, this is because we might miss the
-	// event if we're too quick at starting up.
-	s.states = make(chan string, 1)
+	s.states = make(chan string)
 
 	ctrl := s.baseSuite.setupMocks(c)
 
