@@ -44,7 +44,7 @@ func (*tcpProxySuite) TestTCPProxy(c *tc.C) {
 	// Close the connection and check that we see
 	// the connection closed for read.
 	conn.(*net.TCPConn).CloseWrite()
-	assertEOF(c, conn)
+	assertClosed(c, conn)
 
 	// Make another connection and close the proxy,
 	// which should close down the proxy and cause us
@@ -54,7 +54,7 @@ func (*tcpProxySuite) TestTCPProxy(c *tc.C) {
 	defer conn.Close()
 
 	p.Close()
-	assertEOF(c, conn)
+	assertClosed(c, conn)
 
 	// Make sure that we cannot dial the proxy address either.
 	conn, err = net.Dial("tcp", p.Addr())
@@ -92,8 +92,8 @@ func (*tcpProxySuite) TestCloseConns(c *tc.C) {
 	p.CloseConns()
 
 	// Assert that both the connections have been broken.
-	assertEOF(c, conn1)
-	assertEOF(c, conn2)
+	assertClosed(c, conn1)
+	assertClosed(c, conn2)
 
 	// Check that we can still make a connection.
 	conn3, err := net.Dial("tcp", p.Addr())
@@ -103,7 +103,7 @@ func (*tcpProxySuite) TestCloseConns(c *tc.C) {
 
 	// Close the proxy and check that the last connection goes.
 	p.Close()
-	assertEOF(c, conn3)
+	assertClosed(c, conn3)
 
 	listener.Close()
 	// Make sure that all our connections have gone away too.
@@ -176,9 +176,10 @@ func assertEcho(c *tc.C, conn net.Conn) {
 	c.Assert(string(buf[0:n]), tc.Equals, txt)
 }
 
-func assertEOF(c *tc.C, r io.Reader) {
+func assertClosed(c *tc.C, r io.Reader) {
 	n, err := r.Read(make([]byte, 1))
-	c.Assert(err, tc.Equals, io.EOF)
+	// We don't care if the error is EOF or connection reset.
+	c.Assert(err, tc.NotNil)
 	c.Assert(n, tc.Equals, 0)
 }
 
