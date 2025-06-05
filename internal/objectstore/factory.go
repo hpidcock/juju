@@ -174,6 +174,7 @@ func ObjectStoreFactory(ctx context.Context, backendType objectstore.BackendType
 			RemoteRetriever: blobRetriever,
 		})
 		if err != nil {
+			blobRetriever.Kill()
 			return nil, errors.Errorf("creating file based objectstore: %w", err)
 		}
 
