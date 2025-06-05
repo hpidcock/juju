@@ -97,7 +97,6 @@ func NewWorker(config Config) (worker.Worker, error) {
 		prometheusGatherer: config.PrometheusGatherer,
 		done:               make(chan struct{}),
 	}
-	w.tomb.Go(w.serve)
 	w.tomb.Go(w.run)
 	return w, nil
 }
@@ -121,6 +120,8 @@ func (w *socketListener) serve() error {
 func (w *socketListener) run() error {
 	ctx, cancel := w.scopedContext()
 	defer cancel()
+
+	w.tomb.Go(w.serve)
 
 	defer logger.Debugf(ctx, "stats worker finished")
 	<-w.tomb.Dying()
