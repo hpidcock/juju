@@ -311,3 +311,5 @@ replace gopkg.in/yaml.v2 => github.com/juju/yaml/v2 v2.0.0
 replace gopkg.in/check.v1 => github.com/hpidcock/gc-compat-tc v0.0.0-20250523041742-c3a83c867edf
 
 tool go.uber.org/mock/mockgen
+
+tool github.com/juju/juju/generate/triggergen
