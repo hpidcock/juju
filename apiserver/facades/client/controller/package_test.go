@@ -10,8 +10,8 @@ import (
 	"github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/state_mock.go github.com/juju/juju/apiserver/facades/client/controller Backend
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/domain_mock.go github.com/juju/juju/apiserver/facades/client/controller ControllerAccessService,ModelService,ModelInfoService
+//go:generate go tool mockgen -typed -package mocks -destination mocks/state_mock.go github.com/juju/juju/apiserver/facades/client/controller Backend
+//go:generate go tool mockgen -typed -package mocks -destination mocks/domain_mock.go github.com/juju/juju/apiserver/facades/client/controller ControllerAccessService,ModelService,ModelInfoService
 
 func TestMain(m *stdtesting.M) {
 	os.Exit(func() int {

@@ -37,7 +37,7 @@ func TestLegacyLoginProviderSuite(t *stdtesting.T) {
 	tc.Run(t, &legacyLoginProviderSuite{})
 }
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package api_test -destination api_mock_test.go -source legacyloginprovider_test.go RootAPI,AdminAPI
+//go:generate go tool mockgen -typed -package api_test -destination api_mock_test.go -source legacyloginprovider_test.go RootAPI,AdminAPI
 
 type RootAPI interface {
 	Admin(id string) (AdminAPI, error)

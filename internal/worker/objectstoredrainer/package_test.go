@@ -12,8 +12,8 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package objectstoredrainer -destination service_mock_test.go github.com/juju/juju/internal/worker/objectstoredrainer ObjectStoreService
-//go:generate go run go.uber.org/mock/mockgen -typed -package objectstoredrainer -destination fortress_mock_test.go github.com/juju/juju/internal/worker/fortress Guard
+//go:generate go tool mockgen -typed -package objectstoredrainer -destination service_mock_test.go github.com/juju/juju/internal/worker/objectstoredrainer ObjectStoreService
+//go:generate go tool mockgen -typed -package objectstoredrainer -destination fortress_mock_test.go github.com/juju/juju/internal/worker/fortress Guard
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

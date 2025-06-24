@@ -10,8 +10,8 @@ import (
 	"github.com/juju/juju/apiserver/observer/metricobserver/mocks"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/metrics_collector_mock.go github.com/juju/juju/apiserver/observer/metricobserver MetricsCollector,SummaryVec
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/metrics_mock.go github.com/prometheus/client_golang/prometheus Summary
+//go:generate go tool mockgen -typed -package mocks -destination mocks/metrics_collector_mock.go github.com/juju/juju/apiserver/observer/metricobserver MetricsCollector,SummaryVec
+//go:generate go tool mockgen -typed -package mocks -destination mocks/metrics_mock.go github.com/prometheus/client_golang/prometheus Summary
 
 func createMockMetrics(c *tc.C, labels interface{}) (*mocks.MockMetricsCollector, func()) {
 	ctrl := gomock.NewController(c)

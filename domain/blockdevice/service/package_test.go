@@ -3,4 +3,4 @@
 
 package service
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package service -destination state_mock_test.go github.com/juju/juju/domain/blockdevice/service State,WatcherFactory
+//go:generate go tool mockgen -typed -package service -destination state_mock_test.go github.com/juju/juju/domain/blockdevice/service State,WatcherFactory

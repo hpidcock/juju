@@ -10,7 +10,7 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package authentication_test -destination package_mock_test.go github.com/juju/juju/apiserver/authentication AgentPasswordService
+//go:generate go tool mockgen -typed -package authentication_test -destination package_mock_test.go github.com/juju/juju/apiserver/authentication AgentPasswordService
 
 func TestMain(m *testing.M) {
 	os.Exit(func() int {

@@ -15,10 +15,10 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/secrets.go -source service.go
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/secretsriggerwatcher.go github.com/juju/juju/core/watcher SecretTriggerWatcher
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/secretswatcher.go github.com/juju/juju/core/watcher StringsWatcher
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/leadershipchecker.go github.com/juju/juju/core/leadership Checker,Token
+//go:generate go tool mockgen -typed -package mocks -destination mocks/secrets.go -source service.go
+//go:generate go tool mockgen -typed -package mocks -destination mocks/secretsriggerwatcher.go github.com/juju/juju/core/watcher SecretTriggerWatcher
+//go:generate go tool mockgen -typed -package mocks -destination mocks/secretswatcher.go github.com/juju/juju/core/watcher StringsWatcher
+//go:generate go tool mockgen -typed -package mocks -destination mocks/leadershipchecker.go github.com/juju/juju/core/leadership Checker,Token
 
 func NewTestAPI(
 	c *tc.C,

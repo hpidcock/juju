@@ -14,9 +14,9 @@ import (
 	databasetesting "github.com/juju/juju/internal/database/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package stream -destination stream_mock_test.go github.com/juju/juju/internal/changestream/stream FileNotifier
-//go:generate go run go.uber.org/mock/mockgen -typed -package stream -destination metrics_mock_test.go github.com/juju/juju/internal/changestream/stream MetricsCollector
-//go:generate go run go.uber.org/mock/mockgen -typed -package stream -destination clock_mock_test.go github.com/juju/clock Clock,Timer
+//go:generate go tool mockgen -typed -package stream -destination stream_mock_test.go github.com/juju/juju/internal/changestream/stream FileNotifier
+//go:generate go tool mockgen -typed -package stream -destination metrics_mock_test.go github.com/juju/juju/internal/changestream/stream MetricsCollector
+//go:generate go tool mockgen -typed -package stream -destination clock_mock_test.go github.com/juju/clock Clock,Timer
 
 type baseSuite struct {
 	databasetesting.DqliteSuite

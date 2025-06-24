@@ -3,4 +3,4 @@
 
 package undertaker_test
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package undertaker_test -destination facade_mock_test.go github.com/juju/juju/internal/worker/undertaker Facade
+//go:generate go tool mockgen -typed -package undertaker_test -destination facade_mock_test.go github.com/juju/juju/internal/worker/undertaker Facade

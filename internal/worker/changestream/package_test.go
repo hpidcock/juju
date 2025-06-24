@@ -12,10 +12,10 @@ import (
 	domaintesting "github.com/juju/juju/domain/schema/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package changestream -destination stream_mock_test.go github.com/juju/juju/internal/worker/changestream DBGetter,WatchableDBWorker,FileNotifyWatcher
-//go:generate go run go.uber.org/mock/mockgen -typed -package changestream -destination clock_mock_test.go github.com/juju/clock Clock,Timer
-//go:generate go run go.uber.org/mock/mockgen -typed -package changestream -destination source_mock_test.go github.com/juju/juju/core/changestream EventSource
-//go:generate go run go.uber.org/mock/mockgen -typed -package changestream -destination metrics_mock_test.go github.com/prometheus/client_golang/prometheus Registerer
+//go:generate go tool mockgen -typed -package changestream -destination stream_mock_test.go github.com/juju/juju/internal/worker/changestream DBGetter,WatchableDBWorker,FileNotifyWatcher
+//go:generate go tool mockgen -typed -package changestream -destination clock_mock_test.go github.com/juju/clock Clock,Timer
+//go:generate go tool mockgen -typed -package changestream -destination source_mock_test.go github.com/juju/juju/core/changestream EventSource
+//go:generate go tool mockgen -typed -package changestream -destination metrics_mock_test.go github.com/prometheus/client_golang/prometheus Registerer
 
 type baseSuite struct {
 	domaintesting.ControllerSuite

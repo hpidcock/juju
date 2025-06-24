@@ -15,7 +15,7 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/machine_mock.go github.com/juju/juju/cmd/jujud-controller/agent CommandRunner
+//go:generate go tool mockgen -typed -package mocks -destination mocks/machine_mock.go github.com/juju/juju/cmd/jujud-controller/agent CommandRunner
 
 func TestMain(m *testing.M) {
 	os.Exit(func() int {

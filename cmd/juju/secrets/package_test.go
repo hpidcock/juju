@@ -9,7 +9,7 @@ import (
 	"github.com/juju/juju/jujuclient"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/secretsapi.go github.com/juju/juju/cmd/juju/secrets ListSecretsAPI,AddSecretsAPI,GrantRevokeSecretsAPI,UpdateSecretsAPI,RemoveSecretsAPI
+//go:generate go tool mockgen -typed -package mocks -destination mocks/secretsapi.go github.com/juju/juju/cmd/juju/secrets ListSecretsAPI,AddSecretsAPI,GrantRevokeSecretsAPI,UpdateSecretsAPI,RemoveSecretsAPI
 
 // NewAddCommandForTest returns a secrets command for testing.
 func NewAddCommandForTest(store jujuclient.ClientStore, api AddSecretsAPI) *addSecretCommand {

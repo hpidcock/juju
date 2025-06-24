@@ -28,7 +28,7 @@ import (
 	"github.com/juju/juju/juju/osenv"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package lxd -destination net_mock_test.go net Addr
+//go:generate go tool mockgen -typed -package lxd -destination net_mock_test.go net Addr
 
 type credentialsSuite struct {
 	lxd.BaseSuite

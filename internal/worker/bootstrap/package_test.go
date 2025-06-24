@@ -14,18 +14,18 @@ import (
 	"github.com/juju/juju/internal/uuid"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination addressfinder_mock_test.go github.com/juju/juju/environs InstanceLister
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination providertracker_mock_test.go github.com/juju/juju/core/providertracker ProviderFactory
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination caas_broker_mock_test.go github.com/juju/juju/caas ServiceManager
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination instance_mock_test.go github.com/juju/juju/environs/instances Instance
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination agent_mock_test.go github.com/juju/juju/agent Agent,Config
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination state_mock_test.go github.com/juju/juju/internal/worker/state StateTracker
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination objectstore_mock_test.go github.com/juju/juju/core/objectstore ObjectStore
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination storage_mock_test.go github.com/juju/juju/core/storage StorageRegistryGetter
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination lock_mock_test.go github.com/juju/juju/internal/worker/gate Unlocker
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination bootstrap_mock_test.go github.com/juju/juju/internal/worker/bootstrap AgentBinaryStore,ControllerConfigService,FlagService,ObjectStoreGetter,SystemState,HTTPClient,CloudService,StorageService,ApplicationService,ModelConfigService,NetworkService,UserService,BakeryConfigService,KeyManagerService,MachineService,AgentPasswordService,ControllerNodeService
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination http_client_mock_test.go github.com/juju/juju/core/http HTTPClientGetter
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination domainservices_mock_test.go github.com/juju/juju/internal/services DomainServices
+//go:generate go tool mockgen -typed -package bootstrap -destination addressfinder_mock_test.go github.com/juju/juju/environs InstanceLister
+//go:generate go tool mockgen -typed -package bootstrap -destination providertracker_mock_test.go github.com/juju/juju/core/providertracker ProviderFactory
+//go:generate go tool mockgen -typed -package bootstrap -destination caas_broker_mock_test.go github.com/juju/juju/caas ServiceManager
+//go:generate go tool mockgen -typed -package bootstrap -destination instance_mock_test.go github.com/juju/juju/environs/instances Instance
+//go:generate go tool mockgen -typed -package bootstrap -destination agent_mock_test.go github.com/juju/juju/agent Agent,Config
+//go:generate go tool mockgen -typed -package bootstrap -destination state_mock_test.go github.com/juju/juju/internal/worker/state StateTracker
+//go:generate go tool mockgen -typed -package bootstrap -destination objectstore_mock_test.go github.com/juju/juju/core/objectstore ObjectStore
+//go:generate go tool mockgen -typed -package bootstrap -destination storage_mock_test.go github.com/juju/juju/core/storage StorageRegistryGetter
+//go:generate go tool mockgen -typed -package bootstrap -destination lock_mock_test.go github.com/juju/juju/internal/worker/gate Unlocker
+//go:generate go tool mockgen -typed -package bootstrap -destination bootstrap_mock_test.go github.com/juju/juju/internal/worker/bootstrap AgentBinaryStore,ControllerConfigService,FlagService,ObjectStoreGetter,SystemState,HTTPClient,CloudService,StorageService,ApplicationService,ModelConfigService,NetworkService,UserService,BakeryConfigService,KeyManagerService,MachineService,AgentPasswordService,ControllerNodeService
+//go:generate go tool mockgen -typed -package bootstrap -destination http_client_mock_test.go github.com/juju/juju/core/http HTTPClientGetter
+//go:generate go tool mockgen -typed -package bootstrap -destination domainservices_mock_test.go github.com/juju/juju/internal/services DomainServices
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

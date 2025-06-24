@@ -17,7 +17,7 @@ import (
 	"github.com/juju/juju/internal/cmd"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/runner_mock.go github.com/juju/juju/cmd/juju/caas CommandRunner
+//go:generate go tool mockgen -typed -package mocks -destination mocks/runner_mock.go github.com/juju/juju/cmd/juju/caas CommandRunner
 
 type CommandRunner interface {
 	RunCommands(run exec.RunParams) (*exec.ExecResponse, error)

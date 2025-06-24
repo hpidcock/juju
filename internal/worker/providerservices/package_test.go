@@ -12,8 +12,8 @@ import (
 	loggertesting "github.com/juju/juju/internal/logger/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package providerservices -destination servicefactory_mock_test.go github.com/juju/juju/internal/services ProviderServices,ProviderServicesGetter
-//go:generate go run go.uber.org/mock/mockgen -typed -package providerservices -destination changestream_mock_test.go github.com/juju/juju/core/changestream WatchableDBGetter
+//go:generate go tool mockgen -typed -package providerservices -destination servicefactory_mock_test.go github.com/juju/juju/internal/services ProviderServices,ProviderServicesGetter
+//go:generate go tool mockgen -typed -package providerservices -destination changestream_mock_test.go github.com/juju/juju/core/changestream WatchableDBGetter
 
 type baseSuite struct {
 	domaintesting.ControllerSuite

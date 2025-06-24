@@ -18,9 +18,9 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package action -destination package_mock_test.go github.com/juju/juju/apiserver/facades/client/action ApplicationService,ModelInfoService
-//go:generate go run go.uber.org/mock/mockgen -typed -package action -destination leader_mock_test.go github.com/juju/juju/core/leadership Reader
-//go:generate go run go.uber.org/mock/mockgen -typed -package action -destination blockservices_mock_test.go github.com/juju/juju/apiserver/common BlockCommandService
+//go:generate go tool mockgen -typed -package action -destination package_mock_test.go github.com/juju/juju/apiserver/facades/client/action ApplicationService,ModelInfoService
+//go:generate go tool mockgen -typed -package action -destination leader_mock_test.go github.com/juju/juju/core/leadership Reader
+//go:generate go tool mockgen -typed -package action -destination blockservices_mock_test.go github.com/juju/juju/apiserver/common BlockCommandService
 
 func TestMain(m *testing.M) {
 	os.Exit(func() int {

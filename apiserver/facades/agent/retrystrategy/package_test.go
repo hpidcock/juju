@@ -11,7 +11,7 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -package retrystrategy_test -destination service_mock_test.go github.com/juju/juju/apiserver/facades/agent/retrystrategy ModelConfigService
+//go:generate go tool mockgen -package retrystrategy_test -destination service_mock_test.go github.com/juju/juju/apiserver/facades/agent/retrystrategy ModelConfigService
 
 func TestMain(m *testing.M) {
 	os.Exit(func() int {

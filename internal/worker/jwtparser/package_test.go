@@ -3,4 +3,4 @@
 
 package jwtparser
 
-//go:generate go run go.uber.org/mock/mockgen -package jwtparser -destination service_mock.go github.com/juju/juju/internal/worker/jwtparser ControllerConfigService,HTTPClient
+//go:generate go tool mockgen -package jwtparser -destination service_mock.go github.com/juju/juju/internal/worker/jwtparser ControllerConfigService,HTTPClient

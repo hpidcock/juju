@@ -17,9 +17,9 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package dbreplaccessor -destination package_mock_test.go github.com/juju/juju/internal/worker/dbreplaccessor DBApp,NodeManager,TrackedDB
-//go:generate go run go.uber.org/mock/mockgen -typed -package dbreplaccessor -destination clock_mock_test.go github.com/juju/clock Clock
-//go:generate go run go.uber.org/mock/mockgen -typed -package dbreplaccessor -destination sql_mock_test.go database/sql/driver Driver
+//go:generate go tool mockgen -typed -package dbreplaccessor -destination package_mock_test.go github.com/juju/juju/internal/worker/dbreplaccessor DBApp,NodeManager,TrackedDB
+//go:generate go tool mockgen -typed -package dbreplaccessor -destination clock_mock_test.go github.com/juju/clock Clock
+//go:generate go tool mockgen -typed -package dbreplaccessor -destination sql_mock_test.go database/sql/driver Driver
 
 type baseSuite struct {
 	logger logger.Logger

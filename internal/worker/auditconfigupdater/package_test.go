@@ -12,8 +12,8 @@ import (
 	"github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package auditconfigupdater -destination servicefactory_mock_test.go github.com/juju/juju/internal/worker/auditconfigupdater ControllerConfigService
-//go:generate go run go.uber.org/mock/mockgen -typed -package auditconfigupdater -destination agent_mock_test.go github.com/juju/juju/agent Agent,Config
+//go:generate go tool mockgen -typed -package auditconfigupdater -destination servicefactory_mock_test.go github.com/juju/juju/internal/worker/auditconfigupdater ControllerConfigService
+//go:generate go tool mockgen -typed -package auditconfigupdater -destination agent_mock_test.go github.com/juju/juju/agent Agent,Config
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

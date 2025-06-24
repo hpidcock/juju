@@ -18,8 +18,8 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package eventsource -destination changestream_mock_test.go github.com/juju/juju/core/changestream Subscription,WatchableDB,EventSource
-//go:generate go run go.uber.org/mock/mockgen -typed -package eventsource -destination watcher_mock_test.go -source=./consume.go
+//go:generate go tool mockgen -typed -package eventsource -destination changestream_mock_test.go github.com/juju/juju/core/changestream Subscription,WatchableDB,EventSource
+//go:generate go tool mockgen -typed -package eventsource -destination watcher_mock_test.go -source=./consume.go
 
 type ImportTest struct{}
 

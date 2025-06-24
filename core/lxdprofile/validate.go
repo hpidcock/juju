@@ -5,7 +5,7 @@ package lxdprofile
 
 import "github.com/juju/juju/internal/errors"
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/lxdprofile_mock.go github.com/juju/juju/core/lxdprofile LXDProfiler,LXDProfile
+//go:generate go tool mockgen -typed -package mocks -destination mocks/lxdprofile_mock.go github.com/juju/juju/core/lxdprofile LXDProfiler,LXDProfile
 
 // LXDProfiler represents a local implementation of a charm profile.
 // This point of use interface normalises a LXDProfiler, so that we can

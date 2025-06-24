@@ -19,11 +19,11 @@ import (
 	"github.com/juju/juju/internal/uuid"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination bootstrap_mock_test.go github.com/juju/juju/internal/bootstrap AgentBinaryStorage,AgentBinaryStore,ControllerCharmDeployer,HTTPClient,Machine,MachineGetter,ApplicationService,IAASApplicationService,CAASApplicationService,ModelConfigService,Downloader,AgentPasswordService,ServiceManager
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination objectstore_mock_test.go github.com/juju/juju/core/objectstore ObjectStore
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination core_charm_mock_test.go github.com/juju/juju/core/charm Repository
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination internal_charm_mock_test.go github.com/juju/juju/internal/charm Charm
-//go:generate go run go.uber.org/mock/mockgen -typed -package bootstrap -destination clock_mock_test.go github.com/juju/clock Clock
+//go:generate go tool mockgen -typed -package bootstrap -destination bootstrap_mock_test.go github.com/juju/juju/internal/bootstrap AgentBinaryStorage,AgentBinaryStore,ControllerCharmDeployer,HTTPClient,Machine,MachineGetter,ApplicationService,IAASApplicationService,CAASApplicationService,ModelConfigService,Downloader,AgentPasswordService,ServiceManager
+//go:generate go tool mockgen -typed -package bootstrap -destination objectstore_mock_test.go github.com/juju/juju/core/objectstore ObjectStore
+//go:generate go tool mockgen -typed -package bootstrap -destination core_charm_mock_test.go github.com/juju/juju/core/charm Repository
+//go:generate go tool mockgen -typed -package bootstrap -destination internal_charm_mock_test.go github.com/juju/juju/internal/charm Charm
+//go:generate go tool mockgen -typed -package bootstrap -destination clock_mock_test.go github.com/juju/clock Clock
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

@@ -12,7 +12,7 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package dbrepl -destination clock_mock_test.go github.com/juju/clock Clock,Timer
+//go:generate go tool mockgen -typed -package dbrepl -destination clock_mock_test.go github.com/juju/clock Clock,Timer
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

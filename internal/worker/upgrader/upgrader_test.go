@@ -39,7 +39,7 @@ import (
 	"github.com/juju/juju/internal/worker/upgrader/mocks"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/upgrader_mocks.go github.com/juju/juju/internal/worker/upgrader UpgraderClient
+//go:generate go tool mockgen -typed -package mocks -destination mocks/upgrader_mocks.go github.com/juju/juju/internal/worker/upgrader UpgraderClient
 
 type UpgraderSuite struct {
 	testhelpers.IsolationSuite

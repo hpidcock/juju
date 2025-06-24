@@ -10,7 +10,7 @@ import (
 	"github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package agenttools -destination service_mock_test.go github.com/juju/juju/apiserver/facades/controller/agenttools ModelConfigService,ModelAgentService
+//go:generate go tool mockgen -typed -package agenttools -destination service_mock_test.go github.com/juju/juju/apiserver/facades/controller/agenttools ModelConfigService,ModelAgentService
 
 func TestMain(m *stdtesting.M) {
 	os.Exit(func() int {

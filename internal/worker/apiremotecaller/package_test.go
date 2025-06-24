@@ -12,9 +12,9 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package apiremotecaller -destination package_mocks_test.go github.com/juju/juju/internal/worker/apiremotecaller RemoteServer,ControllerNodeService
-//go:generate go run go.uber.org/mock/mockgen -typed -package apiremotecaller -destination clock_mocks_test.go github.com/juju/clock Clock
-//go:generate go run go.uber.org/mock/mockgen -typed -package apiremotecaller -destination connection_mocks_test.go github.com/juju/juju/api Connection
+//go:generate go tool mockgen -typed -package apiremotecaller -destination package_mocks_test.go github.com/juju/juju/internal/worker/apiremotecaller RemoteServer,ControllerNodeService
+//go:generate go tool mockgen -typed -package apiremotecaller -destination clock_mocks_test.go github.com/juju/clock Clock
+//go:generate go tool mockgen -typed -package apiremotecaller -destination connection_mocks_test.go github.com/juju/juju/api Connection
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

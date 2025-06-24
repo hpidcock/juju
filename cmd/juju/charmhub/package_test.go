@@ -11,9 +11,9 @@ import (
 	"github.com/juju/juju/internal/cmd"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination ./mocks/api_mock.go github.com/juju/juju/cmd/juju/charmhub CharmHubClient
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination ./mocks/os_mock.go github.com/juju/juju/cmd/juju/charmhub OSEnviron
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination ./mocks/fsys_mock.go github.com/juju/juju/cmd/modelcmd Filesystem,ReadSeekCloser
+//go:generate go tool mockgen -typed -package mocks -destination ./mocks/api_mock.go github.com/juju/juju/cmd/juju/charmhub CharmHubClient
+//go:generate go tool mockgen -typed -package mocks -destination ./mocks/os_mock.go github.com/juju/juju/cmd/juju/charmhub OSEnviron
+//go:generate go tool mockgen -typed -package mocks -destination ./mocks/fsys_mock.go github.com/juju/juju/cmd/modelcmd Filesystem,ReadSeekCloser
 
 func commandContextForTest(c *tc.C) *cmd.Context {
 	var stdout, stderr bytes.Buffer

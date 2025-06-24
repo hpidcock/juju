@@ -11,9 +11,9 @@ import (
 	coretesting "github.com/juju/juju/internal/testing"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package modelmigration -destination getter_mock_test.go github.com/juju/juju/core/database DBGetter,TxnRunner
-//go:generate go run go.uber.org/mock/mockgen -typed -package modelmigration -destination op_mock_test.go github.com/juju/juju/core/modelmigration Operation
-//go:generate go run go.uber.org/mock/mockgen -typed -package modelmigration -destination description_mock_test.go github.com/juju/description/v10 Model
+//go:generate go tool mockgen -typed -package modelmigration -destination getter_mock_test.go github.com/juju/juju/core/database DBGetter,TxnRunner
+//go:generate go tool mockgen -typed -package modelmigration -destination op_mock_test.go github.com/juju/juju/core/modelmigration Operation
+//go:generate go tool mockgen -typed -package modelmigration -destination description_mock_test.go github.com/juju/description/v10 Model
 
 type ImportTest struct{}
 

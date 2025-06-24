@@ -14,9 +14,9 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package httpclient -destination clock_mock_test.go github.com/juju/clock Clock,Timer
-//go:generate go run go.uber.org/mock/mockgen -typed -package httpclient -destination http_mock_test.go github.com/juju/juju/core/http HTTPClient
-//go:generate go run go.uber.org/mock/mockgen -typed -package httpclient -destination httpclient_mock_test.go github.com/juju/juju/internal/worker/httpclient HTTPClientWorker
+//go:generate go tool mockgen -typed -package httpclient -destination clock_mock_test.go github.com/juju/clock Clock,Timer
+//go:generate go tool mockgen -typed -package httpclient -destination http_mock_test.go github.com/juju/juju/core/http HTTPClient
+//go:generate go tool mockgen -typed -package httpclient -destination httpclient_mock_test.go github.com/juju/juju/internal/worker/httpclient HTTPClientWorker
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

@@ -10,9 +10,9 @@ import (
 	"github.com/juju/juju/internal/testhelpers"
 )
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package service -destination state_mock_test.go github.com/juju/juju/domain/credential/service State,WatcherFactory,MachineService,CloudProvider
-//go:generate go run go.uber.org/mock/mockgen -typed -package service -destination validator_mock_test.go github.com/juju/juju/domain/credential/service CredentialValidator
-//go:generate go run go.uber.org/mock/mockgen -typed -package service -destination instance_mock_test.go github.com/juju/juju/environs/instances Instance
+//go:generate go tool mockgen -typed -package service -destination state_mock_test.go github.com/juju/juju/domain/credential/service State,WatcherFactory,MachineService,CloudProvider
+//go:generate go tool mockgen -typed -package service -destination validator_mock_test.go github.com/juju/juju/domain/credential/service CredentialValidator
+//go:generate go tool mockgen -typed -package service -destination instance_mock_test.go github.com/juju/juju/environs/instances Instance
 
 type baseSuite struct {
 	testhelpers.IsolationSuite

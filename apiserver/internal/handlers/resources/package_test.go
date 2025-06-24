@@ -3,5 +3,5 @@
 
 package resources
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package resources -destination resource_opener_mock_test.go github.com/juju/juju/core/resource Opener
-//go:generate go run go.uber.org/mock/mockgen -typed -package resources -destination service_mock_test.go github.com/juju/juju/apiserver/internal/handlers/resources ResourceServiceGetter,ResourceService,ResourceOpenerGetter,Downloader
+//go:generate go tool mockgen -typed -package resources -destination resource_opener_mock_test.go github.com/juju/juju/core/resource Opener
+//go:generate go tool mockgen -typed -package resources -destination service_mock_test.go github.com/juju/juju/apiserver/internal/handlers/resources ResourceServiceGetter,ResourceService,ResourceOpenerGetter,Downloader

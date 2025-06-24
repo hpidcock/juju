@@ -3,6 +3,6 @@
 
 package upgrades
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/context_mock.go github.com/juju/juju/internal/upgrades Context
+//go:generate go tool mockgen -typed -package mocks -destination mocks/context_mock.go github.com/juju/juju/internal/upgrades Context
 
 var UpgradeOperations = &upgradeOperations

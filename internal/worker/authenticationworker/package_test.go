@@ -3,4 +3,4 @@
 
 package authenticationworker_test
 
-//go:generate go run go.uber.org/mock/mockgen -typed -package mocks -destination mocks/updater_mocks.go github.com/juju/juju/internal/worker/authenticationworker Client
+//go:generate go tool mockgen -typed -package mocks -destination mocks/updater_mocks.go github.com/juju/juju/internal/worker/authenticationworker Client
