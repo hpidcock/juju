@@ -20,6 +20,7 @@ import (
 type MockValidator struct {
 	ctrl     *gomock.Controller
 	recorder *MockValidatorMockRecorder
+	isgomock struct{}
 }
 
 // MockValidatorMockRecorder is the mock recorder for MockValidator.
@@ -40,18 +41,18 @@ func (m *MockValidator) EXPECT() *MockValidatorMockRecorder {
 }
 
 // Merge mocks base method.
-func (m *MockValidator) Merge(arg0, arg1 constraints.Value) (constraints.Value, error) {
+func (m *MockValidator) Merge(consFallback, cons constraints.Value) (constraints.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Merge", arg0, arg1)
+	ret := m.ctrl.Call(m, "Merge", consFallback, cons)
 	ret0, _ := ret[0].(constraints.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Merge indicates an expected call of Merge.
-func (mr *MockValidatorMockRecorder) Merge(arg0, arg1 any) *MockValidatorMergeCall {
+func (mr *MockValidatorMockRecorder) Merge(consFallback, cons any) *MockValidatorMergeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Merge", reflect.TypeOf((*MockValidator)(nil).Merge), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Merge", reflect.TypeOf((*MockValidator)(nil).Merge), consFallback, cons)
 	return &MockValidatorMergeCall{Call: call}
 }
 
@@ -79,15 +80,15 @@ func (c *MockValidatorMergeCall) DoAndReturn(f func(constraints.Value, constrain
 }
 
 // RegisterConflictResolver mocks base method.
-func (m *MockValidator) RegisterConflictResolver(arg0, arg1 string, arg2 constraints.ConflictResolver) {
+func (m *MockValidator) RegisterConflictResolver(red, blue string, resolver constraints.ConflictResolver) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RegisterConflictResolver", arg0, arg1, arg2)
+	m.ctrl.Call(m, "RegisterConflictResolver", red, blue, resolver)
 }
 
 // RegisterConflictResolver indicates an expected call of RegisterConflictResolver.
-func (mr *MockValidatorMockRecorder) RegisterConflictResolver(arg0, arg1, arg2 any) *MockValidatorRegisterConflictResolverCall {
+func (mr *MockValidatorMockRecorder) RegisterConflictResolver(red, blue, resolver any) *MockValidatorRegisterConflictResolverCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterConflictResolver", reflect.TypeOf((*MockValidator)(nil).RegisterConflictResolver), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterConflictResolver", reflect.TypeOf((*MockValidator)(nil).RegisterConflictResolver), red, blue, resolver)
 	return &MockValidatorRegisterConflictResolverCall{Call: call}
 }
 
@@ -115,15 +116,15 @@ func (c *MockValidatorRegisterConflictResolverCall) DoAndReturn(f func(string, s
 }
 
 // RegisterConflicts mocks base method.
-func (m *MockValidator) RegisterConflicts(arg0, arg1 []string) {
+func (m *MockValidator) RegisterConflicts(reds, blues []string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RegisterConflicts", arg0, arg1)
+	m.ctrl.Call(m, "RegisterConflicts", reds, blues)
 }
 
 // RegisterConflicts indicates an expected call of RegisterConflicts.
-func (mr *MockValidatorMockRecorder) RegisterConflicts(arg0, arg1 any) *MockValidatorRegisterConflictsCall {
+func (mr *MockValidatorMockRecorder) RegisterConflicts(reds, blues any) *MockValidatorRegisterConflictsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterConflicts", reflect.TypeOf((*MockValidator)(nil).RegisterConflicts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterConflicts", reflect.TypeOf((*MockValidator)(nil).RegisterConflicts), reds, blues)
 	return &MockValidatorRegisterConflictsCall{Call: call}
 }
 
@@ -151,15 +152,15 @@ func (c *MockValidatorRegisterConflictsCall) DoAndReturn(f func([]string, []stri
 }
 
 // RegisterUnsupported mocks base method.
-func (m *MockValidator) RegisterUnsupported(arg0 []string) {
+func (m *MockValidator) RegisterUnsupported(unsupported []string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RegisterUnsupported", arg0)
+	m.ctrl.Call(m, "RegisterUnsupported", unsupported)
 }
 
 // RegisterUnsupported indicates an expected call of RegisterUnsupported.
-func (mr *MockValidatorMockRecorder) RegisterUnsupported(arg0 any) *MockValidatorRegisterUnsupportedCall {
+func (mr *MockValidatorMockRecorder) RegisterUnsupported(unsupported any) *MockValidatorRegisterUnsupportedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUnsupported", reflect.TypeOf((*MockValidator)(nil).RegisterUnsupported), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUnsupported", reflect.TypeOf((*MockValidator)(nil).RegisterUnsupported), unsupported)
 	return &MockValidatorRegisterUnsupportedCall{Call: call}
 }
 
@@ -187,15 +188,15 @@ func (c *MockValidatorRegisterUnsupportedCall) DoAndReturn(f func([]string)) *Mo
 }
 
 // RegisterVocabulary mocks base method.
-func (m *MockValidator) RegisterVocabulary(arg0 string, arg1 any) {
+func (m *MockValidator) RegisterVocabulary(attributeName string, allowedValues any) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RegisterVocabulary", arg0, arg1)
+	m.ctrl.Call(m, "RegisterVocabulary", attributeName, allowedValues)
 }
 
 // RegisterVocabulary indicates an expected call of RegisterVocabulary.
-func (mr *MockValidatorMockRecorder) RegisterVocabulary(arg0, arg1 any) *MockValidatorRegisterVocabularyCall {
+func (mr *MockValidatorMockRecorder) RegisterVocabulary(attributeName, allowedValues any) *MockValidatorRegisterVocabularyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterVocabulary", reflect.TypeOf((*MockValidator)(nil).RegisterVocabulary), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterVocabulary", reflect.TypeOf((*MockValidator)(nil).RegisterVocabulary), attributeName, allowedValues)
 	return &MockValidatorRegisterVocabularyCall{Call: call}
 }
 
@@ -223,15 +224,15 @@ func (c *MockValidatorRegisterVocabularyCall) DoAndReturn(f func(string, any)) *
 }
 
 // UpdateVocabulary mocks base method.
-func (m *MockValidator) UpdateVocabulary(arg0 string, arg1 any) {
+func (m *MockValidator) UpdateVocabulary(attributeName string, newValues any) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "UpdateVocabulary", arg0, arg1)
+	m.ctrl.Call(m, "UpdateVocabulary", attributeName, newValues)
 }
 
 // UpdateVocabulary indicates an expected call of UpdateVocabulary.
-func (mr *MockValidatorMockRecorder) UpdateVocabulary(arg0, arg1 any) *MockValidatorUpdateVocabularyCall {
+func (mr *MockValidatorMockRecorder) UpdateVocabulary(attributeName, newValues any) *MockValidatorUpdateVocabularyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVocabulary", reflect.TypeOf((*MockValidator)(nil).UpdateVocabulary), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateVocabulary", reflect.TypeOf((*MockValidator)(nil).UpdateVocabulary), attributeName, newValues)
 	return &MockValidatorUpdateVocabularyCall{Call: call}
 }
 
@@ -259,18 +260,18 @@ func (c *MockValidatorUpdateVocabularyCall) DoAndReturn(f func(string, any)) *Mo
 }
 
 // Validate mocks base method.
-func (m *MockValidator) Validate(arg0 constraints.Value) ([]string, error) {
+func (m *MockValidator) Validate(cons constraints.Value) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Validate", arg0)
+	ret := m.ctrl.Call(m, "Validate", cons)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Validate indicates an expected call of Validate.
-func (mr *MockValidatorMockRecorder) Validate(arg0 any) *MockValidatorValidateCall {
+func (mr *MockValidatorMockRecorder) Validate(cons any) *MockValidatorValidateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockValidator)(nil).Validate), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockValidator)(nil).Validate), cons)
 	return &MockValidatorValidateCall{Call: call}
 }
 

@@ -22,6 +22,7 @@ import (
 type MockApplicationAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationAPIMockRecorder is the mock recorder for MockApplicationAPI.
@@ -80,18 +81,18 @@ func (c *MockApplicationAPICloseCall) DoAndReturn(f func() error) *MockApplicati
 }
 
 // Get mocks base method.
-func (m *MockApplicationAPI) Get(arg0 context.Context, arg1 string) (*params.ApplicationGetResults, error) {
+func (m *MockApplicationAPI) Get(ctx context.Context, arg1 string) (*params.ApplicationGetResults, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Get", ctx, arg1)
 	ret0, _ := ret[0].(*params.ApplicationGetResults)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockApplicationAPIMockRecorder) Get(arg0, arg1 any) *MockApplicationAPIGetCall {
+func (mr *MockApplicationAPIMockRecorder) Get(ctx, arg1 any) *MockApplicationAPIGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockApplicationAPI)(nil).Get), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockApplicationAPI)(nil).Get), ctx, arg1)
 	return &MockApplicationAPIGetCall{Call: call}
 }
 
@@ -119,17 +120,17 @@ func (c *MockApplicationAPIGetCall) DoAndReturn(f func(context.Context, string) 
 }
 
 // SetConfig mocks base method.
-func (m *MockApplicationAPI) SetConfig(arg0 context.Context, arg1, arg2 string, arg3 map[string]string) error {
+func (m *MockApplicationAPI) SetConfig(ctx context.Context, arg1, configYAML string, config map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, arg1, configYAML, config)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockApplicationAPIMockRecorder) SetConfig(arg0, arg1, arg2, arg3 any) *MockApplicationAPISetConfigCall {
+func (mr *MockApplicationAPIMockRecorder) SetConfig(ctx, arg1, configYAML, config any) *MockApplicationAPISetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockApplicationAPI)(nil).SetConfig), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockApplicationAPI)(nil).SetConfig), ctx, arg1, configYAML, config)
 	return &MockApplicationAPISetConfigCall{Call: call}
 }
 
@@ -157,17 +158,17 @@ func (c *MockApplicationAPISetConfigCall) DoAndReturn(f func(context.Context, st
 }
 
 // UnsetApplicationConfig mocks base method.
-func (m *MockApplicationAPI) UnsetApplicationConfig(arg0 context.Context, arg1 string, arg2 []string) error {
+func (m *MockApplicationAPI) UnsetApplicationConfig(ctx context.Context, arg1 string, options []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnsetApplicationConfig", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UnsetApplicationConfig", ctx, arg1, options)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UnsetApplicationConfig indicates an expected call of UnsetApplicationConfig.
-func (mr *MockApplicationAPIMockRecorder) UnsetApplicationConfig(arg0, arg1, arg2 any) *MockApplicationAPIUnsetApplicationConfigCall {
+func (mr *MockApplicationAPIMockRecorder) UnsetApplicationConfig(ctx, arg1, options any) *MockApplicationAPIUnsetApplicationConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsetApplicationConfig", reflect.TypeOf((*MockApplicationAPI)(nil).UnsetApplicationConfig), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnsetApplicationConfig", reflect.TypeOf((*MockApplicationAPI)(nil).UnsetApplicationConfig), ctx, arg1, options)
 	return &MockApplicationAPIUnsetApplicationConfigCall{Call: call}
 }
 
@@ -198,6 +199,7 @@ func (c *MockApplicationAPIUnsetApplicationConfigCall) DoAndReturn(f func(contex
 type MockRemoveApplicationAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoveApplicationAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoveApplicationAPIMockRecorder is the mock recorder for MockRemoveApplicationAPI.

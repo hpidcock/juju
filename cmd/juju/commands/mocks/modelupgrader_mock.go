@@ -23,6 +23,7 @@ import (
 type MockModelUpgraderAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelUpgraderAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockModelUpgraderAPIMockRecorder is the mock recorder for MockModelUpgraderAPI.
@@ -81,18 +82,18 @@ func (c *MockModelUpgraderAPICloseCall) DoAndReturn(f func() error) *MockModelUp
 }
 
 // UpgradeModel mocks base method.
-func (m *MockModelUpgraderAPI) UpgradeModel(arg0 context.Context, arg1 string, arg2 semversion.Number, arg3 string, arg4, arg5 bool) (semversion.Number, error) {
+func (m *MockModelUpgraderAPI) UpgradeModel(ctx context.Context, modelUUID string, targetVersion semversion.Number, stream string, ignoreAgentVersions, druRun bool) (semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpgradeModel", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "UpgradeModel", ctx, modelUUID, targetVersion, stream, ignoreAgentVersions, druRun)
 	ret0, _ := ret[0].(semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpgradeModel indicates an expected call of UpgradeModel.
-func (mr *MockModelUpgraderAPIMockRecorder) UpgradeModel(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockModelUpgraderAPIUpgradeModelCall {
+func (mr *MockModelUpgraderAPIMockRecorder) UpgradeModel(ctx, modelUUID, targetVersion, stream, ignoreAgentVersions, druRun any) *MockModelUpgraderAPIUpgradeModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpgradeModel", reflect.TypeOf((*MockModelUpgraderAPI)(nil).UpgradeModel), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpgradeModel", reflect.TypeOf((*MockModelUpgraderAPI)(nil).UpgradeModel), ctx, modelUUID, targetVersion, stream, ignoreAgentVersions, druRun)
 	return &MockModelUpgraderAPIUpgradeModelCall{Call: call}
 }
 
@@ -120,18 +121,18 @@ func (c *MockModelUpgraderAPIUpgradeModelCall) DoAndReturn(f func(context.Contex
 }
 
 // UploadTools mocks base method.
-func (m *MockModelUpgraderAPI) UploadTools(arg0 context.Context, arg1 io.Reader, arg2 semversion.Binary) (tools.List, error) {
+func (m *MockModelUpgraderAPI) UploadTools(ctx context.Context, r io.Reader, vers semversion.Binary) (tools.List, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadTools", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UploadTools", ctx, r, vers)
 	ret0, _ := ret[0].(tools.List)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UploadTools indicates an expected call of UploadTools.
-func (mr *MockModelUpgraderAPIMockRecorder) UploadTools(arg0, arg1, arg2 any) *MockModelUpgraderAPIUploadToolsCall {
+func (mr *MockModelUpgraderAPIMockRecorder) UploadTools(ctx, r, vers any) *MockModelUpgraderAPIUploadToolsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadTools", reflect.TypeOf((*MockModelUpgraderAPI)(nil).UploadTools), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadTools", reflect.TypeOf((*MockModelUpgraderAPI)(nil).UploadTools), ctx, r, vers)
 	return &MockModelUpgraderAPIUploadToolsCall{Call: call}
 }
 

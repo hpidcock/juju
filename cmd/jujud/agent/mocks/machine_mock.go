@@ -20,6 +20,7 @@ import (
 type MockCommandRunner struct {
 	ctrl     *gomock.Controller
 	recorder *MockCommandRunnerMockRecorder
+	isgomock struct{}
 }
 
 // MockCommandRunnerMockRecorder is the mock recorder for MockCommandRunner.
@@ -40,18 +41,18 @@ func (m *MockCommandRunner) EXPECT() *MockCommandRunnerMockRecorder {
 }
 
 // RunCommands mocks base method.
-func (m *MockCommandRunner) RunCommands(arg0 exec.RunParams) (*exec.ExecResponse, error) {
+func (m *MockCommandRunner) RunCommands(run exec.RunParams) (*exec.ExecResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunCommands", arg0)
+	ret := m.ctrl.Call(m, "RunCommands", run)
 	ret0, _ := ret[0].(*exec.ExecResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RunCommands indicates an expected call of RunCommands.
-func (mr *MockCommandRunnerMockRecorder) RunCommands(arg0 any) *MockCommandRunnerRunCommandsCall {
+func (mr *MockCommandRunnerMockRecorder) RunCommands(run any) *MockCommandRunnerRunCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockCommandRunner)(nil).RunCommands), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockCommandRunner)(nil).RunCommands), run)
 	return &MockCommandRunnerRunCommandsCall{Call: call}
 }
 

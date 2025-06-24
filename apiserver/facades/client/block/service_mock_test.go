@@ -23,6 +23,7 @@ import (
 type MockBlockCommandService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCommandServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCommandServiceMockRecorder is the mock recorder for MockBlockCommandService.
@@ -43,18 +44,18 @@ func (m *MockBlockCommandService) EXPECT() *MockBlockCommandServiceMockRecorder 
 }
 
 // GetBlocks mocks base method.
-func (m *MockBlockCommandService) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockBlockCommandService) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(arg0 any) *MockBlockCommandServiceGetBlocksCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(ctx any) *MockBlockCommandServiceGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), ctx)
 	return &MockBlockCommandServiceGetBlocksCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockBlockCommandServiceGetBlocksCall) DoAndReturn(f func(context.Contex
 }
 
 // SwitchBlockOff mocks base method.
-func (m *MockBlockCommandService) SwitchBlockOff(arg0 context.Context, arg1 blockcommand.BlockType) error {
+func (m *MockBlockCommandService) SwitchBlockOff(ctx context.Context, t blockcommand.BlockType) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SwitchBlockOff", arg0, arg1)
+	ret := m.ctrl.Call(m, "SwitchBlockOff", ctx, t)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SwitchBlockOff indicates an expected call of SwitchBlockOff.
-func (mr *MockBlockCommandServiceMockRecorder) SwitchBlockOff(arg0, arg1 any) *MockBlockCommandServiceSwitchBlockOffCall {
+func (mr *MockBlockCommandServiceMockRecorder) SwitchBlockOff(ctx, t any) *MockBlockCommandServiceSwitchBlockOffCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOff", reflect.TypeOf((*MockBlockCommandService)(nil).SwitchBlockOff), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOff", reflect.TypeOf((*MockBlockCommandService)(nil).SwitchBlockOff), ctx, t)
 	return &MockBlockCommandServiceSwitchBlockOffCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockBlockCommandServiceSwitchBlockOffCall) DoAndReturn(f func(context.C
 }
 
 // SwitchBlockOn mocks base method.
-func (m *MockBlockCommandService) SwitchBlockOn(arg0 context.Context, arg1 blockcommand.BlockType, arg2 string) error {
+func (m *MockBlockCommandService) SwitchBlockOn(ctx context.Context, t blockcommand.BlockType, message string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SwitchBlockOn", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SwitchBlockOn", ctx, t, message)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SwitchBlockOn indicates an expected call of SwitchBlockOn.
-func (mr *MockBlockCommandServiceMockRecorder) SwitchBlockOn(arg0, arg1, arg2 any) *MockBlockCommandServiceSwitchBlockOnCall {
+func (mr *MockBlockCommandServiceMockRecorder) SwitchBlockOn(ctx, t, message any) *MockBlockCommandServiceSwitchBlockOnCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOn", reflect.TypeOf((*MockBlockCommandService)(nil).SwitchBlockOn), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOn", reflect.TypeOf((*MockBlockCommandService)(nil).SwitchBlockOn), ctx, t, message)
 	return &MockBlockCommandServiceSwitchBlockOnCall{Call: call}
 }
 
@@ -161,6 +162,7 @@ func (c *MockBlockCommandServiceSwitchBlockOnCall) DoAndReturn(f func(context.Co
 type MockAuthorizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthorizerMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthorizerMockRecorder is the mock recorder for MockAuthorizer.
@@ -181,17 +183,17 @@ func (m *MockAuthorizer) EXPECT() *MockAuthorizerMockRecorder {
 }
 
 // HasPermission mocks base method.
-func (m *MockAuthorizer) HasPermission(arg0 context.Context, arg1 permission.Access, arg2 names.Tag) error {
+func (m *MockAuthorizer) HasPermission(ctx context.Context, operation permission.Access, target names.Tag) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HasPermission", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "HasPermission", ctx, operation, target)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // HasPermission indicates an expected call of HasPermission.
-func (mr *MockAuthorizerMockRecorder) HasPermission(arg0, arg1, arg2 any) *MockAuthorizerHasPermissionCall {
+func (mr *MockAuthorizerMockRecorder) HasPermission(ctx, operation, target any) *MockAuthorizerHasPermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasPermission", reflect.TypeOf((*MockAuthorizer)(nil).HasPermission), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasPermission", reflect.TypeOf((*MockAuthorizer)(nil).HasPermission), ctx, operation, target)
 	return &MockAuthorizerHasPermissionCall{Call: call}
 }
 

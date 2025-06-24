@@ -21,6 +21,7 @@ import (
 type MockSessionLoginFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockSessionLoginFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockSessionLoginFactoryMockRecorder is the mock recorder for MockSessionLoginFactory.
@@ -41,17 +42,17 @@ func (m *MockSessionLoginFactory) EXPECT() *MockSessionLoginFactoryMockRecorder 
 }
 
 // NewLoginProvider mocks base method.
-func (m *MockSessionLoginFactory) NewLoginProvider(arg0 string, arg1 io.Writer, arg2 func(string)) api.LoginProvider {
+func (m *MockSessionLoginFactory) NewLoginProvider(token string, output io.Writer, tokenCallback func(string)) api.LoginProvider {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewLoginProvider", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "NewLoginProvider", token, output, tokenCallback)
 	ret0, _ := ret[0].(api.LoginProvider)
 	return ret0
 }
 
 // NewLoginProvider indicates an expected call of NewLoginProvider.
-func (mr *MockSessionLoginFactoryMockRecorder) NewLoginProvider(arg0, arg1, arg2 any) *MockSessionLoginFactoryNewLoginProviderCall {
+func (mr *MockSessionLoginFactoryMockRecorder) NewLoginProvider(token, output, tokenCallback any) *MockSessionLoginFactoryNewLoginProviderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewLoginProvider", reflect.TypeOf((*MockSessionLoginFactory)(nil).NewLoginProvider), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewLoginProvider", reflect.TypeOf((*MockSessionLoginFactory)(nil).NewLoginProvider), token, output, tokenCallback)
 	return &MockSessionLoginFactoryNewLoginProviderCall{Call: call}
 }
 

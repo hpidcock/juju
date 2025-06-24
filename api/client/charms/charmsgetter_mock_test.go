@@ -21,6 +21,7 @@ import (
 type MockCharmGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmGetterMockRecorder is the mock recorder for MockCharmGetter.
@@ -41,18 +42,18 @@ func (m *MockCharmGetter) EXPECT() *MockCharmGetterMockRecorder {
 }
 
 // GetCharm mocks base method.
-func (m *MockCharmGetter) GetCharm(arg0 context.Context, arg1, arg2 string) (io.ReadCloser, error) {
+func (m *MockCharmGetter) GetCharm(ctx context.Context, modelUUID, charmName string) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharm", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetCharm", ctx, modelUUID, charmName)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharm indicates an expected call of GetCharm.
-func (mr *MockCharmGetterMockRecorder) GetCharm(arg0, arg1, arg2 any) *MockCharmGetterGetCharmCall {
+func (mr *MockCharmGetterMockRecorder) GetCharm(ctx, modelUUID, charmName any) *MockCharmGetterGetCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockCharmGetter)(nil).GetCharm), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockCharmGetter)(nil).GetCharm), ctx, modelUUID, charmName)
 	return &MockCharmGetterGetCharmCall{Call: call}
 }
 

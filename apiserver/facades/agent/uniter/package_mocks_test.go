@@ -21,6 +21,7 @@ import (
 type MockLXDProfileBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockLXDProfileBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockLXDProfileBackendMockRecorder is the mock recorder for MockLXDProfileBackend.
@@ -83,6 +84,7 @@ func (c *MockLXDProfileBackendMachineCall) DoAndReturn(f func(string) (uniter.LX
 type MockLXDProfileMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockLXDProfileMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockLXDProfileMachineMockRecorder is the mock recorder for MockLXDProfileMachine.

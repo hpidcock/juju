@@ -27,6 +27,7 @@ import (
 type MockBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockBackendMockRecorder is the mock recorder for MockBackend.
@@ -244,6 +245,7 @@ func (c *MockBackendUnitCall) DoAndReturn(f func(string) (Unit, error)) *MockBac
 type MockApplication struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationMockRecorder is the mock recorder for MockApplication.
@@ -496,6 +498,7 @@ func (c *MockApplicationUpdateCharmConfigCall) DoAndReturn(f func(charm.Settings
 type MockCaasBrokerInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockCaasBrokerInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockCaasBrokerInterfaceMockRecorder is the mock recorder for MockCaasBrokerInterface.
@@ -516,17 +519,17 @@ func (m *MockCaasBrokerInterface) EXPECT() *MockCaasBrokerInterfaceMockRecorder 
 }
 
 // ValidateStorageClass mocks base method.
-func (m *MockCaasBrokerInterface) ValidateStorageClass(arg0 context.Context, arg1 map[string]any) error {
+func (m *MockCaasBrokerInterface) ValidateStorageClass(ctx context.Context, arg1 map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateStorageClass", arg0, arg1)
+	ret := m.ctrl.Call(m, "ValidateStorageClass", ctx, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ValidateStorageClass indicates an expected call of ValidateStorageClass.
-func (mr *MockCaasBrokerInterfaceMockRecorder) ValidateStorageClass(arg0, arg1 any) *MockCaasBrokerInterfaceValidateStorageClassCall {
+func (mr *MockCaasBrokerInterfaceMockRecorder) ValidateStorageClass(ctx, arg1 any) *MockCaasBrokerInterfaceValidateStorageClassCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateStorageClass", reflect.TypeOf((*MockCaasBrokerInterface)(nil).ValidateStorageClass), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateStorageClass", reflect.TypeOf((*MockCaasBrokerInterface)(nil).ValidateStorageClass), ctx, arg1)
 	return &MockCaasBrokerInterfaceValidateStorageClassCall{Call: call}
 }
 

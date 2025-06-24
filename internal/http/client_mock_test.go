@@ -22,6 +22,7 @@ import (
 type MockRequestRecorder struct {
 	ctrl     *gomock.Controller
 	recorder *MockRequestRecorderMockRecorder
+	isgomock struct{}
 }
 
 // MockRequestRecorderMockRecorder is the mock recorder for MockRequestRecorder.
@@ -42,15 +43,15 @@ func (m *MockRequestRecorder) EXPECT() *MockRequestRecorderMockRecorder {
 }
 
 // Record mocks base method.
-func (m *MockRequestRecorder) Record(arg0 string, arg1 *url.URL, arg2 *http.Response, arg3 time.Duration) {
+func (m *MockRequestRecorder) Record(method string, arg1 *url.URL, res *http.Response, rtt time.Duration) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Record", arg0, arg1, arg2, arg3)
+	m.ctrl.Call(m, "Record", method, arg1, res, rtt)
 }
 
 // Record indicates an expected call of Record.
-func (mr *MockRequestRecorderMockRecorder) Record(arg0, arg1, arg2, arg3 any) *MockRequestRecorderRecordCall {
+func (mr *MockRequestRecorderMockRecorder) Record(method, arg1, res, rtt any) *MockRequestRecorderRecordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Record", reflect.TypeOf((*MockRequestRecorder)(nil).Record), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Record", reflect.TypeOf((*MockRequestRecorder)(nil).Record), method, arg1, res, rtt)
 	return &MockRequestRecorderRecordCall{Call: call}
 }
 
@@ -78,15 +79,15 @@ func (c *MockRequestRecorderRecordCall) DoAndReturn(f func(string, *url.URL, *ht
 }
 
 // RecordError mocks base method.
-func (m *MockRequestRecorder) RecordError(arg0 string, arg1 *url.URL, arg2 error) {
+func (m *MockRequestRecorder) RecordError(method string, arg1 *url.URL, err error) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RecordError", arg0, arg1, arg2)
+	m.ctrl.Call(m, "RecordError", method, arg1, err)
 }
 
 // RecordError indicates an expected call of RecordError.
-func (mr *MockRequestRecorderMockRecorder) RecordError(arg0, arg1, arg2 any) *MockRequestRecorderRecordErrorCall {
+func (mr *MockRequestRecorderMockRecorder) RecordError(method, arg1, err any) *MockRequestRecorderRecordErrorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordError", reflect.TypeOf((*MockRequestRecorder)(nil).RecordError), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordError", reflect.TypeOf((*MockRequestRecorder)(nil).RecordError), method, arg1, err)
 	return &MockRequestRecorderRecordErrorCall{Call: call}
 }
 
@@ -117,6 +118,7 @@ func (c *MockRequestRecorderRecordErrorCall) DoAndReturn(f func(string, *url.URL
 type MockRoundTripper struct {
 	ctrl     *gomock.Controller
 	recorder *MockRoundTripperMockRecorder
+	isgomock struct{}
 }
 
 // MockRoundTripperMockRecorder is the mock recorder for MockRoundTripper.

@@ -23,6 +23,7 @@ import (
 type MockRefresherFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockRefresherFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockRefresherFactoryMockRecorder is the mock recorder for MockRefresherFactory.
@@ -85,6 +86,7 @@ func (c *MockRefresherFactoryRunCall) DoAndReturn(f func(context.Context, Refres
 type MockRefresher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRefresherMockRecorder
+	isgomock struct{}
 }
 
 // MockRefresherMockRecorder is the mock recorder for MockRefresher.
@@ -144,18 +146,18 @@ func (c *MockRefresherAllowedCall) DoAndReturn(f func(context.Context, Refresher
 }
 
 // Refresh mocks base method.
-func (m *MockRefresher) Refresh(arg0 context.Context) (*CharmID, error) {
+func (m *MockRefresher) Refresh(ctx context.Context) (*CharmID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0)
+	ret := m.ctrl.Call(m, "Refresh", ctx)
 	ret0, _ := ret[0].(*CharmID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockRefresherMockRecorder) Refresh(arg0 any) *MockRefresherRefreshCall {
+func (mr *MockRefresherMockRecorder) Refresh(ctx any) *MockRefresherRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockRefresher)(nil).Refresh), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockRefresher)(nil).Refresh), ctx)
 	return &MockRefresherRefreshCall{Call: call}
 }
 
@@ -224,6 +226,7 @@ func (c *MockRefresherStringCall) DoAndReturn(f func() string) *MockRefresherStr
 type MockCharmResolver struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmResolverMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmResolverMockRecorder is the mock recorder for MockCharmResolver.
@@ -244,9 +247,9 @@ func (m *MockCharmResolver) EXPECT() *MockCharmResolverMockRecorder {
 }
 
 // ResolveCharm mocks base method.
-func (m *MockCharmResolver) ResolveCharm(arg0 context.Context, arg1 *charm0.URL, arg2 charm.Origin, arg3 bool) (*charm0.URL, charm.Origin, []base.Base, error) {
+func (m *MockCharmResolver) ResolveCharm(ctx context.Context, url *charm0.URL, preferredOrigin charm.Origin, switchCharm bool) (*charm0.URL, charm.Origin, []base.Base, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveCharm", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ResolveCharm", ctx, url, preferredOrigin, switchCharm)
 	ret0, _ := ret[0].(*charm0.URL)
 	ret1, _ := ret[1].(charm.Origin)
 	ret2, _ := ret[2].([]base.Base)
@@ -255,9 +258,9 @@ func (m *MockCharmResolver) ResolveCharm(arg0 context.Context, arg1 *charm0.URL,
 }
 
 // ResolveCharm indicates an expected call of ResolveCharm.
-func (mr *MockCharmResolverMockRecorder) ResolveCharm(arg0, arg1, arg2, arg3 any) *MockCharmResolverResolveCharmCall {
+func (mr *MockCharmResolverMockRecorder) ResolveCharm(ctx, url, preferredOrigin, switchCharm any) *MockCharmResolverResolveCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharm", reflect.TypeOf((*MockCharmResolver)(nil).ResolveCharm), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharm", reflect.TypeOf((*MockCharmResolver)(nil).ResolveCharm), ctx, url, preferredOrigin, switchCharm)
 	return &MockCharmResolverResolveCharmCall{Call: call}
 }
 
@@ -288,6 +291,7 @@ func (c *MockCharmResolverResolveCharmCall) DoAndReturn(f func(context.Context, 
 type MockCharmRepository struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmRepositoryMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmRepositoryMockRecorder is the mock recorder for MockCharmRepository.
@@ -308,9 +312,9 @@ func (m *MockCharmRepository) EXPECT() *MockCharmRepositoryMockRecorder {
 }
 
 // NewCharmAtPath mocks base method.
-func (m *MockCharmRepository) NewCharmAtPath(arg0 string) (charm0.Charm, *charm0.URL, error) {
+func (m *MockCharmRepository) NewCharmAtPath(path string) (charm0.Charm, *charm0.URL, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewCharmAtPath", arg0)
+	ret := m.ctrl.Call(m, "NewCharmAtPath", path)
 	ret0, _ := ret[0].(charm0.Charm)
 	ret1, _ := ret[1].(*charm0.URL)
 	ret2, _ := ret[2].(error)
@@ -318,9 +322,9 @@ func (m *MockCharmRepository) NewCharmAtPath(arg0 string) (charm0.Charm, *charm0
 }
 
 // NewCharmAtPath indicates an expected call of NewCharmAtPath.
-func (mr *MockCharmRepositoryMockRecorder) NewCharmAtPath(arg0 any) *MockCharmRepositoryNewCharmAtPathCall {
+func (mr *MockCharmRepositoryMockRecorder) NewCharmAtPath(path any) *MockCharmRepositoryNewCharmAtPathCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCharmAtPath", reflect.TypeOf((*MockCharmRepository)(nil).NewCharmAtPath), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCharmAtPath", reflect.TypeOf((*MockCharmRepository)(nil).NewCharmAtPath), path)
 	return &MockCharmRepositoryNewCharmAtPathCall{Call: call}
 }
 

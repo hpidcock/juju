@@ -21,6 +21,7 @@ import (
 type MockFilesystemAttachment struct {
 	ctrl     *gomock.Controller
 	recorder *MockFilesystemAttachmentMockRecorder
+	isgomock struct{}
 }
 
 // MockFilesystemAttachmentMockRecorder is the mock recorder for MockFilesystemAttachment.
@@ -236,6 +237,7 @@ func (c *MockFilesystemAttachmentParamsCall) DoAndReturn(f func() (state.Filesys
 type MockVolumeAttachment struct {
 	ctrl     *gomock.Controller
 	recorder *MockVolumeAttachmentMockRecorder
+	isgomock struct{}
 }
 
 // MockVolumeAttachmentMockRecorder is the mock recorder for MockVolumeAttachment.
@@ -451,6 +453,7 @@ func (c *MockVolumeAttachmentVolumeCall) DoAndReturn(f func() names.VolumeTag) *
 type MockEntityFinder struct {
 	ctrl     *gomock.Controller
 	recorder *MockEntityFinderMockRecorder
+	isgomock struct{}
 }
 
 // MockEntityFinderMockRecorder is the mock recorder for MockEntityFinder.
@@ -513,6 +516,7 @@ func (c *MockEntityFinderFindEntityCall) DoAndReturn(f func(names.Tag) (state.En
 type MockLifer struct {
 	ctrl     *gomock.Controller
 	recorder *MockLiferMockRecorder
+	isgomock struct{}
 }
 
 // MockLiferMockRecorder is the mock recorder for MockLifer.

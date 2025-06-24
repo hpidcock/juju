@@ -23,6 +23,7 @@ import (
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -43,18 +44,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByName(ctx context.Context, name string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, name)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(arg0, arg1 any) *MockApplicationServiceGetApplicationIDByNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(ctx, name any) *MockApplicationServiceGetApplicationIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), ctx, name)
 	return &MockApplicationServiceGetApplicationIDByNameCall{Call: call}
 }
 
@@ -82,18 +83,18 @@ func (c *MockApplicationServiceGetApplicationIDByNameCall) DoAndReturn(f func(co
 }
 
 // GetApplicationIDByUnitName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByUnitName(arg0 context.Context, arg1 unit.Name) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByUnitName(ctx context.Context, unitName unit.Name) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByUnitName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByUnitName", ctx, unitName)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByUnitName indicates an expected call of GetApplicationIDByUnitName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByUnitName(arg0, arg1 any) *MockApplicationServiceGetApplicationIDByUnitNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByUnitName(ctx, unitName any) *MockApplicationServiceGetApplicationIDByUnitNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByUnitName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByUnitName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByUnitName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByUnitName), ctx, unitName)
 	return &MockApplicationServiceGetApplicationIDByUnitNameCall{Call: call}
 }
 
@@ -124,6 +125,7 @@ func (c *MockApplicationServiceGetApplicationIDByUnitNameCall) DoAndReturn(f fun
 type MockResourceService struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceServiceMockRecorder is the mock recorder for MockResourceService.
@@ -144,18 +146,18 @@ func (m *MockResourceService) EXPECT() *MockResourceServiceMockRecorder {
 }
 
 // GetResourcesByApplicationID mocks base method.
-func (m *MockResourceService) GetResourcesByApplicationID(arg0 context.Context, arg1 application.ID) ([]resource.Resource, error) {
+func (m *MockResourceService) GetResourcesByApplicationID(ctx context.Context, applicationID application.ID) ([]resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResourcesByApplicationID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetResourcesByApplicationID", ctx, applicationID)
 	ret0, _ := ret[0].([]resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetResourcesByApplicationID indicates an expected call of GetResourcesByApplicationID.
-func (mr *MockResourceServiceMockRecorder) GetResourcesByApplicationID(arg0, arg1 any) *MockResourceServiceGetResourcesByApplicationIDCall {
+func (mr *MockResourceServiceMockRecorder) GetResourcesByApplicationID(ctx, applicationID any) *MockResourceServiceGetResourcesByApplicationIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourcesByApplicationID", reflect.TypeOf((*MockResourceService)(nil).GetResourcesByApplicationID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourcesByApplicationID", reflect.TypeOf((*MockResourceService)(nil).GetResourcesByApplicationID), ctx, applicationID)
 	return &MockResourceServiceGetResourcesByApplicationIDCall{Call: call}
 }
 

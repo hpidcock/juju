@@ -63,6 +63,7 @@ import (
 type MockDomainServices struct {
 	ctrl     *gomock.Controller
 	recorder *MockDomainServicesMockRecorder
+	isgomock struct{}
 }
 
 // MockDomainServicesMockRecorder is the mock recorder for MockDomainServices.
@@ -1834,6 +1835,7 @@ func (c *MockDomainServicesUpgradeCall) DoAndReturn(f func() *service38.Watchabl
 type MockDomainServicesGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockDomainServicesGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockDomainServicesGetterMockRecorder is the mock recorder for MockDomainServicesGetter.
@@ -1854,18 +1856,18 @@ func (m *MockDomainServicesGetter) EXPECT() *MockDomainServicesGetterMockRecorde
 }
 
 // ServicesForModel mocks base method.
-func (m *MockDomainServicesGetter) ServicesForModel(arg0 context.Context, arg1 model.UUID) (services.DomainServices, error) {
+func (m *MockDomainServicesGetter) ServicesForModel(ctx context.Context, modelID model.UUID) (services.DomainServices, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ServicesForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ServicesForModel", ctx, modelID)
 	ret0, _ := ret[0].(services.DomainServices)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ServicesForModel indicates an expected call of ServicesForModel.
-func (mr *MockDomainServicesGetterMockRecorder) ServicesForModel(arg0, arg1 any) *MockDomainServicesGetterServicesForModelCall {
+func (mr *MockDomainServicesGetterMockRecorder) ServicesForModel(ctx, modelID any) *MockDomainServicesGetterServicesForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServicesForModel", reflect.TypeOf((*MockDomainServicesGetter)(nil).ServicesForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServicesForModel", reflect.TypeOf((*MockDomainServicesGetter)(nil).ServicesForModel), ctx, modelID)
 	return &MockDomainServicesGetterServicesForModelCall{Call: call}
 }
 

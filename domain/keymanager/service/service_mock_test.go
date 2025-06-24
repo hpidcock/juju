@@ -25,6 +25,7 @@ import (
 type MockPublicKeyImporter struct {
 	ctrl     *gomock.Controller
 	recorder *MockPublicKeyImporterMockRecorder
+	isgomock struct{}
 }
 
 // MockPublicKeyImporterMockRecorder is the mock recorder for MockPublicKeyImporter.
@@ -87,6 +88,7 @@ func (c *MockPublicKeyImporterFetchPublicKeysForSubjectCall) DoAndReturn(f func(
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.

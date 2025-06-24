@@ -21,6 +21,7 @@ import (
 type MockModelDefaultsProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelDefaultsProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockModelDefaultsProviderMockRecorder is the mock recorder for MockModelDefaultsProvider.

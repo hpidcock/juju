@@ -24,6 +24,7 @@ import (
 type MockSecretBackendState struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretBackendStateMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretBackendStateMockRecorder is the mock recorder for MockSecretBackendState.
@@ -44,18 +45,18 @@ func (m *MockSecretBackendState) EXPECT() *MockSecretBackendStateMockRecorder {
 }
 
 // AddSecretBackendReference mocks base method.
-func (m *MockSecretBackendState) AddSecretBackendReference(arg0 context.Context, arg1 *secrets.ValueRef, arg2 model.UUID, arg3 string) (func() error, error) {
+func (m *MockSecretBackendState) AddSecretBackendReference(ctx context.Context, valueRef *secrets.ValueRef, modelID model.UUID, revisionID string) (func() error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddSecretBackendReference", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "AddSecretBackendReference", ctx, valueRef, modelID, revisionID)
 	ret0, _ := ret[0].(func() error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddSecretBackendReference indicates an expected call of AddSecretBackendReference.
-func (mr *MockSecretBackendStateMockRecorder) AddSecretBackendReference(arg0, arg1, arg2, arg3 any) *MockSecretBackendStateAddSecretBackendReferenceCall {
+func (mr *MockSecretBackendStateMockRecorder) AddSecretBackendReference(ctx, valueRef, modelID, revisionID any) *MockSecretBackendStateAddSecretBackendReferenceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSecretBackendReference", reflect.TypeOf((*MockSecretBackendState)(nil).AddSecretBackendReference), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSecretBackendReference", reflect.TypeOf((*MockSecretBackendState)(nil).AddSecretBackendReference), ctx, valueRef, modelID, revisionID)
 	return &MockSecretBackendStateAddSecretBackendReferenceCall{Call: call}
 }
 
@@ -83,9 +84,9 @@ func (c *MockSecretBackendStateAddSecretBackendReferenceCall) DoAndReturn(f func
 }
 
 // GetActiveModelSecretBackend mocks base method.
-func (m *MockSecretBackendState) GetActiveModelSecretBackend(arg0 context.Context, arg1 model.UUID) (string, *provider.ModelBackendConfig, error) {
+func (m *MockSecretBackendState) GetActiveModelSecretBackend(ctx context.Context, modelUUID model.UUID) (string, *provider.ModelBackendConfig, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetActiveModelSecretBackend", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetActiveModelSecretBackend", ctx, modelUUID)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(*provider.ModelBackendConfig)
 	ret2, _ := ret[2].(error)
@@ -93,9 +94,9 @@ func (m *MockSecretBackendState) GetActiveModelSecretBackend(arg0 context.Contex
 }
 
 // GetActiveModelSecretBackend indicates an expected call of GetActiveModelSecretBackend.
-func (mr *MockSecretBackendStateMockRecorder) GetActiveModelSecretBackend(arg0, arg1 any) *MockSecretBackendStateGetActiveModelSecretBackendCall {
+func (mr *MockSecretBackendStateMockRecorder) GetActiveModelSecretBackend(ctx, modelUUID any) *MockSecretBackendStateGetActiveModelSecretBackendCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActiveModelSecretBackend", reflect.TypeOf((*MockSecretBackendState)(nil).GetActiveModelSecretBackend), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActiveModelSecretBackend", reflect.TypeOf((*MockSecretBackendState)(nil).GetActiveModelSecretBackend), ctx, modelUUID)
 	return &MockSecretBackendStateGetActiveModelSecretBackendCall{Call: call}
 }
 
@@ -123,18 +124,18 @@ func (c *MockSecretBackendStateGetActiveModelSecretBackendCall) DoAndReturn(f fu
 }
 
 // GetModelSecretBackendDetails mocks base method.
-func (m *MockSecretBackendState) GetModelSecretBackendDetails(arg0 context.Context, arg1 model.UUID) (secretbackend.ModelSecretBackend, error) {
+func (m *MockSecretBackendState) GetModelSecretBackendDetails(ctx context.Context, modelUUID model.UUID) (secretbackend.ModelSecretBackend, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelSecretBackendDetails", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetModelSecretBackendDetails", ctx, modelUUID)
 	ret0, _ := ret[0].(secretbackend.ModelSecretBackend)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelSecretBackendDetails indicates an expected call of GetModelSecretBackendDetails.
-func (mr *MockSecretBackendStateMockRecorder) GetModelSecretBackendDetails(arg0, arg1 any) *MockSecretBackendStateGetModelSecretBackendDetailsCall {
+func (mr *MockSecretBackendStateMockRecorder) GetModelSecretBackendDetails(ctx, modelUUID any) *MockSecretBackendStateGetModelSecretBackendDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelSecretBackendDetails", reflect.TypeOf((*MockSecretBackendState)(nil).GetModelSecretBackendDetails), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelSecretBackendDetails", reflect.TypeOf((*MockSecretBackendState)(nil).GetModelSecretBackendDetails), ctx, modelUUID)
 	return &MockSecretBackendStateGetModelSecretBackendDetailsCall{Call: call}
 }
 
@@ -162,18 +163,18 @@ func (c *MockSecretBackendStateGetModelSecretBackendDetailsCall) DoAndReturn(f f
 }
 
 // ListSecretBackendsForModel mocks base method.
-func (m *MockSecretBackendState) ListSecretBackendsForModel(arg0 context.Context, arg1 model.UUID, arg2 bool) ([]*secretbackend.SecretBackend, error) {
+func (m *MockSecretBackendState) ListSecretBackendsForModel(ctx context.Context, modelUUID model.UUID, includeEmpty bool) ([]*secretbackend.SecretBackend, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListSecretBackendsForModel", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListSecretBackendsForModel", ctx, modelUUID, includeEmpty)
 	ret0, _ := ret[0].([]*secretbackend.SecretBackend)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListSecretBackendsForModel indicates an expected call of ListSecretBackendsForModel.
-func (mr *MockSecretBackendStateMockRecorder) ListSecretBackendsForModel(arg0, arg1, arg2 any) *MockSecretBackendStateListSecretBackendsForModelCall {
+func (mr *MockSecretBackendStateMockRecorder) ListSecretBackendsForModel(ctx, modelUUID, includeEmpty any) *MockSecretBackendStateListSecretBackendsForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSecretBackendsForModel", reflect.TypeOf((*MockSecretBackendState)(nil).ListSecretBackendsForModel), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSecretBackendsForModel", reflect.TypeOf((*MockSecretBackendState)(nil).ListSecretBackendsForModel), ctx, modelUUID, includeEmpty)
 	return &MockSecretBackendStateListSecretBackendsForModelCall{Call: call}
 }
 
@@ -201,10 +202,10 @@ func (c *MockSecretBackendStateListSecretBackendsForModelCall) DoAndReturn(f fun
 }
 
 // RemoveSecretBackendReference mocks base method.
-func (m *MockSecretBackendState) RemoveSecretBackendReference(arg0 context.Context, arg1 ...string) error {
+func (m *MockSecretBackendState) RemoveSecretBackendReference(ctx context.Context, revisionIDs ...string) error {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range revisionIDs {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RemoveSecretBackendReference", varargs...)
@@ -213,9 +214,9 @@ func (m *MockSecretBackendState) RemoveSecretBackendReference(arg0 context.Conte
 }
 
 // RemoveSecretBackendReference indicates an expected call of RemoveSecretBackendReference.
-func (mr *MockSecretBackendStateMockRecorder) RemoveSecretBackendReference(arg0 any, arg1 ...any) *MockSecretBackendStateRemoveSecretBackendReferenceCall {
+func (mr *MockSecretBackendStateMockRecorder) RemoveSecretBackendReference(ctx any, revisionIDs ...any) *MockSecretBackendStateRemoveSecretBackendReferenceCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, revisionIDs...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSecretBackendReference", reflect.TypeOf((*MockSecretBackendState)(nil).RemoveSecretBackendReference), varargs...)
 	return &MockSecretBackendStateRemoveSecretBackendReferenceCall{Call: call}
 }
@@ -244,18 +245,18 @@ func (c *MockSecretBackendStateRemoveSecretBackendReferenceCall) DoAndReturn(f f
 }
 
 // UpdateSecretBackendReference mocks base method.
-func (m *MockSecretBackendState) UpdateSecretBackendReference(arg0 context.Context, arg1 *secrets.ValueRef, arg2 model.UUID, arg3 string) (func() error, error) {
+func (m *MockSecretBackendState) UpdateSecretBackendReference(ctx context.Context, valueRef *secrets.ValueRef, modelID model.UUID, revisionID string) (func() error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateSecretBackendReference", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateSecretBackendReference", ctx, valueRef, modelID, revisionID)
 	ret0, _ := ret[0].(func() error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateSecretBackendReference indicates an expected call of UpdateSecretBackendReference.
-func (mr *MockSecretBackendStateMockRecorder) UpdateSecretBackendReference(arg0, arg1, arg2, arg3 any) *MockSecretBackendStateUpdateSecretBackendReferenceCall {
+func (mr *MockSecretBackendStateMockRecorder) UpdateSecretBackendReference(ctx, valueRef, modelID, revisionID any) *MockSecretBackendStateUpdateSecretBackendReferenceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSecretBackendReference", reflect.TypeOf((*MockSecretBackendState)(nil).UpdateSecretBackendReference), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSecretBackendReference", reflect.TypeOf((*MockSecretBackendState)(nil).UpdateSecretBackendReference), ctx, valueRef, modelID, revisionID)
 	return &MockSecretBackendStateUpdateSecretBackendReferenceCall{Call: call}
 }
 

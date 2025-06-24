@@ -24,6 +24,7 @@ import (
 type MockDBGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockDBGetterMockRecorder is the mock recorder for MockDBGetter.
@@ -44,18 +45,18 @@ func (m *MockDBGetter) EXPECT() *MockDBGetterMockRecorder {
 }
 
 // GetDB mocks base method.
-func (m *MockDBGetter) GetDB(arg0 string) (database.TxnRunner, error) {
+func (m *MockDBGetter) GetDB(namespace string) (database.TxnRunner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDB", arg0)
+	ret := m.ctrl.Call(m, "GetDB", namespace)
 	ret0, _ := ret[0].(database.TxnRunner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDB indicates an expected call of GetDB.
-func (mr *MockDBGetterMockRecorder) GetDB(arg0 any) *MockDBGetterGetDBCall {
+func (mr *MockDBGetterMockRecorder) GetDB(namespace any) *MockDBGetterGetDBCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDB", reflect.TypeOf((*MockDBGetter)(nil).GetDB), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDB", reflect.TypeOf((*MockDBGetter)(nil).GetDB), namespace)
 	return &MockDBGetterGetDBCall{Call: call}
 }
 
@@ -86,6 +87,7 @@ func (c *MockDBGetterGetDBCall) DoAndReturn(f func(string) (database.TxnRunner, 
 type MockWatchableDBWorker struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatchableDBWorkerMockRecorder
+	isgomock struct{}
 }
 
 // MockWatchableDBWorkerMockRecorder is the mock recorder for MockWatchableDBWorker.
@@ -180,10 +182,10 @@ func (c *MockWatchableDBWorkerStdTxnCall) DoAndReturn(f func(context.Context, fu
 }
 
 // Subscribe mocks base method.
-func (m *MockWatchableDBWorker) Subscribe(arg0 ...changestream.SubscriptionOption) (changestream.Subscription, error) {
+func (m *MockWatchableDBWorker) Subscribe(opts ...changestream.SubscriptionOption) (changestream.Subscription, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Subscribe", varargs...)
@@ -193,9 +195,9 @@ func (m *MockWatchableDBWorker) Subscribe(arg0 ...changestream.SubscriptionOptio
 }
 
 // Subscribe indicates an expected call of Subscribe.
-func (mr *MockWatchableDBWorkerMockRecorder) Subscribe(arg0 ...any) *MockWatchableDBWorkerSubscribeCall {
+func (mr *MockWatchableDBWorkerMockRecorder) Subscribe(opts ...any) *MockWatchableDBWorkerSubscribeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subscribe", reflect.TypeOf((*MockWatchableDBWorker)(nil).Subscribe), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subscribe", reflect.TypeOf((*MockWatchableDBWorker)(nil).Subscribe), opts...)
 	return &MockWatchableDBWorkerSubscribeCall{Call: call}
 }
 
@@ -302,6 +304,7 @@ func (c *MockWatchableDBWorkerWaitCall) DoAndReturn(f func() error) *MockWatchab
 type MockFileNotifyWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileNotifyWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockFileNotifyWatcherMockRecorder is the mock recorder for MockFileNotifyWatcher.
@@ -322,18 +325,18 @@ func (m *MockFileNotifyWatcher) EXPECT() *MockFileNotifyWatcherMockRecorder {
 }
 
 // Changes mocks base method.
-func (m *MockFileNotifyWatcher) Changes(arg0 string) (<-chan bool, error) {
+func (m *MockFileNotifyWatcher) Changes(fileName string) (<-chan bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Changes", arg0)
+	ret := m.ctrl.Call(m, "Changes", fileName)
 	ret0, _ := ret[0].(<-chan bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockFileNotifyWatcherMockRecorder) Changes(arg0 any) *MockFileNotifyWatcherChangesCall {
+func (mr *MockFileNotifyWatcherMockRecorder) Changes(fileName any) *MockFileNotifyWatcherChangesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockFileNotifyWatcher)(nil).Changes), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockFileNotifyWatcher)(nil).Changes), fileName)
 	return &MockFileNotifyWatcherChangesCall{Call: call}
 }
 

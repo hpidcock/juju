@@ -20,6 +20,7 @@ import (
 type MockCAASBroker struct {
 	ctrl     *gomock.Controller
 	recorder *MockCAASBrokerMockRecorder
+	isgomock struct{}
 }
 
 // MockCAASBrokerMockRecorder is the mock recorder for MockCAASBroker.
@@ -81,6 +82,7 @@ func (c *MockCAASBrokerApplicationCall) DoAndReturn(f func(string, caas.Deployme
 type MockPortMutator struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortMutatorMockRecorder
+	isgomock struct{}
 }
 
 // MockPortMutatorMockRecorder is the mock recorder for MockPortMutator.
@@ -101,17 +103,17 @@ func (m *MockPortMutator) EXPECT() *MockPortMutatorMockRecorder {
 }
 
 // UpdatePorts mocks base method.
-func (m *MockPortMutator) UpdatePorts(arg0 []caas.ServicePort, arg1 bool) error {
+func (m *MockPortMutator) UpdatePorts(ports []caas.ServicePort, updateContainerPorts bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdatePorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdatePorts", ports, updateContainerPorts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdatePorts indicates an expected call of UpdatePorts.
-func (mr *MockPortMutatorMockRecorder) UpdatePorts(arg0, arg1 any) *MockPortMutatorUpdatePortsCall {
+func (mr *MockPortMutatorMockRecorder) UpdatePorts(ports, updateContainerPorts any) *MockPortMutatorUpdatePortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePorts", reflect.TypeOf((*MockPortMutator)(nil).UpdatePorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePorts", reflect.TypeOf((*MockPortMutator)(nil).UpdatePorts), ports, updateContainerPorts)
 	return &MockPortMutatorUpdatePortsCall{Call: call}
 }
 
@@ -142,6 +144,7 @@ func (c *MockPortMutatorUpdatePortsCall) DoAndReturn(f func([]caas.ServicePort, 
 type MockServiceUpdater struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceUpdaterMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceUpdaterMockRecorder is the mock recorder for MockServiceUpdater.

@@ -19,6 +19,7 @@ import (
 type MockMetricsCollector struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetricsCollectorMockRecorder
+	isgomock struct{}
 }
 
 // MockMetricsCollectorMockRecorder is the mock recorder for MockMetricsCollector.
@@ -39,15 +40,15 @@ func (m *MockMetricsCollector) EXPECT() *MockMetricsCollectorMockRecorder {
 }
 
 // ChangesCountObserve mocks base method.
-func (m *MockMetricsCollector) ChangesCountObserve(arg0 int) {
+func (m *MockMetricsCollector) ChangesCountObserve(val int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "ChangesCountObserve", arg0)
+	m.ctrl.Call(m, "ChangesCountObserve", val)
 }
 
 // ChangesCountObserve indicates an expected call of ChangesCountObserve.
-func (mr *MockMetricsCollectorMockRecorder) ChangesCountObserve(arg0 any) *MockMetricsCollectorChangesCountObserveCall {
+func (mr *MockMetricsCollectorMockRecorder) ChangesCountObserve(val any) *MockMetricsCollectorChangesCountObserveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangesCountObserve", reflect.TypeOf((*MockMetricsCollector)(nil).ChangesCountObserve), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangesCountObserve", reflect.TypeOf((*MockMetricsCollector)(nil).ChangesCountObserve), val)
 	return &MockMetricsCollectorChangesCountObserveCall{Call: call}
 }
 
@@ -75,15 +76,15 @@ func (c *MockMetricsCollectorChangesCountObserveCall) DoAndReturn(f func(int)) *
 }
 
 // ChangesRequestDurationObserve mocks base method.
-func (m *MockMetricsCollector) ChangesRequestDurationObserve(arg0 float64) {
+func (m *MockMetricsCollector) ChangesRequestDurationObserve(val float64) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "ChangesRequestDurationObserve", arg0)
+	m.ctrl.Call(m, "ChangesRequestDurationObserve", val)
 }
 
 // ChangesRequestDurationObserve indicates an expected call of ChangesRequestDurationObserve.
-func (mr *MockMetricsCollectorMockRecorder) ChangesRequestDurationObserve(arg0 any) *MockMetricsCollectorChangesRequestDurationObserveCall {
+func (mr *MockMetricsCollectorMockRecorder) ChangesRequestDurationObserve(val any) *MockMetricsCollectorChangesRequestDurationObserveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangesRequestDurationObserve", reflect.TypeOf((*MockMetricsCollector)(nil).ChangesRequestDurationObserve), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangesRequestDurationObserve", reflect.TypeOf((*MockMetricsCollector)(nil).ChangesRequestDurationObserve), val)
 	return &MockMetricsCollectorChangesRequestDurationObserveCall{Call: call}
 }
 

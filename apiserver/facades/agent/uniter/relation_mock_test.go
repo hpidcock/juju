@@ -20,6 +20,7 @@ import (
 type MockRelationUnitsWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockRelationUnitsWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockRelationUnitsWatcherMockRecorder is the mock recorder for MockRelationUnitsWatcher.

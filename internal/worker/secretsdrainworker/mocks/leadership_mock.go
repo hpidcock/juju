@@ -22,6 +22,7 @@ import (
 type MockTrackerWorker struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackerWorkerMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackerWorkerMockRecorder is the mock recorder for MockTrackerWorker.
@@ -138,15 +139,15 @@ func (mr *MockTrackerWorkerMockRecorder) WaitMinion() *gomock.Call {
 }
 
 // WithStableLeadership mocks base method.
-func (m *MockTrackerWorker) WithStableLeadership(arg0 context.Context, arg1 func(context.Context) error) error {
+func (m *MockTrackerWorker) WithStableLeadership(ctx context.Context, fn func(context.Context) error) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WithStableLeadership", arg0, arg1)
+	ret := m.ctrl.Call(m, "WithStableLeadership", ctx, fn)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WithStableLeadership indicates an expected call of WithStableLeadership.
-func (mr *MockTrackerWorkerMockRecorder) WithStableLeadership(arg0, arg1 any) *gomock.Call {
+func (mr *MockTrackerWorkerMockRecorder) WithStableLeadership(ctx, fn any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithStableLeadership", reflect.TypeOf((*MockTrackerWorker)(nil).WithStableLeadership), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithStableLeadership", reflect.TypeOf((*MockTrackerWorker)(nil).WithStableLeadership), ctx, fn)
 }

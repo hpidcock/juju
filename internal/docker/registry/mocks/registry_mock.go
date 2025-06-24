@@ -22,6 +22,7 @@ import (
 type MockRegistry struct {
 	ctrl     *gomock.Controller
 	recorder *MockRegistryMockRecorder
+	isgomock struct{}
 }
 
 // MockRegistryMockRecorder is the mock recorder for MockRegistry.
@@ -80,18 +81,18 @@ func (c *MockRegistryCloseCall) DoAndReturn(f func() error) *MockRegistryCloseCa
 }
 
 // GetArchitectures mocks base method.
-func (m *MockRegistry) GetArchitectures(arg0, arg1 string) ([]string, error) {
+func (m *MockRegistry) GetArchitectures(imageName, tag string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetArchitectures", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetArchitectures", imageName, tag)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetArchitectures indicates an expected call of GetArchitectures.
-func (mr *MockRegistryMockRecorder) GetArchitectures(arg0, arg1 any) *MockRegistryGetArchitecturesCall {
+func (mr *MockRegistryMockRecorder) GetArchitectures(imageName, tag any) *MockRegistryGetArchitecturesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArchitectures", reflect.TypeOf((*MockRegistry)(nil).GetArchitectures), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArchitectures", reflect.TypeOf((*MockRegistry)(nil).GetArchitectures), imageName, tag)
 	return &MockRegistryGetArchitecturesCall{Call: call}
 }
 

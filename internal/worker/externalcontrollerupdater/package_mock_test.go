@@ -23,6 +23,7 @@ import (
 type MockExternalControllerWatcherClientCloser struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalControllerWatcherClientCloserMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalControllerWatcherClientCloserMockRecorder is the mock recorder for MockExternalControllerWatcherClientCloser.
@@ -81,18 +82,18 @@ func (c *MockExternalControllerWatcherClientCloserCloseCall) DoAndReturn(f func(
 }
 
 // ControllerInfo mocks base method.
-func (m *MockExternalControllerWatcherClientCloser) ControllerInfo(arg0 context.Context) (*crosscontroller.ControllerInfo, error) {
+func (m *MockExternalControllerWatcherClientCloser) ControllerInfo(ctx context.Context) (*crosscontroller.ControllerInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerInfo", arg0)
+	ret := m.ctrl.Call(m, "ControllerInfo", ctx)
 	ret0, _ := ret[0].(*crosscontroller.ControllerInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerInfo indicates an expected call of ControllerInfo.
-func (mr *MockExternalControllerWatcherClientCloserMockRecorder) ControllerInfo(arg0 any) *MockExternalControllerWatcherClientCloserControllerInfoCall {
+func (mr *MockExternalControllerWatcherClientCloserMockRecorder) ControllerInfo(ctx any) *MockExternalControllerWatcherClientCloserControllerInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerInfo", reflect.TypeOf((*MockExternalControllerWatcherClientCloser)(nil).ControllerInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerInfo", reflect.TypeOf((*MockExternalControllerWatcherClientCloser)(nil).ControllerInfo), ctx)
 	return &MockExternalControllerWatcherClientCloserControllerInfoCall{Call: call}
 }
 
@@ -120,18 +121,18 @@ func (c *MockExternalControllerWatcherClientCloserControllerInfoCall) DoAndRetur
 }
 
 // WatchControllerInfo mocks base method.
-func (m *MockExternalControllerWatcherClientCloser) WatchControllerInfo(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockExternalControllerWatcherClientCloser) WatchControllerInfo(ctx context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchControllerInfo", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchControllerInfo", ctx)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchControllerInfo indicates an expected call of WatchControllerInfo.
-func (mr *MockExternalControllerWatcherClientCloserMockRecorder) WatchControllerInfo(arg0 any) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
+func (mr *MockExternalControllerWatcherClientCloserMockRecorder) WatchControllerInfo(ctx any) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchControllerInfo", reflect.TypeOf((*MockExternalControllerWatcherClientCloser)(nil).WatchControllerInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchControllerInfo", reflect.TypeOf((*MockExternalControllerWatcherClientCloser)(nil).WatchControllerInfo), ctx)
 	return &MockExternalControllerWatcherClientCloserWatchControllerInfoCall{Call: call}
 }
 
@@ -141,19 +142,19 @@ type MockExternalControllerWatcherClientCloserWatchControllerInfoCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
+func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
+func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
+func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockExternalControllerWatcherClientCloserWatchControllerInfoCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -162,6 +163,7 @@ func (c *MockExternalControllerWatcherClientCloserWatchControllerInfoCall) DoAnd
 type MockExternalControllerUpdaterClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalControllerUpdaterClientMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalControllerUpdaterClientMockRecorder is the mock recorder for MockExternalControllerUpdaterClient.
@@ -182,18 +184,18 @@ func (m *MockExternalControllerUpdaterClient) EXPECT() *MockExternalControllerUp
 }
 
 // ExternalControllerInfo mocks base method.
-func (m *MockExternalControllerUpdaterClient) ExternalControllerInfo(arg0 context.Context, arg1 string) (*crossmodel.ControllerInfo, error) {
+func (m *MockExternalControllerUpdaterClient) ExternalControllerInfo(ctx context.Context, controllerUUID string) (*crossmodel.ControllerInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExternalControllerInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "ExternalControllerInfo", ctx, controllerUUID)
 	ret0, _ := ret[0].(*crossmodel.ControllerInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExternalControllerInfo indicates an expected call of ExternalControllerInfo.
-func (mr *MockExternalControllerUpdaterClientMockRecorder) ExternalControllerInfo(arg0, arg1 any) *MockExternalControllerUpdaterClientExternalControllerInfoCall {
+func (mr *MockExternalControllerUpdaterClientMockRecorder) ExternalControllerInfo(ctx, controllerUUID any) *MockExternalControllerUpdaterClientExternalControllerInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExternalControllerInfo", reflect.TypeOf((*MockExternalControllerUpdaterClient)(nil).ExternalControllerInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExternalControllerInfo", reflect.TypeOf((*MockExternalControllerUpdaterClient)(nil).ExternalControllerInfo), ctx, controllerUUID)
 	return &MockExternalControllerUpdaterClientExternalControllerInfoCall{Call: call}
 }
 
@@ -259,18 +261,18 @@ func (c *MockExternalControllerUpdaterClientSetExternalControllerInfoCall) DoAnd
 }
 
 // WatchExternalControllers mocks base method.
-func (m *MockExternalControllerUpdaterClient) WatchExternalControllers(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockExternalControllerUpdaterClient) WatchExternalControllers(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchExternalControllers", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchExternalControllers", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchExternalControllers indicates an expected call of WatchExternalControllers.
-func (mr *MockExternalControllerUpdaterClientMockRecorder) WatchExternalControllers(arg0 any) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
+func (mr *MockExternalControllerUpdaterClientMockRecorder) WatchExternalControllers(ctx any) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchExternalControllers", reflect.TypeOf((*MockExternalControllerUpdaterClient)(nil).WatchExternalControllers), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchExternalControllers", reflect.TypeOf((*MockExternalControllerUpdaterClient)(nil).WatchExternalControllers), ctx)
 	return &MockExternalControllerUpdaterClientWatchExternalControllersCall{Call: call}
 }
 
@@ -280,19 +282,19 @@ type MockExternalControllerUpdaterClientWatchExternalControllersCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
+func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
+func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
+func (c *MockExternalControllerUpdaterClientWatchExternalControllersCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockExternalControllerUpdaterClientWatchExternalControllersCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

@@ -22,6 +22,7 @@ import (
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -42,18 +43,18 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // AddSpace mocks base method.
-func (m *MockImportService) AddSpace(arg0 context.Context, arg1 network.SpaceInfo) (network.SpaceUUID, error) {
+func (m *MockImportService) AddSpace(ctx context.Context, space network.SpaceInfo) (network.SpaceUUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddSpace", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddSpace", ctx, space)
 	ret0, _ := ret[0].(network.SpaceUUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddSpace indicates an expected call of AddSpace.
-func (mr *MockImportServiceMockRecorder) AddSpace(arg0, arg1 any) *MockImportServiceAddSpaceCall {
+func (mr *MockImportServiceMockRecorder) AddSpace(ctx, space any) *MockImportServiceAddSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSpace", reflect.TypeOf((*MockImportService)(nil).AddSpace), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSpace", reflect.TypeOf((*MockImportService)(nil).AddSpace), ctx, space)
 	return &MockImportServiceAddSpaceCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockImportServiceAddSpaceCall) DoAndReturn(f func(context.Context, netw
 }
 
 // AddSubnet mocks base method.
-func (m *MockImportService) AddSubnet(arg0 context.Context, arg1 network.SubnetInfo) (network.Id, error) {
+func (m *MockImportService) AddSubnet(ctx context.Context, args network.SubnetInfo) (network.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddSubnet", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddSubnet", ctx, args)
 	ret0, _ := ret[0].(network.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddSubnet indicates an expected call of AddSubnet.
-func (mr *MockImportServiceMockRecorder) AddSubnet(arg0, arg1 any) *MockImportServiceAddSubnetCall {
+func (mr *MockImportServiceMockRecorder) AddSubnet(ctx, args any) *MockImportServiceAddSubnetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSubnet", reflect.TypeOf((*MockImportService)(nil).AddSubnet), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSubnet", reflect.TypeOf((*MockImportService)(nil).AddSubnet), ctx, args)
 	return &MockImportServiceAddSubnetCall{Call: call}
 }
 
@@ -120,18 +121,18 @@ func (c *MockImportServiceAddSubnetCall) DoAndReturn(f func(context.Context, net
 }
 
 // Space mocks base method.
-func (m *MockImportService) Space(arg0 context.Context, arg1 network.SpaceUUID) (*network.SpaceInfo, error) {
+func (m *MockImportService) Space(ctx context.Context, uuid network.SpaceUUID) (*network.SpaceInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Space", arg0, arg1)
+	ret := m.ctrl.Call(m, "Space", ctx, uuid)
 	ret0, _ := ret[0].(*network.SpaceInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Space indicates an expected call of Space.
-func (mr *MockImportServiceMockRecorder) Space(arg0, arg1 any) *MockImportServiceSpaceCall {
+func (mr *MockImportServiceMockRecorder) Space(ctx, uuid any) *MockImportServiceSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Space", reflect.TypeOf((*MockImportService)(nil).Space), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Space", reflect.TypeOf((*MockImportService)(nil).Space), ctx, uuid)
 	return &MockImportServiceSpaceCall{Call: call}
 }
 
@@ -162,6 +163,7 @@ func (c *MockImportServiceSpaceCall) DoAndReturn(f func(context.Context, network
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -182,18 +184,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockExportService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockExportService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockExportServiceMockRecorder) GetAllSpaces(arg0 any) *MockExportServiceGetAllSpacesCall {
+func (mr *MockExportServiceMockRecorder) GetAllSpaces(ctx any) *MockExportServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockExportService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockExportService)(nil).GetAllSpaces), ctx)
 	return &MockExportServiceGetAllSpacesCall{Call: call}
 }
 
@@ -221,18 +223,18 @@ func (c *MockExportServiceGetAllSpacesCall) DoAndReturn(f func(context.Context) 
 }
 
 // GetAllSubnets mocks base method.
-func (m *MockExportService) GetAllSubnets(arg0 context.Context) (network.SubnetInfos, error) {
+func (m *MockExportService) GetAllSubnets(ctx context.Context) (network.SubnetInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSubnets", arg0)
+	ret := m.ctrl.Call(m, "GetAllSubnets", ctx)
 	ret0, _ := ret[0].(network.SubnetInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSubnets indicates an expected call of GetAllSubnets.
-func (mr *MockExportServiceMockRecorder) GetAllSubnets(arg0 any) *MockExportServiceGetAllSubnetsCall {
+func (mr *MockExportServiceMockRecorder) GetAllSubnets(ctx any) *MockExportServiceGetAllSubnetsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSubnets", reflect.TypeOf((*MockExportService)(nil).GetAllSubnets), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSubnets", reflect.TypeOf((*MockExportService)(nil).GetAllSubnets), ctx)
 	return &MockExportServiceGetAllSubnetsCall{Call: call}
 }
 
@@ -263,6 +265,7 @@ func (c *MockExportServiceGetAllSubnetsCall) DoAndReturn(f func(context.Context)
 type MockMigrationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMigrationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMigrationServiceMockRecorder is the mock recorder for MockMigrationService.
@@ -283,17 +286,17 @@ func (m *MockMigrationService) EXPECT() *MockMigrationServiceMockRecorder {
 }
 
 // DeleteImportedLinkLayerDevices mocks base method.
-func (m *MockMigrationService) DeleteImportedLinkLayerDevices(arg0 context.Context) error {
+func (m *MockMigrationService) DeleteImportedLinkLayerDevices(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportedLinkLayerDevices", arg0)
+	ret := m.ctrl.Call(m, "DeleteImportedLinkLayerDevices", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteImportedLinkLayerDevices indicates an expected call of DeleteImportedLinkLayerDevices.
-func (mr *MockMigrationServiceMockRecorder) DeleteImportedLinkLayerDevices(arg0 any) *MockMigrationServiceDeleteImportedLinkLayerDevicesCall {
+func (mr *MockMigrationServiceMockRecorder) DeleteImportedLinkLayerDevices(ctx any) *MockMigrationServiceDeleteImportedLinkLayerDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedLinkLayerDevices", reflect.TypeOf((*MockMigrationService)(nil).DeleteImportedLinkLayerDevices), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedLinkLayerDevices", reflect.TypeOf((*MockMigrationService)(nil).DeleteImportedLinkLayerDevices), ctx)
 	return &MockMigrationServiceDeleteImportedLinkLayerDevicesCall{Call: call}
 }
 
@@ -321,17 +324,17 @@ func (c *MockMigrationServiceDeleteImportedLinkLayerDevicesCall) DoAndReturn(f f
 }
 
 // ImportLinkLayerDevices mocks base method.
-func (m *MockMigrationService) ImportLinkLayerDevices(arg0 context.Context, arg1 []internal.ImportLinkLayerDevice) error {
+func (m *MockMigrationService) ImportLinkLayerDevices(ctx context.Context, data []internal.ImportLinkLayerDevice) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportLinkLayerDevices", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportLinkLayerDevices", ctx, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportLinkLayerDevices indicates an expected call of ImportLinkLayerDevices.
-func (mr *MockMigrationServiceMockRecorder) ImportLinkLayerDevices(arg0, arg1 any) *MockMigrationServiceImportLinkLayerDevicesCall {
+func (mr *MockMigrationServiceMockRecorder) ImportLinkLayerDevices(ctx, data any) *MockMigrationServiceImportLinkLayerDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportLinkLayerDevices", reflect.TypeOf((*MockMigrationService)(nil).ImportLinkLayerDevices), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportLinkLayerDevices", reflect.TypeOf((*MockMigrationService)(nil).ImportLinkLayerDevices), ctx, data)
 	return &MockMigrationServiceImportLinkLayerDevicesCall{Call: call}
 }
 

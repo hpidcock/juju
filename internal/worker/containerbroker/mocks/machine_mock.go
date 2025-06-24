@@ -27,6 +27,7 @@ import (
 type MockMachineProvisioner struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineProvisionerMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineProvisionerMockRecorder is the mock recorder for MockMachineProvisioner.
@@ -47,18 +48,18 @@ func (m *MockMachineProvisioner) EXPECT() *MockMachineProvisionerMockRecorder {
 }
 
 // AvailabilityZone mocks base method.
-func (m *MockMachineProvisioner) AvailabilityZone(arg0 context.Context) (string, error) {
+func (m *MockMachineProvisioner) AvailabilityZone(ctx context.Context) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AvailabilityZone", arg0)
+	ret := m.ctrl.Call(m, "AvailabilityZone", ctx)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AvailabilityZone indicates an expected call of AvailabilityZone.
-func (mr *MockMachineProvisionerMockRecorder) AvailabilityZone(arg0 any) *MockMachineProvisionerAvailabilityZoneCall {
+func (mr *MockMachineProvisionerMockRecorder) AvailabilityZone(ctx any) *MockMachineProvisionerAvailabilityZoneCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AvailabilityZone", reflect.TypeOf((*MockMachineProvisioner)(nil).AvailabilityZone), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AvailabilityZone", reflect.TypeOf((*MockMachineProvisioner)(nil).AvailabilityZone), ctx)
 	return &MockMachineProvisionerAvailabilityZoneCall{Call: call}
 }
 
@@ -86,18 +87,18 @@ func (c *MockMachineProvisionerAvailabilityZoneCall) DoAndReturn(f func(context.
 }
 
 // DistributionGroup mocks base method.
-func (m *MockMachineProvisioner) DistributionGroup(arg0 context.Context) ([]instance.Id, error) {
+func (m *MockMachineProvisioner) DistributionGroup(ctx context.Context) ([]instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DistributionGroup", arg0)
+	ret := m.ctrl.Call(m, "DistributionGroup", ctx)
 	ret0, _ := ret[0].([]instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DistributionGroup indicates an expected call of DistributionGroup.
-func (mr *MockMachineProvisionerMockRecorder) DistributionGroup(arg0 any) *MockMachineProvisionerDistributionGroupCall {
+func (mr *MockMachineProvisionerMockRecorder) DistributionGroup(ctx any) *MockMachineProvisionerDistributionGroupCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DistributionGroup", reflect.TypeOf((*MockMachineProvisioner)(nil).DistributionGroup), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DistributionGroup", reflect.TypeOf((*MockMachineProvisioner)(nil).DistributionGroup), ctx)
 	return &MockMachineProvisionerDistributionGroupCall{Call: call}
 }
 
@@ -125,17 +126,17 @@ func (c *MockMachineProvisionerDistributionGroupCall) DoAndReturn(f func(context
 }
 
 // EnsureDead mocks base method.
-func (m *MockMachineProvisioner) EnsureDead(arg0 context.Context) error {
+func (m *MockMachineProvisioner) EnsureDead(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureDead", arg0)
+	ret := m.ctrl.Call(m, "EnsureDead", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureDead indicates an expected call of EnsureDead.
-func (mr *MockMachineProvisionerMockRecorder) EnsureDead(arg0 any) *MockMachineProvisionerEnsureDeadCall {
+func (mr *MockMachineProvisionerMockRecorder) EnsureDead(ctx any) *MockMachineProvisionerEnsureDeadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureDead", reflect.TypeOf((*MockMachineProvisioner)(nil).EnsureDead), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureDead", reflect.TypeOf((*MockMachineProvisioner)(nil).EnsureDead), ctx)
 	return &MockMachineProvisionerEnsureDeadCall{Call: call}
 }
 
@@ -201,18 +202,18 @@ func (c *MockMachineProvisionerIdCall) DoAndReturn(f func() string) *MockMachine
 }
 
 // InstanceId mocks base method.
-func (m *MockMachineProvisioner) InstanceId(arg0 context.Context) (instance.Id, error) {
+func (m *MockMachineProvisioner) InstanceId(ctx context.Context) (instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InstanceId", arg0)
+	ret := m.ctrl.Call(m, "InstanceId", ctx)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // InstanceId indicates an expected call of InstanceId.
-func (mr *MockMachineProvisionerMockRecorder) InstanceId(arg0 any) *MockMachineProvisionerInstanceIdCall {
+func (mr *MockMachineProvisionerMockRecorder) InstanceId(ctx any) *MockMachineProvisionerInstanceIdCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceId", reflect.TypeOf((*MockMachineProvisioner)(nil).InstanceId), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceId", reflect.TypeOf((*MockMachineProvisioner)(nil).InstanceId), ctx)
 	return &MockMachineProvisionerInstanceIdCall{Call: call}
 }
 
@@ -240,9 +241,9 @@ func (c *MockMachineProvisionerInstanceIdCall) DoAndReturn(f func(context.Contex
 }
 
 // InstanceStatus mocks base method.
-func (m *MockMachineProvisioner) InstanceStatus(arg0 context.Context) (status.Status, string, error) {
+func (m *MockMachineProvisioner) InstanceStatus(ctx context.Context) (status.Status, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InstanceStatus", arg0)
+	ret := m.ctrl.Call(m, "InstanceStatus", ctx)
 	ret0, _ := ret[0].(status.Status)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -250,9 +251,9 @@ func (m *MockMachineProvisioner) InstanceStatus(arg0 context.Context) (status.St
 }
 
 // InstanceStatus indicates an expected call of InstanceStatus.
-func (mr *MockMachineProvisionerMockRecorder) InstanceStatus(arg0 any) *MockMachineProvisionerInstanceStatusCall {
+func (mr *MockMachineProvisionerMockRecorder) InstanceStatus(ctx any) *MockMachineProvisionerInstanceStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).InstanceStatus), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).InstanceStatus), ctx)
 	return &MockMachineProvisionerInstanceStatusCall{Call: call}
 }
 
@@ -280,18 +281,18 @@ func (c *MockMachineProvisionerInstanceStatusCall) DoAndReturn(f func(context.Co
 }
 
 // KeepInstance mocks base method.
-func (m *MockMachineProvisioner) KeepInstance(arg0 context.Context) (bool, error) {
+func (m *MockMachineProvisioner) KeepInstance(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "KeepInstance", arg0)
+	ret := m.ctrl.Call(m, "KeepInstance", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // KeepInstance indicates an expected call of KeepInstance.
-func (mr *MockMachineProvisionerMockRecorder) KeepInstance(arg0 any) *MockMachineProvisionerKeepInstanceCall {
+func (mr *MockMachineProvisionerMockRecorder) KeepInstance(ctx any) *MockMachineProvisionerKeepInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KeepInstance", reflect.TypeOf((*MockMachineProvisioner)(nil).KeepInstance), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KeepInstance", reflect.TypeOf((*MockMachineProvisioner)(nil).KeepInstance), ctx)
 	return &MockMachineProvisionerKeepInstanceCall{Call: call}
 }
 
@@ -395,17 +396,17 @@ func (c *MockMachineProvisionerMachineTagCall) DoAndReturn(f func() names.Machin
 }
 
 // MarkForRemoval mocks base method.
-func (m *MockMachineProvisioner) MarkForRemoval(arg0 context.Context) error {
+func (m *MockMachineProvisioner) MarkForRemoval(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MarkForRemoval", arg0)
+	ret := m.ctrl.Call(m, "MarkForRemoval", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // MarkForRemoval indicates an expected call of MarkForRemoval.
-func (mr *MockMachineProvisionerMockRecorder) MarkForRemoval(arg0 any) *MockMachineProvisionerMarkForRemovalCall {
+func (mr *MockMachineProvisionerMockRecorder) MarkForRemoval(ctx any) *MockMachineProvisionerMarkForRemovalCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkForRemoval", reflect.TypeOf((*MockMachineProvisioner)(nil).MarkForRemoval), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkForRemoval", reflect.TypeOf((*MockMachineProvisioner)(nil).MarkForRemoval), ctx)
 	return &MockMachineProvisionerMarkForRemovalCall{Call: call}
 }
 
@@ -433,18 +434,18 @@ func (c *MockMachineProvisionerMarkForRemovalCall) DoAndReturn(f func(context.Co
 }
 
 // ModelAgentVersion mocks base method.
-func (m *MockMachineProvisioner) ModelAgentVersion(arg0 context.Context) (*semversion.Number, error) {
+func (m *MockMachineProvisioner) ModelAgentVersion(ctx context.Context) (*semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelAgentVersion", arg0)
+	ret := m.ctrl.Call(m, "ModelAgentVersion", ctx)
 	ret0, _ := ret[0].(*semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelAgentVersion indicates an expected call of ModelAgentVersion.
-func (mr *MockMachineProvisionerMockRecorder) ModelAgentVersion(arg0 any) *MockMachineProvisionerModelAgentVersionCall {
+func (mr *MockMachineProvisionerMockRecorder) ModelAgentVersion(ctx any) *MockMachineProvisionerModelAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelAgentVersion", reflect.TypeOf((*MockMachineProvisioner)(nil).ModelAgentVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelAgentVersion", reflect.TypeOf((*MockMachineProvisioner)(nil).ModelAgentVersion), ctx)
 	return &MockMachineProvisionerModelAgentVersionCall{Call: call}
 }
 
@@ -510,17 +511,17 @@ func (c *MockMachineProvisionerRefreshCall) DoAndReturn(f func(context.Context) 
 }
 
 // Remove mocks base method.
-func (m *MockMachineProvisioner) Remove(arg0 context.Context) error {
+func (m *MockMachineProvisioner) Remove(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0)
+	ret := m.ctrl.Call(m, "Remove", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockMachineProvisionerMockRecorder) Remove(arg0 any) *MockMachineProvisionerRemoveCall {
+func (mr *MockMachineProvisionerMockRecorder) Remove(ctx any) *MockMachineProvisionerRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockMachineProvisioner)(nil).Remove), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockMachineProvisioner)(nil).Remove), ctx)
 	return &MockMachineProvisionerRemoveCall{Call: call}
 }
 
@@ -586,17 +587,17 @@ func (c *MockMachineProvisionerSetCharmProfilesCall) DoAndReturn(f func(context.
 }
 
 // SetInstanceInfo mocks base method.
-func (m *MockMachineProvisioner) SetInstanceInfo(arg0 context.Context, arg1 instance.Id, arg2, arg3 string, arg4 *instance.HardwareCharacteristics, arg5 []params.NetworkConfig, arg6 []params.Volume, arg7 map[string]params.VolumeAttachmentInfo, arg8 []string) error {
+func (m *MockMachineProvisioner) SetInstanceInfo(ctx context.Context, id instance.Id, displayName, nonce string, characteristics *instance.HardwareCharacteristics, networkConfig []params.NetworkConfig, volumes []params.Volume, volumeAttachments map[string]params.VolumeAttachmentInfo, charmProfiles []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetInstanceInfo", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	ret := m.ctrl.Call(m, "SetInstanceInfo", ctx, id, displayName, nonce, characteristics, networkConfig, volumes, volumeAttachments, charmProfiles)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetInstanceInfo indicates an expected call of SetInstanceInfo.
-func (mr *MockMachineProvisionerMockRecorder) SetInstanceInfo(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 any) *MockMachineProvisionerSetInstanceInfoCall {
+func (mr *MockMachineProvisionerMockRecorder) SetInstanceInfo(ctx, id, displayName, nonce, characteristics, networkConfig, volumes, volumeAttachments, charmProfiles any) *MockMachineProvisionerSetInstanceInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceInfo", reflect.TypeOf((*MockMachineProvisioner)(nil).SetInstanceInfo), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceInfo", reflect.TypeOf((*MockMachineProvisioner)(nil).SetInstanceInfo), ctx, id, displayName, nonce, characteristics, networkConfig, volumes, volumeAttachments, charmProfiles)
 	return &MockMachineProvisionerSetInstanceInfoCall{Call: call}
 }
 
@@ -624,17 +625,17 @@ func (c *MockMachineProvisionerSetInstanceInfoCall) DoAndReturn(f func(context.C
 }
 
 // SetInstanceStatus mocks base method.
-func (m *MockMachineProvisioner) SetInstanceStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockMachineProvisioner) SetInstanceStatus(ctx context.Context, arg1 status.Status, message string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetInstanceStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetInstanceStatus", ctx, arg1, message, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetInstanceStatus indicates an expected call of SetInstanceStatus.
-func (mr *MockMachineProvisionerMockRecorder) SetInstanceStatus(arg0, arg1, arg2, arg3 any) *MockMachineProvisionerSetInstanceStatusCall {
+func (mr *MockMachineProvisionerMockRecorder) SetInstanceStatus(ctx, arg1, message, data any) *MockMachineProvisionerSetInstanceStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetInstanceStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetInstanceStatus), ctx, arg1, message, data)
 	return &MockMachineProvisionerSetInstanceStatusCall{Call: call}
 }
 
@@ -662,17 +663,17 @@ func (c *MockMachineProvisionerSetInstanceStatusCall) DoAndReturn(f func(context
 }
 
 // SetModificationStatus mocks base method.
-func (m *MockMachineProvisioner) SetModificationStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockMachineProvisioner) SetModificationStatus(ctx context.Context, arg1 status.Status, message string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModificationStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetModificationStatus", ctx, arg1, message, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModificationStatus indicates an expected call of SetModificationStatus.
-func (mr *MockMachineProvisionerMockRecorder) SetModificationStatus(arg0, arg1, arg2, arg3 any) *MockMachineProvisionerSetModificationStatusCall {
+func (mr *MockMachineProvisionerMockRecorder) SetModificationStatus(ctx, arg1, message, data any) *MockMachineProvisionerSetModificationStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModificationStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetModificationStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModificationStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetModificationStatus), ctx, arg1, message, data)
 	return &MockMachineProvisionerSetModificationStatusCall{Call: call}
 }
 
@@ -700,17 +701,17 @@ func (c *MockMachineProvisionerSetModificationStatusCall) DoAndReturn(f func(con
 }
 
 // SetPassword mocks base method.
-func (m *MockMachineProvisioner) SetPassword(arg0 context.Context, arg1 string) error {
+func (m *MockMachineProvisioner) SetPassword(ctx context.Context, password string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetPassword", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetPassword", ctx, password)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetPassword indicates an expected call of SetPassword.
-func (mr *MockMachineProvisionerMockRecorder) SetPassword(arg0, arg1 any) *MockMachineProvisionerSetPasswordCall {
+func (mr *MockMachineProvisionerMockRecorder) SetPassword(ctx, password any) *MockMachineProvisionerSetPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockMachineProvisioner)(nil).SetPassword), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockMachineProvisioner)(nil).SetPassword), ctx, password)
 	return &MockMachineProvisionerSetPasswordCall{Call: call}
 }
 
@@ -738,17 +739,17 @@ func (c *MockMachineProvisionerSetPasswordCall) DoAndReturn(f func(context.Conte
 }
 
 // SetStatus mocks base method.
-func (m *MockMachineProvisioner) SetStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockMachineProvisioner) SetStatus(ctx context.Context, arg1 status.Status, info string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetStatus", ctx, arg1, info, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetStatus indicates an expected call of SetStatus.
-func (mr *MockMachineProvisionerMockRecorder) SetStatus(arg0, arg1, arg2, arg3 any) *MockMachineProvisionerSetStatusCall {
+func (mr *MockMachineProvisionerMockRecorder) SetStatus(ctx, arg1, info, data any) *MockMachineProvisionerSetStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockMachineProvisioner)(nil).SetStatus), ctx, arg1, info, data)
 	return &MockMachineProvisionerSetStatusCall{Call: call}
 }
 
@@ -776,10 +777,10 @@ func (c *MockMachineProvisionerSetStatusCall) DoAndReturn(f func(context.Context
 }
 
 // SetSupportedContainers mocks base method.
-func (m *MockMachineProvisioner) SetSupportedContainers(arg0 context.Context, arg1 ...instance.ContainerType) error {
+func (m *MockMachineProvisioner) SetSupportedContainers(ctx context.Context, containerTypes ...instance.ContainerType) error {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range containerTypes {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SetSupportedContainers", varargs...)
@@ -788,9 +789,9 @@ func (m *MockMachineProvisioner) SetSupportedContainers(arg0 context.Context, ar
 }
 
 // SetSupportedContainers indicates an expected call of SetSupportedContainers.
-func (mr *MockMachineProvisionerMockRecorder) SetSupportedContainers(arg0 any, arg1 ...any) *MockMachineProvisionerSetSupportedContainersCall {
+func (mr *MockMachineProvisionerMockRecorder) SetSupportedContainers(ctx any, containerTypes ...any) *MockMachineProvisionerSetSupportedContainersCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, containerTypes...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSupportedContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).SetSupportedContainers), varargs...)
 	return &MockMachineProvisionerSetSupportedContainersCall{Call: call}
 }
@@ -819,9 +820,9 @@ func (c *MockMachineProvisionerSetSupportedContainersCall) DoAndReturn(f func(co
 }
 
 // Status mocks base method.
-func (m *MockMachineProvisioner) Status(arg0 context.Context) (status.Status, string, error) {
+func (m *MockMachineProvisioner) Status(ctx context.Context) (status.Status, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Status", arg0)
+	ret := m.ctrl.Call(m, "Status", ctx)
 	ret0, _ := ret[0].(status.Status)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -829,9 +830,9 @@ func (m *MockMachineProvisioner) Status(arg0 context.Context) (status.Status, st
 }
 
 // Status indicates an expected call of Status.
-func (mr *MockMachineProvisionerMockRecorder) Status(arg0 any) *MockMachineProvisionerStatusCall {
+func (mr *MockMachineProvisionerMockRecorder) Status(ctx any) *MockMachineProvisionerStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockMachineProvisioner)(nil).Status), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockMachineProvisioner)(nil).Status), ctx)
 	return &MockMachineProvisionerStatusCall{Call: call}
 }
 
@@ -897,9 +898,9 @@ func (c *MockMachineProvisionerStringCall) DoAndReturn(f func() string) *MockMac
 }
 
 // SupportedContainers mocks base method.
-func (m *MockMachineProvisioner) SupportedContainers(arg0 context.Context) ([]instance.ContainerType, bool, error) {
+func (m *MockMachineProvisioner) SupportedContainers(ctx context.Context) ([]instance.ContainerType, bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportedContainers", arg0)
+	ret := m.ctrl.Call(m, "SupportedContainers", ctx)
 	ret0, _ := ret[0].([]instance.ContainerType)
 	ret1, _ := ret[1].(bool)
 	ret2, _ := ret[2].(error)
@@ -907,9 +908,9 @@ func (m *MockMachineProvisioner) SupportedContainers(arg0 context.Context) ([]in
 }
 
 // SupportedContainers indicates an expected call of SupportedContainers.
-func (mr *MockMachineProvisionerMockRecorder) SupportedContainers(arg0 any) *MockMachineProvisionerSupportedContainersCall {
+func (mr *MockMachineProvisionerMockRecorder) SupportedContainers(ctx any) *MockMachineProvisionerSupportedContainersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportedContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).SupportedContainers), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportedContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).SupportedContainers), ctx)
 	return &MockMachineProvisionerSupportedContainersCall{Call: call}
 }
 
@@ -937,17 +938,17 @@ func (c *MockMachineProvisionerSupportedContainersCall) DoAndReturn(f func(conte
 }
 
 // SupportsNoContainers mocks base method.
-func (m *MockMachineProvisioner) SupportsNoContainers(arg0 context.Context) error {
+func (m *MockMachineProvisioner) SupportsNoContainers(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportsNoContainers", arg0)
+	ret := m.ctrl.Call(m, "SupportsNoContainers", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SupportsNoContainers indicates an expected call of SupportsNoContainers.
-func (mr *MockMachineProvisionerMockRecorder) SupportsNoContainers(arg0 any) *MockMachineProvisionerSupportsNoContainersCall {
+func (mr *MockMachineProvisionerMockRecorder) SupportsNoContainers(ctx any) *MockMachineProvisionerSupportsNoContainersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsNoContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).SupportsNoContainers), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsNoContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).SupportsNoContainers), ctx)
 	return &MockMachineProvisionerSupportsNoContainersCall{Call: call}
 }
 
@@ -1013,18 +1014,18 @@ func (c *MockMachineProvisionerTagCall) DoAndReturn(f func() names.Tag) *MockMac
 }
 
 // WatchContainers mocks base method.
-func (m *MockMachineProvisioner) WatchContainers(arg0 context.Context, arg1 instance.ContainerType) (watcher.Watcher[[]string], error) {
+func (m *MockMachineProvisioner) WatchContainers(ctx context.Context, ctype instance.ContainerType) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchContainers", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchContainers", ctx, ctype)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchContainers indicates an expected call of WatchContainers.
-func (mr *MockMachineProvisionerMockRecorder) WatchContainers(arg0, arg1 any) *MockMachineProvisionerWatchContainersCall {
+func (mr *MockMachineProvisionerMockRecorder) WatchContainers(ctx, ctype any) *MockMachineProvisionerWatchContainersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).WatchContainers), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchContainers", reflect.TypeOf((*MockMachineProvisioner)(nil).WatchContainers), ctx, ctype)
 	return &MockMachineProvisionerWatchContainersCall{Call: call}
 }
 
@@ -1034,19 +1035,19 @@ type MockMachineProvisionerWatchContainersCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineProvisionerWatchContainersCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockMachineProvisionerWatchContainersCall {
+func (c *MockMachineProvisionerWatchContainersCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockMachineProvisionerWatchContainersCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachineProvisionerWatchContainersCall) Do(f func(context.Context, instance.ContainerType) (watcher.Watcher[[]string], error)) *MockMachineProvisionerWatchContainersCall {
+func (c *MockMachineProvisionerWatchContainersCall) Do(f func(context.Context, instance.ContainerType) (watcher.StringsWatcher, error)) *MockMachineProvisionerWatchContainersCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachineProvisionerWatchContainersCall) DoAndReturn(f func(context.Context, instance.ContainerType) (watcher.Watcher[[]string], error)) *MockMachineProvisionerWatchContainersCall {
+func (c *MockMachineProvisionerWatchContainersCall) DoAndReturn(f func(context.Context, instance.ContainerType) (watcher.StringsWatcher, error)) *MockMachineProvisionerWatchContainersCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

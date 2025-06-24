@@ -21,6 +21,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -41,18 +42,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // ControllerModelUUID mocks base method.
-func (m *MockState) ControllerModelUUID(arg0 context.Context) (model.UUID, error) {
+func (m *MockState) ControllerModelUUID(ctx context.Context) (model.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerModelUUID", arg0)
+	ret := m.ctrl.Call(m, "ControllerModelUUID", ctx)
 	ret0, _ := ret[0].(model.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerModelUUID indicates an expected call of ControllerModelUUID.
-func (mr *MockStateMockRecorder) ControllerModelUUID(arg0 any) *MockStateControllerModelUUIDCall {
+func (mr *MockStateMockRecorder) ControllerModelUUID(ctx any) *MockStateControllerModelUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerModelUUID", reflect.TypeOf((*MockState)(nil).ControllerModelUUID), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerModelUUID", reflect.TypeOf((*MockState)(nil).ControllerModelUUID), ctx)
 	return &MockStateControllerModelUUIDCall{Call: call}
 }
 

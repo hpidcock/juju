@@ -23,6 +23,7 @@ import (
 type MockNetworkService struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkServiceMockRecorder is the mock recorder for MockNetworkService.
@@ -43,18 +44,18 @@ func (m *MockNetworkService) EXPECT() *MockNetworkServiceMockRecorder {
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockNetworkService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockNetworkService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(arg0 any) *MockNetworkServiceGetAllSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(ctx any) *MockNetworkServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), ctx)
 	return &MockNetworkServiceGetAllSpacesCall{Call: call}
 }
 
@@ -85,6 +86,7 @@ func (c *MockNetworkServiceGetAllSpacesCall) DoAndReturn(f func(context.Context)
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -105,9 +107,9 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetCharm mocks base method.
-func (m *MockApplicationService) GetCharm(arg0 context.Context, arg1 charm.CharmLocator) (charm0.Charm, charm.CharmLocator, bool, error) {
+func (m *MockApplicationService) GetCharm(ctx context.Context, locator charm.CharmLocator) (charm0.Charm, charm.CharmLocator, bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharm", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharm", ctx, locator)
 	ret0, _ := ret[0].(charm0.Charm)
 	ret1, _ := ret[1].(charm.CharmLocator)
 	ret2, _ := ret[2].(bool)
@@ -116,9 +118,9 @@ func (m *MockApplicationService) GetCharm(arg0 context.Context, arg1 charm.Charm
 }
 
 // GetCharm indicates an expected call of GetCharm.
-func (mr *MockApplicationServiceMockRecorder) GetCharm(arg0, arg1 any) *MockApplicationServiceGetCharmCall {
+func (mr *MockApplicationServiceMockRecorder) GetCharm(ctx, locator any) *MockApplicationServiceGetCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockApplicationService)(nil).GetCharm), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockApplicationService)(nil).GetCharm), ctx, locator)
 	return &MockApplicationServiceGetCharmCall{Call: call}
 }
 

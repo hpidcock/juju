@@ -10,7 +10,6 @@
 package mocks
 
 import (
-	fs "io/fs"
 	os "os"
 	reflect "reflect"
 
@@ -22,6 +21,7 @@ import (
 type MockFilesystem struct {
 	ctrl     *gomock.Controller
 	recorder *MockFilesystemMockRecorder
+	isgomock struct{}
 }
 
 // MockFilesystemMockRecorder is the mock recorder for MockFilesystem.
@@ -42,18 +42,18 @@ func (m *MockFilesystem) EXPECT() *MockFilesystemMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockFilesystem) Create(arg0 string) (*os.File, error) {
+func (m *MockFilesystem) Create(name string) (*os.File, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0)
+	ret := m.ctrl.Call(m, "Create", name)
 	ret0, _ := ret[0].(*os.File)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockFilesystemMockRecorder) Create(arg0 any) *MockFilesystemCreateCall {
+func (mr *MockFilesystemMockRecorder) Create(name any) *MockFilesystemCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockFilesystem)(nil).Create), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockFilesystem)(nil).Create), name)
 	return &MockFilesystemCreateCall{Call: call}
 }
 
@@ -81,18 +81,18 @@ func (c *MockFilesystemCreateCall) DoAndReturn(f func(string) (*os.File, error))
 }
 
 // Open mocks base method.
-func (m *MockFilesystem) Open(arg0 string) (modelcmd.ReadSeekCloser, error) {
+func (m *MockFilesystem) Open(name string) (modelcmd.ReadSeekCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Open", arg0)
+	ret := m.ctrl.Call(m, "Open", name)
 	ret0, _ := ret[0].(modelcmd.ReadSeekCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Open indicates an expected call of Open.
-func (mr *MockFilesystemMockRecorder) Open(arg0 any) *MockFilesystemOpenCall {
+func (mr *MockFilesystemMockRecorder) Open(name any) *MockFilesystemOpenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockFilesystem)(nil).Open), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockFilesystem)(nil).Open), name)
 	return &MockFilesystemOpenCall{Call: call}
 }
 
@@ -120,18 +120,18 @@ func (c *MockFilesystemOpenCall) DoAndReturn(f func(string) (modelcmd.ReadSeekCl
 }
 
 // OpenFile mocks base method.
-func (m *MockFilesystem) OpenFile(arg0 string, arg1 int, arg2 fs.FileMode) (*os.File, error) {
+func (m *MockFilesystem) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenFile", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "OpenFile", name, flag, perm)
 	ret0, _ := ret[0].(*os.File)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // OpenFile indicates an expected call of OpenFile.
-func (mr *MockFilesystemMockRecorder) OpenFile(arg0, arg1, arg2 any) *MockFilesystemOpenFileCall {
+func (mr *MockFilesystemMockRecorder) OpenFile(name, flag, perm any) *MockFilesystemOpenFileCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenFile", reflect.TypeOf((*MockFilesystem)(nil).OpenFile), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenFile", reflect.TypeOf((*MockFilesystem)(nil).OpenFile), name, flag, perm)
 	return &MockFilesystemOpenFileCall{Call: call}
 }
 
@@ -147,29 +147,29 @@ func (c *MockFilesystemOpenFileCall) Return(arg0 *os.File, arg1 error) *MockFile
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFilesystemOpenFileCall) Do(f func(string, int, fs.FileMode) (*os.File, error)) *MockFilesystemOpenFileCall {
+func (c *MockFilesystemOpenFileCall) Do(f func(string, int, os.FileMode) (*os.File, error)) *MockFilesystemOpenFileCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFilesystemOpenFileCall) DoAndReturn(f func(string, int, fs.FileMode) (*os.File, error)) *MockFilesystemOpenFileCall {
+func (c *MockFilesystemOpenFileCall) DoAndReturn(f func(string, int, os.FileMode) (*os.File, error)) *MockFilesystemOpenFileCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // RemoveAll mocks base method.
-func (m *MockFilesystem) RemoveAll(arg0 string) error {
+func (m *MockFilesystem) RemoveAll(path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAll", arg0)
+	ret := m.ctrl.Call(m, "RemoveAll", path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAll indicates an expected call of RemoveAll.
-func (mr *MockFilesystemMockRecorder) RemoveAll(arg0 any) *MockFilesystemRemoveAllCall {
+func (mr *MockFilesystemMockRecorder) RemoveAll(path any) *MockFilesystemRemoveAllCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFilesystem)(nil).RemoveAll), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFilesystem)(nil).RemoveAll), path)
 	return &MockFilesystemRemoveAllCall{Call: call}
 }
 
@@ -197,18 +197,18 @@ func (c *MockFilesystemRemoveAllCall) DoAndReturn(f func(string) error) *MockFil
 }
 
 // Stat mocks base method.
-func (m *MockFilesystem) Stat(arg0 string) (fs.FileInfo, error) {
+func (m *MockFilesystem) Stat(name string) (os.FileInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stat", arg0)
-	ret0, _ := ret[0].(fs.FileInfo)
+	ret := m.ctrl.Call(m, "Stat", name)
+	ret0, _ := ret[0].(os.FileInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Stat indicates an expected call of Stat.
-func (mr *MockFilesystemMockRecorder) Stat(arg0 any) *MockFilesystemStatCall {
+func (mr *MockFilesystemMockRecorder) Stat(name any) *MockFilesystemStatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stat", reflect.TypeOf((*MockFilesystem)(nil).Stat), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stat", reflect.TypeOf((*MockFilesystem)(nil).Stat), name)
 	return &MockFilesystemStatCall{Call: call}
 }
 
@@ -218,19 +218,19 @@ type MockFilesystemStatCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFilesystemStatCall) Return(arg0 fs.FileInfo, arg1 error) *MockFilesystemStatCall {
+func (c *MockFilesystemStatCall) Return(arg0 os.FileInfo, arg1 error) *MockFilesystemStatCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFilesystemStatCall) Do(f func(string) (fs.FileInfo, error)) *MockFilesystemStatCall {
+func (c *MockFilesystemStatCall) Do(f func(string) (os.FileInfo, error)) *MockFilesystemStatCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFilesystemStatCall) DoAndReturn(f func(string) (fs.FileInfo, error)) *MockFilesystemStatCall {
+func (c *MockFilesystemStatCall) DoAndReturn(f func(string) (os.FileInfo, error)) *MockFilesystemStatCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -239,6 +239,7 @@ func (c *MockFilesystemStatCall) DoAndReturn(f func(string) (fs.FileInfo, error)
 type MockReadSeekCloser struct {
 	ctrl     *gomock.Controller
 	recorder *MockReadSeekCloserMockRecorder
+	isgomock struct{}
 }
 
 // MockReadSeekCloserMockRecorder is the mock recorder for MockReadSeekCloser.
@@ -297,18 +298,18 @@ func (c *MockReadSeekCloserCloseCall) DoAndReturn(f func() error) *MockReadSeekC
 }
 
 // Read mocks base method.
-func (m *MockReadSeekCloser) Read(arg0 []byte) (int, error) {
+func (m *MockReadSeekCloser) Read(p []byte) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Read", arg0)
+	ret := m.ctrl.Call(m, "Read", p)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Read indicates an expected call of Read.
-func (mr *MockReadSeekCloserMockRecorder) Read(arg0 any) *MockReadSeekCloserReadCall {
+func (mr *MockReadSeekCloserMockRecorder) Read(p any) *MockReadSeekCloserReadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockReadSeekCloser)(nil).Read), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockReadSeekCloser)(nil).Read), p)
 	return &MockReadSeekCloserReadCall{Call: call}
 }
 
@@ -318,8 +319,8 @@ type MockReadSeekCloserReadCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockReadSeekCloserReadCall) Return(arg0 int, arg1 error) *MockReadSeekCloserReadCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockReadSeekCloserReadCall) Return(n int, err error) *MockReadSeekCloserReadCall {
+	c.Call = c.Call.Return(n, err)
 	return c
 }
 
@@ -336,18 +337,18 @@ func (c *MockReadSeekCloserReadCall) DoAndReturn(f func([]byte) (int, error)) *M
 }
 
 // Seek mocks base method.
-func (m *MockReadSeekCloser) Seek(arg0 int64, arg1 int) (int64, error) {
+func (m *MockReadSeekCloser) Seek(offset int64, whence int) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Seek", arg0, arg1)
+	ret := m.ctrl.Call(m, "Seek", offset, whence)
 	ret0, _ := ret[0].(int64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Seek indicates an expected call of Seek.
-func (mr *MockReadSeekCloserMockRecorder) Seek(arg0, arg1 any) *MockReadSeekCloserSeekCall {
+func (mr *MockReadSeekCloserMockRecorder) Seek(offset, whence any) *MockReadSeekCloserSeekCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seek", reflect.TypeOf((*MockReadSeekCloser)(nil).Seek), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Seek", reflect.TypeOf((*MockReadSeekCloser)(nil).Seek), offset, whence)
 	return &MockReadSeekCloserSeekCall{Call: call}
 }
 

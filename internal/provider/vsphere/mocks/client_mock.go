@@ -24,6 +24,7 @@ import (
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -121,18 +122,18 @@ func (c *MockClientComputeResourcesCall) DoAndReturn(f func(context.Context) ([]
 }
 
 // CreateTemplateVM mocks base method.
-func (m *MockClient) CreateTemplateVM(arg0 context.Context, arg1 vsphereclient.ImportOVAParameters) (*object.VirtualMachine, error) {
+func (m *MockClient) CreateTemplateVM(ctx context.Context, ovaArgs vsphereclient.ImportOVAParameters) (*object.VirtualMachine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTemplateVM", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateTemplateVM", ctx, ovaArgs)
 	ret0, _ := ret[0].(*object.VirtualMachine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateTemplateVM indicates an expected call of CreateTemplateVM.
-func (mr *MockClientMockRecorder) CreateTemplateVM(arg0, arg1 any) *MockClientCreateTemplateVMCall {
+func (mr *MockClientMockRecorder) CreateTemplateVM(ctx, ovaArgs any) *MockClientCreateTemplateVMCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTemplateVM", reflect.TypeOf((*MockClient)(nil).CreateTemplateVM), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTemplateVM", reflect.TypeOf((*MockClient)(nil).CreateTemplateVM), ctx, ovaArgs)
 	return &MockClientCreateTemplateVMCall{Call: call}
 }
 
@@ -142,8 +143,8 @@ type MockClientCreateTemplateVMCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClientCreateTemplateVMCall) Return(arg0 *object.VirtualMachine, arg1 error) *MockClientCreateTemplateVMCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClientCreateTemplateVMCall) Return(vm *object.VirtualMachine, err error) *MockClientCreateTemplateVMCall {
+	c.Call = c.Call.Return(vm, err)
 	return c
 }
 
@@ -353,18 +354,18 @@ func (c *MockClientEnsureVMFolderCall) DoAndReturn(f func(context.Context, strin
 }
 
 // FindFolder mocks base method.
-func (m *MockClient) FindFolder(arg0 context.Context, arg1 string) (*object.Folder, error) {
+func (m *MockClient) FindFolder(ctx context.Context, folderPath string) (*object.Folder, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindFolder", arg0, arg1)
+	ret := m.ctrl.Call(m, "FindFolder", ctx, folderPath)
 	ret0, _ := ret[0].(*object.Folder)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindFolder indicates an expected call of FindFolder.
-func (mr *MockClientMockRecorder) FindFolder(arg0, arg1 any) *MockClientFindFolderCall {
+func (mr *MockClientMockRecorder) FindFolder(ctx, folderPath any) *MockClientFindFolderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFolder", reflect.TypeOf((*MockClient)(nil).FindFolder), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindFolder", reflect.TypeOf((*MockClient)(nil).FindFolder), ctx, folderPath)
 	return &MockClientFindFolderCall{Call: call}
 }
 
@@ -374,8 +375,8 @@ type MockClientFindFolderCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClientFindFolderCall) Return(arg0 *object.Folder, arg1 error) *MockClientFindFolderCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClientFindFolderCall) Return(vmFolder *object.Folder, err error) *MockClientFindFolderCall {
+	c.Call = c.Call.Return(vmFolder, err)
 	return c
 }
 
@@ -392,18 +393,18 @@ func (c *MockClientFindFolderCall) DoAndReturn(f func(context.Context, string) (
 }
 
 // Folders mocks base method.
-func (m *MockClient) Folders(arg0 context.Context) (*object.DatacenterFolders, error) {
+func (m *MockClient) Folders(ctx context.Context) (*object.DatacenterFolders, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Folders", arg0)
+	ret := m.ctrl.Call(m, "Folders", ctx)
 	ret0, _ := ret[0].(*object.DatacenterFolders)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Folders indicates an expected call of Folders.
-func (mr *MockClientMockRecorder) Folders(arg0 any) *MockClientFoldersCall {
+func (mr *MockClientMockRecorder) Folders(ctx any) *MockClientFoldersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Folders", reflect.TypeOf((*MockClient)(nil).Folders), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Folders", reflect.TypeOf((*MockClient)(nil).Folders), ctx)
 	return &MockClientFoldersCall{Call: call}
 }
 
@@ -431,18 +432,18 @@ func (c *MockClientFoldersCall) DoAndReturn(f func(context.Context) (*object.Dat
 }
 
 // GetTargetDatastore mocks base method.
-func (m *MockClient) GetTargetDatastore(arg0 context.Context, arg1 *mo.ComputeResource, arg2 string) (*object.Datastore, error) {
+func (m *MockClient) GetTargetDatastore(ctx context.Context, computeResource *mo.ComputeResource, rootDiskSource string) (*object.Datastore, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetTargetDatastore", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetTargetDatastore", ctx, computeResource, rootDiskSource)
 	ret0, _ := ret[0].(*object.Datastore)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetTargetDatastore indicates an expected call of GetTargetDatastore.
-func (mr *MockClientMockRecorder) GetTargetDatastore(arg0, arg1, arg2 any) *MockClientGetTargetDatastoreCall {
+func (mr *MockClientMockRecorder) GetTargetDatastore(ctx, computeResource, rootDiskSource any) *MockClientGetTargetDatastoreCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTargetDatastore", reflect.TypeOf((*MockClient)(nil).GetTargetDatastore), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTargetDatastore", reflect.TypeOf((*MockClient)(nil).GetTargetDatastore), ctx, computeResource, rootDiskSource)
 	return &MockClientGetTargetDatastoreCall{Call: call}
 }
 
@@ -470,18 +471,18 @@ func (c *MockClientGetTargetDatastoreCall) DoAndReturn(f func(context.Context, *
 }
 
 // ListVMTemplates mocks base method.
-func (m *MockClient) ListVMTemplates(arg0 context.Context, arg1 string) ([]*object.VirtualMachine, error) {
+func (m *MockClient) ListVMTemplates(ctx context.Context, path string) ([]*object.VirtualMachine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListVMTemplates", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListVMTemplates", ctx, path)
 	ret0, _ := ret[0].([]*object.VirtualMachine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListVMTemplates indicates an expected call of ListVMTemplates.
-func (mr *MockClientMockRecorder) ListVMTemplates(arg0, arg1 any) *MockClientListVMTemplatesCall {
+func (mr *MockClientMockRecorder) ListVMTemplates(ctx, path any) *MockClientListVMTemplatesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVMTemplates", reflect.TypeOf((*MockClient)(nil).ListVMTemplates), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVMTemplates", reflect.TypeOf((*MockClient)(nil).ListVMTemplates), ctx, path)
 	return &MockClientListVMTemplatesCall{Call: call}
 }
 
@@ -744,18 +745,18 @@ func (c *MockClientUserHasRootLevelPrivilegeCall) DoAndReturn(f func(context.Con
 }
 
 // VirtualMachineObjectToManagedObject mocks base method.
-func (m *MockClient) VirtualMachineObjectToManagedObject(arg0 context.Context, arg1 *object.VirtualMachine) (mo.VirtualMachine, error) {
+func (m *MockClient) VirtualMachineObjectToManagedObject(ctx context.Context, vmObject *object.VirtualMachine) (mo.VirtualMachine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "VirtualMachineObjectToManagedObject", arg0, arg1)
+	ret := m.ctrl.Call(m, "VirtualMachineObjectToManagedObject", ctx, vmObject)
 	ret0, _ := ret[0].(mo.VirtualMachine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // VirtualMachineObjectToManagedObject indicates an expected call of VirtualMachineObjectToManagedObject.
-func (mr *MockClientMockRecorder) VirtualMachineObjectToManagedObject(arg0, arg1 any) *MockClientVirtualMachineObjectToManagedObjectCall {
+func (mr *MockClientMockRecorder) VirtualMachineObjectToManagedObject(ctx, vmObject any) *MockClientVirtualMachineObjectToManagedObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VirtualMachineObjectToManagedObject", reflect.TypeOf((*MockClient)(nil).VirtualMachineObjectToManagedObject), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VirtualMachineObjectToManagedObject", reflect.TypeOf((*MockClient)(nil).VirtualMachineObjectToManagedObject), ctx, vmObject)
 	return &MockClientVirtualMachineObjectToManagedObjectCall{Call: call}
 }
 

@@ -19,6 +19,7 @@ import (
 type MockEnvironment struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironmentMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironmentMockRecorder is the mock recorder for MockEnvironment.
@@ -39,17 +40,17 @@ func (m *MockEnvironment) EXPECT() *MockEnvironmentMockRecorder {
 }
 
 // ExpandEnv mocks base method.
-func (m *MockEnvironment) ExpandEnv(arg0 string) string {
+func (m *MockEnvironment) ExpandEnv(s string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExpandEnv", arg0)
+	ret := m.ctrl.Call(m, "ExpandEnv", s)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // ExpandEnv indicates an expected call of ExpandEnv.
-func (mr *MockEnvironmentMockRecorder) ExpandEnv(arg0 any) *MockEnvironmentExpandEnvCall {
+func (mr *MockEnvironmentMockRecorder) ExpandEnv(s any) *MockEnvironmentExpandEnvCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpandEnv", reflect.TypeOf((*MockEnvironment)(nil).ExpandEnv), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpandEnv", reflect.TypeOf((*MockEnvironment)(nil).ExpandEnv), s)
 	return &MockEnvironmentExpandEnvCall{Call: call}
 }
 
@@ -77,17 +78,17 @@ func (c *MockEnvironmentExpandEnvCall) DoAndReturn(f func(string) string) *MockE
 }
 
 // Getenv mocks base method.
-func (m *MockEnvironment) Getenv(arg0 string) string {
+func (m *MockEnvironment) Getenv(k string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Getenv", arg0)
+	ret := m.ctrl.Call(m, "Getenv", k)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // Getenv indicates an expected call of Getenv.
-func (mr *MockEnvironmentMockRecorder) Getenv(arg0 any) *MockEnvironmentGetenvCall {
+func (mr *MockEnvironmentMockRecorder) Getenv(k any) *MockEnvironmentGetenvCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Getenv", reflect.TypeOf((*MockEnvironment)(nil).Getenv), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Getenv", reflect.TypeOf((*MockEnvironment)(nil).Getenv), k)
 	return &MockEnvironmentGetenvCall{Call: call}
 }
 
@@ -115,17 +116,17 @@ func (c *MockEnvironmentGetenvCall) DoAndReturn(f func(string) string) *MockEnvi
 }
 
 // Setenv mocks base method.
-func (m *MockEnvironment) Setenv(arg0, arg1 string) error {
+func (m *MockEnvironment) Setenv(k, v string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Setenv", arg0, arg1)
+	ret := m.ctrl.Call(m, "Setenv", k, v)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Setenv indicates an expected call of Setenv.
-func (mr *MockEnvironmentMockRecorder) Setenv(arg0, arg1 any) *MockEnvironmentSetenvCall {
+func (mr *MockEnvironmentMockRecorder) Setenv(k, v any) *MockEnvironmentSetenvCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Setenv", reflect.TypeOf((*MockEnvironment)(nil).Setenv), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Setenv", reflect.TypeOf((*MockEnvironment)(nil).Setenv), k, v)
 	return &MockEnvironmentSetenvCall{Call: call}
 }
 
@@ -153,17 +154,17 @@ func (c *MockEnvironmentSetenvCall) DoAndReturn(f func(string, string) error) *M
 }
 
 // Unsetenv mocks base method.
-func (m *MockEnvironment) Unsetenv(arg0 string) error {
+func (m *MockEnvironment) Unsetenv(k string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unsetenv", arg0)
+	ret := m.ctrl.Call(m, "Unsetenv", k)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Unsetenv indicates an expected call of Unsetenv.
-func (mr *MockEnvironmentMockRecorder) Unsetenv(arg0 any) *MockEnvironmentUnsetenvCall {
+func (mr *MockEnvironmentMockRecorder) Unsetenv(k any) *MockEnvironmentUnsetenvCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unsetenv", reflect.TypeOf((*MockEnvironment)(nil).Unsetenv), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unsetenv", reflect.TypeOf((*MockEnvironment)(nil).Unsetenv), k)
 	return &MockEnvironmentUnsetenvCall{Call: call}
 }
 

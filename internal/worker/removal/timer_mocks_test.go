@@ -20,6 +20,7 @@ import (
 type MockTimer struct {
 	ctrl     *gomock.Controller
 	recorder *MockTimerMockRecorder
+	isgomock struct{}
 }
 
 // MockTimerMockRecorder is the mock recorder for MockTimer.
@@ -78,17 +79,17 @@ func (c *MockTimerChanCall) DoAndReturn(f func() <-chan time.Time) *MockTimerCha
 }
 
 // Reset mocks base method.
-func (m *MockTimer) Reset(arg0 time.Duration) bool {
+func (m *MockTimer) Reset(d time.Duration) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Reset", arg0)
+	ret := m.ctrl.Call(m, "Reset", d)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Reset indicates an expected call of Reset.
-func (mr *MockTimerMockRecorder) Reset(arg0 any) *MockTimerResetCall {
+func (mr *MockTimerMockRecorder) Reset(d any) *MockTimerResetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reset", reflect.TypeOf((*MockTimer)(nil).Reset), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reset", reflect.TypeOf((*MockTimer)(nil).Reset), d)
 	return &MockTimerResetCall{Call: call}
 }
 

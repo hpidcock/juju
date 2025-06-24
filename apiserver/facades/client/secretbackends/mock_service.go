@@ -22,6 +22,7 @@ import (
 type MockSecretBackendService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretBackendServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretBackendServiceMockRecorder is the mock recorder for MockSecretBackendService.
@@ -42,10 +43,10 @@ func (m *MockSecretBackendService) EXPECT() *MockSecretBackendServiceMockRecorde
 }
 
 // BackendSummaryInfo mocks base method.
-func (m *MockSecretBackendService) BackendSummaryInfo(arg0 context.Context, arg1 bool, arg2 ...string) ([]*service.SecretBackendInfo, error) {
+func (m *MockSecretBackendService) BackendSummaryInfo(ctx context.Context, reveal bool, names ...string) ([]*service.SecretBackendInfo, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{ctx, reveal}
+	for _, a := range names {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "BackendSummaryInfo", varargs...)
@@ -55,9 +56,9 @@ func (m *MockSecretBackendService) BackendSummaryInfo(arg0 context.Context, arg1
 }
 
 // BackendSummaryInfo indicates an expected call of BackendSummaryInfo.
-func (mr *MockSecretBackendServiceMockRecorder) BackendSummaryInfo(arg0, arg1 any, arg2 ...any) *MockSecretBackendServiceBackendSummaryInfoCall {
+func (mr *MockSecretBackendServiceMockRecorder) BackendSummaryInfo(ctx, reveal any, names ...any) *MockSecretBackendServiceBackendSummaryInfoCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{ctx, reveal}, names...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BackendSummaryInfo", reflect.TypeOf((*MockSecretBackendService)(nil).BackendSummaryInfo), varargs...)
 	return &MockSecretBackendServiceBackendSummaryInfoCall{Call: call}
 }

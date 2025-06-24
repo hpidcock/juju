@@ -28,6 +28,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -48,17 +49,17 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // AddUser mocks base method.
-func (m *MockState) AddUser(arg0 context.Context, arg1 user.UUID, arg2 user.Name, arg3 string, arg4 bool, arg5 user.UUID) error {
+func (m *MockState) AddUser(ctx context.Context, arg1 user.UUID, name user.Name, displayName string, external bool, creatorUUID user.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddUser", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "AddUser", ctx, arg1, name, displayName, external, creatorUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddUser indicates an expected call of AddUser.
-func (mr *MockStateMockRecorder) AddUser(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockStateAddUserCall {
+func (mr *MockStateMockRecorder) AddUser(ctx, arg1, name, displayName, external, creatorUUID any) *MockStateAddUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockState)(nil).AddUser), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockState)(nil).AddUser), ctx, arg1, name, displayName, external, creatorUUID)
 	return &MockStateAddUserCall{Call: call}
 }
 
@@ -86,17 +87,17 @@ func (c *MockStateAddUserCall) DoAndReturn(f func(context.Context, user.UUID, us
 }
 
 // AddUserWithActivationKey mocks base method.
-func (m *MockState) AddUserWithActivationKey(arg0 context.Context, arg1 user.UUID, arg2 user.Name, arg3 string, arg4 user.UUID, arg5 permission.AccessSpec, arg6 []byte) error {
+func (m *MockState) AddUserWithActivationKey(ctx context.Context, arg1 user.UUID, name user.Name, displayName string, creatorUUID user.UUID, arg5 permission.AccessSpec, activationKey []byte) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddUserWithActivationKey", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "AddUserWithActivationKey", ctx, arg1, name, displayName, creatorUUID, arg5, activationKey)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddUserWithActivationKey indicates an expected call of AddUserWithActivationKey.
-func (mr *MockStateMockRecorder) AddUserWithActivationKey(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockStateAddUserWithActivationKeyCall {
+func (mr *MockStateMockRecorder) AddUserWithActivationKey(ctx, arg1, name, displayName, creatorUUID, arg5, activationKey any) *MockStateAddUserWithActivationKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUserWithActivationKey", reflect.TypeOf((*MockState)(nil).AddUserWithActivationKey), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUserWithActivationKey", reflect.TypeOf((*MockState)(nil).AddUserWithActivationKey), ctx, arg1, name, displayName, creatorUUID, arg5, activationKey)
 	return &MockStateAddUserWithActivationKeyCall{Call: call}
 }
 
@@ -124,17 +125,17 @@ func (c *MockStateAddUserWithActivationKeyCall) DoAndReturn(f func(context.Conte
 }
 
 // AddUserWithPasswordHash mocks base method.
-func (m *MockState) AddUserWithPasswordHash(arg0 context.Context, arg1 user.UUID, arg2 user.Name, arg3 string, arg4 user.UUID, arg5 permission.AccessSpec, arg6 string, arg7 []byte) error {
+func (m *MockState) AddUserWithPasswordHash(ctx context.Context, arg1 user.UUID, name user.Name, displayName string, creatorUUID user.UUID, arg5 permission.AccessSpec, passwordHash string, passwordSalt []byte) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddUserWithPasswordHash", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	ret := m.ctrl.Call(m, "AddUserWithPasswordHash", ctx, arg1, name, displayName, creatorUUID, arg5, passwordHash, passwordSalt)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddUserWithPasswordHash indicates an expected call of AddUserWithPasswordHash.
-func (mr *MockStateMockRecorder) AddUserWithPasswordHash(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7 any) *MockStateAddUserWithPasswordHashCall {
+func (mr *MockStateMockRecorder) AddUserWithPasswordHash(ctx, arg1, name, displayName, creatorUUID, arg5, passwordHash, passwordSalt any) *MockStateAddUserWithPasswordHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUserWithPasswordHash", reflect.TypeOf((*MockState)(nil).AddUserWithPasswordHash), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUserWithPasswordHash", reflect.TypeOf((*MockState)(nil).AddUserWithPasswordHash), ctx, arg1, name, displayName, creatorUUID, arg5, passwordHash, passwordSalt)
 	return &MockStateAddUserWithPasswordHashCall{Call: call}
 }
 
@@ -162,18 +163,18 @@ func (c *MockStateAddUserWithPasswordHashCall) DoAndReturn(f func(context.Contex
 }
 
 // AllModelAccessForCloudCredential mocks base method.
-func (m *MockState) AllModelAccessForCloudCredential(arg0 context.Context, arg1 credential.Key) ([]access.CredentialOwnerModelAccess, error) {
+func (m *MockState) AllModelAccessForCloudCredential(ctx context.Context, key credential.Key) ([]access.CredentialOwnerModelAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllModelAccessForCloudCredential", arg0, arg1)
+	ret := m.ctrl.Call(m, "AllModelAccessForCloudCredential", ctx, key)
 	ret0, _ := ret[0].([]access.CredentialOwnerModelAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllModelAccessForCloudCredential indicates an expected call of AllModelAccessForCloudCredential.
-func (mr *MockStateMockRecorder) AllModelAccessForCloudCredential(arg0, arg1 any) *MockStateAllModelAccessForCloudCredentialCall {
+func (mr *MockStateMockRecorder) AllModelAccessForCloudCredential(ctx, key any) *MockStateAllModelAccessForCloudCredentialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllModelAccessForCloudCredential", reflect.TypeOf((*MockState)(nil).AllModelAccessForCloudCredential), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllModelAccessForCloudCredential", reflect.TypeOf((*MockState)(nil).AllModelAccessForCloudCredential), ctx, key)
 	return &MockStateAllModelAccessForCloudCredentialCall{Call: call}
 }
 
@@ -201,18 +202,18 @@ func (c *MockStateAllModelAccessForCloudCredentialCall) DoAndReturn(f func(conte
 }
 
 // CreatePermission mocks base method.
-func (m *MockState) CreatePermission(arg0 context.Context, arg1 uuid.UUID, arg2 permission.UserAccessSpec) (permission.UserAccess, error) {
+func (m *MockState) CreatePermission(ctx context.Context, arg1 uuid.UUID, spec permission.UserAccessSpec) (permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreatePermission", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "CreatePermission", ctx, arg1, spec)
 	ret0, _ := ret[0].(permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreatePermission indicates an expected call of CreatePermission.
-func (mr *MockStateMockRecorder) CreatePermission(arg0, arg1, arg2 any) *MockStateCreatePermissionCall {
+func (mr *MockStateMockRecorder) CreatePermission(ctx, arg1, spec any) *MockStateCreatePermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePermission", reflect.TypeOf((*MockState)(nil).CreatePermission), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePermission", reflect.TypeOf((*MockState)(nil).CreatePermission), ctx, arg1, spec)
 	return &MockStateCreatePermissionCall{Call: call}
 }
 
@@ -240,17 +241,17 @@ func (c *MockStateCreatePermissionCall) DoAndReturn(f func(context.Context, uuid
 }
 
 // DeletePermission mocks base method.
-func (m *MockState) DeletePermission(arg0 context.Context, arg1 user.Name, arg2 permission.ID) error {
+func (m *MockState) DeletePermission(ctx context.Context, subject user.Name, target permission.ID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeletePermission", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeletePermission", ctx, subject, target)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeletePermission indicates an expected call of DeletePermission.
-func (mr *MockStateMockRecorder) DeletePermission(arg0, arg1, arg2 any) *MockStateDeletePermissionCall {
+func (mr *MockStateMockRecorder) DeletePermission(ctx, subject, target any) *MockStateDeletePermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeletePermission", reflect.TypeOf((*MockState)(nil).DeletePermission), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeletePermission", reflect.TypeOf((*MockState)(nil).DeletePermission), ctx, subject, target)
 	return &MockStateDeletePermissionCall{Call: call}
 }
 
@@ -354,17 +355,17 @@ func (c *MockStateEnableUserAuthenticationCall) DoAndReturn(f func(context.Conte
 }
 
 // EnsureExternalUserIfAuthorized mocks base method.
-func (m *MockState) EnsureExternalUserIfAuthorized(arg0 context.Context, arg1 user.Name, arg2 permission.ID) error {
+func (m *MockState) EnsureExternalUserIfAuthorized(ctx context.Context, subject user.Name, target permission.ID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureExternalUserIfAuthorized", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "EnsureExternalUserIfAuthorized", ctx, subject, target)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureExternalUserIfAuthorized indicates an expected call of EnsureExternalUserIfAuthorized.
-func (mr *MockStateMockRecorder) EnsureExternalUserIfAuthorized(arg0, arg1, arg2 any) *MockStateEnsureExternalUserIfAuthorizedCall {
+func (mr *MockStateMockRecorder) EnsureExternalUserIfAuthorized(ctx, subject, target any) *MockStateEnsureExternalUserIfAuthorizedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureExternalUserIfAuthorized", reflect.TypeOf((*MockState)(nil).EnsureExternalUserIfAuthorized), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureExternalUserIfAuthorized", reflect.TypeOf((*MockState)(nil).EnsureExternalUserIfAuthorized), ctx, subject, target)
 	return &MockStateEnsureExternalUserIfAuthorizedCall{Call: call}
 }
 
@@ -431,18 +432,18 @@ func (c *MockStateGetActivationKeyCall) DoAndReturn(f func(context.Context, user
 }
 
 // GetAllUsers mocks base method.
-func (m *MockState) GetAllUsers(arg0 context.Context, arg1 bool) ([]user.User, error) {
+func (m *MockState) GetAllUsers(ctx context.Context, includeDisabled bool) ([]user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllUsers", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAllUsers", ctx, includeDisabled)
 	ret0, _ := ret[0].([]user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllUsers indicates an expected call of GetAllUsers.
-func (mr *MockStateMockRecorder) GetAllUsers(arg0, arg1 any) *MockStateGetAllUsersCall {
+func (mr *MockStateMockRecorder) GetAllUsers(ctx, includeDisabled any) *MockStateGetAllUsersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUsers", reflect.TypeOf((*MockState)(nil).GetAllUsers), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUsers", reflect.TypeOf((*MockState)(nil).GetAllUsers), ctx, includeDisabled)
 	return &MockStateGetAllUsersCall{Call: call}
 }
 
@@ -548,18 +549,18 @@ func (c *MockStateGetUserByAuthCall) DoAndReturn(f func(context.Context, user.Na
 }
 
 // GetUserByName mocks base method.
-func (m *MockState) GetUserByName(arg0 context.Context, arg1 user.Name) (user.User, error) {
+func (m *MockState) GetUserByName(ctx context.Context, name user.Name) (user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByName", ctx, name)
 	ret0, _ := ret[0].(user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserByName indicates an expected call of GetUserByName.
-func (mr *MockStateMockRecorder) GetUserByName(arg0, arg1 any) *MockStateGetUserByNameCall {
+func (mr *MockStateMockRecorder) GetUserByName(ctx, name any) *MockStateGetUserByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockState)(nil).GetUserByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockState)(nil).GetUserByName), ctx, name)
 	return &MockStateGetUserByNameCall{Call: call}
 }
 
@@ -587,18 +588,18 @@ func (c *MockStateGetUserByNameCall) DoAndReturn(f func(context.Context, user.Na
 }
 
 // GetUserUUIDByName mocks base method.
-func (m *MockState) GetUserUUIDByName(arg0 context.Context, arg1 user.Name) (user.UUID, error) {
+func (m *MockState) GetUserUUIDByName(ctx context.Context, name user.Name) (user.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserUUIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserUUIDByName", ctx, name)
 	ret0, _ := ret[0].(user.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserUUIDByName indicates an expected call of GetUserUUIDByName.
-func (mr *MockStateMockRecorder) GetUserUUIDByName(arg0, arg1 any) *MockStateGetUserUUIDByNameCall {
+func (mr *MockStateMockRecorder) GetUserUUIDByName(ctx, name any) *MockStateGetUserUUIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserUUIDByName", reflect.TypeOf((*MockState)(nil).GetUserUUIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserUUIDByName", reflect.TypeOf((*MockState)(nil).GetUserUUIDByName), ctx, name)
 	return &MockStateGetUserUUIDByNameCall{Call: call}
 }
 
@@ -665,18 +666,18 @@ func (c *MockStateLastModelLoginCall) DoAndReturn(f func(context.Context, user.N
 }
 
 // ReadAllAccessForUserAndObjectType mocks base method.
-func (m *MockState) ReadAllAccessForUserAndObjectType(arg0 context.Context, arg1 user.Name, arg2 permission.ObjectType) ([]permission.UserAccess, error) {
+func (m *MockState) ReadAllAccessForUserAndObjectType(ctx context.Context, subject user.Name, objectType permission.ObjectType) ([]permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadAllAccessForUserAndObjectType", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ReadAllAccessForUserAndObjectType", ctx, subject, objectType)
 	ret0, _ := ret[0].([]permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadAllAccessForUserAndObjectType indicates an expected call of ReadAllAccessForUserAndObjectType.
-func (mr *MockStateMockRecorder) ReadAllAccessForUserAndObjectType(arg0, arg1, arg2 any) *MockStateReadAllAccessForUserAndObjectTypeCall {
+func (mr *MockStateMockRecorder) ReadAllAccessForUserAndObjectType(ctx, subject, objectType any) *MockStateReadAllAccessForUserAndObjectTypeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllAccessForUserAndObjectType", reflect.TypeOf((*MockState)(nil).ReadAllAccessForUserAndObjectType), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllAccessForUserAndObjectType", reflect.TypeOf((*MockState)(nil).ReadAllAccessForUserAndObjectType), ctx, subject, objectType)
 	return &MockStateReadAllAccessForUserAndObjectTypeCall{Call: call}
 }
 
@@ -704,18 +705,18 @@ func (c *MockStateReadAllAccessForUserAndObjectTypeCall) DoAndReturn(f func(cont
 }
 
 // ReadAllUserAccessForTarget mocks base method.
-func (m *MockState) ReadAllUserAccessForTarget(arg0 context.Context, arg1 permission.ID) ([]permission.UserAccess, error) {
+func (m *MockState) ReadAllUserAccessForTarget(ctx context.Context, target permission.ID) ([]permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadAllUserAccessForTarget", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadAllUserAccessForTarget", ctx, target)
 	ret0, _ := ret[0].([]permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadAllUserAccessForTarget indicates an expected call of ReadAllUserAccessForTarget.
-func (mr *MockStateMockRecorder) ReadAllUserAccessForTarget(arg0, arg1 any) *MockStateReadAllUserAccessForTargetCall {
+func (mr *MockStateMockRecorder) ReadAllUserAccessForTarget(ctx, target any) *MockStateReadAllUserAccessForTargetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForTarget", reflect.TypeOf((*MockState)(nil).ReadAllUserAccessForTarget), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForTarget", reflect.TypeOf((*MockState)(nil).ReadAllUserAccessForTarget), ctx, target)
 	return &MockStateReadAllUserAccessForTargetCall{Call: call}
 }
 
@@ -743,18 +744,18 @@ func (c *MockStateReadAllUserAccessForTargetCall) DoAndReturn(f func(context.Con
 }
 
 // ReadAllUserAccessForUser mocks base method.
-func (m *MockState) ReadAllUserAccessForUser(arg0 context.Context, arg1 user.Name) ([]permission.UserAccess, error) {
+func (m *MockState) ReadAllUserAccessForUser(ctx context.Context, subject user.Name) ([]permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadAllUserAccessForUser", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadAllUserAccessForUser", ctx, subject)
 	ret0, _ := ret[0].([]permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadAllUserAccessForUser indicates an expected call of ReadAllUserAccessForUser.
-func (mr *MockStateMockRecorder) ReadAllUserAccessForUser(arg0, arg1 any) *MockStateReadAllUserAccessForUserCall {
+func (mr *MockStateMockRecorder) ReadAllUserAccessForUser(ctx, subject any) *MockStateReadAllUserAccessForUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForUser", reflect.TypeOf((*MockState)(nil).ReadAllUserAccessForUser), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForUser", reflect.TypeOf((*MockState)(nil).ReadAllUserAccessForUser), ctx, subject)
 	return &MockStateReadAllUserAccessForUserCall{Call: call}
 }
 
@@ -782,18 +783,18 @@ func (c *MockStateReadAllUserAccessForUserCall) DoAndReturn(f func(context.Conte
 }
 
 // ReadUserAccessForTarget mocks base method.
-func (m *MockState) ReadUserAccessForTarget(arg0 context.Context, arg1 user.Name, arg2 permission.ID) (permission.UserAccess, error) {
+func (m *MockState) ReadUserAccessForTarget(ctx context.Context, subject user.Name, target permission.ID) (permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadUserAccessForTarget", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ReadUserAccessForTarget", ctx, subject, target)
 	ret0, _ := ret[0].(permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadUserAccessForTarget indicates an expected call of ReadUserAccessForTarget.
-func (mr *MockStateMockRecorder) ReadUserAccessForTarget(arg0, arg1, arg2 any) *MockStateReadUserAccessForTargetCall {
+func (mr *MockStateMockRecorder) ReadUserAccessForTarget(ctx, subject, target any) *MockStateReadUserAccessForTargetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessForTarget", reflect.TypeOf((*MockState)(nil).ReadUserAccessForTarget), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessForTarget", reflect.TypeOf((*MockState)(nil).ReadUserAccessForTarget), ctx, subject, target)
 	return &MockStateReadUserAccessForTargetCall{Call: call}
 }
 
@@ -821,18 +822,18 @@ func (c *MockStateReadUserAccessForTargetCall) DoAndReturn(f func(context.Contex
 }
 
 // ReadUserAccessLevelForTarget mocks base method.
-func (m *MockState) ReadUserAccessLevelForTarget(arg0 context.Context, arg1 user.Name, arg2 permission.ID) (permission.Access, error) {
+func (m *MockState) ReadUserAccessLevelForTarget(ctx context.Context, subject user.Name, target permission.ID) (permission.Access, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadUserAccessLevelForTarget", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ReadUserAccessLevelForTarget", ctx, subject, target)
 	ret0, _ := ret[0].(permission.Access)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadUserAccessLevelForTarget indicates an expected call of ReadUserAccessLevelForTarget.
-func (mr *MockStateMockRecorder) ReadUserAccessLevelForTarget(arg0, arg1, arg2 any) *MockStateReadUserAccessLevelForTargetCall {
+func (mr *MockStateMockRecorder) ReadUserAccessLevelForTarget(ctx, subject, target any) *MockStateReadUserAccessLevelForTargetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessLevelForTarget", reflect.TypeOf((*MockState)(nil).ReadUserAccessLevelForTarget), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessLevelForTarget", reflect.TypeOf((*MockState)(nil).ReadUserAccessLevelForTarget), ctx, subject, target)
 	return &MockStateReadUserAccessLevelForTargetCall{Call: call}
 }
 
@@ -1012,17 +1013,17 @@ func (c *MockStateUpdateLastModelLoginCall) DoAndReturn(f func(context.Context, 
 }
 
 // UpdatePermission mocks base method.
-func (m *MockState) UpdatePermission(arg0 context.Context, arg1 access.UpdatePermissionArgs) error {
+func (m *MockState) UpdatePermission(ctx context.Context, args access.UpdatePermissionArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdatePermission", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdatePermission", ctx, args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdatePermission indicates an expected call of UpdatePermission.
-func (mr *MockStateMockRecorder) UpdatePermission(arg0, arg1 any) *MockStateUpdatePermissionCall {
+func (mr *MockStateMockRecorder) UpdatePermission(ctx, args any) *MockStateUpdatePermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePermission", reflect.TypeOf((*MockState)(nil).UpdatePermission), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePermission", reflect.TypeOf((*MockState)(nil).UpdatePermission), ctx, args)
 	return &MockStateUpdatePermissionCall{Call: call}
 }
 

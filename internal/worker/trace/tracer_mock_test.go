@@ -14,7 +14,7 @@ import (
 	reflect "reflect"
 
 	trace "github.com/juju/juju/core/trace"
-	trace1 "go.opentelemetry.io/otel/trace"
+	trace0 "go.opentelemetry.io/otel/trace"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -22,6 +22,7 @@ import (
 type MockTrackedTracer struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackedTracerMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackedTracerMockRecorder is the mock recorder for MockTrackedTracer.
@@ -201,6 +202,7 @@ func (c *MockTrackedTracerWaitCall) DoAndReturn(f func() error) *MockTrackedTrac
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -221,17 +223,17 @@ func (m *MockClient) EXPECT() *MockClientMockRecorder {
 }
 
 // Start mocks base method.
-func (m *MockClient) Start(arg0 context.Context) error {
+func (m *MockClient) Start(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Start", arg0)
+	ret := m.ctrl.Call(m, "Start", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Start indicates an expected call of Start.
-func (mr *MockClientMockRecorder) Start(arg0 any) *MockClientStartCall {
+func (mr *MockClientMockRecorder) Start(ctx any) *MockClientStartCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockClient)(nil).Start), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockClient)(nil).Start), ctx)
 	return &MockClientStartCall{Call: call}
 }
 
@@ -259,17 +261,17 @@ func (c *MockClientStartCall) DoAndReturn(f func(context.Context) error) *MockCl
 }
 
 // Stop mocks base method.
-func (m *MockClient) Stop(arg0 context.Context) error {
+func (m *MockClient) Stop(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stop", arg0)
+	ret := m.ctrl.Call(m, "Stop", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockClientMockRecorder) Stop(arg0 any) *MockClientStopCall {
+func (mr *MockClientMockRecorder) Stop(ctx any) *MockClientStopCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockClient)(nil).Stop), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockClient)(nil).Stop), ctx)
 	return &MockClientStopCall{Call: call}
 }
 
@@ -300,6 +302,7 @@ func (c *MockClientStopCall) DoAndReturn(f func(context.Context) error) *MockCli
 type MockClientTracer struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientTracerMockRecorder
+	isgomock struct{}
 }
 
 // MockClientTracerMockRecorder is the mock recorder for MockClientTracer.
@@ -320,10 +323,10 @@ func (m *MockClientTracer) EXPECT() *MockClientTracerMockRecorder {
 }
 
 // Start mocks base method.
-func (m *MockClientTracer) Start(arg0 context.Context, arg1 string, arg2 ...trace1.SpanStartOption) (context.Context, ClientSpan) {
+func (m *MockClientTracer) Start(ctx context.Context, spanName string, opts ...trace0.SpanStartOption) (context.Context, ClientSpan) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{ctx, spanName}
+	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Start", varargs...)
@@ -333,9 +336,9 @@ func (m *MockClientTracer) Start(arg0 context.Context, arg1 string, arg2 ...trac
 }
 
 // Start indicates an expected call of Start.
-func (mr *MockClientTracerMockRecorder) Start(arg0, arg1 any, arg2 ...any) *MockClientTracerStartCall {
+func (mr *MockClientTracerMockRecorder) Start(ctx, spanName any, opts ...any) *MockClientTracerStartCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{ctx, spanName}, opts...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockClientTracer)(nil).Start), varargs...)
 	return &MockClientTracerStartCall{Call: call}
 }
@@ -352,13 +355,13 @@ func (c *MockClientTracerStartCall) Return(arg0 context.Context, arg1 ClientSpan
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockClientTracerStartCall) Do(f func(context.Context, string, ...trace1.SpanStartOption) (context.Context, ClientSpan)) *MockClientTracerStartCall {
+func (c *MockClientTracerStartCall) Do(f func(context.Context, string, ...trace0.SpanStartOption) (context.Context, ClientSpan)) *MockClientTracerStartCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockClientTracerStartCall) DoAndReturn(f func(context.Context, string, ...trace1.SpanStartOption) (context.Context, ClientSpan)) *MockClientTracerStartCall {
+func (c *MockClientTracerStartCall) DoAndReturn(f func(context.Context, string, ...trace0.SpanStartOption) (context.Context, ClientSpan)) *MockClientTracerStartCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -367,6 +370,7 @@ func (c *MockClientTracerStartCall) DoAndReturn(f func(context.Context, string, 
 type MockClientTracerProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientTracerProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockClientTracerProviderMockRecorder is the mock recorder for MockClientTracerProvider.
@@ -387,17 +391,17 @@ func (m *MockClientTracerProvider) EXPECT() *MockClientTracerProviderMockRecorde
 }
 
 // ForceFlush mocks base method.
-func (m *MockClientTracerProvider) ForceFlush(arg0 context.Context) error {
+func (m *MockClientTracerProvider) ForceFlush(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ForceFlush", arg0)
+	ret := m.ctrl.Call(m, "ForceFlush", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ForceFlush indicates an expected call of ForceFlush.
-func (mr *MockClientTracerProviderMockRecorder) ForceFlush(arg0 any) *MockClientTracerProviderForceFlushCall {
+func (mr *MockClientTracerProviderMockRecorder) ForceFlush(ctx any) *MockClientTracerProviderForceFlushCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ForceFlush", reflect.TypeOf((*MockClientTracerProvider)(nil).ForceFlush), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ForceFlush", reflect.TypeOf((*MockClientTracerProvider)(nil).ForceFlush), ctx)
 	return &MockClientTracerProviderForceFlushCall{Call: call}
 }
 
@@ -425,17 +429,17 @@ func (c *MockClientTracerProviderForceFlushCall) DoAndReturn(f func(context.Cont
 }
 
 // Shutdown mocks base method.
-func (m *MockClientTracerProvider) Shutdown(arg0 context.Context) error {
+func (m *MockClientTracerProvider) Shutdown(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Shutdown", arg0)
+	ret := m.ctrl.Call(m, "Shutdown", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Shutdown indicates an expected call of Shutdown.
-func (mr *MockClientTracerProviderMockRecorder) Shutdown(arg0 any) *MockClientTracerProviderShutdownCall {
+func (mr *MockClientTracerProviderMockRecorder) Shutdown(ctx any) *MockClientTracerProviderShutdownCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Shutdown", reflect.TypeOf((*MockClientTracerProvider)(nil).Shutdown), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Shutdown", reflect.TypeOf((*MockClientTracerProvider)(nil).Shutdown), ctx)
 	return &MockClientTracerProviderShutdownCall{Call: call}
 }
 

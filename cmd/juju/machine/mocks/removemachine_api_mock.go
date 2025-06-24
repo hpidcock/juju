@@ -22,6 +22,7 @@ import (
 type MockRemoveMachineAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoveMachineAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoveMachineAPIMockRecorder is the mock recorder for MockRemoveMachineAPI.
@@ -118,10 +119,10 @@ func (c *MockRemoveMachineAPICloseCall) DoAndReturn(f func() error) *MockRemoveM
 }
 
 // DestroyMachinesWithParams mocks base method.
-func (m *MockRemoveMachineAPI) DestroyMachinesWithParams(arg0 context.Context, arg1, arg2, arg3 bool, arg4 *time.Duration, arg5 ...string) ([]params.DestroyMachineResult, error) {
+func (m *MockRemoveMachineAPI) DestroyMachinesWithParams(ctx context.Context, force, keep, dryRun bool, maxWait *time.Duration, machines ...string) ([]params.DestroyMachineResult, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, force, keep, dryRun, maxWait}
+	for _, a := range machines {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DestroyMachinesWithParams", varargs...)
@@ -131,9 +132,9 @@ func (m *MockRemoveMachineAPI) DestroyMachinesWithParams(arg0 context.Context, a
 }
 
 // DestroyMachinesWithParams indicates an expected call of DestroyMachinesWithParams.
-func (mr *MockRemoveMachineAPIMockRecorder) DestroyMachinesWithParams(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockRemoveMachineAPIDestroyMachinesWithParamsCall {
+func (mr *MockRemoveMachineAPIMockRecorder) DestroyMachinesWithParams(ctx, force, keep, dryRun, maxWait any, machines ...any) *MockRemoveMachineAPIDestroyMachinesWithParamsCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, force, keep, dryRun, maxWait}, machines...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyMachinesWithParams", reflect.TypeOf((*MockRemoveMachineAPI)(nil).DestroyMachinesWithParams), varargs...)
 	return &MockRemoveMachineAPIDestroyMachinesWithParamsCall{Call: call}
 }

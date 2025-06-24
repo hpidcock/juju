@@ -22,6 +22,7 @@ import (
 type MockLinkLayerDevice struct {
 	ctrl     *gomock.Controller
 	recorder *MockLinkLayerDeviceMockRecorder
+	isgomock struct{}
 }
 
 // MockLinkLayerDeviceMockRecorder is the mock recorder for MockLinkLayerDevice.
@@ -81,18 +82,18 @@ func (c *MockLinkLayerDeviceAddressesCall) DoAndReturn(f func() ([]*state.Addres
 }
 
 // EthernetDeviceForBridge mocks base method.
-func (m *MockLinkLayerDevice) EthernetDeviceForBridge(arg0 string, arg1 bool, arg2 network.SubnetInfos) (network.InterfaceInfo, error) {
+func (m *MockLinkLayerDevice) EthernetDeviceForBridge(name string, askForProviderAddress bool, allSubnets network.SubnetInfos) (network.InterfaceInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EthernetDeviceForBridge", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "EthernetDeviceForBridge", name, askForProviderAddress, allSubnets)
 	ret0, _ := ret[0].(network.InterfaceInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // EthernetDeviceForBridge indicates an expected call of EthernetDeviceForBridge.
-func (mr *MockLinkLayerDeviceMockRecorder) EthernetDeviceForBridge(arg0, arg1, arg2 any) *MockLinkLayerDeviceEthernetDeviceForBridgeCall {
+func (mr *MockLinkLayerDeviceMockRecorder) EthernetDeviceForBridge(name, askForProviderAddress, allSubnets any) *MockLinkLayerDeviceEthernetDeviceForBridgeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EthernetDeviceForBridge", reflect.TypeOf((*MockLinkLayerDevice)(nil).EthernetDeviceForBridge), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EthernetDeviceForBridge", reflect.TypeOf((*MockLinkLayerDevice)(nil).EthernetDeviceForBridge), name, askForProviderAddress, allSubnets)
 	return &MockLinkLayerDeviceEthernetDeviceForBridgeCall{Call: call}
 }
 

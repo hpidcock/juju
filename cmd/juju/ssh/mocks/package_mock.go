@@ -35,6 +35,7 @@ import (
 type MockContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockContextMockRecorder
+	isgomock struct{}
 }
 
 // MockContextMockRecorder is the mock recorder for MockContext.
@@ -76,8 +77,8 @@ type MockContextDeadlineCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockContextDeadlineCall) Return(arg0 time.Time, arg1 bool) *MockContextDeadlineCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockContextDeadlineCall) Return(deadline time.Time, ok bool) *MockContextDeadlineCall {
+	c.Call = c.Call.Return(deadline, ok)
 	return c
 }
 
@@ -284,15 +285,15 @@ func (c *MockContextGetStdoutCall) DoAndReturn(f func() io.Writer) *MockContextG
 }
 
 // InterruptNotify mocks base method.
-func (m *MockContext) InterruptNotify(arg0 chan<- os.Signal) {
+func (m *MockContext) InterruptNotify(c chan<- os.Signal) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "InterruptNotify", arg0)
+	m.ctrl.Call(m, "InterruptNotify", c)
 }
 
 // InterruptNotify indicates an expected call of InterruptNotify.
-func (mr *MockContextMockRecorder) InterruptNotify(arg0 any) *MockContextInterruptNotifyCall {
+func (mr *MockContextMockRecorder) InterruptNotify(c any) *MockContextInterruptNotifyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InterruptNotify", reflect.TypeOf((*MockContext)(nil).InterruptNotify), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InterruptNotify", reflect.TypeOf((*MockContext)(nil).InterruptNotify), c)
 	return &MockContextInterruptNotifyCall{Call: call}
 }
 
@@ -302,33 +303,33 @@ type MockContextInterruptNotifyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockContextInterruptNotifyCall) Return() *MockContextInterruptNotifyCall {
-	c.Call = c.Call.Return()
-	return c
+func (c_2 *MockContextInterruptNotifyCall) Return() *MockContextInterruptNotifyCall {
+	c_2.Call = c_2.Call.Return()
+	return c_2
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockContextInterruptNotifyCall) Do(f func(chan<- os.Signal)) *MockContextInterruptNotifyCall {
-	c.Call = c.Call.Do(f)
-	return c
+func (c_2 *MockContextInterruptNotifyCall) Do(f func(chan<- os.Signal)) *MockContextInterruptNotifyCall {
+	c_2.Call = c_2.Call.Do(f)
+	return c_2
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockContextInterruptNotifyCall) DoAndReturn(f func(chan<- os.Signal)) *MockContextInterruptNotifyCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c_2 *MockContextInterruptNotifyCall) DoAndReturn(f func(chan<- os.Signal)) *MockContextInterruptNotifyCall {
+	c_2.Call = c_2.Call.DoAndReturn(f)
+	return c_2
 }
 
 // StopInterruptNotify mocks base method.
-func (m *MockContext) StopInterruptNotify(arg0 chan<- os.Signal) {
+func (m *MockContext) StopInterruptNotify(c chan<- os.Signal) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "StopInterruptNotify", arg0)
+	m.ctrl.Call(m, "StopInterruptNotify", c)
 }
 
 // StopInterruptNotify indicates an expected call of StopInterruptNotify.
-func (mr *MockContextMockRecorder) StopInterruptNotify(arg0 any) *MockContextStopInterruptNotifyCall {
+func (mr *MockContextMockRecorder) StopInterruptNotify(c any) *MockContextStopInterruptNotifyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StopInterruptNotify", reflect.TypeOf((*MockContext)(nil).StopInterruptNotify), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StopInterruptNotify", reflect.TypeOf((*MockContext)(nil).StopInterruptNotify), c)
 	return &MockContextStopInterruptNotifyCall{Call: call}
 }
 
@@ -338,35 +339,35 @@ type MockContextStopInterruptNotifyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockContextStopInterruptNotifyCall) Return() *MockContextStopInterruptNotifyCall {
-	c.Call = c.Call.Return()
-	return c
+func (c_2 *MockContextStopInterruptNotifyCall) Return() *MockContextStopInterruptNotifyCall {
+	c_2.Call = c_2.Call.Return()
+	return c_2
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockContextStopInterruptNotifyCall) Do(f func(chan<- os.Signal)) *MockContextStopInterruptNotifyCall {
-	c.Call = c.Call.Do(f)
-	return c
+func (c_2 *MockContextStopInterruptNotifyCall) Do(f func(chan<- os.Signal)) *MockContextStopInterruptNotifyCall {
+	c_2.Call = c_2.Call.Do(f)
+	return c_2
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockContextStopInterruptNotifyCall) DoAndReturn(f func(chan<- os.Signal)) *MockContextStopInterruptNotifyCall {
-	c.Call = c.Call.DoAndReturn(f)
-	return c
+func (c_2 *MockContextStopInterruptNotifyCall) DoAndReturn(f func(chan<- os.Signal)) *MockContextStopInterruptNotifyCall {
+	c_2.Call = c_2.Call.DoAndReturn(f)
+	return c_2
 }
 
 // Value mocks base method.
-func (m *MockContext) Value(arg0 any) any {
+func (m *MockContext) Value(key any) any {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Value", arg0)
+	ret := m.ctrl.Call(m, "Value", key)
 	ret0, _ := ret[0].(any)
 	return ret0
 }
 
 // Value indicates an expected call of Value.
-func (mr *MockContextMockRecorder) Value(arg0 any) *MockContextValueCall {
+func (mr *MockContextMockRecorder) Value(key any) *MockContextValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockContext)(nil).Value), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockContext)(nil).Value), key)
 	return &MockContextValueCall{Call: call}
 }
 
@@ -397,6 +398,7 @@ func (c *MockContextValueCall) DoAndReturn(f func(any) any) *MockContextValueCal
 type MockLeaderAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockLeaderAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockLeaderAPIMockRecorder is the mock recorder for MockLeaderAPI.
@@ -497,6 +499,7 @@ func (c *MockLeaderAPILeaderCall) DoAndReturn(f func(context.Context, string) (s
 type MockSSHClientAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockSSHClientAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockSSHClientAPIMockRecorder is the mock recorder for MockSSHClientAPI.
@@ -517,18 +520,18 @@ func (m *MockSSHClientAPI) EXPECT() *MockSSHClientAPIMockRecorder {
 }
 
 // AllAddresses mocks base method.
-func (m *MockSSHClientAPI) AllAddresses(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockSSHClientAPI) AllAddresses(ctx context.Context, target string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllAddresses", arg0, arg1)
+	ret := m.ctrl.Call(m, "AllAddresses", ctx, target)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllAddresses indicates an expected call of AllAddresses.
-func (mr *MockSSHClientAPIMockRecorder) AllAddresses(arg0, arg1 any) *MockSSHClientAPIAllAddressesCall {
+func (mr *MockSSHClientAPIMockRecorder) AllAddresses(ctx, target any) *MockSSHClientAPIAllAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllAddresses", reflect.TypeOf((*MockSSHClientAPI)(nil).AllAddresses), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllAddresses", reflect.TypeOf((*MockSSHClientAPI)(nil).AllAddresses), ctx, target)
 	return &MockSSHClientAPIAllAddressesCall{Call: call}
 }
 
@@ -594,18 +597,18 @@ func (c *MockSSHClientAPICloseCall) DoAndReturn(f func() error) *MockSSHClientAP
 }
 
 // ModelCredentialForSSH mocks base method.
-func (m *MockSSHClientAPI) ModelCredentialForSSH(arg0 context.Context) (cloudspec.CloudSpec, error) {
+func (m *MockSSHClientAPI) ModelCredentialForSSH(ctx context.Context) (cloudspec.CloudSpec, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelCredentialForSSH", arg0)
+	ret := m.ctrl.Call(m, "ModelCredentialForSSH", ctx)
 	ret0, _ := ret[0].(cloudspec.CloudSpec)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelCredentialForSSH indicates an expected call of ModelCredentialForSSH.
-func (mr *MockSSHClientAPIMockRecorder) ModelCredentialForSSH(arg0 any) *MockSSHClientAPIModelCredentialForSSHCall {
+func (mr *MockSSHClientAPIMockRecorder) ModelCredentialForSSH(ctx any) *MockSSHClientAPIModelCredentialForSSHCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelCredentialForSSH", reflect.TypeOf((*MockSSHClientAPI)(nil).ModelCredentialForSSH), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelCredentialForSSH", reflect.TypeOf((*MockSSHClientAPI)(nil).ModelCredentialForSSH), ctx)
 	return &MockSSHClientAPIModelCredentialForSSHCall{Call: call}
 }
 
@@ -633,18 +636,18 @@ func (c *MockSSHClientAPIModelCredentialForSSHCall) DoAndReturn(f func(context.C
 }
 
 // PrivateAddress mocks base method.
-func (m *MockSSHClientAPI) PrivateAddress(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockSSHClientAPI) PrivateAddress(ctx context.Context, target string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrivateAddress", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrivateAddress", ctx, target)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PrivateAddress indicates an expected call of PrivateAddress.
-func (mr *MockSSHClientAPIMockRecorder) PrivateAddress(arg0, arg1 any) *MockSSHClientAPIPrivateAddressCall {
+func (mr *MockSSHClientAPIMockRecorder) PrivateAddress(ctx, target any) *MockSSHClientAPIPrivateAddressCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrivateAddress", reflect.TypeOf((*MockSSHClientAPI)(nil).PrivateAddress), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrivateAddress", reflect.TypeOf((*MockSSHClientAPI)(nil).PrivateAddress), ctx, target)
 	return &MockSSHClientAPIPrivateAddressCall{Call: call}
 }
 
@@ -672,18 +675,18 @@ func (c *MockSSHClientAPIPrivateAddressCall) DoAndReturn(f func(context.Context,
 }
 
 // Proxy mocks base method.
-func (m *MockSSHClientAPI) Proxy(arg0 context.Context) (bool, error) {
+func (m *MockSSHClientAPI) Proxy(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Proxy", arg0)
+	ret := m.ctrl.Call(m, "Proxy", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Proxy indicates an expected call of Proxy.
-func (mr *MockSSHClientAPIMockRecorder) Proxy(arg0 any) *MockSSHClientAPIProxyCall {
+func (mr *MockSSHClientAPIMockRecorder) Proxy(ctx any) *MockSSHClientAPIProxyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Proxy", reflect.TypeOf((*MockSSHClientAPI)(nil).Proxy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Proxy", reflect.TypeOf((*MockSSHClientAPI)(nil).Proxy), ctx)
 	return &MockSSHClientAPIProxyCall{Call: call}
 }
 
@@ -711,18 +714,18 @@ func (c *MockSSHClientAPIProxyCall) DoAndReturn(f func(context.Context) (bool, e
 }
 
 // PublicAddress mocks base method.
-func (m *MockSSHClientAPI) PublicAddress(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockSSHClientAPI) PublicAddress(ctx context.Context, target string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PublicAddress", arg0, arg1)
+	ret := m.ctrl.Call(m, "PublicAddress", ctx, target)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PublicAddress indicates an expected call of PublicAddress.
-func (mr *MockSSHClientAPIMockRecorder) PublicAddress(arg0, arg1 any) *MockSSHClientAPIPublicAddressCall {
+func (mr *MockSSHClientAPIMockRecorder) PublicAddress(ctx, target any) *MockSSHClientAPIPublicAddressCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublicAddress", reflect.TypeOf((*MockSSHClientAPI)(nil).PublicAddress), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublicAddress", reflect.TypeOf((*MockSSHClientAPI)(nil).PublicAddress), ctx, target)
 	return &MockSSHClientAPIPublicAddressCall{Call: call}
 }
 
@@ -750,18 +753,18 @@ func (c *MockSSHClientAPIPublicAddressCall) DoAndReturn(f func(context.Context, 
 }
 
 // PublicKeys mocks base method.
-func (m *MockSSHClientAPI) PublicKeys(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockSSHClientAPI) PublicKeys(ctx context.Context, target string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PublicKeys", arg0, arg1)
+	ret := m.ctrl.Call(m, "PublicKeys", ctx, target)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PublicKeys indicates an expected call of PublicKeys.
-func (mr *MockSSHClientAPIMockRecorder) PublicKeys(arg0, arg1 any) *MockSSHClientAPIPublicKeysCall {
+func (mr *MockSSHClientAPIMockRecorder) PublicKeys(ctx, target any) *MockSSHClientAPIPublicKeysCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublicKeys", reflect.TypeOf((*MockSSHClientAPI)(nil).PublicKeys), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublicKeys", reflect.TypeOf((*MockSSHClientAPI)(nil).PublicKeys), ctx, target)
 	return &MockSSHClientAPIPublicKeysCall{Call: call}
 }
 
@@ -792,6 +795,7 @@ func (c *MockSSHClientAPIPublicKeysCall) DoAndReturn(f func(context.Context, str
 type MockSSHControllerAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockSSHControllerAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockSSHControllerAPIMockRecorder is the mock recorder for MockSSHControllerAPI.
@@ -854,6 +858,7 @@ func (c *MockSSHControllerAPIControllerConfigCall) DoAndReturn(f func(context.Co
 type MockStatusClientAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusClientAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusClientAPIMockRecorder is the mock recorder for MockStatusClientAPI.
@@ -912,18 +917,18 @@ func (c *MockStatusClientAPICloseCall) DoAndReturn(f func() error) *MockStatusCl
 }
 
 // Status mocks base method.
-func (m *MockStatusClientAPI) Status(arg0 context.Context, arg1 *client.StatusArgs) (*params.FullStatus, error) {
+func (m *MockStatusClientAPI) Status(ctx context.Context, args *client.StatusArgs) (*params.FullStatus, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Status", arg0, arg1)
+	ret := m.ctrl.Call(m, "Status", ctx, args)
 	ret0, _ := ret[0].(*params.FullStatus)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Status indicates an expected call of Status.
-func (mr *MockStatusClientAPIMockRecorder) Status(arg0, arg1 any) *MockStatusClientAPIStatusCall {
+func (mr *MockStatusClientAPIMockRecorder) Status(ctx, args any) *MockStatusClientAPIStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockStatusClientAPI)(nil).Status), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockStatusClientAPI)(nil).Status), ctx, args)
 	return &MockStatusClientAPIStatusCall{Call: call}
 }
 
@@ -954,6 +959,7 @@ func (c *MockStatusClientAPIStatusCall) DoAndReturn(f func(context.Context, *cli
 type MockCloudCredentialAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudCredentialAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudCredentialAPIMockRecorder is the mock recorder for MockCloudCredentialAPI.
@@ -1050,18 +1056,18 @@ func (c *MockCloudCredentialAPICloseCall) DoAndReturn(f func() error) *MockCloud
 }
 
 // Cloud mocks base method.
-func (m *MockCloudCredentialAPI) Cloud(arg0 names.CloudTag) (cloud.Cloud, error) {
+func (m *MockCloudCredentialAPI) Cloud(tag names.CloudTag) (cloud.Cloud, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Cloud", arg0)
+	ret := m.ctrl.Call(m, "Cloud", tag)
 	ret0, _ := ret[0].(cloud.Cloud)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Cloud indicates an expected call of Cloud.
-func (mr *MockCloudCredentialAPIMockRecorder) Cloud(arg0 any) *MockCloudCredentialAPICloudCall {
+func (mr *MockCloudCredentialAPIMockRecorder) Cloud(tag any) *MockCloudCredentialAPICloudCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cloud", reflect.TypeOf((*MockCloudCredentialAPI)(nil).Cloud), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cloud", reflect.TypeOf((*MockCloudCredentialAPI)(nil).Cloud), tag)
 	return &MockCloudCredentialAPICloudCall{Call: call}
 }
 
@@ -1089,18 +1095,18 @@ func (c *MockCloudCredentialAPICloudCall) DoAndReturn(f func(names.CloudTag) (cl
 }
 
 // CredentialContents mocks base method.
-func (m *MockCloudCredentialAPI) CredentialContents(arg0, arg1 string, arg2 bool) ([]params.CredentialContentResult, error) {
+func (m *MockCloudCredentialAPI) CredentialContents(arg0, credential string, withSecrets bool) ([]params.CredentialContentResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CredentialContents", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "CredentialContents", arg0, credential, withSecrets)
 	ret0, _ := ret[0].([]params.CredentialContentResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CredentialContents indicates an expected call of CredentialContents.
-func (mr *MockCloudCredentialAPIMockRecorder) CredentialContents(arg0, arg1, arg2 any) *MockCloudCredentialAPICredentialContentsCall {
+func (mr *MockCloudCredentialAPIMockRecorder) CredentialContents(arg0, credential, withSecrets any) *MockCloudCredentialAPICredentialContentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CredentialContents", reflect.TypeOf((*MockCloudCredentialAPI)(nil).CredentialContents), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CredentialContents", reflect.TypeOf((*MockCloudCredentialAPI)(nil).CredentialContents), arg0, credential, withSecrets)
 	return &MockCloudCredentialAPICredentialContentsCall{Call: call}
 }
 
@@ -1131,6 +1137,7 @@ func (c *MockCloudCredentialAPICredentialContentsCall) DoAndReturn(f func(string
 type MockApplicationAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationAPIMockRecorder is the mock recorder for MockApplicationAPI.
@@ -1189,9 +1196,9 @@ func (c *MockApplicationAPICloseCall) DoAndReturn(f func() error) *MockApplicati
 }
 
 // GetCharmURLOrigin mocks base method.
-func (m *MockApplicationAPI) GetCharmURLOrigin(arg0 context.Context, arg1 string) (*charm0.URL, charm.Origin, error) {
+func (m *MockApplicationAPI) GetCharmURLOrigin(ctx context.Context, applicationName string) (*charm0.URL, charm.Origin, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmURLOrigin", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmURLOrigin", ctx, applicationName)
 	ret0, _ := ret[0].(*charm0.URL)
 	ret1, _ := ret[1].(charm.Origin)
 	ret2, _ := ret[2].(error)
@@ -1199,9 +1206,9 @@ func (m *MockApplicationAPI) GetCharmURLOrigin(arg0 context.Context, arg1 string
 }
 
 // GetCharmURLOrigin indicates an expected call of GetCharmURLOrigin.
-func (mr *MockApplicationAPIMockRecorder) GetCharmURLOrigin(arg0, arg1 any) *MockApplicationAPIGetCharmURLOriginCall {
+func (mr *MockApplicationAPIMockRecorder) GetCharmURLOrigin(ctx, applicationName any) *MockApplicationAPIGetCharmURLOriginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmURLOrigin", reflect.TypeOf((*MockApplicationAPI)(nil).GetCharmURLOrigin), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmURLOrigin", reflect.TypeOf((*MockApplicationAPI)(nil).GetCharmURLOrigin), ctx, applicationName)
 	return &MockApplicationAPIGetCharmURLOriginCall{Call: call}
 }
 
@@ -1268,18 +1275,18 @@ func (c *MockApplicationAPILeaderCall) DoAndReturn(f func(context.Context, strin
 }
 
 // UnitsInfo mocks base method.
-func (m *MockApplicationAPI) UnitsInfo(arg0 context.Context, arg1 []names.UnitTag) ([]application.UnitInfo, error) {
+func (m *MockApplicationAPI) UnitsInfo(ctx context.Context, units []names.UnitTag) ([]application.UnitInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnitsInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "UnitsInfo", ctx, units)
 	ret0, _ := ret[0].([]application.UnitInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UnitsInfo indicates an expected call of UnitsInfo.
-func (mr *MockApplicationAPIMockRecorder) UnitsInfo(arg0, arg1 any) *MockApplicationAPIUnitsInfoCall {
+func (mr *MockApplicationAPIMockRecorder) UnitsInfo(ctx, units any) *MockApplicationAPIUnitsInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitsInfo", reflect.TypeOf((*MockApplicationAPI)(nil).UnitsInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitsInfo", reflect.TypeOf((*MockApplicationAPI)(nil).UnitsInfo), ctx, units)
 	return &MockApplicationAPIUnitsInfoCall{Call: call}
 }
 
@@ -1310,6 +1317,7 @@ func (c *MockApplicationAPIUnitsInfoCall) DoAndReturn(f func(context.Context, []
 type MockCharmAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmAPIMockRecorder is the mock recorder for MockCharmAPI.
@@ -1330,18 +1338,18 @@ func (m *MockCharmAPI) EXPECT() *MockCharmAPIMockRecorder {
 }
 
 // CharmInfo mocks base method.
-func (m *MockCharmAPI) CharmInfo(arg0 context.Context, arg1 string) (*charms.CharmInfo, error) {
+func (m *MockCharmAPI) CharmInfo(ctx context.Context, charmURL string) (*charms.CharmInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CharmInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "CharmInfo", ctx, charmURL)
 	ret0, _ := ret[0].(*charms.CharmInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CharmInfo indicates an expected call of CharmInfo.
-func (mr *MockCharmAPIMockRecorder) CharmInfo(arg0, arg1 any) *MockCharmAPICharmInfoCall {
+func (mr *MockCharmAPIMockRecorder) CharmInfo(ctx, charmURL any) *MockCharmAPICharmInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CharmInfo", reflect.TypeOf((*MockCharmAPI)(nil).CharmInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CharmInfo", reflect.TypeOf((*MockCharmAPI)(nil).CharmInfo), ctx, charmURL)
 	return &MockCharmAPICharmInfoCall{Call: call}
 }
 
@@ -1410,6 +1418,7 @@ func (c *MockCharmAPICloseCall) DoAndReturn(f func() error) *MockCharmAPICloseCa
 type MockModelCommand struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelCommandMockRecorder
+	isgomock struct{}
 }
 
 // MockModelCommandMockRecorder is the mock recorder for MockModelCommand.
@@ -1469,9 +1478,9 @@ func (c *MockModelCommandControllerDetailsCall) DoAndReturn(f func() (*jujuclien
 }
 
 // ModelDetails mocks base method.
-func (m *MockModelCommand) ModelDetails(arg0 context.Context) (string, *jujuclient.ModelDetails, error) {
+func (m *MockModelCommand) ModelDetails(ctx context.Context) (string, *jujuclient.ModelDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelDetails", arg0)
+	ret := m.ctrl.Call(m, "ModelDetails", ctx)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(*jujuclient.ModelDetails)
 	ret2, _ := ret[2].(error)
@@ -1479,9 +1488,9 @@ func (m *MockModelCommand) ModelDetails(arg0 context.Context) (string, *jujuclie
 }
 
 // ModelDetails indicates an expected call of ModelDetails.
-func (mr *MockModelCommandMockRecorder) ModelDetails(arg0 any) *MockModelCommandModelDetailsCall {
+func (mr *MockModelCommandMockRecorder) ModelDetails(ctx any) *MockModelCommandModelDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelDetails", reflect.TypeOf((*MockModelCommand)(nil).ModelDetails), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelDetails", reflect.TypeOf((*MockModelCommand)(nil).ModelDetails), ctx)
 	return &MockModelCommandModelDetailsCall{Call: call}
 }
 
@@ -1548,18 +1557,18 @@ func (c *MockModelCommandModelIdentifierCall) DoAndReturn(f func() (string, erro
 }
 
 // NewAPIClient mocks base method.
-func (m *MockModelCommand) NewAPIClient(arg0 context.Context) (*client.Client, error) {
+func (m *MockModelCommand) NewAPIClient(ctx context.Context) (*client.Client, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewAPIClient", arg0)
+	ret := m.ctrl.Call(m, "NewAPIClient", ctx)
 	ret0, _ := ret[0].(*client.Client)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewAPIClient indicates an expected call of NewAPIClient.
-func (mr *MockModelCommandMockRecorder) NewAPIClient(arg0 any) *MockModelCommandNewAPIClientCall {
+func (mr *MockModelCommandMockRecorder) NewAPIClient(ctx any) *MockModelCommandNewAPIClientCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAPIClient", reflect.TypeOf((*MockModelCommand)(nil).NewAPIClient), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAPIClient", reflect.TypeOf((*MockModelCommand)(nil).NewAPIClient), ctx)
 	return &MockModelCommandNewAPIClientCall{Call: call}
 }
 
@@ -1587,18 +1596,18 @@ func (c *MockModelCommandNewAPIClientCall) DoAndReturn(f func(context.Context) (
 }
 
 // NewAPIRoot mocks base method.
-func (m *MockModelCommand) NewAPIRoot(arg0 context.Context) (api.Connection, error) {
+func (m *MockModelCommand) NewAPIRoot(ctx context.Context) (api.Connection, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewAPIRoot", arg0)
+	ret := m.ctrl.Call(m, "NewAPIRoot", ctx)
 	ret0, _ := ret[0].(api.Connection)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewAPIRoot indicates an expected call of NewAPIRoot.
-func (mr *MockModelCommandMockRecorder) NewAPIRoot(arg0 any) *MockModelCommandNewAPIRootCall {
+func (mr *MockModelCommandMockRecorder) NewAPIRoot(ctx any) *MockModelCommandNewAPIRootCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAPIRoot", reflect.TypeOf((*MockModelCommand)(nil).NewAPIRoot), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAPIRoot", reflect.TypeOf((*MockModelCommand)(nil).NewAPIRoot), ctx)
 	return &MockModelCommandNewAPIRootCall{Call: call}
 }
 
@@ -1626,18 +1635,18 @@ func (c *MockModelCommandNewAPIRootCall) DoAndReturn(f func(context.Context) (ap
 }
 
 // NewControllerAPIRoot mocks base method.
-func (m *MockModelCommand) NewControllerAPIRoot(arg0 context.Context) (api.Connection, error) {
+func (m *MockModelCommand) NewControllerAPIRoot(ctx context.Context) (api.Connection, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewControllerAPIRoot", arg0)
+	ret := m.ctrl.Call(m, "NewControllerAPIRoot", ctx)
 	ret0, _ := ret[0].(api.Connection)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewControllerAPIRoot indicates an expected call of NewControllerAPIRoot.
-func (mr *MockModelCommandMockRecorder) NewControllerAPIRoot(arg0 any) *MockModelCommandNewControllerAPIRootCall {
+func (mr *MockModelCommandMockRecorder) NewControllerAPIRoot(ctx any) *MockModelCommandNewControllerAPIRootCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewControllerAPIRoot", reflect.TypeOf((*MockModelCommand)(nil).NewControllerAPIRoot), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewControllerAPIRoot", reflect.TypeOf((*MockModelCommand)(nil).NewControllerAPIRoot), ctx)
 	return &MockModelCommandNewControllerAPIRootCall{Call: call}
 }
 

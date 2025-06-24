@@ -21,6 +21,7 @@ import (
 type MockStorageAttachment struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageAttachmentMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageAttachmentMockRecorder is the mock recorder for MockStorageAttachment.
@@ -158,6 +159,7 @@ func (c *MockStorageAttachmentUnitCall) DoAndReturn(f func() names.UnitTag) *Moc
 type MockStorageInstance struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageInstanceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageInstanceMockRecorder is the mock recorder for MockStorageInstance.

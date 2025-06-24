@@ -21,6 +21,7 @@ import (
 type MockJujuLogContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockJujuLogContextMockRecorder
+	isgomock struct{}
 }
 
 // MockJujuLogContextMockRecorder is the mock recorder for MockJujuLogContext.
@@ -41,17 +42,17 @@ func (m *MockJujuLogContext) EXPECT() *MockJujuLogContextMockRecorder {
 }
 
 // GetLoggerByName mocks base method.
-func (m *MockJujuLogContext) GetLoggerByName(arg0 string) logger.Logger {
+func (m *MockJujuLogContext) GetLoggerByName(module string) logger.Logger {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLoggerByName", arg0)
+	ret := m.ctrl.Call(m, "GetLoggerByName", module)
 	ret0, _ := ret[0].(logger.Logger)
 	return ret0
 }
 
 // GetLoggerByName indicates an expected call of GetLoggerByName.
-func (mr *MockJujuLogContextMockRecorder) GetLoggerByName(arg0 any) *MockJujuLogContextGetLoggerByNameCall {
+func (mr *MockJujuLogContextMockRecorder) GetLoggerByName(module any) *MockJujuLogContextGetLoggerByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerByName", reflect.TypeOf((*MockJujuLogContext)(nil).GetLoggerByName), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerByName", reflect.TypeOf((*MockJujuLogContext)(nil).GetLoggerByName), module)
 	return &MockJujuLogContextGetLoggerByNameCall{Call: call}
 }
 

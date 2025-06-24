@@ -24,6 +24,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -83,6 +84,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -103,18 +105,18 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // CreateMachine mocks base method.
-func (m *MockImportService) CreateMachine(arg0 context.Context, arg1 machine.Name, arg2 *string) (machine.UUID, error) {
+func (m *MockImportService) CreateMachine(ctx context.Context, machineName machine.Name, nonce *string) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateMachine", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "CreateMachine", ctx, machineName, nonce)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateMachine indicates an expected call of CreateMachine.
-func (mr *MockImportServiceMockRecorder) CreateMachine(arg0, arg1, arg2 any) *MockImportServiceCreateMachineCall {
+func (mr *MockImportServiceMockRecorder) CreateMachine(ctx, machineName, nonce any) *MockImportServiceCreateMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMachine", reflect.TypeOf((*MockImportService)(nil).CreateMachine), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateMachine", reflect.TypeOf((*MockImportService)(nil).CreateMachine), ctx, machineName, nonce)
 	return &MockImportServiceCreateMachineCall{Call: call}
 }
 
@@ -142,17 +144,17 @@ func (c *MockImportServiceCreateMachineCall) DoAndReturn(f func(context.Context,
 }
 
 // SetMachineCloudInstance mocks base method.
-func (m *MockImportService) SetMachineCloudInstance(arg0 context.Context, arg1 machine.UUID, arg2 instance.Id, arg3, arg4 string, arg5 *instance.HardwareCharacteristics) error {
+func (m *MockImportService) SetMachineCloudInstance(ctx context.Context, machineUUID machine.UUID, instanceID instance.Id, displayName, nonce string, hardwareCharacteristics *instance.HardwareCharacteristics) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMachineCloudInstance", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "SetMachineCloudInstance", ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetMachineCloudInstance indicates an expected call of SetMachineCloudInstance.
-func (mr *MockImportServiceMockRecorder) SetMachineCloudInstance(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockImportServiceSetMachineCloudInstanceCall {
+func (mr *MockImportServiceMockRecorder) SetMachineCloudInstance(ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics any) *MockImportServiceSetMachineCloudInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockImportService)(nil).SetMachineCloudInstance), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockImportService)(nil).SetMachineCloudInstance), ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	return &MockImportServiceSetMachineCloudInstanceCall{Call: call}
 }
 
@@ -183,6 +185,7 @@ func (c *MockImportServiceSetMachineCloudInstanceCall) DoAndReturn(f func(contex
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -203,18 +206,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetHardwareCharacteristics mocks base method.
-func (m *MockExportService) GetHardwareCharacteristics(arg0 context.Context, arg1 machine.UUID) (*instance.HardwareCharacteristics, error) {
+func (m *MockExportService) GetHardwareCharacteristics(ctx context.Context, machineUUID machine.UUID) (*instance.HardwareCharacteristics, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", ctx, machineUUID)
 	ret0, _ := ret[0].(*instance.HardwareCharacteristics)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetHardwareCharacteristics indicates an expected call of GetHardwareCharacteristics.
-func (mr *MockExportServiceMockRecorder) GetHardwareCharacteristics(arg0, arg1 any) *MockExportServiceGetHardwareCharacteristicsCall {
+func (mr *MockExportServiceMockRecorder) GetHardwareCharacteristics(ctx, machineUUID any) *MockExportServiceGetHardwareCharacteristicsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockExportService)(nil).GetHardwareCharacteristics), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockExportService)(nil).GetHardwareCharacteristics), ctx, machineUUID)
 	return &MockExportServiceGetHardwareCharacteristicsCall{Call: call}
 }
 
@@ -242,18 +245,18 @@ func (c *MockExportServiceGetHardwareCharacteristicsCall) DoAndReturn(f func(con
 }
 
 // GetInstanceID mocks base method.
-func (m *MockExportService) GetInstanceID(arg0 context.Context, arg1 machine.UUID) (instance.Id, error) {
+func (m *MockExportService) GetInstanceID(ctx context.Context, machineUUID machine.UUID) (instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetInstanceID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetInstanceID", ctx, machineUUID)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetInstanceID indicates an expected call of GetInstanceID.
-func (mr *MockExportServiceMockRecorder) GetInstanceID(arg0, arg1 any) *MockExportServiceGetInstanceIDCall {
+func (mr *MockExportServiceMockRecorder) GetInstanceID(ctx, machineUUID any) *MockExportServiceGetInstanceIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceID", reflect.TypeOf((*MockExportService)(nil).GetInstanceID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceID", reflect.TypeOf((*MockExportService)(nil).GetInstanceID), ctx, machineUUID)
 	return &MockExportServiceGetInstanceIDCall{Call: call}
 }
 
@@ -281,18 +284,18 @@ func (c *MockExportServiceGetInstanceIDCall) DoAndReturn(f func(context.Context,
 }
 
 // GetMachines mocks base method.
-func (m *MockExportService) GetMachines(arg0 context.Context) ([]machine0.ExportMachine, error) {
+func (m *MockExportService) GetMachines(ctx context.Context) ([]machine0.ExportMachine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachines", arg0)
+	ret := m.ctrl.Call(m, "GetMachines", ctx)
 	ret0, _ := ret[0].([]machine0.ExportMachine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachines indicates an expected call of GetMachines.
-func (mr *MockExportServiceMockRecorder) GetMachines(arg0 any) *MockExportServiceGetMachinesCall {
+func (mr *MockExportServiceMockRecorder) GetMachines(ctx any) *MockExportServiceGetMachinesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachines", reflect.TypeOf((*MockExportService)(nil).GetMachines), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachines", reflect.TypeOf((*MockExportService)(nil).GetMachines), ctx)
 	return &MockExportServiceGetMachinesCall{Call: call}
 }
 

@@ -21,6 +21,7 @@ import (
 type MockServiceManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceManagerMockRecorder is the mock recorder for MockServiceManager.
@@ -41,18 +42,18 @@ func (m *MockServiceManager) EXPECT() *MockServiceManagerMockRecorder {
 }
 
 // GetService mocks base method.
-func (m *MockServiceManager) GetService(arg0 context.Context, arg1 string, arg2 bool) (*caas.Service, error) {
+func (m *MockServiceManager) GetService(ctx context.Context, appName string, includeClusterIP bool) (*caas.Service, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetService", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetService", ctx, appName, includeClusterIP)
 	ret0, _ := ret[0].(*caas.Service)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetService indicates an expected call of GetService.
-func (mr *MockServiceManagerMockRecorder) GetService(arg0, arg1, arg2 any) *MockServiceManagerGetServiceCall {
+func (mr *MockServiceManagerMockRecorder) GetService(ctx, appName, includeClusterIP any) *MockServiceManagerGetServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockServiceManager)(nil).GetService), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockServiceManager)(nil).GetService), ctx, appName, includeClusterIP)
 	return &MockServiceManagerGetServiceCall{Call: call}
 }
 

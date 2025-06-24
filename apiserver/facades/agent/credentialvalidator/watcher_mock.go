@@ -16,30 +16,31 @@ import (
 )
 
 // MockNotifyWatcher is a mock of NotifyWatcher interface.
-type MockNotifyWatcher struct {
+type MockNotifyWatcher[T any] struct {
 	ctrl     *gomock.Controller
-	recorder *MockNotifyWatcherMockRecorder
+	recorder *MockNotifyWatcherMockRecorder[T]
+	isgomock struct{}
 }
 
 // MockNotifyWatcherMockRecorder is the mock recorder for MockNotifyWatcher.
-type MockNotifyWatcherMockRecorder struct {
-	mock *MockNotifyWatcher
+type MockNotifyWatcherMockRecorder[T any] struct {
+	mock *MockNotifyWatcher[T]
 }
 
 // NewMockNotifyWatcher creates a new mock instance.
-func NewMockNotifyWatcher(ctrl *gomock.Controller) *MockNotifyWatcher {
-	mock := &MockNotifyWatcher{ctrl: ctrl}
-	mock.recorder = &MockNotifyWatcherMockRecorder{mock}
+func NewMockNotifyWatcher[T any](ctrl *gomock.Controller) *MockNotifyWatcher[T] {
+	mock := &MockNotifyWatcher[T]{ctrl: ctrl}
+	mock.recorder = &MockNotifyWatcherMockRecorder[T]{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockNotifyWatcher) EXPECT() *MockNotifyWatcherMockRecorder {
+func (m *MockNotifyWatcher[T]) EXPECT() *MockNotifyWatcherMockRecorder[T] {
 	return m.recorder
 }
 
 // Changes mocks base method.
-func (m *MockNotifyWatcher) Changes() <-chan struct{} {
+func (m *MockNotifyWatcher[T]) Changes() <-chan struct{} {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Changes")
 	ret0, _ := ret[0].(<-chan struct{})
@@ -47,73 +48,73 @@ func (m *MockNotifyWatcher) Changes() <-chan struct{} {
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockNotifyWatcherMockRecorder) Changes() *MockNotifyWatcherChangesCall {
+func (mr *MockNotifyWatcherMockRecorder[T]) Changes() *MockNotifyWatcherChangesCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockNotifyWatcher)(nil).Changes))
-	return &MockNotifyWatcherChangesCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockNotifyWatcher[T])(nil).Changes))
+	return &MockNotifyWatcherChangesCall[T]{Call: call}
 }
 
 // MockNotifyWatcherChangesCall wrap *gomock.Call
-type MockNotifyWatcherChangesCall struct {
+type MockNotifyWatcherChangesCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockNotifyWatcherChangesCall) Return(arg0 <-chan struct{}) *MockNotifyWatcherChangesCall {
+func (c *MockNotifyWatcherChangesCall[T]) Return(arg0 <-chan struct{}) *MockNotifyWatcherChangesCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockNotifyWatcherChangesCall) Do(f func() <-chan struct{}) *MockNotifyWatcherChangesCall {
+func (c *MockNotifyWatcherChangesCall[T]) Do(f func() <-chan struct{}) *MockNotifyWatcherChangesCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockNotifyWatcherChangesCall) DoAndReturn(f func() <-chan struct{}) *MockNotifyWatcherChangesCall {
+func (c *MockNotifyWatcherChangesCall[T]) DoAndReturn(f func() <-chan struct{}) *MockNotifyWatcherChangesCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Kill mocks base method.
-func (m *MockNotifyWatcher) Kill() {
+func (m *MockNotifyWatcher[T]) Kill() {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Kill")
 }
 
 // Kill indicates an expected call of Kill.
-func (mr *MockNotifyWatcherMockRecorder) Kill() *MockNotifyWatcherKillCall {
+func (mr *MockNotifyWatcherMockRecorder[T]) Kill() *MockNotifyWatcherKillCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockNotifyWatcher)(nil).Kill))
-	return &MockNotifyWatcherKillCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockNotifyWatcher[T])(nil).Kill))
+	return &MockNotifyWatcherKillCall[T]{Call: call}
 }
 
 // MockNotifyWatcherKillCall wrap *gomock.Call
-type MockNotifyWatcherKillCall struct {
+type MockNotifyWatcherKillCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockNotifyWatcherKillCall) Return() *MockNotifyWatcherKillCall {
+func (c *MockNotifyWatcherKillCall[T]) Return() *MockNotifyWatcherKillCall[T] {
 	c.Call = c.Call.Return()
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockNotifyWatcherKillCall) Do(f func()) *MockNotifyWatcherKillCall {
+func (c *MockNotifyWatcherKillCall[T]) Do(f func()) *MockNotifyWatcherKillCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockNotifyWatcherKillCall) DoAndReturn(f func()) *MockNotifyWatcherKillCall {
+func (c *MockNotifyWatcherKillCall[T]) DoAndReturn(f func()) *MockNotifyWatcherKillCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Wait mocks base method.
-func (m *MockNotifyWatcher) Wait() error {
+func (m *MockNotifyWatcher[T]) Wait() error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Wait")
 	ret0, _ := ret[0].(error)
@@ -121,31 +122,31 @@ func (m *MockNotifyWatcher) Wait() error {
 }
 
 // Wait indicates an expected call of Wait.
-func (mr *MockNotifyWatcherMockRecorder) Wait() *MockNotifyWatcherWaitCall {
+func (mr *MockNotifyWatcherMockRecorder[T]) Wait() *MockNotifyWatcherWaitCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockNotifyWatcher)(nil).Wait))
-	return &MockNotifyWatcherWaitCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockNotifyWatcher[T])(nil).Wait))
+	return &MockNotifyWatcherWaitCall[T]{Call: call}
 }
 
 // MockNotifyWatcherWaitCall wrap *gomock.Call
-type MockNotifyWatcherWaitCall struct {
+type MockNotifyWatcherWaitCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockNotifyWatcherWaitCall) Return(arg0 error) *MockNotifyWatcherWaitCall {
+func (c *MockNotifyWatcherWaitCall[T]) Return(arg0 error) *MockNotifyWatcherWaitCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockNotifyWatcherWaitCall) Do(f func() error) *MockNotifyWatcherWaitCall {
+func (c *MockNotifyWatcherWaitCall[T]) Do(f func() error) *MockNotifyWatcherWaitCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockNotifyWatcherWaitCall) DoAndReturn(f func() error) *MockNotifyWatcherWaitCall {
+func (c *MockNotifyWatcherWaitCall[T]) DoAndReturn(f func() error) *MockNotifyWatcherWaitCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

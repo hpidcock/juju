@@ -29,6 +29,7 @@ import (
 type MockAgent struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentMockRecorder is the mock recorder for MockAgent.
@@ -128,6 +129,7 @@ func (c *MockAgentCurrentConfigCall) DoAndReturn(f func() agent.Config) *MockAge
 type MockConfig struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigMockRecorder is the mock recorder for MockConfig.
@@ -1369,17 +1371,17 @@ func (c *MockConfigUpgradedToVersionCall) DoAndReturn(f func() semversion.Number
 }
 
 // Value mocks base method.
-func (m *MockConfig) Value(arg0 string) string {
+func (m *MockConfig) Value(key string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Value", arg0)
+	ret := m.ctrl.Call(m, "Value", key)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // Value indicates an expected call of Value.
-func (mr *MockConfigMockRecorder) Value(arg0 any) *MockConfigValueCall {
+func (mr *MockConfigMockRecorder) Value(key any) *MockConfigValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfig)(nil).Value), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfig)(nil).Value), key)
 	return &MockConfigValueCall{Call: call}
 }
 
@@ -1407,18 +1409,18 @@ func (c *MockConfigValueCall) DoAndReturn(f func(string) string) *MockConfigValu
 }
 
 // WriteCommands mocks base method.
-func (m *MockConfig) WriteCommands(arg0 shell.Renderer) ([]string, error) {
+func (m *MockConfig) WriteCommands(renderer shell.Renderer) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteCommands", arg0)
+	ret := m.ctrl.Call(m, "WriteCommands", renderer)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WriteCommands indicates an expected call of WriteCommands.
-func (mr *MockConfigMockRecorder) WriteCommands(arg0 any) *MockConfigWriteCommandsCall {
+func (mr *MockConfigMockRecorder) WriteCommands(renderer any) *MockConfigWriteCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfig)(nil).WriteCommands), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfig)(nil).WriteCommands), renderer)
 	return &MockConfigWriteCommandsCall{Call: call}
 }
 

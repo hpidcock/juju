@@ -26,6 +26,7 @@ import (
 type MockAgentBinaryFinder struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryFinderMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryFinderMockRecorder is the mock recorder for MockAgentBinaryFinder.
@@ -88,6 +89,7 @@ func (c *MockAgentBinaryFinderHasBinariesForVersionCall) DoAndReturn(f func(semv
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -729,17 +731,17 @@ func (c *MockStateSetModelAgentStreamCall) DoAndReturn(f func(context.Context, m
 }
 
 // SetModelTargetAgentVersion mocks base method.
-func (m *MockState) SetModelTargetAgentVersion(arg0 context.Context, arg1, arg2 semversion.Number) error {
+func (m *MockState) SetModelTargetAgentVersion(ctx context.Context, preCondition, toVersion semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelTargetAgentVersion", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetModelTargetAgentVersion", ctx, preCondition, toVersion)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelTargetAgentVersion indicates an expected call of SetModelTargetAgentVersion.
-func (mr *MockStateMockRecorder) SetModelTargetAgentVersion(arg0, arg1, arg2 any) *MockStateSetModelTargetAgentVersionCall {
+func (mr *MockStateMockRecorder) SetModelTargetAgentVersion(ctx, preCondition, toVersion any) *MockStateSetModelTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersion", reflect.TypeOf((*MockState)(nil).SetModelTargetAgentVersion), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersion", reflect.TypeOf((*MockState)(nil).SetModelTargetAgentVersion), ctx, preCondition, toVersion)
 	return &MockStateSetModelTargetAgentVersionCall{Call: call}
 }
 
@@ -767,17 +769,17 @@ func (c *MockStateSetModelTargetAgentVersionCall) DoAndReturn(f func(context.Con
 }
 
 // SetModelTargetAgentVersionAndStream mocks base method.
-func (m *MockState) SetModelTargetAgentVersionAndStream(arg0 context.Context, arg1, arg2 semversion.Number, arg3 modelagent.AgentStream) error {
+func (m *MockState) SetModelTargetAgentVersionAndStream(ctx context.Context, preCondition, toVersion semversion.Number, stream modelagent.AgentStream) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelTargetAgentVersionAndStream", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetModelTargetAgentVersionAndStream", ctx, preCondition, toVersion, stream)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelTargetAgentVersionAndStream indicates an expected call of SetModelTargetAgentVersionAndStream.
-func (mr *MockStateMockRecorder) SetModelTargetAgentVersionAndStream(arg0, arg1, arg2, arg3 any) *MockStateSetModelTargetAgentVersionAndStreamCall {
+func (mr *MockStateMockRecorder) SetModelTargetAgentVersionAndStream(ctx, preCondition, toVersion, stream any) *MockStateSetModelTargetAgentVersionAndStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersionAndStream", reflect.TypeOf((*MockState)(nil).SetModelTargetAgentVersionAndStream), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersionAndStream", reflect.TypeOf((*MockState)(nil).SetModelTargetAgentVersionAndStream), ctx, preCondition, toVersion, stream)
 	return &MockStateSetModelTargetAgentVersionAndStreamCall{Call: call}
 }
 

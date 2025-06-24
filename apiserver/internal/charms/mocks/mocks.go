@@ -23,6 +23,7 @@ import (
 type MockCharmService struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmServiceMockRecorder is the mock recorder for MockCharmService.
@@ -43,9 +44,9 @@ func (m *MockCharmService) EXPECT() *MockCharmServiceMockRecorder {
 }
 
 // GetCharm mocks base method.
-func (m *MockCharmService) GetCharm(arg0 context.Context, arg1 charm.CharmLocator) (charm0.Charm, charm.CharmLocator, bool, error) {
+func (m *MockCharmService) GetCharm(ctx context.Context, locator charm.CharmLocator) (charm0.Charm, charm.CharmLocator, bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharm", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharm", ctx, locator)
 	ret0, _ := ret[0].(charm0.Charm)
 	ret1, _ := ret[1].(charm.CharmLocator)
 	ret2, _ := ret[2].(bool)
@@ -54,9 +55,9 @@ func (m *MockCharmService) GetCharm(arg0 context.Context, arg1 charm.CharmLocato
 }
 
 // GetCharm indicates an expected call of GetCharm.
-func (mr *MockCharmServiceMockRecorder) GetCharm(arg0, arg1 any) *MockCharmServiceGetCharmCall {
+func (mr *MockCharmServiceMockRecorder) GetCharm(ctx, locator any) *MockCharmServiceGetCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockCharmService)(nil).GetCharm), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharm", reflect.TypeOf((*MockCharmService)(nil).GetCharm), ctx, locator)
 	return &MockCharmServiceGetCharmCall{Call: call}
 }
 
@@ -87,6 +88,7 @@ func (c *MockCharmServiceGetCharmCall) DoAndReturn(f func(context.Context, charm
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -107,18 +109,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByName(ctx context.Context, name string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, name)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(arg0, arg1 any) *MockApplicationServiceGetApplicationIDByNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(ctx, name any) *MockApplicationServiceGetApplicationIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), ctx, name)
 	return &MockApplicationServiceGetApplicationIDByNameCall{Call: call}
 }
 

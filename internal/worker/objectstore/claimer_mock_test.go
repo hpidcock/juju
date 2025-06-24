@@ -21,6 +21,7 @@ import (
 type MockClaimer struct {
 	ctrl     *gomock.Controller
 	recorder *MockClaimerMockRecorder
+	isgomock struct{}
 }
 
 // MockClaimerMockRecorder is the mock recorder for MockClaimer.
@@ -41,18 +42,18 @@ func (m *MockClaimer) EXPECT() *MockClaimerMockRecorder {
 }
 
 // Claim mocks base method.
-func (m *MockClaimer) Claim(arg0 context.Context, arg1 string) (objectstore.ClaimExtender, error) {
+func (m *MockClaimer) Claim(ctx context.Context, hash string) (objectstore.ClaimExtender, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Claim", arg0, arg1)
+	ret := m.ctrl.Call(m, "Claim", ctx, hash)
 	ret0, _ := ret[0].(objectstore.ClaimExtender)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Claim indicates an expected call of Claim.
-func (mr *MockClaimerMockRecorder) Claim(arg0, arg1 any) *MockClaimerClaimCall {
+func (mr *MockClaimerMockRecorder) Claim(ctx, hash any) *MockClaimerClaimCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claim", reflect.TypeOf((*MockClaimer)(nil).Claim), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claim", reflect.TypeOf((*MockClaimer)(nil).Claim), ctx, hash)
 	return &MockClaimerClaimCall{Call: call}
 }
 
@@ -80,17 +81,17 @@ func (c *MockClaimerClaimCall) DoAndReturn(f func(context.Context, string) (obje
 }
 
 // Release mocks base method.
-func (m *MockClaimer) Release(arg0 context.Context, arg1 string) error {
+func (m *MockClaimer) Release(ctx context.Context, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Release", arg0, arg1)
+	ret := m.ctrl.Call(m, "Release", ctx, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Release indicates an expected call of Release.
-func (mr *MockClaimerMockRecorder) Release(arg0, arg1 any) *MockClaimerReleaseCall {
+func (mr *MockClaimerMockRecorder) Release(ctx, hash any) *MockClaimerReleaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Release", reflect.TypeOf((*MockClaimer)(nil).Release), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Release", reflect.TypeOf((*MockClaimer)(nil).Release), ctx, hash)
 	return &MockClaimerReleaseCall{Call: call}
 }
 

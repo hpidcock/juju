@@ -22,6 +22,7 @@ import (
 type MockUnitGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockUnitGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockUnitGetterMockRecorder is the mock recorder for MockUnitGetter.
@@ -42,18 +43,18 @@ func (m *MockUnitGetter) EXPECT() *MockUnitGetterMockRecorder {
 }
 
 // Unit mocks base method.
-func (m *MockUnitGetter) Unit(arg0 context.Context, arg1 names.UnitTag) (api.Unit, error) {
+func (m *MockUnitGetter) Unit(ctx context.Context, tag names.UnitTag) (api.Unit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unit", arg0, arg1)
+	ret := m.ctrl.Call(m, "Unit", ctx, tag)
 	ret0, _ := ret[0].(api.Unit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Unit indicates an expected call of Unit.
-func (mr *MockUnitGetterMockRecorder) Unit(arg0, arg1 any) *MockUnitGetterUnitCall {
+func (mr *MockUnitGetterMockRecorder) Unit(ctx, tag any) *MockUnitGetterUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockUnitGetter)(nil).Unit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockUnitGetter)(nil).Unit), ctx, tag)
 	return &MockUnitGetterUnitCall{Call: call}
 }
 

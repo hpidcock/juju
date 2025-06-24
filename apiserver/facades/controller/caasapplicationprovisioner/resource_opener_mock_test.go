@@ -21,6 +21,7 @@ import (
 type MockOpener struct {
 	ctrl     *gomock.Controller
 	recorder *MockOpenerMockRecorder
+	isgomock struct{}
 }
 
 // MockOpenerMockRecorder is the mock recorder for MockOpener.
@@ -41,30 +42,30 @@ func (m *MockOpener) EXPECT() *MockOpenerMockRecorder {
 }
 
 // OpenResource mocks base method.
-func (m *MockOpener) OpenResource(arg0 context.Context, arg1 string) (resource.Opened, error) {
+func (m *MockOpener) OpenResource(ctx context.Context, name string) (resource.Opened, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenResource", arg0, arg1)
+	ret := m.ctrl.Call(m, "OpenResource", ctx, name)
 	ret0, _ := ret[0].(resource.Opened)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // OpenResource indicates an expected call of OpenResource.
-func (mr *MockOpenerMockRecorder) OpenResource(arg0, arg1 any) *gomock.Call {
+func (mr *MockOpenerMockRecorder) OpenResource(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenResource", reflect.TypeOf((*MockOpener)(nil).OpenResource), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenResource", reflect.TypeOf((*MockOpener)(nil).OpenResource), ctx, name)
 }
 
 // SetResourceUsed mocks base method.
-func (m *MockOpener) SetResourceUsed(arg0 context.Context, arg1 string) error {
+func (m *MockOpener) SetResourceUsed(ctx context.Context, resName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetResourceUsed", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetResourceUsed", ctx, resName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetResourceUsed indicates an expected call of SetResourceUsed.
-func (mr *MockOpenerMockRecorder) SetResourceUsed(arg0, arg1 any) *gomock.Call {
+func (mr *MockOpenerMockRecorder) SetResourceUsed(ctx, resName any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetResourceUsed", reflect.TypeOf((*MockOpener)(nil).SetResourceUsed), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetResourceUsed", reflect.TypeOf((*MockOpener)(nil).SetResourceUsed), ctx, resName)
 }

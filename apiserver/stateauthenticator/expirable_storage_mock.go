@@ -22,6 +22,7 @@ import (
 type MockExpirableStorage struct {
 	ctrl     *gomock.Controller
 	recorder *MockExpirableStorageMockRecorder
+	isgomock struct{}
 }
 
 // MockExpirableStorageMockRecorder is the mock recorder for MockExpirableStorage.
@@ -80,18 +81,18 @@ func (c *MockExpirableStorageExpireAfterCall) DoAndReturn(f func(time.Duration) 
 }
 
 // Get mocks base method.
-func (m *MockExpirableStorage) Get(arg0 context.Context, arg1 []byte) ([]byte, error) {
+func (m *MockExpirableStorage) Get(ctx context.Context, id []byte) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Get", ctx, id)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockExpirableStorageMockRecorder) Get(arg0, arg1 any) *MockExpirableStorageGetCall {
+func (mr *MockExpirableStorageMockRecorder) Get(ctx, id any) *MockExpirableStorageGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockExpirableStorage)(nil).Get), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockExpirableStorage)(nil).Get), ctx, id)
 	return &MockExpirableStorageGetCall{Call: call}
 }
 
@@ -119,9 +120,9 @@ func (c *MockExpirableStorageGetCall) DoAndReturn(f func(context.Context, []byte
 }
 
 // RootKey mocks base method.
-func (m *MockExpirableStorage) RootKey(arg0 context.Context) ([]byte, []byte, error) {
+func (m *MockExpirableStorage) RootKey(ctx context.Context) ([]byte, []byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RootKey", arg0)
+	ret := m.ctrl.Call(m, "RootKey", ctx)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].([]byte)
 	ret2, _ := ret[2].(error)
@@ -129,9 +130,9 @@ func (m *MockExpirableStorage) RootKey(arg0 context.Context) ([]byte, []byte, er
 }
 
 // RootKey indicates an expected call of RootKey.
-func (mr *MockExpirableStorageMockRecorder) RootKey(arg0 any) *MockExpirableStorageRootKeyCall {
+func (mr *MockExpirableStorageMockRecorder) RootKey(ctx any) *MockExpirableStorageRootKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RootKey", reflect.TypeOf((*MockExpirableStorage)(nil).RootKey), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RootKey", reflect.TypeOf((*MockExpirableStorage)(nil).RootKey), ctx)
 	return &MockExpirableStorageRootKeyCall{Call: call}
 }
 
@@ -141,8 +142,8 @@ type MockExpirableStorageRootKeyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockExpirableStorageRootKeyCall) Return(arg0, arg1 []byte, arg2 error) *MockExpirableStorageRootKeyCall {
-	c.Call = c.Call.Return(arg0, arg1, arg2)
+func (c *MockExpirableStorageRootKeyCall) Return(rootKey, id []byte, err error) *MockExpirableStorageRootKeyCall {
+	c.Call = c.Call.Return(rootKey, id, err)
 	return c
 }
 

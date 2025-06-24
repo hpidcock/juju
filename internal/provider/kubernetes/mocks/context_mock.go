@@ -20,6 +20,7 @@ import (
 type MockContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockContextMockRecorder
+	isgomock struct{}
 }
 
 // MockContextMockRecorder is the mock recorder for MockContext.
@@ -61,8 +62,8 @@ type MockContextDeadlineCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockContextDeadlineCall) Return(arg0 time.Time, arg1 bool) *MockContextDeadlineCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockContextDeadlineCall) Return(deadline time.Time, ok bool) *MockContextDeadlineCall {
+	c.Call = c.Call.Return(deadline, ok)
 	return c
 }
 
@@ -155,17 +156,17 @@ func (c *MockContextErrCall) DoAndReturn(f func() error) *MockContextErrCall {
 }
 
 // Value mocks base method.
-func (m *MockContext) Value(arg0 any) any {
+func (m *MockContext) Value(key any) any {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Value", arg0)
+	ret := m.ctrl.Call(m, "Value", key)
 	ret0, _ := ret[0].(any)
 	return ret0
 }
 
 // Value indicates an expected call of Value.
-func (mr *MockContextMockRecorder) Value(arg0 any) *MockContextValueCall {
+func (mr *MockContextMockRecorder) Value(key any) *MockContextValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockContext)(nil).Value), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockContext)(nil).Value), key)
 	return &MockContextValueCall{Call: call}
 }
 

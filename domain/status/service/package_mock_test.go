@@ -25,6 +25,7 @@ import (
 type MockModelState struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelStateMockRecorder
+	isgomock struct{}
 }
 
 // MockModelStateMockRecorder is the mock recorder for MockModelState.
@@ -863,17 +864,17 @@ func (c *MockModelStateImportRelationStatusCall) DoAndReturn(f func(context.Cont
 }
 
 // SetApplicationStatus mocks base method.
-func (m *MockModelState) SetApplicationStatus(ctx context.Context, applicationID application.ID, status status.StatusInfo[status.WorkloadStatusType]) error {
+func (m *MockModelState) SetApplicationStatus(ctx context.Context, applicationID application.ID, arg2 status.StatusInfo[status.WorkloadStatusType]) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetApplicationStatus", ctx, applicationID, status)
+	ret := m.ctrl.Call(m, "SetApplicationStatus", ctx, applicationID, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetApplicationStatus indicates an expected call of SetApplicationStatus.
-func (mr *MockModelStateMockRecorder) SetApplicationStatus(ctx, applicationID, status any) *MockModelStateSetApplicationStatusCall {
+func (mr *MockModelStateMockRecorder) SetApplicationStatus(ctx, applicationID, arg2 any) *MockModelStateSetApplicationStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetApplicationStatus", reflect.TypeOf((*MockModelState)(nil).SetApplicationStatus), ctx, applicationID, status)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetApplicationStatus", reflect.TypeOf((*MockModelState)(nil).SetApplicationStatus), ctx, applicationID, arg2)
 	return &MockModelStateSetApplicationStatusCall{Call: call}
 }
 
@@ -1132,6 +1133,7 @@ func (c *MockModelStateSetVolumeStatusCall) DoAndReturn(f func(context.Context, 
 type MockControllerState struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerStateMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerStateMockRecorder is the mock recorder for MockControllerState.

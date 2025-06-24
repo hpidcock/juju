@@ -23,6 +23,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -43,9 +44,9 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetModelCloudAndCredential mocks base method.
-func (m *MockState) GetModelCloudAndCredential(arg0 context.Context, arg1 model.UUID) (*cloud.Cloud, string, *modelprovider.CloudCredentialInfo, error) {
+func (m *MockState) GetModelCloudAndCredential(ctx context.Context, uuid model.UUID) (*cloud.Cloud, string, *modelprovider.CloudCredentialInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelCloudAndCredential", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetModelCloudAndCredential", ctx, uuid)
 	ret0, _ := ret[0].(*cloud.Cloud)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(*modelprovider.CloudCredentialInfo)
@@ -54,9 +55,9 @@ func (m *MockState) GetModelCloudAndCredential(arg0 context.Context, arg1 model.
 }
 
 // GetModelCloudAndCredential indicates an expected call of GetModelCloudAndCredential.
-func (mr *MockStateMockRecorder) GetModelCloudAndCredential(arg0, arg1 any) *MockStateGetModelCloudAndCredentialCall {
+func (mr *MockStateMockRecorder) GetModelCloudAndCredential(ctx, uuid any) *MockStateGetModelCloudAndCredentialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelCloudAndCredential", reflect.TypeOf((*MockState)(nil).GetModelCloudAndCredential), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelCloudAndCredential", reflect.TypeOf((*MockState)(nil).GetModelCloudAndCredential), ctx, uuid)
 	return &MockStateGetModelCloudAndCredentialCall{Call: call}
 }
 
@@ -87,6 +88,7 @@ func (c *MockStateGetModelCloudAndCredentialCall) DoAndReturn(f func(context.Con
 type MockProviderWithSecretToken struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderWithSecretTokenMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderWithSecretTokenMockRecorder is the mock recorder for MockProviderWithSecretToken.
@@ -107,18 +109,18 @@ func (m *MockProviderWithSecretToken) EXPECT() *MockProviderWithSecretTokenMockR
 }
 
 // GetSecretToken mocks base method.
-func (m *MockProviderWithSecretToken) GetSecretToken(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockProviderWithSecretToken) GetSecretToken(ctx context.Context, name string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSecretToken", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetSecretToken", ctx, name)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSecretToken indicates an expected call of GetSecretToken.
-func (mr *MockProviderWithSecretTokenMockRecorder) GetSecretToken(arg0, arg1 any) *MockProviderWithSecretTokenGetSecretTokenCall {
+func (mr *MockProviderWithSecretTokenMockRecorder) GetSecretToken(ctx, name any) *MockProviderWithSecretTokenGetSecretTokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretToken", reflect.TypeOf((*MockProviderWithSecretToken)(nil).GetSecretToken), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretToken", reflect.TypeOf((*MockProviderWithSecretToken)(nil).GetSecretToken), ctx, name)
 	return &MockProviderWithSecretTokenGetSecretTokenCall{Call: call}
 }
 

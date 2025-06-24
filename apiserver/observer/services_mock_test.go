@@ -22,6 +22,7 @@ import (
 type MockDomainServicesGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockDomainServicesGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockDomainServicesGetterMockRecorder is the mock recorder for MockDomainServicesGetter.
@@ -84,6 +85,7 @@ func (c *MockDomainServicesGetterServicesForModelCall) DoAndReturn(f func(contex
 type MockModelService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelServiceMockRecorder is the mock recorder for MockModelService.
@@ -145,6 +147,7 @@ func (c *MockModelServiceStatusServiceCall) DoAndReturn(f func() StatusService) 
 type MockStatusService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusServiceMockRecorder is the mock recorder for MockStatusService.
@@ -165,17 +168,17 @@ func (m *MockStatusService) EXPECT() *MockStatusServiceMockRecorder {
 }
 
 // DeleteUnitPresence mocks base method.
-func (m *MockStatusService) DeleteUnitPresence(arg0 context.Context, arg1 unit.Name) error {
+func (m *MockStatusService) DeleteUnitPresence(ctx context.Context, unitName unit.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUnitPresence", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteUnitPresence", ctx, unitName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteUnitPresence indicates an expected call of DeleteUnitPresence.
-func (mr *MockStatusServiceMockRecorder) DeleteUnitPresence(arg0, arg1 any) *MockStatusServiceDeleteUnitPresenceCall {
+func (mr *MockStatusServiceMockRecorder) DeleteUnitPresence(ctx, unitName any) *MockStatusServiceDeleteUnitPresenceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnitPresence", reflect.TypeOf((*MockStatusService)(nil).DeleteUnitPresence), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnitPresence", reflect.TypeOf((*MockStatusService)(nil).DeleteUnitPresence), ctx, unitName)
 	return &MockStatusServiceDeleteUnitPresenceCall{Call: call}
 }
 
@@ -203,17 +206,17 @@ func (c *MockStatusServiceDeleteUnitPresenceCall) DoAndReturn(f func(context.Con
 }
 
 // SetUnitPresence mocks base method.
-func (m *MockStatusService) SetUnitPresence(arg0 context.Context, arg1 unit.Name) error {
+func (m *MockStatusService) SetUnitPresence(ctx context.Context, unitName unit.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitPresence", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetUnitPresence", ctx, unitName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitPresence indicates an expected call of SetUnitPresence.
-func (mr *MockStatusServiceMockRecorder) SetUnitPresence(arg0, arg1 any) *MockStatusServiceSetUnitPresenceCall {
+func (mr *MockStatusServiceMockRecorder) SetUnitPresence(ctx, unitName any) *MockStatusServiceSetUnitPresenceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPresence", reflect.TypeOf((*MockStatusService)(nil).SetUnitPresence), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPresence", reflect.TypeOf((*MockStatusService)(nil).SetUnitPresence), ctx, unitName)
 	return &MockStatusServiceSetUnitPresenceCall{Call: call}
 }
 

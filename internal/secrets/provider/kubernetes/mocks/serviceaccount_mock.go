@@ -26,6 +26,7 @@ import (
 type MockServiceAccountInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceAccountInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceAccountInterfaceMockRecorder is the mock recorder for MockServiceAccountInterface.
@@ -46,113 +47,113 @@ func (m *MockServiceAccountInterface) EXPECT() *MockServiceAccountInterfaceMockR
 }
 
 // Apply mocks base method.
-func (m *MockServiceAccountInterface) Apply(arg0 context.Context, arg1 *v12.ServiceAccountApplyConfiguration, arg2 v11.ApplyOptions) (*v10.ServiceAccount, error) {
+func (m *MockServiceAccountInterface) Apply(ctx context.Context, serviceAccount *v12.ServiceAccountApplyConfiguration, opts v11.ApplyOptions) (*v10.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, serviceAccount, opts)
 	ret0, _ := ret[0].(*v10.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockServiceAccountInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Apply(ctx, serviceAccount, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockServiceAccountInterface)(nil).Apply), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockServiceAccountInterface)(nil).Apply), ctx, serviceAccount, opts)
 }
 
 // Create mocks base method.
-func (m *MockServiceAccountInterface) Create(arg0 context.Context, arg1 *v10.ServiceAccount, arg2 v11.CreateOptions) (*v10.ServiceAccount, error) {
+func (m *MockServiceAccountInterface) Create(ctx context.Context, serviceAccount *v10.ServiceAccount, opts v11.CreateOptions) (*v10.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, serviceAccount, opts)
 	ret0, _ := ret[0].(*v10.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockServiceAccountInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Create(ctx, serviceAccount, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockServiceAccountInterface)(nil).Create), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockServiceAccountInterface)(nil).Create), ctx, serviceAccount, opts)
 }
 
 // CreateToken mocks base method.
-func (m *MockServiceAccountInterface) CreateToken(arg0 context.Context, arg1 string, arg2 *v1.TokenRequest, arg3 v11.CreateOptions) (*v1.TokenRequest, error) {
+func (m *MockServiceAccountInterface) CreateToken(ctx context.Context, serviceAccountName string, tokenRequest *v1.TokenRequest, opts v11.CreateOptions) (*v1.TokenRequest, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateToken", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CreateToken", ctx, serviceAccountName, tokenRequest, opts)
 	ret0, _ := ret[0].(*v1.TokenRequest)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateToken indicates an expected call of CreateToken.
-func (mr *MockServiceAccountInterfaceMockRecorder) CreateToken(arg0, arg1, arg2, arg3 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) CreateToken(ctx, serviceAccountName, tokenRequest, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateToken", reflect.TypeOf((*MockServiceAccountInterface)(nil).CreateToken), arg0, arg1, arg2, arg3)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateToken", reflect.TypeOf((*MockServiceAccountInterface)(nil).CreateToken), ctx, serviceAccountName, tokenRequest, opts)
 }
 
 // Delete mocks base method.
-func (m *MockServiceAccountInterface) Delete(arg0 context.Context, arg1 string, arg2 v11.DeleteOptions) error {
+func (m *MockServiceAccountInterface) Delete(ctx context.Context, name string, opts v11.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockServiceAccountInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Delete(ctx, name, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockServiceAccountInterface)(nil).Delete), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockServiceAccountInterface)(nil).Delete), ctx, name, opts)
 }
 
 // DeleteCollection mocks base method.
-func (m *MockServiceAccountInterface) DeleteCollection(arg0 context.Context, arg1 v11.DeleteOptions, arg2 v11.ListOptions) error {
+func (m *MockServiceAccountInterface) DeleteCollection(ctx context.Context, opts v11.DeleteOptions, listOpts v11.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockServiceAccountInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockServiceAccountInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockServiceAccountInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 }
 
 // Get mocks base method.
-func (m *MockServiceAccountInterface) Get(arg0 context.Context, arg1 string, arg2 v11.GetOptions) (*v10.ServiceAccount, error) {
+func (m *MockServiceAccountInterface) Get(ctx context.Context, name string, opts v11.GetOptions) (*v10.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v10.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockServiceAccountInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Get(ctx, name, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockServiceAccountInterface)(nil).Get), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockServiceAccountInterface)(nil).Get), ctx, name, opts)
 }
 
 // List mocks base method.
-func (m *MockServiceAccountInterface) List(arg0 context.Context, arg1 v11.ListOptions) (*v10.ServiceAccountList, error) {
+func (m *MockServiceAccountInterface) List(ctx context.Context, opts v11.ListOptions) (*v10.ServiceAccountList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v10.ServiceAccountList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockServiceAccountInterfaceMockRecorder) List(arg0, arg1 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) List(ctx, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountInterface)(nil).List), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountInterface)(nil).List), ctx, opts)
 }
 
 // Patch mocks base method.
-func (m *MockServiceAccountInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v11.PatchOptions, arg5 ...string) (*v10.ServiceAccount, error) {
+func (m *MockServiceAccountInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v11.PatchOptions, subresources ...string) (*v10.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -162,38 +163,38 @@ func (m *MockServiceAccountInterface) Patch(arg0 context.Context, arg1 string, a
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockServiceAccountInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockServiceAccountInterface)(nil).Patch), varargs...)
 }
 
 // Update mocks base method.
-func (m *MockServiceAccountInterface) Update(arg0 context.Context, arg1 *v10.ServiceAccount, arg2 v11.UpdateOptions) (*v10.ServiceAccount, error) {
+func (m *MockServiceAccountInterface) Update(ctx context.Context, serviceAccount *v10.ServiceAccount, opts v11.UpdateOptions) (*v10.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, serviceAccount, opts)
 	ret0, _ := ret[0].(*v10.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockServiceAccountInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Update(ctx, serviceAccount, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockServiceAccountInterface)(nil).Update), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockServiceAccountInterface)(nil).Update), ctx, serviceAccount, opts)
 }
 
 // Watch mocks base method.
-func (m *MockServiceAccountInterface) Watch(arg0 context.Context, arg1 v11.ListOptions) (watch.Interface, error) {
+func (m *MockServiceAccountInterface) Watch(ctx context.Context, opts v11.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockServiceAccountInterfaceMockRecorder) Watch(arg0, arg1 any) *gomock.Call {
+func (mr *MockServiceAccountInterfaceMockRecorder) Watch(ctx, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockServiceAccountInterface)(nil).Watch), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockServiceAccountInterface)(nil).Watch), ctx, opts)
 }

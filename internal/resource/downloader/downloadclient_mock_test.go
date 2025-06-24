@@ -22,6 +22,7 @@ import (
 type MockDownloadClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockDownloadClientMockRecorder
+	isgomock struct{}
 }
 
 // MockDownloadClientMockRecorder is the mock recorder for MockDownloadClient.
@@ -42,10 +43,10 @@ func (m *MockDownloadClient) EXPECT() *MockDownloadClientMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockDownloadClient) Download(arg0 context.Context, arg1 *url.URL, arg2 string, arg3 ...charmhub.DownloadOption) (*charmhub.Digest, error) {
+func (m *MockDownloadClient) Download(ctx context.Context, arg1 *url.URL, path string, options ...charmhub.DownloadOption) (*charmhub.Digest, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{ctx, arg1, path}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Download", varargs...)
@@ -55,9 +56,9 @@ func (m *MockDownloadClient) Download(arg0 context.Context, arg1 *url.URL, arg2 
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockDownloadClientMockRecorder) Download(arg0, arg1, arg2 any, arg3 ...any) *MockDownloadClientDownloadCall {
+func (mr *MockDownloadClientMockRecorder) Download(ctx, arg1, path any, options ...any) *MockDownloadClientDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{ctx, arg1, path}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloadClient)(nil).Download), varargs...)
 	return &MockDownloadClientDownloadCall{Call: call}
 }

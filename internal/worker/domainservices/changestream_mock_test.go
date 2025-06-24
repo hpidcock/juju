@@ -20,6 +20,7 @@ import (
 type MockWatchableDBGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatchableDBGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockWatchableDBGetterMockRecorder is the mock recorder for MockWatchableDBGetter.

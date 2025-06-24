@@ -22,6 +22,7 @@ import (
 type MockExecutor struct {
 	ctrl     *gomock.Controller
 	recorder *MockExecutorMockRecorder
+	isgomock struct{}
 }
 
 // MockExecutorMockRecorder is the mock recorder for MockExecutor.
@@ -42,17 +43,17 @@ func (m *MockExecutor) EXPECT() *MockExecutorMockRecorder {
 }
 
 // Copy mocks base method.
-func (m *MockExecutor) Copy(arg0 context.Context, arg1 exec.CopyParams, arg2 <-chan struct{}) error {
+func (m *MockExecutor) Copy(ctx context.Context, params exec.CopyParams, cancel <-chan struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Copy", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Copy", ctx, params, cancel)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Copy indicates an expected call of Copy.
-func (mr *MockExecutorMockRecorder) Copy(arg0, arg1, arg2 any) *MockExecutorCopyCall {
+func (mr *MockExecutorMockRecorder) Copy(ctx, params, cancel any) *MockExecutorCopyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Copy", reflect.TypeOf((*MockExecutor)(nil).Copy), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Copy", reflect.TypeOf((*MockExecutor)(nil).Copy), ctx, params, cancel)
 	return &MockExecutorCopyCall{Call: call}
 }
 
@@ -80,17 +81,17 @@ func (c *MockExecutorCopyCall) DoAndReturn(f func(context.Context, exec.CopyPara
 }
 
 // Exec mocks base method.
-func (m *MockExecutor) Exec(arg0 context.Context, arg1 exec.ExecParams, arg2 <-chan struct{}) error {
+func (m *MockExecutor) Exec(ctx context.Context, params exec.ExecParams, cancel <-chan struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Exec", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Exec", ctx, params, cancel)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Exec indicates an expected call of Exec.
-func (mr *MockExecutorMockRecorder) Exec(arg0, arg1, arg2 any) *MockExecutorExecCall {
+func (mr *MockExecutorMockRecorder) Exec(ctx, params, cancel any) *MockExecutorExecCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exec", reflect.TypeOf((*MockExecutor)(nil).Exec), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exec", reflect.TypeOf((*MockExecutor)(nil).Exec), ctx, params, cancel)
 	return &MockExecutorExecCall{Call: call}
 }
 
@@ -194,18 +195,18 @@ func (c *MockExecutorRawClientCall) DoAndReturn(f func() kubernetes.Interface) *
 }
 
 // Status mocks base method.
-func (m *MockExecutor) Status(arg0 context.Context, arg1 exec.StatusParams) (*exec.Status, error) {
+func (m *MockExecutor) Status(ctx context.Context, params exec.StatusParams) (*exec.Status, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Status", arg0, arg1)
+	ret := m.ctrl.Call(m, "Status", ctx, params)
 	ret0, _ := ret[0].(*exec.Status)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Status indicates an expected call of Status.
-func (mr *MockExecutorMockRecorder) Status(arg0, arg1 any) *MockExecutorStatusCall {
+func (mr *MockExecutorMockRecorder) Status(ctx, params any) *MockExecutorStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockExecutor)(nil).Status), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockExecutor)(nil).Status), ctx, params)
 	return &MockExecutorStatusCall{Call: call}
 }
 

@@ -19,6 +19,7 @@ import (
 type MockDBDeleter struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBDeleterMockRecorder
+	isgomock struct{}
 }
 
 // MockDBDeleterMockRecorder is the mock recorder for MockDBDeleter.
@@ -39,17 +40,17 @@ func (m *MockDBDeleter) EXPECT() *MockDBDeleterMockRecorder {
 }
 
 // DeleteDB mocks base method.
-func (m *MockDBDeleter) DeleteDB(arg0 string) error {
+func (m *MockDBDeleter) DeleteDB(namespace string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteDB", arg0)
+	ret := m.ctrl.Call(m, "DeleteDB", namespace)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteDB indicates an expected call of DeleteDB.
-func (mr *MockDBDeleterMockRecorder) DeleteDB(arg0 any) *MockDBDeleterDeleteDBCall {
+func (mr *MockDBDeleterMockRecorder) DeleteDB(namespace any) *MockDBDeleterDeleteDBCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteDB", reflect.TypeOf((*MockDBDeleter)(nil).DeleteDB), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteDB", reflect.TypeOf((*MockDBDeleter)(nil).DeleteDB), namespace)
 	return &MockDBDeleterDeleteDBCall{Call: call}
 }
 

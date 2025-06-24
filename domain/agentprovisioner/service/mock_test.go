@@ -21,6 +21,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -85,18 +86,18 @@ func (c *MockStateGetModelConfigKeyValuesCall) DoAndReturn(f func(context.Contex
 }
 
 // ModelID mocks base method.
-func (m *MockState) ModelID(arg0 context.Context) (model.UUID, error) {
+func (m *MockState) ModelID(ctx context.Context) (model.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelID", arg0)
+	ret := m.ctrl.Call(m, "ModelID", ctx)
 	ret0, _ := ret[0].(model.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelID indicates an expected call of ModelID.
-func (mr *MockStateMockRecorder) ModelID(arg0 any) *MockStateModelIDCall {
+func (mr *MockStateMockRecorder) ModelID(ctx any) *MockStateModelIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelID", reflect.TypeOf((*MockState)(nil).ModelID), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelID", reflect.TypeOf((*MockState)(nil).ModelID), ctx)
 	return &MockStateModelIDCall{Call: call}
 }
 
@@ -127,6 +128,7 @@ func (c *MockStateModelIDCall) DoAndReturn(f func(context.Context) (model.UUID, 
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -147,18 +149,18 @@ func (m *MockProvider) EXPECT() *MockProviderMockRecorder {
 }
 
 // SupportsContainerAddresses mocks base method.
-func (m *MockProvider) SupportsContainerAddresses(arg0 context.Context) (bool, error) {
+func (m *MockProvider) SupportsContainerAddresses(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportsContainerAddresses", arg0)
+	ret := m.ctrl.Call(m, "SupportsContainerAddresses", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SupportsContainerAddresses indicates an expected call of SupportsContainerAddresses.
-func (mr *MockProviderMockRecorder) SupportsContainerAddresses(arg0 any) *MockProviderSupportsContainerAddressesCall {
+func (mr *MockProviderMockRecorder) SupportsContainerAddresses(ctx any) *MockProviderSupportsContainerAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsContainerAddresses", reflect.TypeOf((*MockProvider)(nil).SupportsContainerAddresses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsContainerAddresses", reflect.TypeOf((*MockProvider)(nil).SupportsContainerAddresses), ctx)
 	return &MockProviderSupportsContainerAddressesCall{Call: call}
 }
 

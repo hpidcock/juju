@@ -24,6 +24,7 @@ import (
 type MockEntityAuthenticator struct {
 	ctrl     *gomock.Controller
 	recorder *MockEntityAuthenticatorMockRecorder
+	isgomock struct{}
 }
 
 // MockEntityAuthenticatorMockRecorder is the mock recorder for MockEntityAuthenticator.
@@ -44,18 +45,18 @@ func (m *MockEntityAuthenticator) EXPECT() *MockEntityAuthenticatorMockRecorder 
 }
 
 // Authenticate mocks base method.
-func (m *MockEntityAuthenticator) Authenticate(arg0 context.Context, arg1 authentication.AuthParams) (state.Entity, error) {
+func (m *MockEntityAuthenticator) Authenticate(ctx context.Context, authParams authentication.AuthParams) (state.Entity, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Authenticate", arg0, arg1)
+	ret := m.ctrl.Call(m, "Authenticate", ctx, authParams)
 	ret0, _ := ret[0].(state.Entity)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Authenticate indicates an expected call of Authenticate.
-func (mr *MockEntityAuthenticatorMockRecorder) Authenticate(arg0, arg1 any) *MockEntityAuthenticatorAuthenticateCall {
+func (mr *MockEntityAuthenticatorMockRecorder) Authenticate(ctx, authParams any) *MockEntityAuthenticatorAuthenticateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Authenticate", reflect.TypeOf((*MockEntityAuthenticator)(nil).Authenticate), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Authenticate", reflect.TypeOf((*MockEntityAuthenticator)(nil).Authenticate), ctx, authParams)
 	return &MockEntityAuthenticatorAuthenticateCall{Call: call}
 }
 
@@ -86,6 +87,7 @@ func (c *MockEntityAuthenticatorAuthenticateCall) DoAndReturn(f func(context.Con
 type MockAgentPasswordService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentPasswordServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentPasswordServiceMockRecorder is the mock recorder for MockAgentPasswordService.

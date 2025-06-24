@@ -19,6 +19,7 @@ import (
 type MockFileNotifyWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileNotifyWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockFileNotifyWatcherMockRecorder is the mock recorder for MockFileNotifyWatcher.
@@ -39,18 +40,18 @@ func (m *MockFileNotifyWatcher) EXPECT() *MockFileNotifyWatcherMockRecorder {
 }
 
 // Changes mocks base method.
-func (m *MockFileNotifyWatcher) Changes(arg0 string) (<-chan bool, error) {
+func (m *MockFileNotifyWatcher) Changes(fileName string) (<-chan bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Changes", arg0)
+	ret := m.ctrl.Call(m, "Changes", fileName)
 	ret0, _ := ret[0].(<-chan bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockFileNotifyWatcherMockRecorder) Changes(arg0 any) *MockFileNotifyWatcherChangesCall {
+func (mr *MockFileNotifyWatcherMockRecorder) Changes(fileName any) *MockFileNotifyWatcherChangesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockFileNotifyWatcher)(nil).Changes), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockFileNotifyWatcher)(nil).Changes), fileName)
 	return &MockFileNotifyWatcherChangesCall{Call: call}
 }
 
@@ -81,6 +82,7 @@ func (c *MockFileNotifyWatcherChangesCall) DoAndReturn(f func(string) (<-chan bo
 type MockFileWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockFileWatcherMockRecorder is the mock recorder for MockFileWatcher.

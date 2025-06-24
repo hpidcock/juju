@@ -30,6 +30,7 @@ import (
 type MockAgentBinaryStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStoreMockRecorder is the mock recorder for MockAgentBinaryStore.
@@ -93,6 +94,7 @@ func (c *MockAgentBinaryStoreGetAgentBinaryForSHA256Call) DoAndReturn(f func(con
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -155,6 +157,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockUpgradeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpgradeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUpgradeServiceMockRecorder is the mock recorder for MockUpgradeService.
@@ -217,6 +220,7 @@ func (c *MockUpgradeServiceIsUpgradingCall) DoAndReturn(f func(context.Context) 
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -237,17 +241,17 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // CheckAllApplicationsAndUnitsAreAlive mocks base method.
-func (m *MockApplicationService) CheckAllApplicationsAndUnitsAreAlive(arg0 context.Context) error {
+func (m *MockApplicationService) CheckAllApplicationsAndUnitsAreAlive(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckAllApplicationsAndUnitsAreAlive", arg0)
+	ret := m.ctrl.Call(m, "CheckAllApplicationsAndUnitsAreAlive", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CheckAllApplicationsAndUnitsAreAlive indicates an expected call of CheckAllApplicationsAndUnitsAreAlive.
-func (mr *MockApplicationServiceMockRecorder) CheckAllApplicationsAndUnitsAreAlive(arg0 any) *MockApplicationServiceCheckAllApplicationsAndUnitsAreAliveCall {
+func (mr *MockApplicationServiceMockRecorder) CheckAllApplicationsAndUnitsAreAlive(ctx any) *MockApplicationServiceCheckAllApplicationsAndUnitsAreAliveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckAllApplicationsAndUnitsAreAlive", reflect.TypeOf((*MockApplicationService)(nil).CheckAllApplicationsAndUnitsAreAlive), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckAllApplicationsAndUnitsAreAlive", reflect.TypeOf((*MockApplicationService)(nil).CheckAllApplicationsAndUnitsAreAlive), ctx)
 	return &MockApplicationServiceCheckAllApplicationsAndUnitsAreAliveCall{Call: call}
 }
 
@@ -275,18 +279,18 @@ func (c *MockApplicationServiceCheckAllApplicationsAndUnitsAreAliveCall) DoAndRe
 }
 
 // GetUnitNamesForApplication mocks base method.
-func (m *MockApplicationService) GetUnitNamesForApplication(arg0 context.Context, arg1 string) ([]unit.Name, error) {
+func (m *MockApplicationService) GetUnitNamesForApplication(ctx context.Context, appName string) ([]unit.Name, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitNamesForApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitNamesForApplication", ctx, appName)
 	ret0, _ := ret[0].([]unit.Name)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitNamesForApplication indicates an expected call of GetUnitNamesForApplication.
-func (mr *MockApplicationServiceMockRecorder) GetUnitNamesForApplication(arg0, arg1 any) *MockApplicationServiceGetUnitNamesForApplicationCall {
+func (mr *MockApplicationServiceMockRecorder) GetUnitNamesForApplication(ctx, appName any) *MockApplicationServiceGetUnitNamesForApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitNamesForApplication", reflect.TypeOf((*MockApplicationService)(nil).GetUnitNamesForApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitNamesForApplication", reflect.TypeOf((*MockApplicationService)(nil).GetUnitNamesForApplication), ctx, appName)
 	return &MockApplicationServiceGetUnitNamesForApplicationCall{Call: call}
 }
 
@@ -317,6 +321,7 @@ func (c *MockApplicationServiceGetUnitNamesForApplicationCall) DoAndReturn(f fun
 type MockRelationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockRelationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockRelationServiceMockRecorder is the mock recorder for MockRelationService.
@@ -337,18 +342,18 @@ func (m *MockRelationService) EXPECT() *MockRelationServiceMockRecorder {
 }
 
 // GetAllRelationDetails mocks base method.
-func (m *MockRelationService) GetAllRelationDetails(arg0 context.Context) ([]relation.RelationDetailsResult, error) {
+func (m *MockRelationService) GetAllRelationDetails(ctx context.Context) ([]relation.RelationDetailsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllRelationDetails", arg0)
+	ret := m.ctrl.Call(m, "GetAllRelationDetails", ctx)
 	ret0, _ := ret[0].([]relation.RelationDetailsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllRelationDetails indicates an expected call of GetAllRelationDetails.
-func (mr *MockRelationServiceMockRecorder) GetAllRelationDetails(arg0 any) *MockRelationServiceGetAllRelationDetailsCall {
+func (mr *MockRelationServiceMockRecorder) GetAllRelationDetails(ctx any) *MockRelationServiceGetAllRelationDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllRelationDetails", reflect.TypeOf((*MockRelationService)(nil).GetAllRelationDetails), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllRelationDetails", reflect.TypeOf((*MockRelationService)(nil).GetAllRelationDetails), ctx)
 	return &MockRelationServiceGetAllRelationDetailsCall{Call: call}
 }
 
@@ -376,18 +381,18 @@ func (c *MockRelationServiceGetAllRelationDetailsCall) DoAndReturn(f func(contex
 }
 
 // RelationUnitInScopeByID mocks base method.
-func (m *MockRelationService) RelationUnitInScopeByID(arg0 context.Context, arg1 int, arg2 unit.Name) (bool, error) {
+func (m *MockRelationService) RelationUnitInScopeByID(ctx context.Context, relationID int, unitName unit.Name) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RelationUnitInScopeByID", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "RelationUnitInScopeByID", ctx, relationID, unitName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RelationUnitInScopeByID indicates an expected call of RelationUnitInScopeByID.
-func (mr *MockRelationServiceMockRecorder) RelationUnitInScopeByID(arg0, arg1, arg2 any) *MockRelationServiceRelationUnitInScopeByIDCall {
+func (mr *MockRelationServiceMockRecorder) RelationUnitInScopeByID(ctx, relationID, unitName any) *MockRelationServiceRelationUnitInScopeByIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationUnitInScopeByID", reflect.TypeOf((*MockRelationService)(nil).RelationUnitInScopeByID), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationUnitInScopeByID", reflect.TypeOf((*MockRelationService)(nil).RelationUnitInScopeByID), ctx, relationID, unitName)
 	return &MockRelationServiceRelationUnitInScopeByIDCall{Call: call}
 }
 
@@ -418,6 +423,7 @@ func (c *MockRelationServiceRelationUnitInScopeByIDCall) DoAndReturn(f func(cont
 type MockStatusService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusServiceMockRecorder is the mock recorder for MockStatusService.
@@ -479,6 +485,7 @@ func (c *MockStatusServiceCheckUnitStatusesReadyForMigrationCall) DoAndReturn(f 
 type MockOperationExporter struct {
 	ctrl     *gomock.Controller
 	recorder *MockOperationExporterMockRecorder
+	isgomock struct{}
 }
 
 // MockOperationExporterMockRecorder is the mock recorder for MockOperationExporter.
@@ -499,15 +506,15 @@ func (m *MockOperationExporter) EXPECT() *MockOperationExporterMockRecorder {
 }
 
 // ExportOperations mocks base method.
-func (m *MockOperationExporter) ExportOperations(arg0 storage.ModelStorageRegistryGetter) {
+func (m *MockOperationExporter) ExportOperations(registry storage.ModelStorageRegistryGetter) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "ExportOperations", arg0)
+	m.ctrl.Call(m, "ExportOperations", registry)
 }
 
 // ExportOperations indicates an expected call of ExportOperations.
-func (mr *MockOperationExporterMockRecorder) ExportOperations(arg0 any) *MockOperationExporterExportOperationsCall {
+func (mr *MockOperationExporterMockRecorder) ExportOperations(registry any) *MockOperationExporterExportOperationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportOperations", reflect.TypeOf((*MockOperationExporter)(nil).ExportOperations), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportOperations", reflect.TypeOf((*MockOperationExporter)(nil).ExportOperations), registry)
 	return &MockOperationExporterExportOperationsCall{Call: call}
 }
 
@@ -538,6 +545,7 @@ func (c *MockOperationExporterExportOperationsCall) DoAndReturn(f func(storage.M
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -558,15 +566,15 @@ func (m *MockCoordinator) EXPECT() *MockCoordinatorMockRecorder {
 }
 
 // Add mocks base method.
-func (m *MockCoordinator) Add(arg0 modelmigration.Operation) {
+func (m *MockCoordinator) Add(operations modelmigration.Operation) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Add", arg0)
+	m.ctrl.Call(m, "Add", operations)
 }
 
 // Add indicates an expected call of Add.
-func (mr *MockCoordinatorMockRecorder) Add(arg0 any) *MockCoordinatorAddCall {
+func (mr *MockCoordinatorMockRecorder) Add(operations any) *MockCoordinatorAddCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockCoordinator)(nil).Add), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Add", reflect.TypeOf((*MockCoordinator)(nil).Add), operations)
 	return &MockCoordinatorAddCall{Call: call}
 }
 
@@ -594,17 +602,17 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 }
 
 // Perform mocks base method.
-func (m *MockCoordinator) Perform(arg0 context.Context, arg1 modelmigration.Scope, arg2 description.Model) error {
+func (m *MockCoordinator) Perform(ctx context.Context, scope modelmigration.Scope, model description.Model) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Perform", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Perform", ctx, scope, model)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Perform indicates an expected call of Perform.
-func (mr *MockCoordinatorMockRecorder) Perform(arg0, arg1, arg2 any) *MockCoordinatorPerformCall {
+func (mr *MockCoordinatorMockRecorder) Perform(ctx, scope, model any) *MockCoordinatorPerformCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Perform", reflect.TypeOf((*MockCoordinator)(nil).Perform), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Perform", reflect.TypeOf((*MockCoordinator)(nil).Perform), ctx, scope, model)
 	return &MockCoordinatorPerformCall{Call: call}
 }
 
@@ -614,8 +622,8 @@ type MockCoordinatorPerformCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockCoordinatorPerformCall) Return(arg0 error) *MockCoordinatorPerformCall {
-	c.Call = c.Call.Return(arg0)
+func (c *MockCoordinatorPerformCall) Return(err error) *MockCoordinatorPerformCall {
+	c.Call = c.Call.Return(err)
 	return c
 }
 
@@ -635,6 +643,7 @@ func (c *MockCoordinatorPerformCall) DoAndReturn(f func(context.Context, modelmi
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.
@@ -775,6 +784,7 @@ func (c *MockModelAgentServiceGetUnitsNotAtTargetAgentVersionCall) DoAndReturn(f
 type MockCharmService struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmServiceMockRecorder is the mock recorder for MockCharmService.

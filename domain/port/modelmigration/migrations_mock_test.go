@@ -23,6 +23,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -82,6 +83,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockPortService struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockPortServiceMockRecorder is the mock recorder for MockPortService.
@@ -141,17 +143,17 @@ func (c *MockPortServiceGetUnitUUIDCall) DoAndReturn(f func(context.Context, uni
 }
 
 // UpdateUnitPorts mocks base method.
-func (m *MockPortService) UpdateUnitPorts(arg0 context.Context, arg1 unit.UUID, arg2, arg3 network.GroupedPortRanges) error {
+func (m *MockPortService) UpdateUnitPorts(ctx context.Context, unitUUID unit.UUID, openPorts, closePorts network.GroupedPortRanges) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateUnitPorts", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateUnitPorts", ctx, unitUUID, openPorts, closePorts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateUnitPorts indicates an expected call of UpdateUnitPorts.
-func (mr *MockPortServiceMockRecorder) UpdateUnitPorts(arg0, arg1, arg2, arg3 any) *MockPortServiceUpdateUnitPortsCall {
+func (mr *MockPortServiceMockRecorder) UpdateUnitPorts(ctx, unitUUID, openPorts, closePorts any) *MockPortServiceUpdateUnitPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnitPorts", reflect.TypeOf((*MockPortService)(nil).UpdateUnitPorts), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnitPorts", reflect.TypeOf((*MockPortService)(nil).UpdateUnitPorts), ctx, unitUUID, openPorts, closePorts)
 	return &MockPortServiceUpdateUnitPortsCall{Call: call}
 }
 

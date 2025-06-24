@@ -29,6 +29,7 @@ import (
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -49,18 +50,18 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // GetSpaceUUIDByName mocks base method.
-func (m *MockImportService) GetSpaceUUIDByName(arg0 context.Context, arg1 string) (network.SpaceUUID, error) {
+func (m *MockImportService) GetSpaceUUIDByName(ctx context.Context, name string) (network.SpaceUUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSpaceUUIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetSpaceUUIDByName", ctx, name)
 	ret0, _ := ret[0].(network.SpaceUUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSpaceUUIDByName indicates an expected call of GetSpaceUUIDByName.
-func (mr *MockImportServiceMockRecorder) GetSpaceUUIDByName(arg0, arg1 any) *MockImportServiceGetSpaceUUIDByNameCall {
+func (mr *MockImportServiceMockRecorder) GetSpaceUUIDByName(ctx, name any) *MockImportServiceGetSpaceUUIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSpaceUUIDByName", reflect.TypeOf((*MockImportService)(nil).GetSpaceUUIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSpaceUUIDByName", reflect.TypeOf((*MockImportService)(nil).GetSpaceUUIDByName), ctx, name)
 	return &MockImportServiceGetSpaceUUIDByNameCall{Call: call}
 }
 
@@ -205,6 +206,7 @@ func (c *MockImportServiceRemoveImportedApplicationCall) DoAndReturn(f func(cont
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -225,18 +227,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetApplicationCharmOrigin mocks base method.
-func (m *MockExportService) GetApplicationCharmOrigin(arg0 context.Context, arg1 string) (application.CharmOrigin, error) {
+func (m *MockExportService) GetApplicationCharmOrigin(ctx context.Context, name string) (application.CharmOrigin, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationCharmOrigin", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationCharmOrigin", ctx, name)
 	ret0, _ := ret[0].(application.CharmOrigin)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationCharmOrigin indicates an expected call of GetApplicationCharmOrigin.
-func (mr *MockExportServiceMockRecorder) GetApplicationCharmOrigin(arg0, arg1 any) *MockExportServiceGetApplicationCharmOriginCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationCharmOrigin(ctx, name any) *MockExportServiceGetApplicationCharmOriginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationCharmOrigin", reflect.TypeOf((*MockExportService)(nil).GetApplicationCharmOrigin), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationCharmOrigin", reflect.TypeOf((*MockExportService)(nil).GetApplicationCharmOrigin), ctx, name)
 	return &MockExportServiceGetApplicationCharmOriginCall{Call: call}
 }
 
@@ -264,9 +266,9 @@ func (c *MockExportServiceGetApplicationCharmOriginCall) DoAndReturn(f func(cont
 }
 
 // GetApplicationConfigAndSettings mocks base method.
-func (m *MockExportService) GetApplicationConfigAndSettings(arg0 context.Context, arg1 string) (config.ConfigAttributes, application.ApplicationSettings, error) {
+func (m *MockExportService) GetApplicationConfigAndSettings(ctx context.Context, name string) (config.ConfigAttributes, application.ApplicationSettings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationConfigAndSettings", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationConfigAndSettings", ctx, name)
 	ret0, _ := ret[0].(config.ConfigAttributes)
 	ret1, _ := ret[1].(application.ApplicationSettings)
 	ret2, _ := ret[2].(error)
@@ -274,9 +276,9 @@ func (m *MockExportService) GetApplicationConfigAndSettings(arg0 context.Context
 }
 
 // GetApplicationConfigAndSettings indicates an expected call of GetApplicationConfigAndSettings.
-func (mr *MockExportServiceMockRecorder) GetApplicationConfigAndSettings(arg0, arg1 any) *MockExportServiceGetApplicationConfigAndSettingsCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationConfigAndSettings(ctx, name any) *MockExportServiceGetApplicationConfigAndSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConfigAndSettings", reflect.TypeOf((*MockExportService)(nil).GetApplicationConfigAndSettings), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConfigAndSettings", reflect.TypeOf((*MockExportService)(nil).GetApplicationConfigAndSettings), ctx, name)
 	return &MockExportServiceGetApplicationConfigAndSettingsCall{Call: call}
 }
 
@@ -304,18 +306,18 @@ func (c *MockExportServiceGetApplicationConfigAndSettingsCall) DoAndReturn(f fun
 }
 
 // GetApplicationConstraints mocks base method.
-func (m *MockExportService) GetApplicationConstraints(arg0 context.Context, arg1 string) (constraints.Value, error) {
+func (m *MockExportService) GetApplicationConstraints(ctx context.Context, name string) (constraints.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationConstraints", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationConstraints", ctx, name)
 	ret0, _ := ret[0].(constraints.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationConstraints indicates an expected call of GetApplicationConstraints.
-func (mr *MockExportServiceMockRecorder) GetApplicationConstraints(arg0, arg1 any) *MockExportServiceGetApplicationConstraintsCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationConstraints(ctx, name any) *MockExportServiceGetApplicationConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConstraints", reflect.TypeOf((*MockExportService)(nil).GetApplicationConstraints), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConstraints", reflect.TypeOf((*MockExportService)(nil).GetApplicationConstraints), ctx, name)
 	return &MockExportServiceGetApplicationConstraintsCall{Call: call}
 }
 
@@ -343,18 +345,18 @@ func (c *MockExportServiceGetApplicationConstraintsCall) DoAndReturn(f func(cont
 }
 
 // GetApplicationScaleState mocks base method.
-func (m *MockExportService) GetApplicationScaleState(arg0 context.Context, arg1 string) (application.ScaleState, error) {
+func (m *MockExportService) GetApplicationScaleState(ctx context.Context, name string) (application.ScaleState, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationScaleState", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationScaleState", ctx, name)
 	ret0, _ := ret[0].(application.ScaleState)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationScaleState indicates an expected call of GetApplicationScaleState.
-func (mr *MockExportServiceMockRecorder) GetApplicationScaleState(arg0, arg1 any) *MockExportServiceGetApplicationScaleStateCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationScaleState(ctx, name any) *MockExportServiceGetApplicationScaleStateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationScaleState", reflect.TypeOf((*MockExportService)(nil).GetApplicationScaleState), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationScaleState", reflect.TypeOf((*MockExportService)(nil).GetApplicationScaleState), ctx, name)
 	return &MockExportServiceGetApplicationScaleStateCall{Call: call}
 }
 
@@ -382,18 +384,18 @@ func (c *MockExportServiceGetApplicationScaleStateCall) DoAndReturn(f func(conte
 }
 
 // GetApplicationUnits mocks base method.
-func (m *MockExportService) GetApplicationUnits(arg0 context.Context, arg1 string) ([]application.ExportUnit, error) {
+func (m *MockExportService) GetApplicationUnits(ctx context.Context, name string) ([]application.ExportUnit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationUnits", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationUnits", ctx, name)
 	ret0, _ := ret[0].([]application.ExportUnit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationUnits indicates an expected call of GetApplicationUnits.
-func (mr *MockExportServiceMockRecorder) GetApplicationUnits(arg0, arg1 any) *MockExportServiceGetApplicationUnitsCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationUnits(ctx, name any) *MockExportServiceGetApplicationUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationUnits", reflect.TypeOf((*MockExportService)(nil).GetApplicationUnits), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationUnits", reflect.TypeOf((*MockExportService)(nil).GetApplicationUnits), ctx, name)
 	return &MockExportServiceGetApplicationUnitsCall{Call: call}
 }
 
@@ -421,18 +423,18 @@ func (c *MockExportServiceGetApplicationUnitsCall) DoAndReturn(f func(context.Co
 }
 
 // GetApplications mocks base method.
-func (m *MockExportService) GetApplications(arg0 context.Context) ([]application.ExportApplication, error) {
+func (m *MockExportService) GetApplications(ctx context.Context) ([]application.ExportApplication, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplications", arg0)
+	ret := m.ctrl.Call(m, "GetApplications", ctx)
 	ret0, _ := ret[0].([]application.ExportApplication)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplications indicates an expected call of GetApplications.
-func (mr *MockExportServiceMockRecorder) GetApplications(arg0 any) *MockExportServiceGetApplicationsCall {
+func (mr *MockExportServiceMockRecorder) GetApplications(ctx any) *MockExportServiceGetApplicationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplications", reflect.TypeOf((*MockExportService)(nil).GetApplications), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplications", reflect.TypeOf((*MockExportService)(nil).GetApplications), ctx)
 	return &MockExportServiceGetApplicationsCall{Call: call}
 }
 
@@ -460,9 +462,9 @@ func (c *MockExportServiceGetApplicationsCall) DoAndReturn(f func(context.Contex
 }
 
 // GetCharmByApplicationName mocks base method.
-func (m *MockExportService) GetCharmByApplicationName(arg0 context.Context, arg1 string) (charm1.Charm, charm0.CharmLocator, error) {
+func (m *MockExportService) GetCharmByApplicationName(ctx context.Context, name string) (charm1.Charm, charm0.CharmLocator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmByApplicationName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmByApplicationName", ctx, name)
 	ret0, _ := ret[0].(charm1.Charm)
 	ret1, _ := ret[1].(charm0.CharmLocator)
 	ret2, _ := ret[2].(error)
@@ -470,9 +472,9 @@ func (m *MockExportService) GetCharmByApplicationName(arg0 context.Context, arg1
 }
 
 // GetCharmByApplicationName indicates an expected call of GetCharmByApplicationName.
-func (mr *MockExportServiceMockRecorder) GetCharmByApplicationName(arg0, arg1 any) *MockExportServiceGetCharmByApplicationNameCall {
+func (mr *MockExportServiceMockRecorder) GetCharmByApplicationName(ctx, name any) *MockExportServiceGetCharmByApplicationNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmByApplicationName", reflect.TypeOf((*MockExportService)(nil).GetCharmByApplicationName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmByApplicationName", reflect.TypeOf((*MockExportService)(nil).GetCharmByApplicationName), ctx, name)
 	return &MockExportServiceGetCharmByApplicationNameCall{Call: call}
 }
 
@@ -500,18 +502,18 @@ func (c *MockExportServiceGetCharmByApplicationNameCall) DoAndReturn(f func(cont
 }
 
 // GetCharmID mocks base method.
-func (m *MockExportService) GetCharmID(arg0 context.Context, arg1 charm0.GetCharmArgs) (charm.ID, error) {
+func (m *MockExportService) GetCharmID(ctx context.Context, args charm0.GetCharmArgs) (charm.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmID", ctx, args)
 	ret0, _ := ret[0].(charm.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmID indicates an expected call of GetCharmID.
-func (mr *MockExportServiceMockRecorder) GetCharmID(arg0, arg1 any) *MockExportServiceGetCharmIDCall {
+func (mr *MockExportServiceMockRecorder) GetCharmID(ctx, args any) *MockExportServiceGetCharmIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmID", reflect.TypeOf((*MockExportService)(nil).GetCharmID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmID", reflect.TypeOf((*MockExportService)(nil).GetCharmID), ctx, args)
 	return &MockExportServiceGetCharmIDCall{Call: call}
 }
 
@@ -539,18 +541,18 @@ func (c *MockExportServiceGetCharmIDCall) DoAndReturn(f func(context.Context, ch
 }
 
 // GetExposedEndpoints mocks base method.
-func (m *MockExportService) GetExposedEndpoints(arg0 context.Context, arg1 string) (map[string]application.ExposedEndpoint, error) {
+func (m *MockExportService) GetExposedEndpoints(ctx context.Context, appName string) (map[string]application.ExposedEndpoint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExposedEndpoints", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetExposedEndpoints", ctx, appName)
 	ret0, _ := ret[0].(map[string]application.ExposedEndpoint)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExposedEndpoints indicates an expected call of GetExposedEndpoints.
-func (mr *MockExportServiceMockRecorder) GetExposedEndpoints(arg0, arg1 any) *MockExportServiceGetExposedEndpointsCall {
+func (mr *MockExportServiceMockRecorder) GetExposedEndpoints(ctx, appName any) *MockExportServiceGetExposedEndpointsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExposedEndpoints", reflect.TypeOf((*MockExportService)(nil).GetExposedEndpoints), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExposedEndpoints", reflect.TypeOf((*MockExportService)(nil).GetExposedEndpoints), ctx, appName)
 	return &MockExportServiceGetExposedEndpointsCall{Call: call}
 }
 
@@ -578,18 +580,18 @@ func (c *MockExportServiceGetExposedEndpointsCall) DoAndReturn(f func(context.Co
 }
 
 // GetUnitUUIDByName mocks base method.
-func (m *MockExportService) GetUnitUUIDByName(arg0 context.Context, arg1 unit.Name) (unit.UUID, error) {
+func (m *MockExportService) GetUnitUUIDByName(ctx context.Context, name unit.Name) (unit.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitUUIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitUUIDByName", ctx, name)
 	ret0, _ := ret[0].(unit.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitUUIDByName indicates an expected call of GetUnitUUIDByName.
-func (mr *MockExportServiceMockRecorder) GetUnitUUIDByName(arg0, arg1 any) *MockExportServiceGetUnitUUIDByNameCall {
+func (mr *MockExportServiceMockRecorder) GetUnitUUIDByName(ctx, name any) *MockExportServiceGetUnitUUIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitUUIDByName", reflect.TypeOf((*MockExportService)(nil).GetUnitUUIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitUUIDByName", reflect.TypeOf((*MockExportService)(nil).GetUnitUUIDByName), ctx, name)
 	return &MockExportServiceGetUnitUUIDByNameCall{Call: call}
 }
 
@@ -617,18 +619,18 @@ func (c *MockExportServiceGetUnitUUIDByNameCall) DoAndReturn(f func(context.Cont
 }
 
 // IsApplicationExposed mocks base method.
-func (m *MockExportService) IsApplicationExposed(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockExportService) IsApplicationExposed(ctx context.Context, appName string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsApplicationExposed", arg0, arg1)
+	ret := m.ctrl.Call(m, "IsApplicationExposed", ctx, appName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsApplicationExposed indicates an expected call of IsApplicationExposed.
-func (mr *MockExportServiceMockRecorder) IsApplicationExposed(arg0, arg1 any) *MockExportServiceIsApplicationExposedCall {
+func (mr *MockExportServiceMockRecorder) IsApplicationExposed(ctx, appName any) *MockExportServiceIsApplicationExposedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsApplicationExposed", reflect.TypeOf((*MockExportService)(nil).IsApplicationExposed), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsApplicationExposed", reflect.TypeOf((*MockExportService)(nil).IsApplicationExposed), ctx, appName)
 	return &MockExportServiceIsApplicationExposedCall{Call: call}
 }
 

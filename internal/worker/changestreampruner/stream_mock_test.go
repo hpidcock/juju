@@ -20,6 +20,7 @@ import (
 type MockDBGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockDBGetterMockRecorder is the mock recorder for MockDBGetter.
@@ -40,18 +41,18 @@ func (m *MockDBGetter) EXPECT() *MockDBGetterMockRecorder {
 }
 
 // GetDB mocks base method.
-func (m *MockDBGetter) GetDB(arg0 string) (database.TxnRunner, error) {
+func (m *MockDBGetter) GetDB(namespace string) (database.TxnRunner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDB", arg0)
+	ret := m.ctrl.Call(m, "GetDB", namespace)
 	ret0, _ := ret[0].(database.TxnRunner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDB indicates an expected call of GetDB.
-func (mr *MockDBGetterMockRecorder) GetDB(arg0 any) *MockDBGetterGetDBCall {
+func (mr *MockDBGetterMockRecorder) GetDB(namespace any) *MockDBGetterGetDBCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDB", reflect.TypeOf((*MockDBGetter)(nil).GetDB), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDB", reflect.TypeOf((*MockDBGetter)(nil).GetDB), namespace)
 	return &MockDBGetterGetDBCall{Call: call}
 }
 

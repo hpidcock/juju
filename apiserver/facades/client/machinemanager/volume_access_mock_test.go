@@ -21,6 +21,7 @@ import (
 type MockVolumeAccess struct {
 	ctrl     *gomock.Controller
 	recorder *MockVolumeAccessMockRecorder
+	isgomock struct{}
 }
 
 // MockVolumeAccessMockRecorder is the mock recorder for MockVolumeAccess.

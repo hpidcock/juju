@@ -23,6 +23,7 @@ import (
 type MockClaimer struct {
 	ctrl     *gomock.Controller
 	recorder *MockClaimerMockRecorder
+	isgomock struct{}
 }
 
 // MockClaimerMockRecorder is the mock recorder for MockClaimer.
@@ -43,18 +44,18 @@ func (m *MockClaimer) EXPECT() *MockClaimerMockRecorder {
 }
 
 // Claim mocks base method.
-func (m *MockClaimer) Claim(arg0 context.Context, arg1 string) (ClaimExtender, error) {
+func (m *MockClaimer) Claim(ctx context.Context, hash string) (ClaimExtender, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Claim", arg0, arg1)
+	ret := m.ctrl.Call(m, "Claim", ctx, hash)
 	ret0, _ := ret[0].(ClaimExtender)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Claim indicates an expected call of Claim.
-func (mr *MockClaimerMockRecorder) Claim(arg0, arg1 any) *MockClaimerClaimCall {
+func (mr *MockClaimerMockRecorder) Claim(ctx, hash any) *MockClaimerClaimCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claim", reflect.TypeOf((*MockClaimer)(nil).Claim), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claim", reflect.TypeOf((*MockClaimer)(nil).Claim), ctx, hash)
 	return &MockClaimerClaimCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockClaimerClaimCall) DoAndReturn(f func(context.Context, string) (Clai
 }
 
 // Release mocks base method.
-func (m *MockClaimer) Release(arg0 context.Context, arg1 string) error {
+func (m *MockClaimer) Release(ctx context.Context, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Release", arg0, arg1)
+	ret := m.ctrl.Call(m, "Release", ctx, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Release indicates an expected call of Release.
-func (mr *MockClaimerMockRecorder) Release(arg0, arg1 any) *MockClaimerReleaseCall {
+func (mr *MockClaimerMockRecorder) Release(ctx, hash any) *MockClaimerReleaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Release", reflect.TypeOf((*MockClaimer)(nil).Release), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Release", reflect.TypeOf((*MockClaimer)(nil).Release), ctx, hash)
 	return &MockClaimerReleaseCall{Call: call}
 }
 
@@ -123,6 +124,7 @@ func (c *MockClaimerReleaseCall) DoAndReturn(f func(context.Context, string) err
 type MockClaimExtender struct {
 	ctrl     *gomock.Controller
 	recorder *MockClaimExtenderMockRecorder
+	isgomock struct{}
 }
 
 // MockClaimExtenderMockRecorder is the mock recorder for MockClaimExtender.
@@ -181,17 +183,17 @@ func (c *MockClaimExtenderDurationCall) DoAndReturn(f func() time.Duration) *Moc
 }
 
 // Extend mocks base method.
-func (m *MockClaimExtender) Extend(arg0 context.Context) error {
+func (m *MockClaimExtender) Extend(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Extend", arg0)
+	ret := m.ctrl.Call(m, "Extend", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Extend indicates an expected call of Extend.
-func (mr *MockClaimExtenderMockRecorder) Extend(arg0 any) *MockClaimExtenderExtendCall {
+func (mr *MockClaimExtenderMockRecorder) Extend(ctx any) *MockClaimExtenderExtendCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Extend", reflect.TypeOf((*MockClaimExtender)(nil).Extend), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Extend", reflect.TypeOf((*MockClaimExtender)(nil).Extend), ctx)
 	return &MockClaimExtenderExtendCall{Call: call}
 }
 
@@ -222,6 +224,7 @@ func (c *MockClaimExtenderExtendCall) DoAndReturn(f func(context.Context) error)
 type MockHashFileSystemAccessor struct {
 	ctrl     *gomock.Controller
 	recorder *MockHashFileSystemAccessorMockRecorder
+	isgomock struct{}
 }
 
 // MockHashFileSystemAccessorMockRecorder is the mock recorder for MockHashFileSystemAccessor.
@@ -242,17 +245,17 @@ func (m *MockHashFileSystemAccessor) EXPECT() *MockHashFileSystemAccessorMockRec
 }
 
 // DeleteByHash mocks base method.
-func (m *MockHashFileSystemAccessor) DeleteByHash(arg0 context.Context, arg1 string) error {
+func (m *MockHashFileSystemAccessor) DeleteByHash(ctx context.Context, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteByHash", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteByHash", ctx, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteByHash indicates an expected call of DeleteByHash.
-func (mr *MockHashFileSystemAccessorMockRecorder) DeleteByHash(arg0, arg1 any) *MockHashFileSystemAccessorDeleteByHashCall {
+func (mr *MockHashFileSystemAccessorMockRecorder) DeleteByHash(ctx, hash any) *MockHashFileSystemAccessorDeleteByHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteByHash", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).DeleteByHash), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteByHash", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).DeleteByHash), ctx, hash)
 	return &MockHashFileSystemAccessorDeleteByHashCall{Call: call}
 }
 
@@ -280,9 +283,9 @@ func (c *MockHashFileSystemAccessorDeleteByHashCall) DoAndReturn(f func(context.
 }
 
 // GetByHash mocks base method.
-func (m *MockHashFileSystemAccessor) GetByHash(arg0 context.Context, arg1 string) (io.ReadCloser, int64, error) {
+func (m *MockHashFileSystemAccessor) GetByHash(ctx context.Context, hash string) (io.ReadCloser, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByHash", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetByHash", ctx, hash)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -290,9 +293,9 @@ func (m *MockHashFileSystemAccessor) GetByHash(arg0 context.Context, arg1 string
 }
 
 // GetByHash indicates an expected call of GetByHash.
-func (mr *MockHashFileSystemAccessorMockRecorder) GetByHash(arg0, arg1 any) *MockHashFileSystemAccessorGetByHashCall {
+func (mr *MockHashFileSystemAccessorMockRecorder) GetByHash(ctx, hash any) *MockHashFileSystemAccessorGetByHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByHash", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).GetByHash), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByHash", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).GetByHash), ctx, hash)
 	return &MockHashFileSystemAccessorGetByHashCall{Call: call}
 }
 
@@ -320,17 +323,17 @@ func (c *MockHashFileSystemAccessorGetByHashCall) DoAndReturn(f func(context.Con
 }
 
 // HashExists mocks base method.
-func (m *MockHashFileSystemAccessor) HashExists(arg0 context.Context, arg1 string) error {
+func (m *MockHashFileSystemAccessor) HashExists(ctx context.Context, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HashExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "HashExists", ctx, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // HashExists indicates an expected call of HashExists.
-func (mr *MockHashFileSystemAccessorMockRecorder) HashExists(arg0, arg1 any) *MockHashFileSystemAccessorHashExistsCall {
+func (mr *MockHashFileSystemAccessorMockRecorder) HashExists(ctx, hash any) *MockHashFileSystemAccessorHashExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HashExists", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).HashExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HashExists", reflect.TypeOf((*MockHashFileSystemAccessor)(nil).HashExists), ctx, hash)
 	return &MockHashFileSystemAccessorHashExistsCall{Call: call}
 }
 
@@ -361,6 +364,7 @@ func (c *MockHashFileSystemAccessorHashExistsCall) DoAndReturn(f func(context.Co
 type MockTrackedObjectStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackedObjectStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackedObjectStoreMockRecorder is the mock recorder for MockTrackedObjectStore.
@@ -537,18 +541,18 @@ func (c *MockTrackedObjectStoreKillCall) DoAndReturn(f func()) *MockTrackedObjec
 }
 
 // Put mocks base method.
-func (m *MockTrackedObjectStore) Put(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64) (objectstore.UUID, error) {
+func (m *MockTrackedObjectStore) Put(ctx context.Context, path string, r io.Reader, size int64) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Put", ctx, path, r, size)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Put indicates an expected call of Put.
-func (mr *MockTrackedObjectStoreMockRecorder) Put(arg0, arg1, arg2, arg3 any) *MockTrackedObjectStorePutCall {
+func (mr *MockTrackedObjectStoreMockRecorder) Put(ctx, path, r, size any) *MockTrackedObjectStorePutCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockTrackedObjectStore)(nil).Put), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockTrackedObjectStore)(nil).Put), ctx, path, r, size)
 	return &MockTrackedObjectStorePutCall{Call: call}
 }
 
@@ -576,18 +580,18 @@ func (c *MockTrackedObjectStorePutCall) DoAndReturn(f func(context.Context, stri
 }
 
 // PutAndCheckHash mocks base method.
-func (m *MockTrackedObjectStore) PutAndCheckHash(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64, arg4 string) (objectstore.UUID, error) {
+func (m *MockTrackedObjectStore) PutAndCheckHash(ctx context.Context, path string, r io.Reader, size int64, sha384 string) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutAndCheckHash", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutAndCheckHash", ctx, path, r, size, sha384)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutAndCheckHash indicates an expected call of PutAndCheckHash.
-func (mr *MockTrackedObjectStoreMockRecorder) PutAndCheckHash(arg0, arg1, arg2, arg3, arg4 any) *MockTrackedObjectStorePutAndCheckHashCall {
+func (mr *MockTrackedObjectStoreMockRecorder) PutAndCheckHash(ctx, path, r, size, sha384 any) *MockTrackedObjectStorePutAndCheckHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockTrackedObjectStore)(nil).PutAndCheckHash), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockTrackedObjectStore)(nil).PutAndCheckHash), ctx, path, r, size, sha384)
 	return &MockTrackedObjectStorePutAndCheckHashCall{Call: call}
 }
 
@@ -615,17 +619,17 @@ func (c *MockTrackedObjectStorePutAndCheckHashCall) DoAndReturn(f func(context.C
 }
 
 // Remove mocks base method.
-func (m *MockTrackedObjectStore) Remove(arg0 context.Context, arg1 string) error {
+func (m *MockTrackedObjectStore) Remove(ctx context.Context, path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0, arg1)
+	ret := m.ctrl.Call(m, "Remove", ctx, path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockTrackedObjectStoreMockRecorder) Remove(arg0, arg1 any) *MockTrackedObjectStoreRemoveCall {
+func (mr *MockTrackedObjectStoreMockRecorder) Remove(ctx, path any) *MockTrackedObjectStoreRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockTrackedObjectStore)(nil).Remove), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockTrackedObjectStore)(nil).Remove), ctx, path)
 	return &MockTrackedObjectStoreRemoveCall{Call: call}
 }
 
@@ -694,6 +698,7 @@ func (c *MockTrackedObjectStoreWaitCall) DoAndReturn(f func() error) *MockTracke
 type MockRemoteRetriever struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoteRetrieverMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoteRetrieverMockRecorder is the mock recorder for MockRemoteRetriever.
@@ -714,9 +719,9 @@ func (m *MockRemoteRetriever) EXPECT() *MockRemoteRetrieverMockRecorder {
 }
 
 // Retrieve mocks base method.
-func (m *MockRemoteRetriever) Retrieve(arg0 context.Context, arg1 string) (io.ReadCloser, int64, error) {
+func (m *MockRemoteRetriever) Retrieve(ctx context.Context, sha256 string) (io.ReadCloser, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Retrieve", arg0, arg1)
+	ret := m.ctrl.Call(m, "Retrieve", ctx, sha256)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -724,9 +729,9 @@ func (m *MockRemoteRetriever) Retrieve(arg0 context.Context, arg1 string) (io.Re
 }
 
 // Retrieve indicates an expected call of Retrieve.
-func (mr *MockRemoteRetrieverMockRecorder) Retrieve(arg0, arg1 any) *MockRemoteRetrieverRetrieveCall {
+func (mr *MockRemoteRetrieverMockRecorder) Retrieve(ctx, sha256 any) *MockRemoteRetrieverRetrieveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Retrieve", reflect.TypeOf((*MockRemoteRetriever)(nil).Retrieve), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Retrieve", reflect.TypeOf((*MockRemoteRetriever)(nil).Retrieve), ctx, sha256)
 	return &MockRemoteRetrieverRetrieveCall{Call: call}
 }
 

@@ -20,6 +20,7 @@ import (
 type MockMetricsCollector struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetricsCollectorMockRecorder
+	isgomock struct{}
 }
 
 // MockMetricsCollectorMockRecorder is the mock recorder for MockMetricsCollector.
@@ -78,17 +79,17 @@ func (c *MockMetricsCollectorConnectionsCall) DoAndReturn(f func() prometheus.Ga
 }
 
 // LogReadCount mocks base method.
-func (m *MockMetricsCollector) LogReadCount(arg0, arg1 string) prometheus.Counter {
+func (m *MockMetricsCollector) LogReadCount(modelUUID, state string) prometheus.Counter {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LogReadCount", arg0, arg1)
+	ret := m.ctrl.Call(m, "LogReadCount", modelUUID, state)
 	ret0, _ := ret[0].(prometheus.Counter)
 	return ret0
 }
 
 // LogReadCount indicates an expected call of LogReadCount.
-func (mr *MockMetricsCollectorMockRecorder) LogReadCount(arg0, arg1 any) *MockMetricsCollectorLogReadCountCall {
+func (mr *MockMetricsCollectorMockRecorder) LogReadCount(modelUUID, state any) *MockMetricsCollectorLogReadCountCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogReadCount", reflect.TypeOf((*MockMetricsCollector)(nil).LogReadCount), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogReadCount", reflect.TypeOf((*MockMetricsCollector)(nil).LogReadCount), modelUUID, state)
 	return &MockMetricsCollectorLogReadCountCall{Call: call}
 }
 
@@ -116,17 +117,17 @@ func (c *MockMetricsCollectorLogReadCountCall) DoAndReturn(f func(string, string
 }
 
 // LogWriteCount mocks base method.
-func (m *MockMetricsCollector) LogWriteCount(arg0, arg1 string) prometheus.Counter {
+func (m *MockMetricsCollector) LogWriteCount(modelUUID, state string) prometheus.Counter {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LogWriteCount", arg0, arg1)
+	ret := m.ctrl.Call(m, "LogWriteCount", modelUUID, state)
 	ret0, _ := ret[0].(prometheus.Counter)
 	return ret0
 }
 
 // LogWriteCount indicates an expected call of LogWriteCount.
-func (mr *MockMetricsCollectorMockRecorder) LogWriteCount(arg0, arg1 any) *MockMetricsCollectorLogWriteCountCall {
+func (mr *MockMetricsCollectorMockRecorder) LogWriteCount(modelUUID, state any) *MockMetricsCollectorLogWriteCountCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogWriteCount", reflect.TypeOf((*MockMetricsCollector)(nil).LogWriteCount), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogWriteCount", reflect.TypeOf((*MockMetricsCollector)(nil).LogWriteCount), modelUUID, state)
 	return &MockMetricsCollectorLogWriteCountCall{Call: call}
 }
 
@@ -154,17 +155,17 @@ func (c *MockMetricsCollectorLogWriteCountCall) DoAndReturn(f func(string, strin
 }
 
 // PingFailureCount mocks base method.
-func (m *MockMetricsCollector) PingFailureCount(arg0 string) prometheus.Counter {
+func (m *MockMetricsCollector) PingFailureCount(modelUUID string) prometheus.Counter {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PingFailureCount", arg0)
+	ret := m.ctrl.Call(m, "PingFailureCount", modelUUID)
 	ret0, _ := ret[0].(prometheus.Counter)
 	return ret0
 }
 
 // PingFailureCount indicates an expected call of PingFailureCount.
-func (mr *MockMetricsCollectorMockRecorder) PingFailureCount(arg0 any) *MockMetricsCollectorPingFailureCountCall {
+func (mr *MockMetricsCollectorMockRecorder) PingFailureCount(modelUUID any) *MockMetricsCollectorPingFailureCountCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PingFailureCount", reflect.TypeOf((*MockMetricsCollector)(nil).PingFailureCount), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PingFailureCount", reflect.TypeOf((*MockMetricsCollector)(nil).PingFailureCount), modelUUID)
 	return &MockMetricsCollectorPingFailureCountCall{Call: call}
 }
 

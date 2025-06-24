@@ -26,6 +26,7 @@ import (
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -127,6 +128,7 @@ func (c *MockExportServiceGetModelConstraintsCall) DoAndReturn(f func(context.Co
 type MockModelImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelImportServiceMockRecorder is the mock recorder for MockModelImportService.
@@ -232,6 +234,7 @@ func (c *MockModelImportServiceImportModelCall) DoAndReturn(f func(context.Conte
 type MockModelDetailService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelDetailServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelDetailServiceMockRecorder is the mock recorder for MockModelDetailService.
@@ -369,6 +372,7 @@ func (c *MockModelDetailServiceSetModelConstraintsCall) DoAndReturn(f func(conte
 type MockUserService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUserServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUserServiceMockRecorder is the mock recorder for MockUserService.

@@ -24,6 +24,7 @@ import (
 type MockAgentConfig struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentConfigMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentConfigMockRecorder is the mock recorder for MockAgentConfig.
@@ -85,6 +86,7 @@ func (c *MockAgentConfigModelCall) DoAndReturn(f func() reboot.Model) *MockAgent
 type MockManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockManagerMockRecorder is the mock recorder for MockManager.
@@ -185,6 +187,7 @@ func (c *MockManagerListContainersCall) DoAndReturn(f func() ([]instances.Instan
 type MockModel struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelMockRecorder
+	isgomock struct{}
 }
 
 // MockModelMockRecorder is the mock recorder for MockModel.
@@ -246,6 +249,7 @@ func (c *MockModelIdCall) DoAndReturn(f func() string) *MockModelIdCall {
 type MockRebootWaiter struct {
 	ctrl     *gomock.Controller
 	recorder *MockRebootWaiterMockRecorder
+	isgomock struct{}
 }
 
 // MockRebootWaiterMockRecorder is the mock recorder for MockRebootWaiter.
@@ -383,17 +387,17 @@ func (c *MockRebootWaiterNewServiceReferenceCall) DoAndReturn(f func(string) (re
 }
 
 // ScheduleAction mocks base method.
-func (m *MockRebootWaiter) ScheduleAction(arg0 params.RebootAction, arg1 int) error {
+func (m *MockRebootWaiter) ScheduleAction(action params.RebootAction, after int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ScheduleAction", arg0, arg1)
+	ret := m.ctrl.Call(m, "ScheduleAction", action, after)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ScheduleAction indicates an expected call of ScheduleAction.
-func (mr *MockRebootWaiterMockRecorder) ScheduleAction(arg0, arg1 any) *MockRebootWaiterScheduleActionCall {
+func (mr *MockRebootWaiterMockRecorder) ScheduleAction(action, after any) *MockRebootWaiterScheduleActionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ScheduleAction", reflect.TypeOf((*MockRebootWaiter)(nil).ScheduleAction), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ScheduleAction", reflect.TypeOf((*MockRebootWaiter)(nil).ScheduleAction), action, after)
 	return &MockRebootWaiterScheduleActionCall{Call: call}
 }
 
@@ -424,6 +428,7 @@ func (c *MockRebootWaiterScheduleActionCall) DoAndReturn(f func(params.RebootAct
 type MockService struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceMockRecorder is the mock recorder for MockService.

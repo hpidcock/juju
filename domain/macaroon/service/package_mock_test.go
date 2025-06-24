@@ -23,6 +23,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -43,18 +44,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // FindLatestKey mocks base method.
-func (m *MockState) FindLatestKey(arg0 context.Context, arg1, arg2, arg3, arg4 time.Time) (macaroon.RootKey, error) {
+func (m *MockState) FindLatestKey(ctx context.Context, createdAfter, expiresAfter, expiresBefore, now time.Time) (macaroon.RootKey, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindLatestKey", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "FindLatestKey", ctx, createdAfter, expiresAfter, expiresBefore, now)
 	ret0, _ := ret[0].(macaroon.RootKey)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindLatestKey indicates an expected call of FindLatestKey.
-func (mr *MockStateMockRecorder) FindLatestKey(arg0, arg1, arg2, arg3, arg4 any) *MockStateFindLatestKeyCall {
+func (mr *MockStateMockRecorder) FindLatestKey(ctx, createdAfter, expiresAfter, expiresBefore, now any) *MockStateFindLatestKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindLatestKey", reflect.TypeOf((*MockState)(nil).FindLatestKey), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindLatestKey", reflect.TypeOf((*MockState)(nil).FindLatestKey), ctx, createdAfter, expiresAfter, expiresBefore, now)
 	return &MockStateFindLatestKeyCall{Call: call}
 }
 
@@ -121,18 +122,18 @@ func (c *MockStateGetExternalUsersThirdPartyKeyCall) DoAndReturn(f func(context.
 }
 
 // GetKey mocks base method.
-func (m *MockState) GetKey(arg0 context.Context, arg1 []byte, arg2 time.Time) (macaroon.RootKey, error) {
+func (m *MockState) GetKey(ctx context.Context, id []byte, now time.Time) (macaroon.RootKey, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetKey", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetKey", ctx, id, now)
 	ret0, _ := ret[0].(macaroon.RootKey)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetKey indicates an expected call of GetKey.
-func (mr *MockStateMockRecorder) GetKey(arg0, arg1, arg2 any) *MockStateGetKeyCall {
+func (mr *MockStateMockRecorder) GetKey(ctx, id, now any) *MockStateGetKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKey", reflect.TypeOf((*MockState)(nil).GetKey), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetKey", reflect.TypeOf((*MockState)(nil).GetKey), ctx, id, now)
 	return &MockStateGetKeyCall{Call: call}
 }
 
@@ -277,17 +278,17 @@ func (c *MockStateGetOffersThirdPartyKeyCall) DoAndReturn(f func(context.Context
 }
 
 // InitialiseBakeryConfig mocks base method.
-func (m *MockState) InitialiseBakeryConfig(arg0 context.Context, arg1, arg2, arg3, arg4 *bakery.KeyPair) error {
+func (m *MockState) InitialiseBakeryConfig(ctx context.Context, localUsersKey, localUsersThirdPartyKey, externalUsersThirdPartyKey, offersThirdPartyKey *bakery.KeyPair) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InitialiseBakeryConfig", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "InitialiseBakeryConfig", ctx, localUsersKey, localUsersThirdPartyKey, externalUsersThirdPartyKey, offersThirdPartyKey)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // InitialiseBakeryConfig indicates an expected call of InitialiseBakeryConfig.
-func (mr *MockStateMockRecorder) InitialiseBakeryConfig(arg0, arg1, arg2, arg3, arg4 any) *MockStateInitialiseBakeryConfigCall {
+func (mr *MockStateMockRecorder) InitialiseBakeryConfig(ctx, localUsersKey, localUsersThirdPartyKey, externalUsersThirdPartyKey, offersThirdPartyKey any) *MockStateInitialiseBakeryConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialiseBakeryConfig", reflect.TypeOf((*MockState)(nil).InitialiseBakeryConfig), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialiseBakeryConfig", reflect.TypeOf((*MockState)(nil).InitialiseBakeryConfig), ctx, localUsersKey, localUsersThirdPartyKey, externalUsersThirdPartyKey, offersThirdPartyKey)
 	return &MockStateInitialiseBakeryConfigCall{Call: call}
 }
 
@@ -315,17 +316,17 @@ func (c *MockStateInitialiseBakeryConfigCall) DoAndReturn(f func(context.Context
 }
 
 // InsertKey mocks base method.
-func (m *MockState) InsertKey(arg0 context.Context, arg1 macaroon.RootKey) error {
+func (m *MockState) InsertKey(ctx context.Context, key macaroon.RootKey) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InsertKey", arg0, arg1)
+	ret := m.ctrl.Call(m, "InsertKey", ctx, key)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // InsertKey indicates an expected call of InsertKey.
-func (mr *MockStateMockRecorder) InsertKey(arg0, arg1 any) *MockStateInsertKeyCall {
+func (mr *MockStateMockRecorder) InsertKey(ctx, key any) *MockStateInsertKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertKey", reflect.TypeOf((*MockState)(nil).InsertKey), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertKey", reflect.TypeOf((*MockState)(nil).InsertKey), ctx, key)
 	return &MockStateInsertKeyCall{Call: call}
 }
 

@@ -26,6 +26,7 @@ import (
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -46,17 +47,17 @@ func (m *MockProvider) EXPECT() *MockProviderMockRecorder {
 }
 
 // AdoptResources mocks base method.
-func (m *MockProvider) AdoptResources(arg0 context.Context, arg1 string, arg2 semversion.Number) error {
+func (m *MockProvider) AdoptResources(ctx context.Context, controllerUUID string, fromVersion semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AdoptResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AdoptResources", ctx, controllerUUID, fromVersion)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AdoptResources indicates an expected call of AdoptResources.
-func (mr *MockProviderMockRecorder) AdoptResources(arg0, arg1, arg2 any) *MockProviderAdoptResourcesCall {
+func (mr *MockProviderMockRecorder) AdoptResources(ctx, controllerUUID, fromVersion any) *MockProviderAdoptResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockProvider)(nil).AdoptResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockProvider)(nil).AdoptResources), ctx, controllerUUID, fromVersion)
 	return &MockProviderAdoptResourcesCall{Call: call}
 }
 
@@ -84,18 +85,18 @@ func (c *MockProviderAdoptResourcesCall) DoAndReturn(f func(context.Context, str
 }
 
 // Bootstrap mocks base method.
-func (m *MockProvider) Bootstrap(arg0 environs.BootstrapContext, arg1 environs.BootstrapParams) (*environs.BootstrapResult, error) {
+func (m *MockProvider) Bootstrap(ctx environs.BootstrapContext, params environs.BootstrapParams) (*environs.BootstrapResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Bootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "Bootstrap", ctx, params)
 	ret0, _ := ret[0].(*environs.BootstrapResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Bootstrap indicates an expected call of Bootstrap.
-func (mr *MockProviderMockRecorder) Bootstrap(arg0, arg1 any) *MockProviderBootstrapCall {
+func (mr *MockProviderMockRecorder) Bootstrap(ctx, params any) *MockProviderBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockProvider)(nil).Bootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockProvider)(nil).Bootstrap), ctx, params)
 	return &MockProviderBootstrapCall{Call: call}
 }
 
@@ -161,18 +162,18 @@ func (c *MockProviderConfigCall) DoAndReturn(f func() *config.Config) *MockProvi
 }
 
 // ConstraintsValidator mocks base method.
-func (m *MockProvider) ConstraintsValidator(arg0 context.Context) (constraints.Validator, error) {
+func (m *MockProvider) ConstraintsValidator(ctx context.Context) (constraints.Validator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsValidator", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsValidator", ctx)
 	ret0, _ := ret[0].(constraints.Validator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsValidator indicates an expected call of ConstraintsValidator.
-func (mr *MockProviderMockRecorder) ConstraintsValidator(arg0 any) *MockProviderConstraintsValidatorCall {
+func (mr *MockProviderMockRecorder) ConstraintsValidator(ctx any) *MockProviderConstraintsValidatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockProvider)(nil).ConstraintsValidator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockProvider)(nil).ConstraintsValidator), ctx)
 	return &MockProviderConstraintsValidatorCall{Call: call}
 }
 
@@ -200,17 +201,17 @@ func (c *MockProviderConstraintsValidatorCall) DoAndReturn(f func(context.Contex
 }
 
 // Destroy mocks base method.
-func (m *MockProvider) Destroy(arg0 context.Context) error {
+func (m *MockProvider) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockProviderMockRecorder) Destroy(arg0 any) *MockProviderDestroyCall {
+func (mr *MockProviderMockRecorder) Destroy(ctx any) *MockProviderDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockProvider)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockProvider)(nil).Destroy), ctx)
 	return &MockProviderDestroyCall{Call: call}
 }
 
@@ -238,17 +239,17 @@ func (c *MockProviderDestroyCall) DoAndReturn(f func(context.Context) error) *Mo
 }
 
 // DestroyController mocks base method.
-func (m *MockProvider) DestroyController(arg0 context.Context, arg1 string) error {
+func (m *MockProvider) DestroyController(ctx context.Context, controllerUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyController", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyController", ctx, controllerUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyController indicates an expected call of DestroyController.
-func (mr *MockProviderMockRecorder) DestroyController(arg0, arg1 any) *MockProviderDestroyControllerCall {
+func (mr *MockProviderMockRecorder) DestroyController(ctx, controllerUUID any) *MockProviderDestroyControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockProvider)(nil).DestroyController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockProvider)(nil).DestroyController), ctx, controllerUUID)
 	return &MockProviderDestroyControllerCall{Call: call}
 }
 
@@ -314,17 +315,17 @@ func (c *MockProviderPrecheckInstanceCall) DoAndReturn(f func(context.Context, e
 }
 
 // PrepareForBootstrap mocks base method.
-func (m *MockProvider) PrepareForBootstrap(arg0 environs.BootstrapContext, arg1 string) error {
+func (m *MockProvider) PrepareForBootstrap(ctx environs.BootstrapContext, controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareForBootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareForBootstrap", ctx, controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PrepareForBootstrap indicates an expected call of PrepareForBootstrap.
-func (mr *MockProviderMockRecorder) PrepareForBootstrap(arg0, arg1 any) *MockProviderPrepareForBootstrapCall {
+func (mr *MockProviderMockRecorder) PrepareForBootstrap(ctx, controllerName any) *MockProviderPrepareForBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockProvider)(nil).PrepareForBootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockProvider)(nil).PrepareForBootstrap), ctx, controllerName)
 	return &MockProviderPrepareForBootstrapCall{Call: call}
 }
 
@@ -352,17 +353,17 @@ func (c *MockProviderPrepareForBootstrapCall) DoAndReturn(f func(environs.Bootst
 }
 
 // SetConfig mocks base method.
-func (m *MockProvider) SetConfig(arg0 context.Context, arg1 *config.Config) error {
+func (m *MockProvider) SetConfig(ctx context.Context, cfg *config.Config) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockProviderMockRecorder) SetConfig(arg0, arg1 any) *MockProviderSetConfigCall {
+func (mr *MockProviderMockRecorder) SetConfig(ctx, cfg any) *MockProviderSetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockProvider)(nil).SetConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockProvider)(nil).SetConfig), ctx, cfg)
 	return &MockProviderSetConfigCall{Call: call}
 }
 
@@ -471,6 +472,7 @@ func (c *MockProviderStorageProviderTypesCall) DoAndReturn(f func() ([]storage.P
 type MockProviderFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderFactoryMockRecorder is the mock recorder for MockProviderFactory.
@@ -491,18 +493,18 @@ func (m *MockProviderFactory) EXPECT() *MockProviderFactoryMockRecorder {
 }
 
 // EphemeralProviderFromConfig mocks base method.
-func (m *MockProviderFactory) EphemeralProviderFromConfig(arg0 context.Context, arg1 providertracker.EphemeralProviderConfig) (providertracker.Provider, error) {
+func (m *MockProviderFactory) EphemeralProviderFromConfig(ctx context.Context, arg1 providertracker.EphemeralProviderConfig) (providertracker.Provider, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EphemeralProviderFromConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "EphemeralProviderFromConfig", ctx, arg1)
 	ret0, _ := ret[0].(providertracker.Provider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // EphemeralProviderFromConfig indicates an expected call of EphemeralProviderFromConfig.
-func (mr *MockProviderFactoryMockRecorder) EphemeralProviderFromConfig(arg0, arg1 any) *MockProviderFactoryEphemeralProviderFromConfigCall {
+func (mr *MockProviderFactoryMockRecorder) EphemeralProviderFromConfig(ctx, arg1 any) *MockProviderFactoryEphemeralProviderFromConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EphemeralProviderFromConfig", reflect.TypeOf((*MockProviderFactory)(nil).EphemeralProviderFromConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EphemeralProviderFromConfig", reflect.TypeOf((*MockProviderFactory)(nil).EphemeralProviderFromConfig), ctx, arg1)
 	return &MockProviderFactoryEphemeralProviderFromConfigCall{Call: call}
 }
 
@@ -530,18 +532,18 @@ func (c *MockProviderFactoryEphemeralProviderFromConfigCall) DoAndReturn(f func(
 }
 
 // ProviderForModel mocks base method.
-func (m *MockProviderFactory) ProviderForModel(arg0 context.Context, arg1 string) (providertracker.Provider, error) {
+func (m *MockProviderFactory) ProviderForModel(ctx context.Context, namespace string) (providertracker.Provider, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProviderForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ProviderForModel", ctx, namespace)
 	ret0, _ := ret[0].(providertracker.Provider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProviderForModel indicates an expected call of ProviderForModel.
-func (mr *MockProviderFactoryMockRecorder) ProviderForModel(arg0, arg1 any) *MockProviderFactoryProviderForModelCall {
+func (mr *MockProviderFactoryMockRecorder) ProviderForModel(ctx, namespace any) *MockProviderFactoryProviderForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderForModel", reflect.TypeOf((*MockProviderFactory)(nil).ProviderForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderForModel", reflect.TypeOf((*MockProviderFactory)(nil).ProviderForModel), ctx, namespace)
 	return &MockProviderFactoryProviderForModelCall{Call: call}
 }
 

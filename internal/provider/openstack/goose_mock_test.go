@@ -21,6 +21,7 @@ import (
 type MockAuthenticatingClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthenticatingClientMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthenticatingClientMockRecorder is the mock recorder for MockAuthenticatingClient.
@@ -79,17 +80,17 @@ func (c *MockAuthenticatingClientAuthenticateCall) DoAndReturn(f func() error) *
 }
 
 // EndpointsForRegion mocks base method.
-func (m *MockAuthenticatingClient) EndpointsForRegion(arg0 string) identity.ServiceURLs {
+func (m *MockAuthenticatingClient) EndpointsForRegion(region string) identity.ServiceURLs {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EndpointsForRegion", arg0)
+	ret := m.ctrl.Call(m, "EndpointsForRegion", region)
 	ret0, _ := ret[0].(identity.ServiceURLs)
 	return ret0
 }
 
 // EndpointsForRegion indicates an expected call of EndpointsForRegion.
-func (mr *MockAuthenticatingClientMockRecorder) EndpointsForRegion(arg0 any) *MockAuthenticatingClientEndpointsForRegionCall {
+func (mr *MockAuthenticatingClientMockRecorder) EndpointsForRegion(region any) *MockAuthenticatingClientEndpointsForRegionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EndpointsForRegion", reflect.TypeOf((*MockAuthenticatingClient)(nil).EndpointsForRegion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EndpointsForRegion", reflect.TypeOf((*MockAuthenticatingClient)(nil).EndpointsForRegion), region)
 	return &MockAuthenticatingClientEndpointsForRegionCall{Call: call}
 }
 
@@ -194,18 +195,18 @@ func (c *MockAuthenticatingClientIsAuthenticatedCall) DoAndReturn(f func() bool)
 }
 
 // MakeServiceURL mocks base method.
-func (m *MockAuthenticatingClient) MakeServiceURL(arg0, arg1 string, arg2 []string) (string, error) {
+func (m *MockAuthenticatingClient) MakeServiceURL(serviceType, apiVersion string, parts []string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MakeServiceURL", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "MakeServiceURL", serviceType, apiVersion, parts)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // MakeServiceURL indicates an expected call of MakeServiceURL.
-func (mr *MockAuthenticatingClientMockRecorder) MakeServiceURL(arg0, arg1, arg2 any) *MockAuthenticatingClientMakeServiceURLCall {
+func (mr *MockAuthenticatingClientMockRecorder) MakeServiceURL(serviceType, apiVersion, parts any) *MockAuthenticatingClientMakeServiceURLCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeServiceURL", reflect.TypeOf((*MockAuthenticatingClient)(nil).MakeServiceURL), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MakeServiceURL", reflect.TypeOf((*MockAuthenticatingClient)(nil).MakeServiceURL), serviceType, apiVersion, parts)
 	return &MockAuthenticatingClientMakeServiceURLCall{Call: call}
 }
 
@@ -233,17 +234,17 @@ func (c *MockAuthenticatingClientMakeServiceURLCall) DoAndReturn(f func(string, 
 }
 
 // SendRequest mocks base method.
-func (m *MockAuthenticatingClient) SendRequest(arg0, arg1, arg2, arg3 string, arg4 *http.RequestData) error {
+func (m *MockAuthenticatingClient) SendRequest(method, svcType, svcVersion, apiCall string, requestData *http.RequestData) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SendRequest", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "SendRequest", method, svcType, svcVersion, apiCall, requestData)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SendRequest indicates an expected call of SendRequest.
-func (mr *MockAuthenticatingClientMockRecorder) SendRequest(arg0, arg1, arg2, arg3, arg4 any) *MockAuthenticatingClientSendRequestCall {
+func (mr *MockAuthenticatingClientMockRecorder) SendRequest(method, svcType, svcVersion, apiCall, requestData any) *MockAuthenticatingClientSendRequestCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendRequest", reflect.TypeOf((*MockAuthenticatingClient)(nil).SendRequest), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendRequest", reflect.TypeOf((*MockAuthenticatingClient)(nil).SendRequest), method, svcType, svcVersion, apiCall, requestData)
 	return &MockAuthenticatingClientSendRequestCall{Call: call}
 }
 
@@ -253,8 +254,8 @@ type MockAuthenticatingClientSendRequestCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockAuthenticatingClientSendRequestCall) Return(arg0 error) *MockAuthenticatingClientSendRequestCall {
-	c.Call = c.Call.Return(arg0)
+func (c *MockAuthenticatingClientSendRequestCall) Return(err error) *MockAuthenticatingClientSendRequestCall {
+	c.Call = c.Call.Return(err)
 	return c
 }
 
@@ -271,15 +272,15 @@ func (c *MockAuthenticatingClientSendRequestCall) DoAndReturn(f func(string, str
 }
 
 // SetRequiredServiceTypes mocks base method.
-func (m *MockAuthenticatingClient) SetRequiredServiceTypes(arg0 []string) {
+func (m *MockAuthenticatingClient) SetRequiredServiceTypes(requiredServiceTypes []string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetRequiredServiceTypes", arg0)
+	m.ctrl.Call(m, "SetRequiredServiceTypes", requiredServiceTypes)
 }
 
 // SetRequiredServiceTypes indicates an expected call of SetRequiredServiceTypes.
-func (mr *MockAuthenticatingClientMockRecorder) SetRequiredServiceTypes(arg0 any) *MockAuthenticatingClientSetRequiredServiceTypesCall {
+func (mr *MockAuthenticatingClientMockRecorder) SetRequiredServiceTypes(requiredServiceTypes any) *MockAuthenticatingClientSetRequiredServiceTypesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRequiredServiceTypes", reflect.TypeOf((*MockAuthenticatingClient)(nil).SetRequiredServiceTypes), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRequiredServiceTypes", reflect.TypeOf((*MockAuthenticatingClient)(nil).SetRequiredServiceTypes), requiredServiceTypes)
 	return &MockAuthenticatingClientSetRequiredServiceTypesCall{Call: call}
 }
 

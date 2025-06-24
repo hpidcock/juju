@@ -22,6 +22,7 @@ import (
 type MockAPIRemoteCallers struct {
 	ctrl     *gomock.Controller
 	recorder *MockAPIRemoteCallersMockRecorder
+	isgomock struct{}
 }
 
 // MockAPIRemoteCallersMockRecorder is the mock recorder for MockAPIRemoteCallers.
@@ -84,6 +85,7 @@ func (c *MockAPIRemoteCallersGetAPIRemotesCall) DoAndReturn(f func() ([]apiremot
 type MockRemoteConnection struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoteConnectionMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoteConnectionMockRecorder is the mock recorder for MockRemoteConnection.

@@ -25,6 +25,7 @@ import (
 type MockResourceClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceClientMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceClientMockRecorder is the mock recorder for MockResourceClient.
@@ -87,6 +88,7 @@ func (c *MockResourceClientGetResourceCall) DoAndReturn(f func(context.Context, 
 type MockCharmHub struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmHubMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmHubMockRecorder is the mock recorder for MockCharmHub.
@@ -107,10 +109,10 @@ func (m *MockCharmHub) EXPECT() *MockCharmHubMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockCharmHub) Download(arg0 context.Context, arg1 *url.URL, arg2 string, arg3 ...charmhub.DownloadOption) (*charmhub.Digest, error) {
+func (m *MockCharmHub) Download(ctx context.Context, arg1 *url.URL, path string, options ...charmhub.DownloadOption) (*charmhub.Digest, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{ctx, arg1, path}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Download", varargs...)
@@ -120,9 +122,9 @@ func (m *MockCharmHub) Download(arg0 context.Context, arg1 *url.URL, arg2 string
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockCharmHubMockRecorder) Download(arg0, arg1, arg2 any, arg3 ...any) *MockCharmHubDownloadCall {
+func (mr *MockCharmHubMockRecorder) Download(ctx, arg1, path any, options ...any) *MockCharmHubDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{ctx, arg1, path}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockCharmHub)(nil).Download), varargs...)
 	return &MockCharmHubDownloadCall{Call: call}
 }
@@ -151,18 +153,18 @@ func (c *MockCharmHubDownloadCall) DoAndReturn(f func(context.Context, *url.URL,
 }
 
 // Refresh mocks base method.
-func (m *MockCharmHub) Refresh(arg0 context.Context, arg1 charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
+func (m *MockCharmHub) Refresh(ctx context.Context, config charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0, arg1)
+	ret := m.ctrl.Call(m, "Refresh", ctx, config)
 	ret0, _ := ret[0].([]transport.RefreshResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockCharmHubMockRecorder) Refresh(arg0, arg1 any) *MockCharmHubRefreshCall {
+func (mr *MockCharmHubMockRecorder) Refresh(ctx, config any) *MockCharmHubRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmHub)(nil).Refresh), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmHub)(nil).Refresh), ctx, config)
 	return &MockCharmHubRefreshCall{Call: call}
 }
 
@@ -193,6 +195,7 @@ func (c *MockCharmHubRefreshCall) DoAndReturn(f func(context.Context, charmhub.R
 type MockDownloader struct {
 	ctrl     *gomock.Controller
 	recorder *MockDownloaderMockRecorder
+	isgomock struct{}
 }
 
 // MockDownloaderMockRecorder is the mock recorder for MockDownloader.
@@ -213,18 +216,18 @@ func (m *MockDownloader) EXPECT() *MockDownloaderMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockDownloader) Download(arg0 context.Context, arg1 *url.URL, arg2 string, arg3 int64) (io.ReadCloser, error) {
+func (m *MockDownloader) Download(ctx context.Context, arg1 *url.URL, sha384 string, size int64) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Download", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Download", ctx, arg1, sha384, size)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockDownloaderMockRecorder) Download(arg0, arg1, arg2, arg3 any) *MockDownloaderDownloadCall {
+func (mr *MockDownloaderMockRecorder) Download(ctx, arg1, sha384, size any) *MockDownloaderDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), ctx, arg1, sha384, size)
 	return &MockDownloaderDownloadCall{Call: call}
 }
 

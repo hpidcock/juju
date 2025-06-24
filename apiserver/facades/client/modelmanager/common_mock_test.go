@@ -20,6 +20,7 @@ import (
 type MockBlockCheckerInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCheckerInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCheckerInterfaceMockRecorder is the mock recorder for MockBlockCheckerInterface.

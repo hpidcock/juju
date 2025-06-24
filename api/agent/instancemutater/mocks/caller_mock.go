@@ -25,6 +25,7 @@ import (
 type MockAPICaller struct {
 	ctrl     *gomock.Controller
 	recorder *MockAPICallerMockRecorder
+	isgomock struct{}
 }
 
 // MockAPICallerMockRecorder is the mock recorder for MockAPICaller.
@@ -45,17 +46,17 @@ func (m *MockAPICaller) EXPECT() *MockAPICallerMockRecorder {
 }
 
 // APICall mocks base method.
-func (m *MockAPICaller) APICall(arg0 context.Context, arg1 string, arg2 int, arg3, arg4 string, arg5, arg6 any) error {
+func (m *MockAPICaller) APICall(ctx context.Context, objType string, version int, id, request string, params, response any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "APICall", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "APICall", ctx, objType, version, id, request, params, response)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // APICall indicates an expected call of APICall.
-func (mr *MockAPICallerMockRecorder) APICall(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockAPICallerAPICallCall {
+func (mr *MockAPICallerMockRecorder) APICall(ctx, objType, version, id, request, params, response any) *MockAPICallerAPICallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockAPICaller)(nil).APICall), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockAPICaller)(nil).APICall), ctx, objType, version, id, request, params, response)
 	return &MockAPICallerAPICallCall{Call: call}
 }
 
@@ -121,17 +122,17 @@ func (c *MockAPICallerBakeryClientCall) DoAndReturn(f func() base.MacaroonDischa
 }
 
 // BestFacadeVersion mocks base method.
-func (m *MockAPICaller) BestFacadeVersion(arg0 string) int {
+func (m *MockAPICaller) BestFacadeVersion(facade string) int {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BestFacadeVersion", arg0)
+	ret := m.ctrl.Call(m, "BestFacadeVersion", facade)
 	ret0, _ := ret[0].(int)
 	return ret0
 }
 
 // BestFacadeVersion indicates an expected call of BestFacadeVersion.
-func (mr *MockAPICallerMockRecorder) BestFacadeVersion(arg0 any) *MockAPICallerBestFacadeVersionCall {
+func (mr *MockAPICallerMockRecorder) BestFacadeVersion(facade any) *MockAPICallerBestFacadeVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockAPICaller)(nil).BestFacadeVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockAPICaller)(nil).BestFacadeVersion), facade)
 	return &MockAPICallerBestFacadeVersionCall{Call: call}
 }
 
@@ -159,18 +160,18 @@ func (c *MockAPICallerBestFacadeVersionCall) DoAndReturn(f func(string) int) *Mo
 }
 
 // ConnectControllerStream mocks base method.
-func (m *MockAPICaller) ConnectControllerStream(arg0 context.Context, arg1 string, arg2 url.Values, arg3 http.Header) (base.Stream, error) {
+func (m *MockAPICaller) ConnectControllerStream(ctx context.Context, path string, attrs url.Values, headers http.Header) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectControllerStream", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ConnectControllerStream", ctx, path, attrs, headers)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectControllerStream indicates an expected call of ConnectControllerStream.
-func (mr *MockAPICallerMockRecorder) ConnectControllerStream(arg0, arg1, arg2, arg3 any) *MockAPICallerConnectControllerStreamCall {
+func (mr *MockAPICallerMockRecorder) ConnectControllerStream(ctx, path, attrs, headers any) *MockAPICallerConnectControllerStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockAPICaller)(nil).ConnectControllerStream), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockAPICaller)(nil).ConnectControllerStream), ctx, path, attrs, headers)
 	return &MockAPICallerConnectControllerStreamCall{Call: call}
 }
 
@@ -198,18 +199,18 @@ func (c *MockAPICallerConnectControllerStreamCall) DoAndReturn(f func(context.Co
 }
 
 // ConnectStream mocks base method.
-func (m *MockAPICaller) ConnectStream(arg0 context.Context, arg1 string, arg2 url.Values) (base.Stream, error) {
+func (m *MockAPICaller) ConnectStream(ctx context.Context, path string, attrs url.Values) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectStream", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ConnectStream", ctx, path, attrs)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectStream indicates an expected call of ConnectStream.
-func (mr *MockAPICallerMockRecorder) ConnectStream(arg0, arg1, arg2 any) *MockAPICallerConnectStreamCall {
+func (mr *MockAPICallerMockRecorder) ConnectStream(ctx, path, attrs any) *MockAPICallerConnectStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockAPICaller)(nil).ConnectStream), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockAPICaller)(nil).ConnectStream), ctx, path, attrs)
 	return &MockAPICallerConnectStreamCall{Call: call}
 }
 
@@ -357,6 +358,7 @@ func (c *MockAPICallerRootHTTPClientCall) DoAndReturn(f func() (*httprequest.Cli
 type MockFacadeCaller struct {
 	ctrl     *gomock.Controller
 	recorder *MockFacadeCallerMockRecorder
+	isgomock struct{}
 }
 
 // MockFacadeCallerMockRecorder is the mock recorder for MockFacadeCaller.
@@ -415,17 +417,17 @@ func (c *MockFacadeCallerBestAPIVersionCall) DoAndReturn(f func() int) *MockFaca
 }
 
 // FacadeCall mocks base method.
-func (m *MockFacadeCaller) FacadeCall(arg0 context.Context, arg1 string, arg2, arg3 any) error {
+func (m *MockFacadeCaller) FacadeCall(ctx context.Context, request string, params, response any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FacadeCall", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "FacadeCall", ctx, request, params, response)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // FacadeCall indicates an expected call of FacadeCall.
-func (mr *MockFacadeCallerMockRecorder) FacadeCall(arg0, arg1, arg2, arg3 any) *MockFacadeCallerFacadeCallCall {
+func (mr *MockFacadeCallerMockRecorder) FacadeCall(ctx, request, params, response any) *MockFacadeCallerFacadeCallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FacadeCall", reflect.TypeOf((*MockFacadeCaller)(nil).FacadeCall), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FacadeCall", reflect.TypeOf((*MockFacadeCaller)(nil).FacadeCall), ctx, request, params, response)
 	return &MockFacadeCallerFacadeCallCall{Call: call}
 }
 

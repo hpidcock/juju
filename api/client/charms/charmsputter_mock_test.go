@@ -21,6 +21,7 @@ import (
 type MockCharmPutter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmPutterMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmPutterMockRecorder is the mock recorder for MockCharmPutter.
@@ -41,18 +42,18 @@ func (m *MockCharmPutter) EXPECT() *MockCharmPutterMockRecorder {
 }
 
 // PutCharm mocks base method.
-func (m *MockCharmPutter) PutCharm(arg0 context.Context, arg1, arg2, arg3 string, arg4 io.Reader) (string, error) {
+func (m *MockCharmPutter) PutCharm(ctx context.Context, modelUUID, charmRef, curl string, body io.Reader) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutCharm", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutCharm", ctx, modelUUID, charmRef, curl, body)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutCharm indicates an expected call of PutCharm.
-func (mr *MockCharmPutterMockRecorder) PutCharm(arg0, arg1, arg2, arg3, arg4 any) *MockCharmPutterPutCharmCall {
+func (mr *MockCharmPutterMockRecorder) PutCharm(ctx, modelUUID, charmRef, curl, body any) *MockCharmPutterPutCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutCharm", reflect.TypeOf((*MockCharmPutter)(nil).PutCharm), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutCharm", reflect.TypeOf((*MockCharmPutter)(nil).PutCharm), ctx, modelUUID, charmRef, curl, body)
 	return &MockCharmPutterPutCharmCall{Call: call}
 }
 

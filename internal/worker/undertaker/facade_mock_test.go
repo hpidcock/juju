@@ -24,6 +24,7 @@ import (
 type MockFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockFacadeMockRecorder is the mock recorder for MockFacade.
@@ -237,10 +238,10 @@ func (c *MockFacadeRemoveModelCall) DoAndReturn(f func(context.Context) error) *
 }
 
 // WatchModel mocks base method.
-func (m *MockFacade) WatchModel(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockFacade) WatchModel(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchModel", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -258,28 +259,28 @@ type MockFacadeWatchModelCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFacadeWatchModelCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockFacadeWatchModelCall {
+func (c *MockFacadeWatchModelCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockFacadeWatchModelCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFacadeWatchModelCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFacadeWatchModelCall {
+func (c *MockFacadeWatchModelCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFacadeWatchModelCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFacadeWatchModelCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFacadeWatchModelCall {
+func (c *MockFacadeWatchModelCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFacadeWatchModelCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchModelResources mocks base method.
-func (m *MockFacade) WatchModelResources(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockFacade) WatchModelResources(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchModelResources", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -297,19 +298,19 @@ type MockFacadeWatchModelResourcesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFacadeWatchModelResourcesCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockFacadeWatchModelResourcesCall {
+func (c *MockFacadeWatchModelResourcesCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockFacadeWatchModelResourcesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFacadeWatchModelResourcesCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFacadeWatchModelResourcesCall {
+func (c *MockFacadeWatchModelResourcesCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFacadeWatchModelResourcesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFacadeWatchModelResourcesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFacadeWatchModelResourcesCall {
+func (c *MockFacadeWatchModelResourcesCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFacadeWatchModelResourcesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

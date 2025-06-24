@@ -23,6 +23,7 @@ import (
 type MockInstanceProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockInstanceProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockInstanceProviderMockRecorder is the mock recorder for MockInstanceProvider.
@@ -85,6 +86,7 @@ func (c *MockInstanceProviderAllInstancesCall) DoAndReturn(f func(context.Contex
 type MockResourceProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceProviderMockRecorder is the mock recorder for MockResourceProvider.
@@ -146,6 +148,7 @@ func (c *MockResourceProviderAdoptResourcesCall) DoAndReturn(f func(context.Cont
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -166,18 +169,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetAllInstanceIDs mocks base method.
-func (m *MockState) GetAllInstanceIDs(arg0 context.Context) (set.Strings, error) {
+func (m *MockState) GetAllInstanceIDs(ctx context.Context) (set.Strings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllInstanceIDs", arg0)
+	ret := m.ctrl.Call(m, "GetAllInstanceIDs", ctx)
 	ret0, _ := ret[0].(set.Strings)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllInstanceIDs indicates an expected call of GetAllInstanceIDs.
-func (mr *MockStateMockRecorder) GetAllInstanceIDs(arg0 any) *MockStateGetAllInstanceIDsCall {
+func (mr *MockStateMockRecorder) GetAllInstanceIDs(ctx any) *MockStateGetAllInstanceIDsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllInstanceIDs", reflect.TypeOf((*MockState)(nil).GetAllInstanceIDs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllInstanceIDs", reflect.TypeOf((*MockState)(nil).GetAllInstanceIDs), ctx)
 	return &MockStateGetAllInstanceIDsCall{Call: call}
 }
 

@@ -20,6 +20,7 @@ import (
 type MockCharm struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMockRecorder is the mock recorder for MockCharm.
@@ -271,6 +272,7 @@ func (c *MockCharmVersionCall) DoAndReturn(f func() string) *MockCharmVersionCal
 type MockBundle struct {
 	ctrl     *gomock.Controller
 	recorder *MockBundleMockRecorder
+	isgomock struct{}
 }
 
 // MockBundleMockRecorder is the mock recorder for MockBundle.

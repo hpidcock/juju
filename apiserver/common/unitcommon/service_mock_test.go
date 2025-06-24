@@ -21,6 +21,7 @@ import (
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -41,18 +42,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByName(ctx context.Context, name string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, name)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(arg0, arg1 any) *MockApplicationServiceGetApplicationIDByNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(ctx, name any) *MockApplicationServiceGetApplicationIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), ctx, name)
 	return &MockApplicationServiceGetApplicationIDByNameCall{Call: call}
 }
 

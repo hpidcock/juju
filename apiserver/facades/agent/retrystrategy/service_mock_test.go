@@ -22,6 +22,7 @@ import (
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -42,25 +43,25 @@ func (m *MockModelConfigService) EXPECT() *MockModelConfigServiceMockRecorder {
 }
 
 // ModelConfig mocks base method.
-func (m *MockModelConfigService) ModelConfig(arg0 context.Context) (*config.Config, error) {
+func (m *MockModelConfigService) ModelConfig(ctx context.Context) (*config.Config, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelConfig", arg0)
+	ret := m.ctrl.Call(m, "ModelConfig", ctx)
 	ret0, _ := ret[0].(*config.Config)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelConfig indicates an expected call of ModelConfig.
-func (mr *MockModelConfigServiceMockRecorder) ModelConfig(arg0 any) *gomock.Call {
+func (mr *MockModelConfigServiceMockRecorder) ModelConfig(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockModelConfigService)(nil).ModelConfig), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockModelConfigService)(nil).ModelConfig), ctx)
 }
 
 // Watch mocks base method.
-func (m *MockModelConfigService) Watch() (watcher.Watcher[[]string], error) {
+func (m *MockModelConfigService) Watch() (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch")
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

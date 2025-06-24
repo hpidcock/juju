@@ -21,6 +21,7 @@ import (
 type MockStateManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockStateManagerMockRecorder is the mock recorder for MockStateManager.
@@ -118,17 +119,17 @@ func (c *MockStateManagerRelationCall) DoAndReturn(f func(int) (*relation.State,
 }
 
 // RelationFound mocks base method.
-func (m *MockStateManager) RelationFound(arg0 int) bool {
+func (m *MockStateManager) RelationFound(id int) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RelationFound", arg0)
+	ret := m.ctrl.Call(m, "RelationFound", id)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // RelationFound indicates an expected call of RelationFound.
-func (mr *MockStateManagerMockRecorder) RelationFound(arg0 any) *MockStateManagerRelationFoundCall {
+func (mr *MockStateManagerMockRecorder) RelationFound(id any) *MockStateManagerRelationFoundCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationFound", reflect.TypeOf((*MockStateManager)(nil).RelationFound), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationFound", reflect.TypeOf((*MockStateManager)(nil).RelationFound), id)
 	return &MockStateManagerRelationFoundCall{Call: call}
 }
 
@@ -156,17 +157,17 @@ func (c *MockStateManagerRelationFoundCall) DoAndReturn(f func(int) bool) *MockS
 }
 
 // RemoveRelation mocks base method.
-func (m *MockStateManager) RemoveRelation(arg0 context.Context, arg1 int, arg2 relation.UnitGetter, arg3 map[string]bool) error {
+func (m *MockStateManager) RemoveRelation(ctx context.Context, id int, unitGetter relation.UnitGetter, knownUnits map[string]bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveRelation", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "RemoveRelation", ctx, id, unitGetter, knownUnits)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveRelation indicates an expected call of RemoveRelation.
-func (mr *MockStateManagerMockRecorder) RemoveRelation(arg0, arg1, arg2, arg3 any) *MockStateManagerRemoveRelationCall {
+func (mr *MockStateManagerMockRecorder) RemoveRelation(ctx, id, unitGetter, knownUnits any) *MockStateManagerRemoveRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveRelation", reflect.TypeOf((*MockStateManager)(nil).RemoveRelation), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveRelation", reflect.TypeOf((*MockStateManager)(nil).RemoveRelation), ctx, id, unitGetter, knownUnits)
 	return &MockStateManagerRemoveRelationCall{Call: call}
 }
 

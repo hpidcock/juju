@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,17 +103,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // SwitchBlockOn mocks base method.
-func (m *MockImportService) SwitchBlockOn(arg0 context.Context, arg1 blockcommand.BlockType, arg2 string) error {
+func (m *MockImportService) SwitchBlockOn(ctx context.Context, b blockcommand.BlockType, msg string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SwitchBlockOn", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SwitchBlockOn", ctx, b, msg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SwitchBlockOn indicates an expected call of SwitchBlockOn.
-func (mr *MockImportServiceMockRecorder) SwitchBlockOn(arg0, arg1, arg2 any) *MockImportServiceSwitchBlockOnCall {
+func (mr *MockImportServiceMockRecorder) SwitchBlockOn(ctx, b, msg any) *MockImportServiceSwitchBlockOnCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOn", reflect.TypeOf((*MockImportService)(nil).SwitchBlockOn), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SwitchBlockOn", reflect.TypeOf((*MockImportService)(nil).SwitchBlockOn), ctx, b, msg)
 	return &MockImportServiceSwitchBlockOnCall{Call: call}
 }
 
@@ -142,6 +144,7 @@ func (c *MockImportServiceSwitchBlockOnCall) DoAndReturn(f func(context.Context,
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -162,18 +165,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetBlocks mocks base method.
-func (m *MockExportService) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockExportService) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockExportServiceMockRecorder) GetBlocks(arg0 any) *MockExportServiceGetBlocksCall {
+func (mr *MockExportServiceMockRecorder) GetBlocks(ctx any) *MockExportServiceGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockExportService)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockExportService)(nil).GetBlocks), ctx)
 	return &MockExportServiceGetBlocksCall{Call: call}
 }
 

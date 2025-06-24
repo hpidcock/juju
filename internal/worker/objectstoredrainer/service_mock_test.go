@@ -22,6 +22,7 @@ import (
 type MockObjectStoreService struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreServiceMockRecorder is the mock recorder for MockObjectStoreService.
@@ -42,18 +43,18 @@ func (m *MockObjectStoreService) EXPECT() *MockObjectStoreServiceMockRecorder {
 }
 
 // GetDrainingPhase mocks base method.
-func (m *MockObjectStoreService) GetDrainingPhase(arg0 context.Context) (objectstore.Phase, error) {
+func (m *MockObjectStoreService) GetDrainingPhase(ctx context.Context) (objectstore.Phase, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDrainingPhase", arg0)
+	ret := m.ctrl.Call(m, "GetDrainingPhase", ctx)
 	ret0, _ := ret[0].(objectstore.Phase)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDrainingPhase indicates an expected call of GetDrainingPhase.
-func (mr *MockObjectStoreServiceMockRecorder) GetDrainingPhase(arg0 any) *MockObjectStoreServiceGetDrainingPhaseCall {
+func (mr *MockObjectStoreServiceMockRecorder) GetDrainingPhase(ctx any) *MockObjectStoreServiceGetDrainingPhaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDrainingPhase", reflect.TypeOf((*MockObjectStoreService)(nil).GetDrainingPhase), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDrainingPhase", reflect.TypeOf((*MockObjectStoreService)(nil).GetDrainingPhase), ctx)
 	return &MockObjectStoreServiceGetDrainingPhaseCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockObjectStoreServiceGetDrainingPhaseCall) DoAndReturn(f func(context.
 }
 
 // WatchDraining mocks base method.
-func (m *MockObjectStoreService) WatchDraining(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockObjectStoreService) WatchDraining(ctx context.Context) (watcher.Watcher[struct{}], error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchDraining", arg0)
+	ret := m.ctrl.Call(m, "WatchDraining", ctx)
 	ret0, _ := ret[0].(watcher.Watcher[struct{}])
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchDraining indicates an expected call of WatchDraining.
-func (mr *MockObjectStoreServiceMockRecorder) WatchDraining(arg0 any) *MockObjectStoreServiceWatchDrainingCall {
+func (mr *MockObjectStoreServiceMockRecorder) WatchDraining(ctx any) *MockObjectStoreServiceWatchDrainingCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchDraining", reflect.TypeOf((*MockObjectStoreService)(nil).WatchDraining), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchDraining", reflect.TypeOf((*MockObjectStoreService)(nil).WatchDraining), ctx)
 	return &MockObjectStoreServiceWatchDrainingCall{Call: call}
 }
 

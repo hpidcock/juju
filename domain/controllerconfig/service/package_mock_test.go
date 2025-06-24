@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -157,17 +158,17 @@ func (c *MockStateNamespaceForWatchControllerConfigCall) DoAndReturn(f func() st
 }
 
 // UpdateControllerConfig mocks base method.
-func (m *MockState) UpdateControllerConfig(arg0 context.Context, arg1 map[string]string, arg2 []string, arg3 func(map[string]string) error) error {
+func (m *MockState) UpdateControllerConfig(ctx context.Context, updateAttrs map[string]string, removeAttrs []string, validateModification ModificationValidatorFunc) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateControllerConfig", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateControllerConfig", ctx, updateAttrs, removeAttrs, validateModification)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateControllerConfig indicates an expected call of UpdateControllerConfig.
-func (mr *MockStateMockRecorder) UpdateControllerConfig(arg0, arg1, arg2, arg3 any) *MockStateUpdateControllerConfigCall {
+func (mr *MockStateMockRecorder) UpdateControllerConfig(ctx, updateAttrs, removeAttrs, validateModification any) *MockStateUpdateControllerConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateControllerConfig", reflect.TypeOf((*MockState)(nil).UpdateControllerConfig), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateControllerConfig", reflect.TypeOf((*MockState)(nil).UpdateControllerConfig), ctx, updateAttrs, removeAttrs, validateModification)
 	return &MockStateUpdateControllerConfigCall{Call: call}
 }
 
@@ -183,13 +184,13 @@ func (c *MockStateUpdateControllerConfigCall) Return(arg0 error) *MockStateUpdat
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockStateUpdateControllerConfigCall) Do(f func(context.Context, map[string]string, []string, func(map[string]string) error) error) *MockStateUpdateControllerConfigCall {
+func (c *MockStateUpdateControllerConfigCall) Do(f func(context.Context, map[string]string, []string, ModificationValidatorFunc) error) *MockStateUpdateControllerConfigCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockStateUpdateControllerConfigCall) DoAndReturn(f func(context.Context, map[string]string, []string, func(map[string]string) error) error) *MockStateUpdateControllerConfigCall {
+func (c *MockStateUpdateControllerConfigCall) DoAndReturn(f func(context.Context, map[string]string, []string, ModificationValidatorFunc) error) *MockStateUpdateControllerConfigCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -198,6 +199,7 @@ func (c *MockStateUpdateControllerConfigCall) DoAndReturn(f func(context.Context
 type MockWatcherFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherFactoryMockRecorder is the mock recorder for MockWatcherFactory.
@@ -218,22 +220,22 @@ func (m *MockWatcherFactory) EXPECT() *MockWatcherFactoryMockRecorder {
 }
 
 // NewNamespaceWatcher mocks base method.
-func (m *MockWatcherFactory) NewNamespaceWatcher(arg0 eventsource.NamespaceQuery, arg1 eventsource.FilterOption, arg2 ...eventsource.FilterOption) (watcher.Watcher[[]string], error) {
+func (m *MockWatcherFactory) NewNamespaceWatcher(query eventsource.NamespaceQuery, filterOption eventsource.FilterOption, filterOptions ...eventsource.FilterOption) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{query, filterOption}
+	for _, a := range filterOptions {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "NewNamespaceWatcher", varargs...)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewNamespaceWatcher indicates an expected call of NewNamespaceWatcher.
-func (mr *MockWatcherFactoryMockRecorder) NewNamespaceWatcher(arg0, arg1 any, arg2 ...any) *MockWatcherFactoryNewNamespaceWatcherCall {
+func (mr *MockWatcherFactoryMockRecorder) NewNamespaceWatcher(query, filterOption any, filterOptions ...any) *MockWatcherFactoryNewNamespaceWatcherCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{query, filterOption}, filterOptions...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNamespaceWatcher", reflect.TypeOf((*MockWatcherFactory)(nil).NewNamespaceWatcher), varargs...)
 	return &MockWatcherFactoryNewNamespaceWatcherCall{Call: call}
 }
@@ -244,19 +246,19 @@ type MockWatcherFactoryNewNamespaceWatcherCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockWatcherFactoryNewNamespaceWatcherCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockWatcherFactoryNewNamespaceWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceWatcherCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockWatcherFactoryNewNamespaceWatcherCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockWatcherFactoryNewNamespaceWatcherCall) Do(f func(eventsource.NamespaceQuery, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[[]string], error)) *MockWatcherFactoryNewNamespaceWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceWatcherCall) Do(f func(eventsource.NamespaceQuery, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.StringsWatcher, error)) *MockWatcherFactoryNewNamespaceWatcherCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockWatcherFactoryNewNamespaceWatcherCall) DoAndReturn(f func(eventsource.NamespaceQuery, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[[]string], error)) *MockWatcherFactoryNewNamespaceWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceWatcherCall) DoAndReturn(f func(eventsource.NamespaceQuery, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.StringsWatcher, error)) *MockWatcherFactoryNewNamespaceWatcherCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

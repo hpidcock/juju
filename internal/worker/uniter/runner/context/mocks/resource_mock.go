@@ -22,6 +22,7 @@ import (
 type MockOpenedResourceClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockOpenedResourceClientMockRecorder
+	isgomock struct{}
 }
 
 // MockOpenedResourceClientMockRecorder is the mock recorder for MockOpenedResourceClient.
@@ -42,9 +43,9 @@ func (m *MockOpenedResourceClient) EXPECT() *MockOpenedResourceClientMockRecorde
 }
 
 // GetResource mocks base method.
-func (m *MockOpenedResourceClient) GetResource(arg0 context.Context, arg1 string) (resource.Resource, io.ReadCloser, error) {
+func (m *MockOpenedResourceClient) GetResource(ctx context.Context, resourceName string) (resource.Resource, io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResource", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetResource", ctx, resourceName)
 	ret0, _ := ret[0].(resource.Resource)
 	ret1, _ := ret[1].(io.ReadCloser)
 	ret2, _ := ret[2].(error)
@@ -52,9 +53,9 @@ func (m *MockOpenedResourceClient) GetResource(arg0 context.Context, arg1 string
 }
 
 // GetResource indicates an expected call of GetResource.
-func (mr *MockOpenedResourceClientMockRecorder) GetResource(arg0, arg1 any) *MockOpenedResourceClientGetResourceCall {
+func (mr *MockOpenedResourceClientMockRecorder) GetResource(ctx, resourceName any) *MockOpenedResourceClientGetResourceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResource", reflect.TypeOf((*MockOpenedResourceClient)(nil).GetResource), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResource", reflect.TypeOf((*MockOpenedResourceClient)(nil).GetResource), ctx, resourceName)
 	return &MockOpenedResourceClientGetResourceCall{Call: call}
 }
 

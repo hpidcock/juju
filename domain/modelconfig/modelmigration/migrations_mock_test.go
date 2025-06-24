@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,17 +103,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // SetModelConfig mocks base method.
-func (m *MockImportService) SetModelConfig(arg0 context.Context, arg1 map[string]any) error {
+func (m *MockImportService) SetModelConfig(ctx context.Context, cfg map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetModelConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelConfig indicates an expected call of SetModelConfig.
-func (mr *MockImportServiceMockRecorder) SetModelConfig(arg0, arg1 any) *MockImportServiceSetModelConfigCall {
+func (mr *MockImportServiceMockRecorder) SetModelConfig(ctx, cfg any) *MockImportServiceSetModelConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelConfig", reflect.TypeOf((*MockImportService)(nil).SetModelConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelConfig", reflect.TypeOf((*MockImportService)(nil).SetModelConfig), ctx, cfg)
 	return &MockImportServiceSetModelConfigCall{Call: call}
 }
 
@@ -142,6 +144,7 @@ func (c *MockImportServiceSetModelConfigCall) DoAndReturn(f func(context.Context
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -162,18 +165,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ModelConfig mocks base method.
-func (m *MockExportService) ModelConfig(arg0 context.Context) (*config.Config, error) {
+func (m *MockExportService) ModelConfig(ctx context.Context) (*config.Config, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelConfig", arg0)
+	ret := m.ctrl.Call(m, "ModelConfig", ctx)
 	ret0, _ := ret[0].(*config.Config)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelConfig indicates an expected call of ModelConfig.
-func (mr *MockExportServiceMockRecorder) ModelConfig(arg0 any) *MockExportServiceModelConfigCall {
+func (mr *MockExportServiceMockRecorder) ModelConfig(ctx any) *MockExportServiceModelConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockExportService)(nil).ModelConfig), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockExportService)(nil).ModelConfig), ctx)
 	return &MockExportServiceModelConfigCall{Call: call}
 }
 

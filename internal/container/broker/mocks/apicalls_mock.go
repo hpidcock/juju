@@ -25,6 +25,7 @@ import (
 type MockAPICalls struct {
 	ctrl     *gomock.Controller
 	recorder *MockAPICallsMockRecorder
+	isgomock struct{}
 }
 
 // MockAPICallsMockRecorder is the mock recorder for MockAPICalls.

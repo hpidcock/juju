@@ -27,6 +27,7 @@ import (
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -125,18 +126,18 @@ func (c *MockMachineAllLinkLayerDevicesCall) DoAndReturn(f func() ([]containeriz
 }
 
 // AllSpaces mocks base method.
-func (m *MockMachine) AllSpaces(arg0 network.SubnetInfos) (set.Strings, error) {
+func (m *MockMachine) AllSpaces(allSubnets network.SubnetInfos) (set.Strings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllSpaces", arg0)
+	ret := m.ctrl.Call(m, "AllSpaces", allSubnets)
 	ret0, _ := ret[0].(set.Strings)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllSpaces indicates an expected call of AllSpaces.
-func (mr *MockMachineMockRecorder) AllSpaces(arg0 any) *MockMachineAllSpacesCall {
+func (mr *MockMachineMockRecorder) AllSpaces(allSubnets any) *MockMachineAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaces", reflect.TypeOf((*MockMachine)(nil).AllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaces", reflect.TypeOf((*MockMachine)(nil).AllSpaces), allSubnets)
 	return &MockMachineAllSpacesCall{Call: call}
 }
 
@@ -393,17 +394,17 @@ func (c *MockMachineRemoveAllAddressesCall) DoAndReturn(f func() error) *MockMac
 }
 
 // SetConstraints mocks base method.
-func (m *MockMachine) SetConstraints(arg0 constraints.Value) error {
+func (m *MockMachine) SetConstraints(cons constraints.Value) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConstraints", arg0)
+	ret := m.ctrl.Call(m, "SetConstraints", cons)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConstraints indicates an expected call of SetConstraints.
-func (mr *MockMachineMockRecorder) SetConstraints(arg0 any) *MockMachineSetConstraintsCall {
+func (mr *MockMachineMockRecorder) SetConstraints(cons any) *MockMachineSetConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConstraints", reflect.TypeOf((*MockMachine)(nil).SetConstraints), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConstraints", reflect.TypeOf((*MockMachine)(nil).SetConstraints), cons)
 	return &MockMachineSetConstraintsCall{Call: call}
 }
 
@@ -413,8 +414,8 @@ type MockMachineSetConstraintsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineSetConstraintsCall) Return(arg0 error) *MockMachineSetConstraintsCall {
-	c.Call = c.Call.Return(arg0)
+func (c *MockMachineSetConstraintsCall) Return(err error) *MockMachineSetConstraintsCall {
+	c.Call = c.Call.Return(err)
 	return c
 }
 
@@ -431,10 +432,10 @@ func (c *MockMachineSetConstraintsCall) DoAndReturn(f func(constraints.Value) er
 }
 
 // SetDevicesAddresses mocks base method.
-func (m *MockMachine) SetDevicesAddresses(arg0 ...state.LinkLayerDeviceAddress) error {
+func (m *MockMachine) SetDevicesAddresses(devicesAddresses ...state.LinkLayerDeviceAddress) error {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range devicesAddresses {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SetDevicesAddresses", varargs...)
@@ -443,9 +444,9 @@ func (m *MockMachine) SetDevicesAddresses(arg0 ...state.LinkLayerDeviceAddress) 
 }
 
 // SetDevicesAddresses indicates an expected call of SetDevicesAddresses.
-func (mr *MockMachineMockRecorder) SetDevicesAddresses(arg0 ...any) *MockMachineSetDevicesAddressesCall {
+func (mr *MockMachineMockRecorder) SetDevicesAddresses(devicesAddresses ...any) *MockMachineSetDevicesAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDevicesAddresses", reflect.TypeOf((*MockMachine)(nil).SetDevicesAddresses), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDevicesAddresses", reflect.TypeOf((*MockMachine)(nil).SetDevicesAddresses), devicesAddresses...)
 	return &MockMachineSetDevicesAddressesCall{Call: call}
 }
 
@@ -455,8 +456,8 @@ type MockMachineSetDevicesAddressesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineSetDevicesAddressesCall) Return(arg0 error) *MockMachineSetDevicesAddressesCall {
-	c.Call = c.Call.Return(arg0)
+func (c *MockMachineSetDevicesAddressesCall) Return(err error) *MockMachineSetDevicesAddressesCall {
+	c.Call = c.Call.Return(err)
 	return c
 }
 
@@ -473,10 +474,10 @@ func (c *MockMachineSetDevicesAddressesCall) DoAndReturn(f func(...state.LinkLay
 }
 
 // SetLinkLayerDevices mocks base method.
-func (m *MockMachine) SetLinkLayerDevices(arg0 ...state.LinkLayerDeviceArgs) error {
+func (m *MockMachine) SetLinkLayerDevices(devicesArgs ...state.LinkLayerDeviceArgs) error {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range devicesArgs {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SetLinkLayerDevices", varargs...)
@@ -485,9 +486,9 @@ func (m *MockMachine) SetLinkLayerDevices(arg0 ...state.LinkLayerDeviceArgs) err
 }
 
 // SetLinkLayerDevices indicates an expected call of SetLinkLayerDevices.
-func (mr *MockMachineMockRecorder) SetLinkLayerDevices(arg0 ...any) *MockMachineSetLinkLayerDevicesCall {
+func (mr *MockMachineMockRecorder) SetLinkLayerDevices(devicesArgs ...any) *MockMachineSetLinkLayerDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetLinkLayerDevices", reflect.TypeOf((*MockMachine)(nil).SetLinkLayerDevices), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetLinkLayerDevices", reflect.TypeOf((*MockMachine)(nil).SetLinkLayerDevices), devicesArgs...)
 	return &MockMachineSetLinkLayerDevicesCall{Call: call}
 }
 
@@ -497,8 +498,8 @@ type MockMachineSetLinkLayerDevicesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineSetLinkLayerDevicesCall) Return(arg0 error) *MockMachineSetLinkLayerDevicesCall {
-	c.Call = c.Call.Return(arg0)
+func (c *MockMachineSetLinkLayerDevicesCall) Return(err error) *MockMachineSetLinkLayerDevicesCall {
+	c.Call = c.Call.Return(err)
 	return c
 }
 
@@ -518,6 +519,7 @@ func (c *MockMachineSetLinkLayerDevicesCall) DoAndReturn(f func(...state.LinkLay
 type MockBridgePolicy struct {
 	ctrl     *gomock.Controller
 	recorder *MockBridgePolicyMockRecorder
+	isgomock struct{}
 }
 
 // MockBridgePolicyMockRecorder is the mock recorder for MockBridgePolicy.

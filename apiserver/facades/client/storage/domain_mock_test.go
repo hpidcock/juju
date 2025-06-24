@@ -25,6 +25,7 @@ import (
 type MockStorageService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageServiceMockRecorder is the mock recorder for MockStorageService.
@@ -45,17 +46,17 @@ func (m *MockStorageService) EXPECT() *MockStorageServiceMockRecorder {
 }
 
 // CreateStoragePool mocks base method.
-func (m *MockStorageService) CreateStoragePool(arg0 context.Context, arg1 string, arg2 storage0.ProviderType, arg3 service.PoolAttrs) error {
+func (m *MockStorageService) CreateStoragePool(ctx context.Context, name string, providerType storage0.ProviderType, attrs service.PoolAttrs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateStoragePool", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CreateStoragePool", ctx, name, providerType, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateStoragePool indicates an expected call of CreateStoragePool.
-func (mr *MockStorageServiceMockRecorder) CreateStoragePool(arg0, arg1, arg2, arg3 any) *MockStorageServiceCreateStoragePoolCall {
+func (mr *MockStorageServiceMockRecorder) CreateStoragePool(ctx, name, providerType, attrs any) *MockStorageServiceCreateStoragePoolCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockStorageService)(nil).CreateStoragePool), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockStorageService)(nil).CreateStoragePool), ctx, name, providerType, attrs)
 	return &MockStorageServiceCreateStoragePoolCall{Call: call}
 }
 
@@ -83,17 +84,17 @@ func (c *MockStorageServiceCreateStoragePoolCall) DoAndReturn(f func(context.Con
 }
 
 // DeleteStoragePool mocks base method.
-func (m *MockStorageService) DeleteStoragePool(arg0 context.Context, arg1 string) error {
+func (m *MockStorageService) DeleteStoragePool(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteStoragePool", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteStoragePool", ctx, name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteStoragePool indicates an expected call of DeleteStoragePool.
-func (mr *MockStorageServiceMockRecorder) DeleteStoragePool(arg0, arg1 any) *MockStorageServiceDeleteStoragePoolCall {
+func (mr *MockStorageServiceMockRecorder) DeleteStoragePool(ctx, name any) *MockStorageServiceDeleteStoragePoolCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteStoragePool", reflect.TypeOf((*MockStorageService)(nil).DeleteStoragePool), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteStoragePool", reflect.TypeOf((*MockStorageService)(nil).DeleteStoragePool), ctx, name)
 	return &MockStorageServiceDeleteStoragePoolCall{Call: call}
 }
 
@@ -121,18 +122,18 @@ func (c *MockStorageServiceDeleteStoragePoolCall) DoAndReturn(f func(context.Con
 }
 
 // GetStoragePoolByName mocks base method.
-func (m *MockStorageService) GetStoragePoolByName(arg0 context.Context, arg1 string) (storage.StoragePool, error) {
+func (m *MockStorageService) GetStoragePoolByName(ctx context.Context, name string) (storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetStoragePoolByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetStoragePoolByName", ctx, name)
 	ret0, _ := ret[0].(storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetStoragePoolByName indicates an expected call of GetStoragePoolByName.
-func (mr *MockStorageServiceMockRecorder) GetStoragePoolByName(arg0, arg1 any) *MockStorageServiceGetStoragePoolByNameCall {
+func (mr *MockStorageServiceMockRecorder) GetStoragePoolByName(ctx, name any) *MockStorageServiceGetStoragePoolByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStoragePoolByName", reflect.TypeOf((*MockStorageService)(nil).GetStoragePoolByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStoragePoolByName", reflect.TypeOf((*MockStorageService)(nil).GetStoragePoolByName), ctx, name)
 	return &MockStorageServiceGetStoragePoolByNameCall{Call: call}
 }
 
@@ -160,18 +161,18 @@ func (c *MockStorageServiceGetStoragePoolByNameCall) DoAndReturn(f func(context.
 }
 
 // ListStoragePools mocks base method.
-func (m *MockStorageService) ListStoragePools(arg0 context.Context) ([]storage.StoragePool, error) {
+func (m *MockStorageService) ListStoragePools(ctx context.Context) ([]storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListStoragePools", arg0)
+	ret := m.ctrl.Call(m, "ListStoragePools", ctx)
 	ret0, _ := ret[0].([]storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListStoragePools indicates an expected call of ListStoragePools.
-func (mr *MockStorageServiceMockRecorder) ListStoragePools(arg0 any) *MockStorageServiceListStoragePoolsCall {
+func (mr *MockStorageServiceMockRecorder) ListStoragePools(ctx any) *MockStorageServiceListStoragePoolsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePools", reflect.TypeOf((*MockStorageService)(nil).ListStoragePools), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePools", reflect.TypeOf((*MockStorageService)(nil).ListStoragePools), ctx)
 	return &MockStorageServiceListStoragePoolsCall{Call: call}
 }
 
@@ -199,18 +200,18 @@ func (c *MockStorageServiceListStoragePoolsCall) DoAndReturn(f func(context.Cont
 }
 
 // ListStoragePoolsByNames mocks base method.
-func (m *MockStorageService) ListStoragePoolsByNames(arg0 context.Context, arg1 storage.Names) ([]storage.StoragePool, error) {
+func (m *MockStorageService) ListStoragePoolsByNames(ctx context.Context, names storage.Names) ([]storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListStoragePoolsByNames", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListStoragePoolsByNames", ctx, names)
 	ret0, _ := ret[0].([]storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListStoragePoolsByNames indicates an expected call of ListStoragePoolsByNames.
-func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByNames(arg0, arg1 any) *MockStorageServiceListStoragePoolsByNamesCall {
+func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByNames(ctx, names any) *MockStorageServiceListStoragePoolsByNamesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByNames", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByNames), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByNames", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByNames), ctx, names)
 	return &MockStorageServiceListStoragePoolsByNamesCall{Call: call}
 }
 
@@ -238,18 +239,18 @@ func (c *MockStorageServiceListStoragePoolsByNamesCall) DoAndReturn(f func(conte
 }
 
 // ListStoragePoolsByNamesAndProviders mocks base method.
-func (m *MockStorageService) ListStoragePoolsByNamesAndProviders(arg0 context.Context, arg1 storage.Names, arg2 storage.Providers) ([]storage.StoragePool, error) {
+func (m *MockStorageService) ListStoragePoolsByNamesAndProviders(ctx context.Context, names storage.Names, providers storage.Providers) ([]storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListStoragePoolsByNamesAndProviders", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListStoragePoolsByNamesAndProviders", ctx, names, providers)
 	ret0, _ := ret[0].([]storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListStoragePoolsByNamesAndProviders indicates an expected call of ListStoragePoolsByNamesAndProviders.
-func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByNamesAndProviders(arg0, arg1, arg2 any) *MockStorageServiceListStoragePoolsByNamesAndProvidersCall {
+func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByNamesAndProviders(ctx, names, providers any) *MockStorageServiceListStoragePoolsByNamesAndProvidersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByNamesAndProviders", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByNamesAndProviders), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByNamesAndProviders", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByNamesAndProviders), ctx, names, providers)
 	return &MockStorageServiceListStoragePoolsByNamesAndProvidersCall{Call: call}
 }
 
@@ -277,18 +278,18 @@ func (c *MockStorageServiceListStoragePoolsByNamesAndProvidersCall) DoAndReturn(
 }
 
 // ListStoragePoolsByProviders mocks base method.
-func (m *MockStorageService) ListStoragePoolsByProviders(arg0 context.Context, arg1 storage.Providers) ([]storage.StoragePool, error) {
+func (m *MockStorageService) ListStoragePoolsByProviders(ctx context.Context, providers storage.Providers) ([]storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListStoragePoolsByProviders", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListStoragePoolsByProviders", ctx, providers)
 	ret0, _ := ret[0].([]storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListStoragePoolsByProviders indicates an expected call of ListStoragePoolsByProviders.
-func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByProviders(arg0, arg1 any) *MockStorageServiceListStoragePoolsByProvidersCall {
+func (mr *MockStorageServiceMockRecorder) ListStoragePoolsByProviders(ctx, providers any) *MockStorageServiceListStoragePoolsByProvidersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByProviders", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByProviders), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsByProviders", reflect.TypeOf((*MockStorageService)(nil).ListStoragePoolsByProviders), ctx, providers)
 	return &MockStorageServiceListStoragePoolsByProvidersCall{Call: call}
 }
 
@@ -316,17 +317,17 @@ func (c *MockStorageServiceListStoragePoolsByProvidersCall) DoAndReturn(f func(c
 }
 
 // ReplaceStoragePool mocks base method.
-func (m *MockStorageService) ReplaceStoragePool(arg0 context.Context, arg1 string, arg2 storage0.ProviderType, arg3 service.PoolAttrs) error {
+func (m *MockStorageService) ReplaceStoragePool(ctx context.Context, name string, providerType storage0.ProviderType, attrs service.PoolAttrs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReplaceStoragePool", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ReplaceStoragePool", ctx, name, providerType, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReplaceStoragePool indicates an expected call of ReplaceStoragePool.
-func (mr *MockStorageServiceMockRecorder) ReplaceStoragePool(arg0, arg1, arg2, arg3 any) *MockStorageServiceReplaceStoragePoolCall {
+func (mr *MockStorageServiceMockRecorder) ReplaceStoragePool(ctx, name, providerType, attrs any) *MockStorageServiceReplaceStoragePoolCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReplaceStoragePool", reflect.TypeOf((*MockStorageService)(nil).ReplaceStoragePool), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReplaceStoragePool", reflect.TypeOf((*MockStorageService)(nil).ReplaceStoragePool), ctx, name, providerType, attrs)
 	return &MockStorageServiceReplaceStoragePoolCall{Call: call}
 }
 
@@ -357,6 +358,7 @@ func (c *MockStorageServiceReplaceStoragePoolCall) DoAndReturn(f func(context.Co
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -377,18 +379,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetUnitMachineName mocks base method.
-func (m *MockApplicationService) GetUnitMachineName(arg0 context.Context, arg1 unit.Name) (machine.Name, error) {
+func (m *MockApplicationService) GetUnitMachineName(ctx context.Context, unitName unit.Name) (machine.Name, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitMachineName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitMachineName", ctx, unitName)
 	ret0, _ := ret[0].(machine.Name)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitMachineName indicates an expected call of GetUnitMachineName.
-func (mr *MockApplicationServiceMockRecorder) GetUnitMachineName(arg0, arg1 any) *MockApplicationServiceGetUnitMachineNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetUnitMachineName(ctx, unitName any) *MockApplicationServiceGetUnitMachineNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitMachineName", reflect.TypeOf((*MockApplicationService)(nil).GetUnitMachineName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitMachineName", reflect.TypeOf((*MockApplicationService)(nil).GetUnitMachineName), ctx, unitName)
 	return &MockApplicationServiceGetUnitMachineNameCall{Call: call}
 }
 

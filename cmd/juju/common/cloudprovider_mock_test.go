@@ -25,6 +25,7 @@ import (
 type MockTestCloudProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockTestCloudProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockTestCloudProviderMockRecorder is the mock recorder for MockTestCloudProvider.
@@ -121,18 +122,18 @@ func (c *MockTestCloudProviderCredentialSchemasCall) DoAndReturn(f func() map[cl
 }
 
 // DetectCredentials mocks base method.
-func (m *MockTestCloudProvider) DetectCredentials(arg0 string) (*cloud.CloudCredential, error) {
+func (m *MockTestCloudProvider) DetectCredentials(cloudName string) (*cloud.CloudCredential, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DetectCredentials", arg0)
+	ret := m.ctrl.Call(m, "DetectCredentials", cloudName)
 	ret0, _ := ret[0].(*cloud.CloudCredential)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DetectCredentials indicates an expected call of DetectCredentials.
-func (mr *MockTestCloudProviderMockRecorder) DetectCredentials(arg0 any) *MockTestCloudProviderDetectCredentialsCall {
+func (mr *MockTestCloudProviderMockRecorder) DetectCredentials(cloudName any) *MockTestCloudProviderDetectCredentialsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetectCredentials", reflect.TypeOf((*MockTestCloudProvider)(nil).DetectCredentials), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetectCredentials", reflect.TypeOf((*MockTestCloudProvider)(nil).DetectCredentials), cloudName)
 	return &MockTestCloudProviderDetectCredentialsCall{Call: call}
 }
 
@@ -199,17 +200,17 @@ func (c *MockTestCloudProviderFinalizeCredentialCall) DoAndReturn(f func(environ
 }
 
 // Ping mocks base method.
-func (m *MockTestCloudProvider) Ping(arg0 context.Context, arg1 string) error {
+func (m *MockTestCloudProvider) Ping(ctx context.Context, endpoint string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Ping", arg0, arg1)
+	ret := m.ctrl.Call(m, "Ping", ctx, endpoint)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Ping indicates an expected call of Ping.
-func (mr *MockTestCloudProviderMockRecorder) Ping(arg0, arg1 any) *MockTestCloudProviderPingCall {
+func (mr *MockTestCloudProviderMockRecorder) Ping(ctx, endpoint any) *MockTestCloudProviderPingCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ping", reflect.TypeOf((*MockTestCloudProvider)(nil).Ping), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ping", reflect.TypeOf((*MockTestCloudProvider)(nil).Ping), ctx, endpoint)
 	return &MockTestCloudProviderPingCall{Call: call}
 }
 
@@ -276,18 +277,18 @@ func (c *MockTestCloudProviderRegisterCredentialsCall) DoAndReturn(f func(cloud.
 }
 
 // Validate mocks base method.
-func (m *MockTestCloudProvider) Validate(arg0 context.Context, arg1, arg2 *config.Config) (*config.Config, error) {
+func (m *MockTestCloudProvider) Validate(ctx context.Context, cfg, old *config.Config) (*config.Config, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Validate", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Validate", ctx, cfg, old)
 	ret0, _ := ret[0].(*config.Config)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Validate indicates an expected call of Validate.
-func (mr *MockTestCloudProviderMockRecorder) Validate(arg0, arg1, arg2 any) *MockTestCloudProviderValidateCall {
+func (mr *MockTestCloudProviderMockRecorder) Validate(ctx, cfg, old any) *MockTestCloudProviderValidateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockTestCloudProvider)(nil).Validate), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockTestCloudProvider)(nil).Validate), ctx, cfg, old)
 	return &MockTestCloudProviderValidateCall{Call: call}
 }
 
@@ -297,8 +298,8 @@ type MockTestCloudProviderValidateCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockTestCloudProviderValidateCall) Return(arg0 *config.Config, arg1 error) *MockTestCloudProviderValidateCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockTestCloudProviderValidateCall) Return(valid *config.Config, arg1 error) *MockTestCloudProviderValidateCall {
+	c.Call = c.Call.Return(valid, arg1)
 	return c
 }
 

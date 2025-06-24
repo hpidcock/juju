@@ -31,6 +31,7 @@ import (
 type MockModelContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelContextMockRecorder
+	isgomock struct{}
 }
 
 // MockModelContextMockRecorder is the mock recorder for MockModelContext.

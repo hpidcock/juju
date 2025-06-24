@@ -20,6 +20,7 @@ import (
 type MockInstanceConfigurator struct {
 	ctrl     *gomock.Controller
 	recorder *MockInstanceConfiguratorMockRecorder
+	isgomock struct{}
 }
 
 // MockInstanceConfiguratorMockRecorder is the mock recorder for MockInstanceConfigurator.
@@ -40,17 +41,17 @@ func (m *MockInstanceConfigurator) EXPECT() *MockInstanceConfiguratorMockRecorde
 }
 
 // ChangeIngressRules mocks base method.
-func (m *MockInstanceConfigurator) ChangeIngressRules(arg0 string, arg1 bool, arg2 firewall.IngressRules) error {
+func (m *MockInstanceConfigurator) ChangeIngressRules(ipAddress string, insert bool, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ChangeIngressRules", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ChangeIngressRules", ipAddress, insert, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ChangeIngressRules indicates an expected call of ChangeIngressRules.
-func (mr *MockInstanceConfiguratorMockRecorder) ChangeIngressRules(arg0, arg1, arg2 any) *MockInstanceConfiguratorChangeIngressRulesCall {
+func (mr *MockInstanceConfiguratorMockRecorder) ChangeIngressRules(ipAddress, insert, rules any) *MockInstanceConfiguratorChangeIngressRulesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeIngressRules", reflect.TypeOf((*MockInstanceConfigurator)(nil).ChangeIngressRules), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeIngressRules", reflect.TypeOf((*MockInstanceConfigurator)(nil).ChangeIngressRules), ipAddress, insert, rules)
 	return &MockInstanceConfiguratorChangeIngressRulesCall{Call: call}
 }
 
@@ -78,17 +79,17 @@ func (c *MockInstanceConfiguratorChangeIngressRulesCall) DoAndReturn(f func(stri
 }
 
 // DropAllPorts mocks base method.
-func (m *MockInstanceConfigurator) DropAllPorts(arg0 []int, arg1 string) error {
+func (m *MockInstanceConfigurator) DropAllPorts(exceptPorts []int, addr string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DropAllPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "DropAllPorts", exceptPorts, addr)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DropAllPorts indicates an expected call of DropAllPorts.
-func (mr *MockInstanceConfiguratorMockRecorder) DropAllPorts(arg0, arg1 any) *MockInstanceConfiguratorDropAllPortsCall {
+func (mr *MockInstanceConfiguratorMockRecorder) DropAllPorts(exceptPorts, addr any) *MockInstanceConfiguratorDropAllPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DropAllPorts", reflect.TypeOf((*MockInstanceConfigurator)(nil).DropAllPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DropAllPorts", reflect.TypeOf((*MockInstanceConfigurator)(nil).DropAllPorts), exceptPorts, addr)
 	return &MockInstanceConfiguratorDropAllPortsCall{Call: call}
 }
 

@@ -23,6 +23,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -43,18 +44,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // ApplicationExists mocks base method.
-func (m *MockState) ApplicationExists(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockState) ApplicationExists(ctx context.Context, appUUID string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplicationExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "ApplicationExists", ctx, appUUID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ApplicationExists indicates an expected call of ApplicationExists.
-func (mr *MockStateMockRecorder) ApplicationExists(arg0, arg1 any) *MockStateApplicationExistsCall {
+func (mr *MockStateMockRecorder) ApplicationExists(ctx, appUUID any) *MockStateApplicationExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationExists", reflect.TypeOf((*MockState)(nil).ApplicationExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationExists", reflect.TypeOf((*MockState)(nil).ApplicationExists), ctx, appUUID)
 	return &MockStateApplicationExistsCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockStateApplicationExistsCall) DoAndReturn(f func(context.Context, str
 }
 
 // ApplicationScheduleRemoval mocks base method.
-func (m *MockState) ApplicationScheduleRemoval(arg0 context.Context, arg1, arg2 string, arg3 bool, arg4 time.Time) error {
+func (m *MockState) ApplicationScheduleRemoval(ctx context.Context, removalUUID, appUUID string, force bool, when time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplicationScheduleRemoval", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "ApplicationScheduleRemoval", ctx, removalUUID, appUUID, force, when)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ApplicationScheduleRemoval indicates an expected call of ApplicationScheduleRemoval.
-func (mr *MockStateMockRecorder) ApplicationScheduleRemoval(arg0, arg1, arg2, arg3, arg4 any) *MockStateApplicationScheduleRemovalCall {
+func (mr *MockStateMockRecorder) ApplicationScheduleRemoval(ctx, removalUUID, appUUID, force, when any) *MockStateApplicationScheduleRemovalCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationScheduleRemoval", reflect.TypeOf((*MockState)(nil).ApplicationScheduleRemoval), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationScheduleRemoval", reflect.TypeOf((*MockState)(nil).ApplicationScheduleRemoval), ctx, removalUUID, appUUID, force, when)
 	return &MockStateApplicationScheduleRemovalCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockStateApplicationScheduleRemovalCall) DoAndReturn(f func(context.Con
 }
 
 // DeleteApplication mocks base method.
-func (m *MockState) DeleteApplication(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteApplication(ctx context.Context, appUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteApplication", ctx, appUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteApplication indicates an expected call of DeleteApplication.
-func (mr *MockStateMockRecorder) DeleteApplication(arg0, arg1 any) *MockStateDeleteApplicationCall {
+func (mr *MockStateMockRecorder) DeleteApplication(ctx, appUUID any) *MockStateDeleteApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApplication", reflect.TypeOf((*MockState)(nil).DeleteApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApplication", reflect.TypeOf((*MockState)(nil).DeleteApplication), ctx, appUUID)
 	return &MockStateDeleteApplicationCall{Call: call}
 }
 
@@ -158,17 +159,17 @@ func (c *MockStateDeleteApplicationCall) DoAndReturn(f func(context.Context, str
 }
 
 // DeleteJob mocks base method.
-func (m *MockState) DeleteJob(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteJob(ctx context.Context, jUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteJob", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteJob", ctx, jUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteJob indicates an expected call of DeleteJob.
-func (mr *MockStateMockRecorder) DeleteJob(arg0, arg1 any) *MockStateDeleteJobCall {
+func (mr *MockStateMockRecorder) DeleteJob(ctx, jUUID any) *MockStateDeleteJobCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteJob", reflect.TypeOf((*MockState)(nil).DeleteJob), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteJob", reflect.TypeOf((*MockState)(nil).DeleteJob), ctx, jUUID)
 	return &MockStateDeleteJobCall{Call: call}
 }
 
@@ -196,17 +197,17 @@ func (c *MockStateDeleteJobCall) DoAndReturn(f func(context.Context, string) err
 }
 
 // DeleteRelation mocks base method.
-func (m *MockState) DeleteRelation(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteRelation(ctx context.Context, rUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRelation", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteRelation", ctx, rUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteRelation indicates an expected call of DeleteRelation.
-func (mr *MockStateMockRecorder) DeleteRelation(arg0, arg1 any) *MockStateDeleteRelationCall {
+func (mr *MockStateMockRecorder) DeleteRelation(ctx, rUUID any) *MockStateDeleteRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelation", reflect.TypeOf((*MockState)(nil).DeleteRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelation", reflect.TypeOf((*MockState)(nil).DeleteRelation), ctx, rUUID)
 	return &MockStateDeleteRelationCall{Call: call}
 }
 
@@ -234,17 +235,17 @@ func (c *MockStateDeleteRelationCall) DoAndReturn(f func(context.Context, string
 }
 
 // DeleteRelationUnits mocks base method.
-func (m *MockState) DeleteRelationUnits(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteRelationUnits(ctx context.Context, rUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteRelationUnits", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteRelationUnits", ctx, rUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteRelationUnits indicates an expected call of DeleteRelationUnits.
-func (mr *MockStateMockRecorder) DeleteRelationUnits(arg0, arg1 any) *MockStateDeleteRelationUnitsCall {
+func (mr *MockStateMockRecorder) DeleteRelationUnits(ctx, rUUID any) *MockStateDeleteRelationUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelationUnits", reflect.TypeOf((*MockState)(nil).DeleteRelationUnits), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteRelationUnits", reflect.TypeOf((*MockState)(nil).DeleteRelationUnits), ctx, rUUID)
 	return &MockStateDeleteRelationUnitsCall{Call: call}
 }
 
@@ -272,17 +273,17 @@ func (c *MockStateDeleteRelationUnitsCall) DoAndReturn(f func(context.Context, s
 }
 
 // DeleteUnit mocks base method.
-func (m *MockState) DeleteUnit(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteUnit(ctx context.Context, unitUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUnit", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteUnit", ctx, unitUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteUnit indicates an expected call of DeleteUnit.
-func (mr *MockStateMockRecorder) DeleteUnit(arg0, arg1 any) *MockStateDeleteUnitCall {
+func (mr *MockStateMockRecorder) DeleteUnit(ctx, unitUUID any) *MockStateDeleteUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnit", reflect.TypeOf((*MockState)(nil).DeleteUnit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnit", reflect.TypeOf((*MockState)(nil).DeleteUnit), ctx, unitUUID)
 	return &MockStateDeleteUnitCall{Call: call}
 }
 
@@ -310,9 +311,9 @@ func (c *MockStateDeleteUnitCall) DoAndReturn(f func(context.Context, string) er
 }
 
 // EnsureApplicationNotAliveCascade mocks base method.
-func (m *MockState) EnsureApplicationNotAliveCascade(arg0 context.Context, arg1 string) ([]string, []string, error) {
+func (m *MockState) EnsureApplicationNotAliveCascade(ctx context.Context, appUUID string) ([]string, []string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureApplicationNotAliveCascade", arg0, arg1)
+	ret := m.ctrl.Call(m, "EnsureApplicationNotAliveCascade", ctx, appUUID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].([]string)
 	ret2, _ := ret[2].(error)
@@ -320,9 +321,9 @@ func (m *MockState) EnsureApplicationNotAliveCascade(arg0 context.Context, arg1 
 }
 
 // EnsureApplicationNotAliveCascade indicates an expected call of EnsureApplicationNotAliveCascade.
-func (mr *MockStateMockRecorder) EnsureApplicationNotAliveCascade(arg0, arg1 any) *MockStateEnsureApplicationNotAliveCascadeCall {
+func (mr *MockStateMockRecorder) EnsureApplicationNotAliveCascade(ctx, appUUID any) *MockStateEnsureApplicationNotAliveCascadeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureApplicationNotAliveCascade", reflect.TypeOf((*MockState)(nil).EnsureApplicationNotAliveCascade), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureApplicationNotAliveCascade", reflect.TypeOf((*MockState)(nil).EnsureApplicationNotAliveCascade), ctx, appUUID)
 	return &MockStateEnsureApplicationNotAliveCascadeCall{Call: call}
 }
 
@@ -332,8 +333,8 @@ type MockStateEnsureApplicationNotAliveCascadeCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStateEnsureApplicationNotAliveCascadeCall) Return(arg0, arg1 []string, arg2 error) *MockStateEnsureApplicationNotAliveCascadeCall {
-	c.Call = c.Call.Return(arg0, arg1, arg2)
+func (c *MockStateEnsureApplicationNotAliveCascadeCall) Return(unitUUIDs, machineUUIDs []string, err error) *MockStateEnsureApplicationNotAliveCascadeCall {
+	c.Call = c.Call.Return(unitUUIDs, machineUUIDs, err)
 	return c
 }
 
@@ -350,17 +351,17 @@ func (c *MockStateEnsureApplicationNotAliveCascadeCall) DoAndReturn(f func(conte
 }
 
 // EnsureRelationNotAlive mocks base method.
-func (m *MockState) EnsureRelationNotAlive(arg0 context.Context, arg1 string) error {
+func (m *MockState) EnsureRelationNotAlive(ctx context.Context, rUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureRelationNotAlive", arg0, arg1)
+	ret := m.ctrl.Call(m, "EnsureRelationNotAlive", ctx, rUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureRelationNotAlive indicates an expected call of EnsureRelationNotAlive.
-func (mr *MockStateMockRecorder) EnsureRelationNotAlive(arg0, arg1 any) *MockStateEnsureRelationNotAliveCall {
+func (mr *MockStateMockRecorder) EnsureRelationNotAlive(ctx, rUUID any) *MockStateEnsureRelationNotAliveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureRelationNotAlive", reflect.TypeOf((*MockState)(nil).EnsureRelationNotAlive), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureRelationNotAlive", reflect.TypeOf((*MockState)(nil).EnsureRelationNotAlive), ctx, rUUID)
 	return &MockStateEnsureRelationNotAliveCall{Call: call}
 }
 
@@ -388,18 +389,18 @@ func (c *MockStateEnsureRelationNotAliveCall) DoAndReturn(f func(context.Context
 }
 
 // EnsureUnitNotAliveCascade mocks base method.
-func (m *MockState) EnsureUnitNotAliveCascade(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockState) EnsureUnitNotAliveCascade(ctx context.Context, unitUUID string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureUnitNotAliveCascade", arg0, arg1)
+	ret := m.ctrl.Call(m, "EnsureUnitNotAliveCascade", ctx, unitUUID)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // EnsureUnitNotAliveCascade indicates an expected call of EnsureUnitNotAliveCascade.
-func (mr *MockStateMockRecorder) EnsureUnitNotAliveCascade(arg0, arg1 any) *MockStateEnsureUnitNotAliveCascadeCall {
+func (mr *MockStateMockRecorder) EnsureUnitNotAliveCascade(ctx, unitUUID any) *MockStateEnsureUnitNotAliveCascadeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureUnitNotAliveCascade", reflect.TypeOf((*MockState)(nil).EnsureUnitNotAliveCascade), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureUnitNotAliveCascade", reflect.TypeOf((*MockState)(nil).EnsureUnitNotAliveCascade), ctx, unitUUID)
 	return &MockStateEnsureUnitNotAliveCascadeCall{Call: call}
 }
 
@@ -409,8 +410,8 @@ type MockStateEnsureUnitNotAliveCascadeCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStateEnsureUnitNotAliveCascadeCall) Return(arg0 string, arg1 error) *MockStateEnsureUnitNotAliveCascadeCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockStateEnsureUnitNotAliveCascadeCall) Return(machineUUID string, err error) *MockStateEnsureUnitNotAliveCascadeCall {
+	c.Call = c.Call.Return(machineUUID, err)
 	return c
 }
 
@@ -427,18 +428,18 @@ func (c *MockStateEnsureUnitNotAliveCascadeCall) DoAndReturn(f func(context.Cont
 }
 
 // GetAllJobs mocks base method.
-func (m *MockState) GetAllJobs(arg0 context.Context) ([]removal.Job, error) {
+func (m *MockState) GetAllJobs(ctx context.Context) ([]removal.Job, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllJobs", arg0)
+	ret := m.ctrl.Call(m, "GetAllJobs", ctx)
 	ret0, _ := ret[0].([]removal.Job)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllJobs indicates an expected call of GetAllJobs.
-func (mr *MockStateMockRecorder) GetAllJobs(arg0 any) *MockStateGetAllJobsCall {
+func (mr *MockStateMockRecorder) GetAllJobs(ctx any) *MockStateGetAllJobsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllJobs", reflect.TypeOf((*MockState)(nil).GetAllJobs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllJobs", reflect.TypeOf((*MockState)(nil).GetAllJobs), ctx)
 	return &MockStateGetAllJobsCall{Call: call}
 }
 
@@ -466,18 +467,18 @@ func (c *MockStateGetAllJobsCall) DoAndReturn(f func(context.Context) ([]removal
 }
 
 // GetApplicationLife mocks base method.
-func (m *MockState) GetApplicationLife(arg0 context.Context, arg1 string) (life.Life, error) {
+func (m *MockState) GetApplicationLife(ctx context.Context, appUUID string) (life.Life, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationLife", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationLife", ctx, appUUID)
 	ret0, _ := ret[0].(life.Life)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationLife indicates an expected call of GetApplicationLife.
-func (mr *MockStateMockRecorder) GetApplicationLife(arg0, arg1 any) *MockStateGetApplicationLifeCall {
+func (mr *MockStateMockRecorder) GetApplicationLife(ctx, appUUID any) *MockStateGetApplicationLifeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLife", reflect.TypeOf((*MockState)(nil).GetApplicationLife), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLife", reflect.TypeOf((*MockState)(nil).GetApplicationLife), ctx, appUUID)
 	return &MockStateGetApplicationLifeCall{Call: call}
 }
 
@@ -505,9 +506,9 @@ func (c *MockStateGetApplicationLifeCall) DoAndReturn(f func(context.Context, st
 }
 
 // GetApplicationNameAndUnitNameByUnitUUID mocks base method.
-func (m *MockState) GetApplicationNameAndUnitNameByUnitUUID(arg0 context.Context, arg1 string) (string, string, error) {
+func (m *MockState) GetApplicationNameAndUnitNameByUnitUUID(ctx context.Context, unitUUID string) (string, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationNameAndUnitNameByUnitUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationNameAndUnitNameByUnitUUID", ctx, unitUUID)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -515,9 +516,9 @@ func (m *MockState) GetApplicationNameAndUnitNameByUnitUUID(arg0 context.Context
 }
 
 // GetApplicationNameAndUnitNameByUnitUUID indicates an expected call of GetApplicationNameAndUnitNameByUnitUUID.
-func (mr *MockStateMockRecorder) GetApplicationNameAndUnitNameByUnitUUID(arg0, arg1 any) *MockStateGetApplicationNameAndUnitNameByUnitUUIDCall {
+func (mr *MockStateMockRecorder) GetApplicationNameAndUnitNameByUnitUUID(ctx, unitUUID any) *MockStateGetApplicationNameAndUnitNameByUnitUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationNameAndUnitNameByUnitUUID", reflect.TypeOf((*MockState)(nil).GetApplicationNameAndUnitNameByUnitUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationNameAndUnitNameByUnitUUID", reflect.TypeOf((*MockState)(nil).GetApplicationNameAndUnitNameByUnitUUID), ctx, unitUUID)
 	return &MockStateGetApplicationNameAndUnitNameByUnitUUIDCall{Call: call}
 }
 
@@ -545,18 +546,18 @@ func (c *MockStateGetApplicationNameAndUnitNameByUnitUUIDCall) DoAndReturn(f fun
 }
 
 // GetRelationLife mocks base method.
-func (m *MockState) GetRelationLife(arg0 context.Context, arg1 string) (life.Life, error) {
+func (m *MockState) GetRelationLife(ctx context.Context, rUUID string) (life.Life, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationLife", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationLife", ctx, rUUID)
 	ret0, _ := ret[0].(life.Life)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationLife indicates an expected call of GetRelationLife.
-func (mr *MockStateMockRecorder) GetRelationLife(arg0, arg1 any) *MockStateGetRelationLifeCall {
+func (mr *MockStateMockRecorder) GetRelationLife(ctx, rUUID any) *MockStateGetRelationLifeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationLife", reflect.TypeOf((*MockState)(nil).GetRelationLife), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationLife", reflect.TypeOf((*MockState)(nil).GetRelationLife), ctx, rUUID)
 	return &MockStateGetRelationLifeCall{Call: call}
 }
 
@@ -584,18 +585,18 @@ func (c *MockStateGetRelationLifeCall) DoAndReturn(f func(context.Context, strin
 }
 
 // GetUnitLife mocks base method.
-func (m *MockState) GetUnitLife(arg0 context.Context, arg1 string) (life.Life, error) {
+func (m *MockState) GetUnitLife(ctx context.Context, unitUUID string) (life.Life, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitLife", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitLife", ctx, unitUUID)
 	ret0, _ := ret[0].(life.Life)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitLife indicates an expected call of GetUnitLife.
-func (mr *MockStateMockRecorder) GetUnitLife(arg0, arg1 any) *MockStateGetUnitLifeCall {
+func (mr *MockStateMockRecorder) GetUnitLife(ctx, unitUUID any) *MockStateGetUnitLifeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitLife", reflect.TypeOf((*MockState)(nil).GetUnitLife), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitLife", reflect.TypeOf((*MockState)(nil).GetUnitLife), ctx, unitUUID)
 	return &MockStateGetUnitLifeCall{Call: call}
 }
 
@@ -623,18 +624,18 @@ func (c *MockStateGetUnitLifeCall) DoAndReturn(f func(context.Context, string) (
 }
 
 // MachineExists mocks base method.
-func (m *MockState) MachineExists(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockState) MachineExists(ctx context.Context, machineUUID string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MachineExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "MachineExists", ctx, machineUUID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // MachineExists indicates an expected call of MachineExists.
-func (mr *MockStateMockRecorder) MachineExists(arg0, arg1 any) *MockStateMachineExistsCall {
+func (mr *MockStateMockRecorder) MachineExists(ctx, machineUUID any) *MockStateMachineExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineExists", reflect.TypeOf((*MockState)(nil).MachineExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineExists", reflect.TypeOf((*MockState)(nil).MachineExists), ctx, machineUUID)
 	return &MockStateMachineExistsCall{Call: call}
 }
 
@@ -662,17 +663,17 @@ func (c *MockStateMachineExistsCall) DoAndReturn(f func(context.Context, string)
 }
 
 // MarkUnitAsDead mocks base method.
-func (m *MockState) MarkUnitAsDead(arg0 context.Context, arg1 string) error {
+func (m *MockState) MarkUnitAsDead(ctx context.Context, unitUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MarkUnitAsDead", arg0, arg1)
+	ret := m.ctrl.Call(m, "MarkUnitAsDead", ctx, unitUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // MarkUnitAsDead indicates an expected call of MarkUnitAsDead.
-func (mr *MockStateMockRecorder) MarkUnitAsDead(arg0, arg1 any) *MockStateMarkUnitAsDeadCall {
+func (mr *MockStateMockRecorder) MarkUnitAsDead(ctx, unitUUID any) *MockStateMarkUnitAsDeadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkUnitAsDead", reflect.TypeOf((*MockState)(nil).MarkUnitAsDead), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MarkUnitAsDead", reflect.TypeOf((*MockState)(nil).MarkUnitAsDead), ctx, unitUUID)
 	return &MockStateMarkUnitAsDeadCall{Call: call}
 }
 
@@ -738,18 +739,18 @@ func (c *MockStateNamespaceForWatchRemovalsCall) DoAndReturn(f func() string) *M
 }
 
 // RelationExists mocks base method.
-func (m *MockState) RelationExists(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockState) RelationExists(ctx context.Context, rUUID string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RelationExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "RelationExists", ctx, rUUID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RelationExists indicates an expected call of RelationExists.
-func (mr *MockStateMockRecorder) RelationExists(arg0, arg1 any) *MockStateRelationExistsCall {
+func (mr *MockStateMockRecorder) RelationExists(ctx, rUUID any) *MockStateRelationExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationExists", reflect.TypeOf((*MockState)(nil).RelationExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationExists", reflect.TypeOf((*MockState)(nil).RelationExists), ctx, rUUID)
 	return &MockStateRelationExistsCall{Call: call}
 }
 
@@ -777,17 +778,17 @@ func (c *MockStateRelationExistsCall) DoAndReturn(f func(context.Context, string
 }
 
 // RelationScheduleRemoval mocks base method.
-func (m *MockState) RelationScheduleRemoval(arg0 context.Context, arg1, arg2 string, arg3 bool, arg4 time.Time) error {
+func (m *MockState) RelationScheduleRemoval(ctx context.Context, removalUUID, relUUID string, force bool, when time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RelationScheduleRemoval", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "RelationScheduleRemoval", ctx, removalUUID, relUUID, force, when)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RelationScheduleRemoval indicates an expected call of RelationScheduleRemoval.
-func (mr *MockStateMockRecorder) RelationScheduleRemoval(arg0, arg1, arg2, arg3, arg4 any) *MockStateRelationScheduleRemovalCall {
+func (mr *MockStateMockRecorder) RelationScheduleRemoval(ctx, removalUUID, relUUID, force, when any) *MockStateRelationScheduleRemovalCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationScheduleRemoval", reflect.TypeOf((*MockState)(nil).RelationScheduleRemoval), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RelationScheduleRemoval", reflect.TypeOf((*MockState)(nil).RelationScheduleRemoval), ctx, removalUUID, relUUID, force, when)
 	return &MockStateRelationScheduleRemovalCall{Call: call}
 }
 
@@ -815,18 +816,18 @@ func (c *MockStateRelationScheduleRemovalCall) DoAndReturn(f func(context.Contex
 }
 
 // UnitExists mocks base method.
-func (m *MockState) UnitExists(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockState) UnitExists(ctx context.Context, unitUUID string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnitExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "UnitExists", ctx, unitUUID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UnitExists indicates an expected call of UnitExists.
-func (mr *MockStateMockRecorder) UnitExists(arg0, arg1 any) *MockStateUnitExistsCall {
+func (mr *MockStateMockRecorder) UnitExists(ctx, unitUUID any) *MockStateUnitExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitExists", reflect.TypeOf((*MockState)(nil).UnitExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitExists", reflect.TypeOf((*MockState)(nil).UnitExists), ctx, unitUUID)
 	return &MockStateUnitExistsCall{Call: call}
 }
 
@@ -854,18 +855,18 @@ func (c *MockStateUnitExistsCall) DoAndReturn(f func(context.Context, string) (b
 }
 
 // UnitNamesInScope mocks base method.
-func (m *MockState) UnitNamesInScope(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockState) UnitNamesInScope(ctx context.Context, rUUID string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnitNamesInScope", arg0, arg1)
+	ret := m.ctrl.Call(m, "UnitNamesInScope", ctx, rUUID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UnitNamesInScope indicates an expected call of UnitNamesInScope.
-func (mr *MockStateMockRecorder) UnitNamesInScope(arg0, arg1 any) *MockStateUnitNamesInScopeCall {
+func (mr *MockStateMockRecorder) UnitNamesInScope(ctx, rUUID any) *MockStateUnitNamesInScopeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitNamesInScope", reflect.TypeOf((*MockState)(nil).UnitNamesInScope), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitNamesInScope", reflect.TypeOf((*MockState)(nil).UnitNamesInScope), ctx, rUUID)
 	return &MockStateUnitNamesInScopeCall{Call: call}
 }
 
@@ -893,17 +894,17 @@ func (c *MockStateUnitNamesInScopeCall) DoAndReturn(f func(context.Context, stri
 }
 
 // UnitScheduleRemoval mocks base method.
-func (m *MockState) UnitScheduleRemoval(arg0 context.Context, arg1, arg2 string, arg3 bool, arg4 time.Time) error {
+func (m *MockState) UnitScheduleRemoval(ctx context.Context, removalUUID, unitUUID string, force bool, when time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnitScheduleRemoval", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "UnitScheduleRemoval", ctx, removalUUID, unitUUID, force, when)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UnitScheduleRemoval indicates an expected call of UnitScheduleRemoval.
-func (mr *MockStateMockRecorder) UnitScheduleRemoval(arg0, arg1, arg2, arg3, arg4 any) *MockStateUnitScheduleRemovalCall {
+func (mr *MockStateMockRecorder) UnitScheduleRemoval(ctx, removalUUID, unitUUID, force, when any) *MockStateUnitScheduleRemovalCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitScheduleRemoval", reflect.TypeOf((*MockState)(nil).UnitScheduleRemoval), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitScheduleRemoval", reflect.TypeOf((*MockState)(nil).UnitScheduleRemoval), ctx, removalUUID, unitUUID, force, when)
 	return &MockStateUnitScheduleRemovalCall{Call: call}
 }
 

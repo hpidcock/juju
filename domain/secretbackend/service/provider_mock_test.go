@@ -22,6 +22,7 @@ import (
 type MockSecretBackendProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretBackendProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretBackendProviderMockRecorder is the mock recorder for MockSecretBackendProvider.
@@ -42,17 +43,17 @@ func (m *MockSecretBackendProvider) EXPECT() *MockSecretBackendProviderMockRecor
 }
 
 // CleanupModel mocks base method.
-func (m *MockSecretBackendProvider) CleanupModel(arg0 context.Context, arg1 *provider.ModelBackendConfig) error {
+func (m *MockSecretBackendProvider) CleanupModel(ctx context.Context, cfg *provider.ModelBackendConfig) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CleanupModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "CleanupModel", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CleanupModel indicates an expected call of CleanupModel.
-func (mr *MockSecretBackendProviderMockRecorder) CleanupModel(arg0, arg1 any) *MockSecretBackendProviderCleanupModelCall {
+func (mr *MockSecretBackendProviderMockRecorder) CleanupModel(ctx, cfg any) *MockSecretBackendProviderCleanupModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CleanupModel", reflect.TypeOf((*MockSecretBackendProvider)(nil).CleanupModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CleanupModel", reflect.TypeOf((*MockSecretBackendProvider)(nil).CleanupModel), ctx, cfg)
 	return &MockSecretBackendProviderCleanupModelCall{Call: call}
 }
 
@@ -80,17 +81,17 @@ func (c *MockSecretBackendProviderCleanupModelCall) DoAndReturn(f func(context.C
 }
 
 // CleanupSecrets mocks base method.
-func (m *MockSecretBackendProvider) CleanupSecrets(arg0 context.Context, arg1 *provider.ModelBackendConfig, arg2 secrets.Accessor, arg3 provider.SecretRevisions) error {
+func (m *MockSecretBackendProvider) CleanupSecrets(ctx context.Context, cfg *provider.ModelBackendConfig, accessor secrets.Accessor, removed provider.SecretRevisions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CleanupSecrets", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CleanupSecrets", ctx, cfg, accessor, removed)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CleanupSecrets indicates an expected call of CleanupSecrets.
-func (mr *MockSecretBackendProviderMockRecorder) CleanupSecrets(arg0, arg1, arg2, arg3 any) *MockSecretBackendProviderCleanupSecretsCall {
+func (mr *MockSecretBackendProviderMockRecorder) CleanupSecrets(ctx, cfg, accessor, removed any) *MockSecretBackendProviderCleanupSecretsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CleanupSecrets", reflect.TypeOf((*MockSecretBackendProvider)(nil).CleanupSecrets), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CleanupSecrets", reflect.TypeOf((*MockSecretBackendProvider)(nil).CleanupSecrets), ctx, cfg, accessor, removed)
 	return &MockSecretBackendProviderCleanupSecretsCall{Call: call}
 }
 
@@ -118,17 +119,17 @@ func (c *MockSecretBackendProviderCleanupSecretsCall) DoAndReturn(f func(context
 }
 
 // Initialise mocks base method.
-func (m *MockSecretBackendProvider) Initialise(arg0 *provider.ModelBackendConfig) error {
+func (m *MockSecretBackendProvider) Initialise(cfg *provider.ModelBackendConfig) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Initialise", arg0)
+	ret := m.ctrl.Call(m, "Initialise", cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Initialise indicates an expected call of Initialise.
-func (mr *MockSecretBackendProviderMockRecorder) Initialise(arg0 any) *MockSecretBackendProviderInitialiseCall {
+func (mr *MockSecretBackendProviderMockRecorder) Initialise(cfg any) *MockSecretBackendProviderInitialiseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Initialise", reflect.TypeOf((*MockSecretBackendProvider)(nil).Initialise), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Initialise", reflect.TypeOf((*MockSecretBackendProvider)(nil).Initialise), cfg)
 	return &MockSecretBackendProviderInitialiseCall{Call: call}
 }
 
@@ -156,18 +157,18 @@ func (c *MockSecretBackendProviderInitialiseCall) DoAndReturn(f func(*provider.M
 }
 
 // NewBackend mocks base method.
-func (m *MockSecretBackendProvider) NewBackend(arg0 *provider.ModelBackendConfig) (provider.SecretsBackend, error) {
+func (m *MockSecretBackendProvider) NewBackend(cfg *provider.ModelBackendConfig) (provider.SecretsBackend, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewBackend", arg0)
+	ret := m.ctrl.Call(m, "NewBackend", cfg)
 	ret0, _ := ret[0].(provider.SecretsBackend)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewBackend indicates an expected call of NewBackend.
-func (mr *MockSecretBackendProviderMockRecorder) NewBackend(arg0 any) *MockSecretBackendProviderNewBackendCall {
+func (mr *MockSecretBackendProviderMockRecorder) NewBackend(cfg any) *MockSecretBackendProviderNewBackendCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewBackend", reflect.TypeOf((*MockSecretBackendProvider)(nil).NewBackend), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewBackend", reflect.TypeOf((*MockSecretBackendProvider)(nil).NewBackend), cfg)
 	return &MockSecretBackendProviderNewBackendCall{Call: call}
 }
 
@@ -195,18 +196,18 @@ func (c *MockSecretBackendProviderNewBackendCall) DoAndReturn(f func(*provider.M
 }
 
 // RestrictedConfig mocks base method.
-func (m *MockSecretBackendProvider) RestrictedConfig(arg0 context.Context, arg1 *provider.ModelBackendConfig, arg2, arg3 bool, arg4 secrets.Accessor, arg5, arg6 provider.SecretRevisions) (*provider.BackendConfig, error) {
+func (m *MockSecretBackendProvider) RestrictedConfig(ctx context.Context, adminCfg *provider.ModelBackendConfig, sameController, forDrain bool, accessor secrets.Accessor, owned, read provider.SecretRevisions) (*provider.BackendConfig, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RestrictedConfig", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "RestrictedConfig", ctx, adminCfg, sameController, forDrain, accessor, owned, read)
 	ret0, _ := ret[0].(*provider.BackendConfig)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RestrictedConfig indicates an expected call of RestrictedConfig.
-func (mr *MockSecretBackendProviderMockRecorder) RestrictedConfig(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockSecretBackendProviderRestrictedConfigCall {
+func (mr *MockSecretBackendProviderMockRecorder) RestrictedConfig(ctx, adminCfg, sameController, forDrain, accessor, owned, read any) *MockSecretBackendProviderRestrictedConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RestrictedConfig", reflect.TypeOf((*MockSecretBackendProvider)(nil).RestrictedConfig), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RestrictedConfig", reflect.TypeOf((*MockSecretBackendProvider)(nil).RestrictedConfig), ctx, adminCfg, sameController, forDrain, accessor, owned, read)
 	return &MockSecretBackendProviderRestrictedConfigCall{Call: call}
 }
 
@@ -275,6 +276,7 @@ func (c *MockSecretBackendProviderTypeCall) DoAndReturn(f func() string) *MockSe
 type MockSecretsBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsBackendMockRecorder is the mock recorder for MockSecretsBackend.
@@ -295,17 +297,17 @@ func (m *MockSecretsBackend) EXPECT() *MockSecretsBackendMockRecorder {
 }
 
 // DeleteContent mocks base method.
-func (m *MockSecretsBackend) DeleteContent(arg0 context.Context, arg1 string) error {
+func (m *MockSecretsBackend) DeleteContent(arg0 context.Context, revisionId string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteContent", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteContent", arg0, revisionId)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteContent indicates an expected call of DeleteContent.
-func (mr *MockSecretsBackendMockRecorder) DeleteContent(arg0, arg1 any) *MockSecretsBackendDeleteContentCall {
+func (mr *MockSecretsBackendMockRecorder) DeleteContent(arg0, revisionId any) *MockSecretsBackendDeleteContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteContent), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteContent), arg0, revisionId)
 	return &MockSecretsBackendDeleteContentCall{Call: call}
 }
 
@@ -333,18 +335,18 @@ func (c *MockSecretsBackendDeleteContentCall) DoAndReturn(f func(context.Context
 }
 
 // GetContent mocks base method.
-func (m *MockSecretsBackend) GetContent(arg0 context.Context, arg1 string) (secrets.SecretValue, error) {
+func (m *MockSecretsBackend) GetContent(arg0 context.Context, revisionId string) (secrets.SecretValue, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetContent", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetContent", arg0, revisionId)
 	ret0, _ := ret[0].(secrets.SecretValue)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetContent indicates an expected call of GetContent.
-func (mr *MockSecretsBackendMockRecorder) GetContent(arg0, arg1 any) *MockSecretsBackendGetContentCall {
+func (mr *MockSecretsBackendMockRecorder) GetContent(arg0, revisionId any) *MockSecretsBackendGetContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContent", reflect.TypeOf((*MockSecretsBackend)(nil).GetContent), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContent", reflect.TypeOf((*MockSecretsBackend)(nil).GetContent), arg0, revisionId)
 	return &MockSecretsBackendGetContentCall{Call: call}
 }
 
@@ -410,18 +412,18 @@ func (c *MockSecretsBackendPingCall) DoAndReturn(f func() error) *MockSecretsBac
 }
 
 // SaveContent mocks base method.
-func (m *MockSecretsBackend) SaveContent(arg0 context.Context, arg1 *secrets.URI, arg2 int, arg3 secrets.SecretValue) (string, error) {
+func (m *MockSecretsBackend) SaveContent(arg0 context.Context, uri *secrets.URI, revision int, value secrets.SecretValue) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveContent", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SaveContent", arg0, uri, revision, value)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SaveContent indicates an expected call of SaveContent.
-func (mr *MockSecretsBackendMockRecorder) SaveContent(arg0, arg1, arg2, arg3 any) *MockSecretsBackendSaveContentCall {
+func (mr *MockSecretsBackendMockRecorder) SaveContent(arg0, uri, revision, value any) *MockSecretsBackendSaveContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveContent", reflect.TypeOf((*MockSecretsBackend)(nil).SaveContent), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveContent", reflect.TypeOf((*MockSecretsBackend)(nil).SaveContent), arg0, uri, revision, value)
 	return &MockSecretsBackendSaveContentCall{Call: call}
 }
 

@@ -20,6 +20,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -40,17 +41,17 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // Delete mocks base method.
-func (m *MockState) Delete(arg0 context.Context, arg1 string) error {
+func (m *MockState) Delete(ctx context.Context, name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1)
+	ret := m.ctrl.Call(m, "Delete", ctx, name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockStateMockRecorder) Delete(arg0, arg1 any) *MockStateDeleteCall {
+func (mr *MockStateMockRecorder) Delete(ctx, name any) *MockStateDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockState)(nil).Delete), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockState)(nil).Delete), ctx, name)
 	return &MockStateDeleteCall{Call: call}
 }
 
@@ -78,18 +79,18 @@ func (c *MockStateDeleteCall) DoAndReturn(f func(context.Context, string) error)
 }
 
 // Get mocks base method.
-func (m *MockState) Get(arg0 context.Context, arg1 string) ([]byte, error) {
+func (m *MockState) Get(ctx context.Context, name string) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Get", ctx, name)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockStateMockRecorder) Get(arg0, arg1 any) *MockStateGetCall {
+func (mr *MockStateMockRecorder) Get(ctx, name any) *MockStateGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockState)(nil).Get), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockState)(nil).Get), ctx, name)
 	return &MockStateGetCall{Call: call}
 }
 
@@ -117,17 +118,17 @@ func (c *MockStateGetCall) DoAndReturn(f func(context.Context, string) ([]byte, 
 }
 
 // Put mocks base method.
-func (m *MockState) Put(arg0 context.Context, arg1 string, arg2 []byte) error {
+func (m *MockState) Put(ctx context.Context, name string, data []byte) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Put", ctx, name, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Put indicates an expected call of Put.
-func (mr *MockStateMockRecorder) Put(arg0, arg1, arg2 any) *MockStatePutCall {
+func (mr *MockStateMockRecorder) Put(ctx, name, data any) *MockStatePutCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockState)(nil).Put), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockState)(nil).Put), ctx, name, data)
 	return &MockStatePutCall{Call: call}
 }
 

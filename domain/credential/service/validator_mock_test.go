@@ -22,6 +22,7 @@ import (
 type MockCredentialValidator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCredentialValidatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCredentialValidatorMockRecorder is the mock recorder for MockCredentialValidator.
@@ -42,18 +43,18 @@ func (m *MockCredentialValidator) EXPECT() *MockCredentialValidatorMockRecorder 
 }
 
 // Validate mocks base method.
-func (m *MockCredentialValidator) Validate(arg0 context.Context, arg1 CredentialValidationContext, arg2 credential.Key, arg3 *cloud.Credential, arg4 bool) ([]error, error) {
+func (m *MockCredentialValidator) Validate(ctx context.Context, validationContext CredentialValidationContext, credentialKey credential.Key, arg3 *cloud.Credential, checkCloudInstances bool) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Validate", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "Validate", ctx, validationContext, credentialKey, arg3, checkCloudInstances)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Validate indicates an expected call of Validate.
-func (mr *MockCredentialValidatorMockRecorder) Validate(arg0, arg1, arg2, arg3, arg4 any) *MockCredentialValidatorValidateCall {
+func (mr *MockCredentialValidatorMockRecorder) Validate(ctx, validationContext, credentialKey, arg3, checkCloudInstances any) *MockCredentialValidatorValidateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockCredentialValidator)(nil).Validate), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Validate", reflect.TypeOf((*MockCredentialValidator)(nil).Validate), ctx, validationContext, credentialKey, arg3, checkCloudInstances)
 	return &MockCredentialValidatorValidateCall{Call: call}
 }
 

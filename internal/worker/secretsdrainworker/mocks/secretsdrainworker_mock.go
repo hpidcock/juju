@@ -23,6 +23,7 @@ import (
 type MockSecretsDrainFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsDrainFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsDrainFacadeMockRecorder is the mock recorder for MockSecretsDrainFacade.
@@ -121,10 +122,10 @@ func (c *MockSecretsDrainFacadeGetSecretsToDrainCall) DoAndReturn(f func(context
 }
 
 // WatchSecretBackendChanged mocks base method.
-func (m *MockSecretsDrainFacade) WatchSecretBackendChanged(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockSecretsDrainFacade) WatchSecretBackendChanged(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchSecretBackendChanged", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -142,19 +143,19 @@ type MockSecretsDrainFacadeWatchSecretBackendChangedCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
+func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
+func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
+func (c *MockSecretsDrainFacadeWatchSecretBackendChangedCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockSecretsDrainFacadeWatchSecretBackendChangedCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

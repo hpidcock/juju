@@ -22,6 +22,7 @@ import (
 type MockModelService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelServiceMockRecorder is the mock recorder for MockModelService.
@@ -42,18 +43,18 @@ func (m *MockModelService) EXPECT() *MockModelServiceMockRecorder {
 }
 
 // Model mocks base method.
-func (m *MockModelService) Model(arg0 context.Context, arg1 model.UUID) (model.Model, error) {
+func (m *MockModelService) Model(ctx context.Context, uuid model.UUID) (model.Model, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Model", arg0, arg1)
+	ret := m.ctrl.Call(m, "Model", ctx, uuid)
 	ret0, _ := ret[0].(model.Model)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Model indicates an expected call of Model.
-func (mr *MockModelServiceMockRecorder) Model(arg0, arg1 any) *MockModelServiceModelCall {
+func (mr *MockModelServiceMockRecorder) Model(ctx, uuid any) *MockModelServiceModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Model", reflect.TypeOf((*MockModelService)(nil).Model), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Model", reflect.TypeOf((*MockModelService)(nil).Model), ctx, uuid)
 	return &MockModelServiceModelCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockModelServiceModelCall) DoAndReturn(f func(context.Context, model.UU
 }
 
 // WatchActivatedModels mocks base method.
-func (m *MockModelService) WatchActivatedModels(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockModelService) WatchActivatedModels(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchActivatedModels", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchActivatedModels", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchActivatedModels indicates an expected call of WatchActivatedModels.
-func (mr *MockModelServiceMockRecorder) WatchActivatedModels(arg0 any) *MockModelServiceWatchActivatedModelsCall {
+func (mr *MockModelServiceMockRecorder) WatchActivatedModels(ctx any) *MockModelServiceWatchActivatedModelsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchActivatedModels", reflect.TypeOf((*MockModelService)(nil).WatchActivatedModels), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchActivatedModels", reflect.TypeOf((*MockModelService)(nil).WatchActivatedModels), ctx)
 	return &MockModelServiceWatchActivatedModelsCall{Call: call}
 }
 
@@ -102,19 +103,19 @@ type MockModelServiceWatchActivatedModelsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockModelServiceWatchActivatedModelsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockModelServiceWatchActivatedModelsCall {
+func (c *MockModelServiceWatchActivatedModelsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockModelServiceWatchActivatedModelsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockModelServiceWatchActivatedModelsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockModelServiceWatchActivatedModelsCall {
+func (c *MockModelServiceWatchActivatedModelsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockModelServiceWatchActivatedModelsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockModelServiceWatchActivatedModelsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockModelServiceWatchActivatedModelsCall {
+func (c *MockModelServiceWatchActivatedModelsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockModelServiceWatchActivatedModelsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

@@ -22,6 +22,7 @@ import (
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -197,6 +198,7 @@ func (c *MockImportServiceSetUnitWorkloadStatusCall) DoAndReturn(f func(context.
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -217,18 +219,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ExportApplicationStatuses mocks base method.
-func (m *MockExportService) ExportApplicationStatuses(arg0 context.Context) (map[string]status.StatusInfo, error) {
+func (m *MockExportService) ExportApplicationStatuses(ctx context.Context) (map[string]status.StatusInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportApplicationStatuses", arg0)
+	ret := m.ctrl.Call(m, "ExportApplicationStatuses", ctx)
 	ret0, _ := ret[0].(map[string]status.StatusInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportApplicationStatuses indicates an expected call of ExportApplicationStatuses.
-func (mr *MockExportServiceMockRecorder) ExportApplicationStatuses(arg0 any) *MockExportServiceExportApplicationStatusesCall {
+func (mr *MockExportServiceMockRecorder) ExportApplicationStatuses(ctx any) *MockExportServiceExportApplicationStatusesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportApplicationStatuses", reflect.TypeOf((*MockExportService)(nil).ExportApplicationStatuses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportApplicationStatuses", reflect.TypeOf((*MockExportService)(nil).ExportApplicationStatuses), ctx)
 	return &MockExportServiceExportApplicationStatusesCall{Call: call}
 }
 
@@ -256,18 +258,18 @@ func (c *MockExportServiceExportApplicationStatusesCall) DoAndReturn(f func(cont
 }
 
 // ExportRelationStatuses mocks base method.
-func (m *MockExportService) ExportRelationStatuses(arg0 context.Context) (map[int]status.StatusInfo, error) {
+func (m *MockExportService) ExportRelationStatuses(ctx context.Context) (map[int]status.StatusInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportRelationStatuses", arg0)
+	ret := m.ctrl.Call(m, "ExportRelationStatuses", ctx)
 	ret0, _ := ret[0].(map[int]status.StatusInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportRelationStatuses indicates an expected call of ExportRelationStatuses.
-func (mr *MockExportServiceMockRecorder) ExportRelationStatuses(arg0 any) *MockExportServiceExportRelationStatusesCall {
+func (mr *MockExportServiceMockRecorder) ExportRelationStatuses(ctx any) *MockExportServiceExportRelationStatusesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelationStatuses", reflect.TypeOf((*MockExportService)(nil).ExportRelationStatuses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelationStatuses", reflect.TypeOf((*MockExportService)(nil).ExportRelationStatuses), ctx)
 	return &MockExportServiceExportRelationStatusesCall{Call: call}
 }
 
@@ -295,9 +297,9 @@ func (c *MockExportServiceExportRelationStatusesCall) DoAndReturn(f func(context
 }
 
 // ExportUnitStatuses mocks base method.
-func (m *MockExportService) ExportUnitStatuses(arg0 context.Context) (map[unit.Name]status.StatusInfo, map[unit.Name]status.StatusInfo, error) {
+func (m *MockExportService) ExportUnitStatuses(ctx context.Context) (map[unit.Name]status.StatusInfo, map[unit.Name]status.StatusInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportUnitStatuses", arg0)
+	ret := m.ctrl.Call(m, "ExportUnitStatuses", ctx)
 	ret0, _ := ret[0].(map[unit.Name]status.StatusInfo)
 	ret1, _ := ret[1].(map[unit.Name]status.StatusInfo)
 	ret2, _ := ret[2].(error)
@@ -305,9 +307,9 @@ func (m *MockExportService) ExportUnitStatuses(arg0 context.Context) (map[unit.N
 }
 
 // ExportUnitStatuses indicates an expected call of ExportUnitStatuses.
-func (mr *MockExportServiceMockRecorder) ExportUnitStatuses(arg0 any) *MockExportServiceExportUnitStatusesCall {
+func (mr *MockExportServiceMockRecorder) ExportUnitStatuses(ctx any) *MockExportServiceExportUnitStatusesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportUnitStatuses", reflect.TypeOf((*MockExportService)(nil).ExportUnitStatuses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportUnitStatuses", reflect.TypeOf((*MockExportService)(nil).ExportUnitStatuses), ctx)
 	return &MockExportServiceExportUnitStatusesCall{Call: call}
 }
 

@@ -20,6 +20,7 @@ import (
 type MockCharmMetadata struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataMockRecorder is the mock recorder for MockCharmMetadata.
@@ -803,6 +804,7 @@ func (c *MockCharmMetadataTermsCall) DoAndReturn(f func() []string) *MockCharmMe
 type MockCharmMetadataRelation struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataRelationMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataRelationMockRecorder is the mock recorder for MockCharmMetadataRelation.
@@ -1054,6 +1056,7 @@ func (c *MockCharmMetadataRelationScopeCall) DoAndReturn(f func() string) *MockC
 type MockCharmMetadataStorage struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataStorageMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataStorageMockRecorder is the mock recorder for MockCharmMetadataStorage.
@@ -1457,6 +1460,7 @@ func (c *MockCharmMetadataStorageTypeCall) DoAndReturn(f func() string) *MockCha
 type MockCharmMetadataDevice struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataDeviceMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataDeviceMockRecorder is the mock recorder for MockCharmMetadataDevice.
@@ -1670,6 +1674,7 @@ func (c *MockCharmMetadataDeviceTypeCall) DoAndReturn(f func() string) *MockChar
 type MockCharmMetadataResource struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataResourceMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataResourceMockRecorder is the mock recorder for MockCharmMetadataResource.
@@ -1845,6 +1850,7 @@ func (c *MockCharmMetadataResourceTypeCall) DoAndReturn(f func() string) *MockCh
 type MockCharmMetadataContainer struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataContainerMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataContainerMockRecorder is the mock recorder for MockCharmMetadataContainer.
@@ -2020,6 +2026,7 @@ func (c *MockCharmMetadataContainerUidCall) DoAndReturn(f func() *int) *MockChar
 type MockCharmMetadataContainerMount struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMetadataContainerMountMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMetadataContainerMountMockRecorder is the mock recorder for MockCharmMetadataContainerMount.
@@ -2119,6 +2126,7 @@ func (c *MockCharmMetadataContainerMountStorageCall) DoAndReturn(f func() string
 type MockCharmManifest struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmManifestMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmManifestMockRecorder is the mock recorder for MockCharmManifest.
@@ -2180,6 +2188,7 @@ func (c *MockCharmManifestBasesCall) DoAndReturn(f func() []description.CharmMan
 type MockCharmManifestBase struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmManifestBaseMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmManifestBaseMockRecorder is the mock recorder for MockCharmManifestBase.
@@ -2317,6 +2326,7 @@ func (c *MockCharmManifestBaseNameCall) DoAndReturn(f func() string) *MockCharmM
 type MockCharmActions struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmActionsMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmActionsMockRecorder is the mock recorder for MockCharmActions.
@@ -2378,6 +2388,7 @@ func (c *MockCharmActionsActionsCall) DoAndReturn(f func() map[string]descriptio
 type MockCharmAction struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmActionMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmActionMockRecorder is the mock recorder for MockCharmAction.
@@ -2553,6 +2564,7 @@ func (c *MockCharmActionParametersCall) DoAndReturn(f func() map[string]any) *Mo
 type MockCharmConfigs struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmConfigsMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmConfigsMockRecorder is the mock recorder for MockCharmConfigs.
@@ -2614,6 +2626,7 @@ func (c *MockCharmConfigsConfigsCall) DoAndReturn(f func() map[string]descriptio
 type MockCharmConfig struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmConfigMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmConfigMockRecorder is the mock recorder for MockCharmConfig.

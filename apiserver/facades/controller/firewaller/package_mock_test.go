@@ -26,6 +26,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -46,18 +47,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // FindEntity mocks base method.
-func (m *MockState) FindEntity(arg0 names.Tag) (state.Entity, error) {
+func (m *MockState) FindEntity(tag names.Tag) (state.Entity, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindEntity", arg0)
+	ret := m.ctrl.Call(m, "FindEntity", tag)
 	ret0, _ := ret[0].(state.Entity)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindEntity indicates an expected call of FindEntity.
-func (mr *MockStateMockRecorder) FindEntity(arg0 any) *MockStateFindEntityCall {
+func (mr *MockStateMockRecorder) FindEntity(tag any) *MockStateFindEntityCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindEntity", reflect.TypeOf((*MockState)(nil).FindEntity), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindEntity", reflect.TypeOf((*MockState)(nil).FindEntity), tag)
 	return &MockStateFindEntityCall{Call: call}
 }
 
@@ -85,18 +86,18 @@ func (c *MockStateFindEntityCall) DoAndReturn(f func(names.Tag) (state.Entity, e
 }
 
 // GetMacaroon mocks base method.
-func (m *MockState) GetMacaroon(arg0 names.Tag) (*macaroon.Macaroon, error) {
+func (m *MockState) GetMacaroon(entity names.Tag) (*macaroon.Macaroon, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMacaroon", arg0)
+	ret := m.ctrl.Call(m, "GetMacaroon", entity)
 	ret0, _ := ret[0].(*macaroon.Macaroon)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMacaroon indicates an expected call of GetMacaroon.
-func (mr *MockStateMockRecorder) GetMacaroon(arg0 any) *MockStateGetMacaroonCall {
+func (mr *MockStateMockRecorder) GetMacaroon(entity any) *MockStateGetMacaroonCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMacaroon", reflect.TypeOf((*MockState)(nil).GetMacaroon), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMacaroon", reflect.TypeOf((*MockState)(nil).GetMacaroon), entity)
 	return &MockStateGetMacaroonCall{Call: call}
 }
 
@@ -202,17 +203,17 @@ func (c *MockStateMachineCall) DoAndReturn(f func(string) (firewaller.Machine, e
 }
 
 // WatchModelMachineStartTimes mocks base method.
-func (m *MockState) WatchModelMachineStartTimes(arg0 time.Duration) state.StringsWatcher {
+func (m *MockState) WatchModelMachineStartTimes(quiesceInterval time.Duration) state.StringsWatcher {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchModelMachineStartTimes", arg0)
+	ret := m.ctrl.Call(m, "WatchModelMachineStartTimes", quiesceInterval)
 	ret0, _ := ret[0].(state.StringsWatcher)
 	return ret0
 }
 
 // WatchModelMachineStartTimes indicates an expected call of WatchModelMachineStartTimes.
-func (mr *MockStateMockRecorder) WatchModelMachineStartTimes(arg0 any) *MockStateWatchModelMachineStartTimesCall {
+func (mr *MockStateMockRecorder) WatchModelMachineStartTimes(quiesceInterval any) *MockStateWatchModelMachineStartTimesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchModelMachineStartTimes", reflect.TypeOf((*MockState)(nil).WatchModelMachineStartTimes), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchModelMachineStartTimes", reflect.TypeOf((*MockState)(nil).WatchModelMachineStartTimes), quiesceInterval)
 	return &MockStateWatchModelMachineStartTimesCall{Call: call}
 }
 
@@ -281,6 +282,7 @@ func (c *MockStateWatchModelMachinesCall) DoAndReturn(f func() state.StringsWatc
 type MockControllerConfigAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigAPIMockRecorder is the mock recorder for MockControllerConfigAPI.

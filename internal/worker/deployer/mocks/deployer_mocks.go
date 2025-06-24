@@ -25,6 +25,7 @@ import (
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -126,6 +127,7 @@ func (c *MockClientUnitCall) DoAndReturn(f func(context.Context, names.UnitTag) 
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -146,10 +148,10 @@ func (m *MockMachine) EXPECT() *MockMachineMockRecorder {
 }
 
 // WatchUnits mocks base method.
-func (m *MockMachine) WatchUnits(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockMachine) WatchUnits(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchUnits", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -167,19 +169,19 @@ type MockMachineWatchUnitsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineWatchUnitsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockMachineWatchUnitsCall {
+func (c *MockMachineWatchUnitsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockMachineWatchUnitsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachineWatchUnitsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMachineWatchUnitsCall {
+func (c *MockMachineWatchUnitsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockMachineWatchUnitsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachineWatchUnitsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMachineWatchUnitsCall {
+func (c *MockMachineWatchUnitsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockMachineWatchUnitsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -188,6 +190,7 @@ func (c *MockMachineWatchUnitsCall) DoAndReturn(f func(context.Context) (watcher
 type MockUnit struct {
 	ctrl     *gomock.Controller
 	recorder *MockUnitMockRecorder
+	isgomock struct{}
 }
 
 // MockUnitMockRecorder is the mock recorder for MockUnit.
@@ -284,17 +287,17 @@ func (c *MockUnitNameCall) DoAndReturn(f func() string) *MockUnitNameCall {
 }
 
 // Remove mocks base method.
-func (m *MockUnit) Remove(arg0 context.Context) error {
+func (m *MockUnit) Remove(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0)
+	ret := m.ctrl.Call(m, "Remove", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockUnitMockRecorder) Remove(arg0 any) *MockUnitRemoveCall {
+func (mr *MockUnitMockRecorder) Remove(ctx any) *MockUnitRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockUnit)(nil).Remove), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockUnit)(nil).Remove), ctx)
 	return &MockUnitRemoveCall{Call: call}
 }
 
@@ -322,17 +325,17 @@ func (c *MockUnitRemoveCall) DoAndReturn(f func(context.Context) error) *MockUni
 }
 
 // SetPassword mocks base method.
-func (m *MockUnit) SetPassword(arg0 context.Context, arg1 string) error {
+func (m *MockUnit) SetPassword(ctx context.Context, password string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetPassword", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetPassword", ctx, password)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetPassword indicates an expected call of SetPassword.
-func (mr *MockUnitMockRecorder) SetPassword(arg0, arg1 any) *MockUnitSetPasswordCall {
+func (mr *MockUnitMockRecorder) SetPassword(ctx, password any) *MockUnitSetPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockUnit)(nil).SetPassword), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockUnit)(nil).SetPassword), ctx, password)
 	return &MockUnitSetPasswordCall{Call: call}
 }
 
@@ -360,17 +363,17 @@ func (c *MockUnitSetPasswordCall) DoAndReturn(f func(context.Context, string) er
 }
 
 // SetStatus mocks base method.
-func (m *MockUnit) SetStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockUnit) SetStatus(ctx context.Context, unitStatus status.Status, info string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetStatus", ctx, unitStatus, info, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetStatus indicates an expected call of SetStatus.
-func (mr *MockUnitMockRecorder) SetStatus(arg0, arg1, arg2, arg3 any) *MockUnitSetStatusCall {
+func (mr *MockUnitMockRecorder) SetStatus(ctx, unitStatus, info, data any) *MockUnitSetStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockUnit)(nil).SetStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockUnit)(nil).SetStatus), ctx, unitStatus, info, data)
 	return &MockUnitSetStatusCall{Call: call}
 }
 

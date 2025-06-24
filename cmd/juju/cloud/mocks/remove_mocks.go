@@ -20,6 +20,7 @@ import (
 type MockRemoveCloudAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoveCloudAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoveCloudAPIMockRecorder is the mock recorder for MockRemoveCloudAPI.
@@ -78,17 +79,17 @@ func (c *MockRemoveCloudAPICloseCall) DoAndReturn(f func() error) *MockRemoveClo
 }
 
 // RemoveCloud mocks base method.
-func (m *MockRemoveCloudAPI) RemoveCloud(arg0 context.Context, arg1 string) error {
+func (m *MockRemoveCloudAPI) RemoveCloud(ctx context.Context, cloud string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveCloud", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveCloud", ctx, cloud)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveCloud indicates an expected call of RemoveCloud.
-func (mr *MockRemoveCloudAPIMockRecorder) RemoveCloud(arg0, arg1 any) *MockRemoveCloudAPIRemoveCloudCall {
+func (mr *MockRemoveCloudAPIMockRecorder) RemoveCloud(ctx, cloud any) *MockRemoveCloudAPIRemoveCloudCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveCloud", reflect.TypeOf((*MockRemoveCloudAPI)(nil).RemoveCloud), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveCloud", reflect.TypeOf((*MockRemoveCloudAPI)(nil).RemoveCloud), ctx, cloud)
 	return &MockRemoveCloudAPIRemoveCloudCall{Call: call}
 }
 

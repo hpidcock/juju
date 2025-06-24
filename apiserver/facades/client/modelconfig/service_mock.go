@@ -24,6 +24,7 @@ import (
 type MockBlockCommandService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCommandServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCommandServiceMockRecorder is the mock recorder for MockBlockCommandService.
@@ -44,18 +45,18 @@ func (m *MockBlockCommandService) EXPECT() *MockBlockCommandServiceMockRecorder 
 }
 
 // GetBlockSwitchedOn mocks base method.
-func (m *MockBlockCommandService) GetBlockSwitchedOn(arg0 context.Context, arg1 blockcommand.BlockType) (string, error) {
+func (m *MockBlockCommandService) GetBlockSwitchedOn(ctx context.Context, t blockcommand.BlockType) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", ctx, t)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlockSwitchedOn indicates an expected call of GetBlockSwitchedOn.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(arg0, arg1 any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(ctx, t any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), ctx, t)
 	return &MockBlockCommandServiceGetBlockSwitchedOnCall{Call: call}
 }
 
@@ -83,18 +84,18 @@ func (c *MockBlockCommandServiceGetBlockSwitchedOnCall) DoAndReturn(f func(conte
 }
 
 // GetBlocks mocks base method.
-func (m *MockBlockCommandService) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockBlockCommandService) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(arg0 any) *MockBlockCommandServiceGetBlocksCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(ctx any) *MockBlockCommandServiceGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), ctx)
 	return &MockBlockCommandServiceGetBlocksCall{Call: call}
 }
 
@@ -125,6 +126,7 @@ func (c *MockBlockCommandServiceGetBlocksCall) DoAndReturn(f func(context.Contex
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.
@@ -186,6 +188,7 @@ func (c *MockModelAgentServiceSetModelAgentStreamCall) DoAndReturn(f func(contex
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -291,6 +294,7 @@ func (c *MockModelConfigServiceUpdateModelConfigCall) DoAndReturn(f func(context
 type MockModelSecretBackendService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelSecretBackendServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelSecretBackendServiceMockRecorder is the mock recorder for MockModelSecretBackendService.
@@ -311,18 +315,18 @@ func (m *MockModelSecretBackendService) EXPECT() *MockModelSecretBackendServiceM
 }
 
 // GetModelSecretBackend mocks base method.
-func (m *MockModelSecretBackendService) GetModelSecretBackend(arg0 context.Context) (string, error) {
+func (m *MockModelSecretBackendService) GetModelSecretBackend(ctx context.Context) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelSecretBackend", arg0)
+	ret := m.ctrl.Call(m, "GetModelSecretBackend", ctx)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelSecretBackend indicates an expected call of GetModelSecretBackend.
-func (mr *MockModelSecretBackendServiceMockRecorder) GetModelSecretBackend(arg0 any) *MockModelSecretBackendServiceGetModelSecretBackendCall {
+func (mr *MockModelSecretBackendServiceMockRecorder) GetModelSecretBackend(ctx any) *MockModelSecretBackendServiceGetModelSecretBackendCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelSecretBackend", reflect.TypeOf((*MockModelSecretBackendService)(nil).GetModelSecretBackend), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelSecretBackend", reflect.TypeOf((*MockModelSecretBackendService)(nil).GetModelSecretBackend), ctx)
 	return &MockModelSecretBackendServiceGetModelSecretBackendCall{Call: call}
 }
 
@@ -350,17 +354,17 @@ func (c *MockModelSecretBackendServiceGetModelSecretBackendCall) DoAndReturn(f f
 }
 
 // SetModelSecretBackend mocks base method.
-func (m *MockModelSecretBackendService) SetModelSecretBackend(arg0 context.Context, arg1 string) error {
+func (m *MockModelSecretBackendService) SetModelSecretBackend(ctx context.Context, backendName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelSecretBackend", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetModelSecretBackend", ctx, backendName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelSecretBackend indicates an expected call of SetModelSecretBackend.
-func (mr *MockModelSecretBackendServiceMockRecorder) SetModelSecretBackend(arg0, arg1 any) *MockModelSecretBackendServiceSetModelSecretBackendCall {
+func (mr *MockModelSecretBackendServiceMockRecorder) SetModelSecretBackend(ctx, backendName any) *MockModelSecretBackendServiceSetModelSecretBackendCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelSecretBackend", reflect.TypeOf((*MockModelSecretBackendService)(nil).SetModelSecretBackend), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelSecretBackend", reflect.TypeOf((*MockModelSecretBackendService)(nil).SetModelSecretBackend), ctx, backendName)
 	return &MockModelSecretBackendServiceSetModelSecretBackendCall{Call: call}
 }
 
@@ -391,6 +395,7 @@ func (c *MockModelSecretBackendServiceSetModelSecretBackendCall) DoAndReturn(f f
 type MockModelService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelServiceMockRecorder is the mock recorder for MockModelService.
@@ -411,18 +416,18 @@ func (m *MockModelService) EXPECT() *MockModelServiceMockRecorder {
 }
 
 // GetModelConstraints mocks base method.
-func (m *MockModelService) GetModelConstraints(arg0 context.Context) (constraints.Value, error) {
+func (m *MockModelService) GetModelConstraints(ctx context.Context) (constraints.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelConstraints", arg0)
+	ret := m.ctrl.Call(m, "GetModelConstraints", ctx)
 	ret0, _ := ret[0].(constraints.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelConstraints indicates an expected call of GetModelConstraints.
-func (mr *MockModelServiceMockRecorder) GetModelConstraints(arg0 any) *MockModelServiceGetModelConstraintsCall {
+func (mr *MockModelServiceMockRecorder) GetModelConstraints(ctx any) *MockModelServiceGetModelConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelConstraints", reflect.TypeOf((*MockModelService)(nil).GetModelConstraints), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelConstraints", reflect.TypeOf((*MockModelService)(nil).GetModelConstraints), ctx)
 	return &MockModelServiceGetModelConstraintsCall{Call: call}
 }
 
@@ -450,17 +455,17 @@ func (c *MockModelServiceGetModelConstraintsCall) DoAndReturn(f func(context.Con
 }
 
 // SetModelConstraints mocks base method.
-func (m *MockModelService) SetModelConstraints(arg0 context.Context, arg1 constraints.Value) error {
+func (m *MockModelService) SetModelConstraints(ctx context.Context, cons constraints.Value) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelConstraints", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetModelConstraints", ctx, cons)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelConstraints indicates an expected call of SetModelConstraints.
-func (mr *MockModelServiceMockRecorder) SetModelConstraints(arg0, arg1 any) *MockModelServiceSetModelConstraintsCall {
+func (mr *MockModelServiceMockRecorder) SetModelConstraints(ctx, cons any) *MockModelServiceSetModelConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelConstraints", reflect.TypeOf((*MockModelService)(nil).SetModelConstraints), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelConstraints", reflect.TypeOf((*MockModelService)(nil).SetModelConstraints), ctx, cons)
 	return &MockModelServiceSetModelConstraintsCall{Call: call}
 }
 

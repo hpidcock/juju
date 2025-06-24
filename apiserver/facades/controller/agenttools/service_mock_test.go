@@ -22,6 +22,7 @@ import (
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -84,6 +85,7 @@ func (c *MockModelConfigServiceModelConfigCall) DoAndReturn(f func(context.Conte
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.
@@ -104,18 +106,18 @@ func (m *MockModelAgentService) EXPECT() *MockModelAgentServiceMockRecorder {
 }
 
 // GetModelTargetAgentVersion mocks base method.
-func (m *MockModelAgentService) GetModelTargetAgentVersion(arg0 context.Context) (semversion.Number, error) {
+func (m *MockModelAgentService) GetModelTargetAgentVersion(ctx context.Context) (semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelTargetAgentVersion", arg0)
+	ret := m.ctrl.Call(m, "GetModelTargetAgentVersion", ctx)
 	ret0, _ := ret[0].(semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelTargetAgentVersion indicates an expected call of GetModelTargetAgentVersion.
-func (mr *MockModelAgentServiceMockRecorder) GetModelTargetAgentVersion(arg0 any) *MockModelAgentServiceGetModelTargetAgentVersionCall {
+func (mr *MockModelAgentServiceMockRecorder) GetModelTargetAgentVersion(ctx any) *MockModelAgentServiceGetModelTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).GetModelTargetAgentVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).GetModelTargetAgentVersion), ctx)
 	return &MockModelAgentServiceGetModelTargetAgentVersionCall{Call: call}
 }
 

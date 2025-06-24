@@ -24,6 +24,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -83,6 +84,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -103,17 +105,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // CreateStoragePool mocks base method.
-func (m *MockImportService) CreateStoragePool(arg0 context.Context, arg1 string, arg2 storage0.ProviderType, arg3 service.PoolAttrs) error {
+func (m *MockImportService) CreateStoragePool(ctx context.Context, name string, providerType storage0.ProviderType, attrs service.PoolAttrs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateStoragePool", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CreateStoragePool", ctx, name, providerType, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateStoragePool indicates an expected call of CreateStoragePool.
-func (mr *MockImportServiceMockRecorder) CreateStoragePool(arg0, arg1, arg2, arg3 any) *MockImportServiceCreateStoragePoolCall {
+func (mr *MockImportServiceMockRecorder) CreateStoragePool(ctx, name, providerType, attrs any) *MockImportServiceCreateStoragePoolCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockImportService)(nil).CreateStoragePool), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockImportService)(nil).CreateStoragePool), ctx, name, providerType, attrs)
 	return &MockImportServiceCreateStoragePoolCall{Call: call}
 }
 
@@ -144,6 +146,7 @@ func (c *MockImportServiceCreateStoragePoolCall) DoAndReturn(f func(context.Cont
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -164,18 +167,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ListStoragePoolsWithoutBuiltins mocks base method.
-func (m *MockExportService) ListStoragePoolsWithoutBuiltins(arg0 context.Context) ([]storage.StoragePool, error) {
+func (m *MockExportService) ListStoragePoolsWithoutBuiltins(ctx context.Context) ([]storage.StoragePool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListStoragePoolsWithoutBuiltins", arg0)
+	ret := m.ctrl.Call(m, "ListStoragePoolsWithoutBuiltins", ctx)
 	ret0, _ := ret[0].([]storage.StoragePool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListStoragePoolsWithoutBuiltins indicates an expected call of ListStoragePoolsWithoutBuiltins.
-func (mr *MockExportServiceMockRecorder) ListStoragePoolsWithoutBuiltins(arg0 any) *MockExportServiceListStoragePoolsWithoutBuiltinsCall {
+func (mr *MockExportServiceMockRecorder) ListStoragePoolsWithoutBuiltins(ctx any) *MockExportServiceListStoragePoolsWithoutBuiltinsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsWithoutBuiltins", reflect.TypeOf((*MockExportService)(nil).ListStoragePoolsWithoutBuiltins), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListStoragePoolsWithoutBuiltins", reflect.TypeOf((*MockExportService)(nil).ListStoragePoolsWithoutBuiltins), ctx)
 	return &MockExportServiceListStoragePoolsWithoutBuiltinsCall{Call: call}
 }
 

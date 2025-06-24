@@ -19,6 +19,7 @@ import (
 type MockRunnable struct {
 	ctrl     *gomock.Controller
 	recorder *MockRunnableMockRecorder
+	isgomock struct{}
 }
 
 // MockRunnableMockRecorder is the mock recorder for MockRunnable.
@@ -39,10 +40,10 @@ func (m *MockRunnable) EXPECT() *MockRunnableMockRecorder {
 }
 
 // Execute mocks base method.
-func (m *MockRunnable) Execute(arg0 string, arg1 ...string) (string, error) {
+func (m *MockRunnable) Execute(name string, args ...string) (string, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{name}
+	for _, a := range args {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Execute", varargs...)
@@ -52,9 +53,9 @@ func (m *MockRunnable) Execute(arg0 string, arg1 ...string) (string, error) {
 }
 
 // Execute indicates an expected call of Execute.
-func (mr *MockRunnableMockRecorder) Execute(arg0 any, arg1 ...any) *MockRunnableExecuteCall {
+func (mr *MockRunnableMockRecorder) Execute(name any, args ...any) *MockRunnableExecuteCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{name}, args...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Execute", reflect.TypeOf((*MockRunnable)(nil).Execute), varargs...)
 	return &MockRunnableExecuteCall{Call: call}
 }

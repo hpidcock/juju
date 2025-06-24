@@ -17,30 +17,31 @@ import (
 )
 
 // MockSecretTriggerWatcher is a mock of SecretTriggerWatcher interface.
-type MockSecretTriggerWatcher struct {
+type MockSecretTriggerWatcher[T any] struct {
 	ctrl     *gomock.Controller
-	recorder *MockSecretTriggerWatcherMockRecorder
+	recorder *MockSecretTriggerWatcherMockRecorder[T]
+	isgomock struct{}
 }
 
 // MockSecretTriggerWatcherMockRecorder is the mock recorder for MockSecretTriggerWatcher.
-type MockSecretTriggerWatcherMockRecorder struct {
-	mock *MockSecretTriggerWatcher
+type MockSecretTriggerWatcherMockRecorder[T any] struct {
+	mock *MockSecretTriggerWatcher[T]
 }
 
 // NewMockSecretTriggerWatcher creates a new mock instance.
-func NewMockSecretTriggerWatcher(ctrl *gomock.Controller) *MockSecretTriggerWatcher {
-	mock := &MockSecretTriggerWatcher{ctrl: ctrl}
-	mock.recorder = &MockSecretTriggerWatcherMockRecorder{mock}
+func NewMockSecretTriggerWatcher[T any](ctrl *gomock.Controller) *MockSecretTriggerWatcher[T] {
+	mock := &MockSecretTriggerWatcher[T]{ctrl: ctrl}
+	mock.recorder = &MockSecretTriggerWatcherMockRecorder[T]{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockSecretTriggerWatcher) EXPECT() *MockSecretTriggerWatcherMockRecorder {
+func (m *MockSecretTriggerWatcher[T]) EXPECT() *MockSecretTriggerWatcherMockRecorder[T] {
 	return m.recorder
 }
 
 // Changes mocks base method.
-func (m *MockSecretTriggerWatcher) Changes() <-chan []watcher.SecretTriggerChange {
+func (m *MockSecretTriggerWatcher[T]) Changes() <-chan []watcher.SecretTriggerChange {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Changes")
 	ret0, _ := ret[0].(<-chan []watcher.SecretTriggerChange)
@@ -48,73 +49,73 @@ func (m *MockSecretTriggerWatcher) Changes() <-chan []watcher.SecretTriggerChang
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockSecretTriggerWatcherMockRecorder) Changes() *MockSecretTriggerWatcherChangesCall {
+func (mr *MockSecretTriggerWatcherMockRecorder[T]) Changes() *MockSecretTriggerWatcherChangesCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockSecretTriggerWatcher)(nil).Changes))
-	return &MockSecretTriggerWatcherChangesCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockSecretTriggerWatcher[T])(nil).Changes))
+	return &MockSecretTriggerWatcherChangesCall[T]{Call: call}
 }
 
 // MockSecretTriggerWatcherChangesCall wrap *gomock.Call
-type MockSecretTriggerWatcherChangesCall struct {
+type MockSecretTriggerWatcherChangesCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretTriggerWatcherChangesCall) Return(arg0 <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall {
+func (c *MockSecretTriggerWatcherChangesCall[T]) Return(arg0 <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretTriggerWatcherChangesCall) Do(f func() <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall {
+func (c *MockSecretTriggerWatcherChangesCall[T]) Do(f func() <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretTriggerWatcherChangesCall) DoAndReturn(f func() <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall {
+func (c *MockSecretTriggerWatcherChangesCall[T]) DoAndReturn(f func() <-chan []watcher.SecretTriggerChange) *MockSecretTriggerWatcherChangesCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Kill mocks base method.
-func (m *MockSecretTriggerWatcher) Kill() {
+func (m *MockSecretTriggerWatcher[T]) Kill() {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Kill")
 }
 
 // Kill indicates an expected call of Kill.
-func (mr *MockSecretTriggerWatcherMockRecorder) Kill() *MockSecretTriggerWatcherKillCall {
+func (mr *MockSecretTriggerWatcherMockRecorder[T]) Kill() *MockSecretTriggerWatcherKillCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockSecretTriggerWatcher)(nil).Kill))
-	return &MockSecretTriggerWatcherKillCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockSecretTriggerWatcher[T])(nil).Kill))
+	return &MockSecretTriggerWatcherKillCall[T]{Call: call}
 }
 
 // MockSecretTriggerWatcherKillCall wrap *gomock.Call
-type MockSecretTriggerWatcherKillCall struct {
+type MockSecretTriggerWatcherKillCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretTriggerWatcherKillCall) Return() *MockSecretTriggerWatcherKillCall {
+func (c *MockSecretTriggerWatcherKillCall[T]) Return() *MockSecretTriggerWatcherKillCall[T] {
 	c.Call = c.Call.Return()
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretTriggerWatcherKillCall) Do(f func()) *MockSecretTriggerWatcherKillCall {
+func (c *MockSecretTriggerWatcherKillCall[T]) Do(f func()) *MockSecretTriggerWatcherKillCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretTriggerWatcherKillCall) DoAndReturn(f func()) *MockSecretTriggerWatcherKillCall {
+func (c *MockSecretTriggerWatcherKillCall[T]) DoAndReturn(f func()) *MockSecretTriggerWatcherKillCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Wait mocks base method.
-func (m *MockSecretTriggerWatcher) Wait() error {
+func (m *MockSecretTriggerWatcher[T]) Wait() error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Wait")
 	ret0, _ := ret[0].(error)
@@ -122,31 +123,31 @@ func (m *MockSecretTriggerWatcher) Wait() error {
 }
 
 // Wait indicates an expected call of Wait.
-func (mr *MockSecretTriggerWatcherMockRecorder) Wait() *MockSecretTriggerWatcherWaitCall {
+func (mr *MockSecretTriggerWatcherMockRecorder[T]) Wait() *MockSecretTriggerWatcherWaitCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockSecretTriggerWatcher)(nil).Wait))
-	return &MockSecretTriggerWatcherWaitCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockSecretTriggerWatcher[T])(nil).Wait))
+	return &MockSecretTriggerWatcherWaitCall[T]{Call: call}
 }
 
 // MockSecretTriggerWatcherWaitCall wrap *gomock.Call
-type MockSecretTriggerWatcherWaitCall struct {
+type MockSecretTriggerWatcherWaitCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretTriggerWatcherWaitCall) Return(arg0 error) *MockSecretTriggerWatcherWaitCall {
+func (c *MockSecretTriggerWatcherWaitCall[T]) Return(arg0 error) *MockSecretTriggerWatcherWaitCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretTriggerWatcherWaitCall) Do(f func() error) *MockSecretTriggerWatcherWaitCall {
+func (c *MockSecretTriggerWatcherWaitCall[T]) Do(f func() error) *MockSecretTriggerWatcherWaitCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretTriggerWatcherWaitCall) DoAndReturn(f func() error) *MockSecretTriggerWatcherWaitCall {
+func (c *MockSecretTriggerWatcherWaitCall[T]) DoAndReturn(f func() error) *MockSecretTriggerWatcherWaitCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

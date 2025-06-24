@@ -22,6 +22,7 @@ import (
 type MockAgentBinaryFinder struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryFinderMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryFinderMockRecorder is the mock recorder for MockAgentBinaryFinder.
@@ -201,6 +202,7 @@ func (c *MockAgentBinaryFinderHasBinariesForVersionAndStreamCall) DoAndReturn(f 
 type MockControllerState struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerStateMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerStateMockRecorder is the mock recorder for MockControllerState.
@@ -221,18 +223,18 @@ func (m *MockControllerState) EXPECT() *MockControllerStateMockRecorder {
 }
 
 // GetControllerNodeVersions mocks base method.
-func (m *MockControllerState) GetControllerNodeVersions(arg0 context.Context) (map[string]semversion.Number, error) {
+func (m *MockControllerState) GetControllerNodeVersions(ctx context.Context) (map[string]semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetControllerNodeVersions", arg0)
+	ret := m.ctrl.Call(m, "GetControllerNodeVersions", ctx)
 	ret0, _ := ret[0].(map[string]semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetControllerNodeVersions indicates an expected call of GetControllerNodeVersions.
-func (mr *MockControllerStateMockRecorder) GetControllerNodeVersions(arg0 any) *MockControllerStateGetControllerNodeVersionsCall {
+func (mr *MockControllerStateMockRecorder) GetControllerNodeVersions(ctx any) *MockControllerStateGetControllerNodeVersionsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerNodeVersions", reflect.TypeOf((*MockControllerState)(nil).GetControllerNodeVersions), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerNodeVersions", reflect.TypeOf((*MockControllerState)(nil).GetControllerNodeVersions), ctx)
 	return &MockControllerStateGetControllerNodeVersionsCall{Call: call}
 }
 
@@ -260,18 +262,18 @@ func (c *MockControllerStateGetControllerNodeVersionsCall) DoAndReturn(f func(co
 }
 
 // GetControllerTargetVersion mocks base method.
-func (m *MockControllerState) GetControllerTargetVersion(arg0 context.Context) (semversion.Number, error) {
+func (m *MockControllerState) GetControllerTargetVersion(ctx context.Context) (semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetControllerTargetVersion", arg0)
+	ret := m.ctrl.Call(m, "GetControllerTargetVersion", ctx)
 	ret0, _ := ret[0].(semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetControllerTargetVersion indicates an expected call of GetControllerTargetVersion.
-func (mr *MockControllerStateMockRecorder) GetControllerTargetVersion(arg0 any) *MockControllerStateGetControllerTargetVersionCall {
+func (mr *MockControllerStateMockRecorder) GetControllerTargetVersion(ctx any) *MockControllerStateGetControllerTargetVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerTargetVersion", reflect.TypeOf((*MockControllerState)(nil).GetControllerTargetVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerTargetVersion", reflect.TypeOf((*MockControllerState)(nil).GetControllerTargetVersion), ctx)
 	return &MockControllerStateGetControllerTargetVersionCall{Call: call}
 }
 
@@ -340,6 +342,7 @@ func (c *MockControllerStateSetControllerTargetVersionCall) DoAndReturn(f func(c
 type MockControllerModelState struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerModelStateMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerModelStateMockRecorder is the mock recorder for MockControllerModelState.
@@ -399,17 +402,17 @@ func (c *MockControllerModelStateGetModelTargetAgentVersionCall) DoAndReturn(f f
 }
 
 // SetModelTargetAgentVersion mocks base method.
-func (m *MockControllerModelState) SetModelTargetAgentVersion(arg0 context.Context, arg1, arg2 semversion.Number) error {
+func (m *MockControllerModelState) SetModelTargetAgentVersion(ctx context.Context, preCondition, toVersion semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelTargetAgentVersion", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetModelTargetAgentVersion", ctx, preCondition, toVersion)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelTargetAgentVersion indicates an expected call of SetModelTargetAgentVersion.
-func (mr *MockControllerModelStateMockRecorder) SetModelTargetAgentVersion(arg0, arg1, arg2 any) *MockControllerModelStateSetModelTargetAgentVersionCall {
+func (mr *MockControllerModelStateMockRecorder) SetModelTargetAgentVersion(ctx, preCondition, toVersion any) *MockControllerModelStateSetModelTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersion", reflect.TypeOf((*MockControllerModelState)(nil).SetModelTargetAgentVersion), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersion", reflect.TypeOf((*MockControllerModelState)(nil).SetModelTargetAgentVersion), ctx, preCondition, toVersion)
 	return &MockControllerModelStateSetModelTargetAgentVersionCall{Call: call}
 }
 
@@ -437,17 +440,17 @@ func (c *MockControllerModelStateSetModelTargetAgentVersionCall) DoAndReturn(f f
 }
 
 // SetModelTargetAgentVersionAndStream mocks base method.
-func (m *MockControllerModelState) SetModelTargetAgentVersionAndStream(arg0 context.Context, arg1, arg2 semversion.Number, arg3 modelagent.AgentStream) error {
+func (m *MockControllerModelState) SetModelTargetAgentVersionAndStream(ctx context.Context, preCondition, toVersion semversion.Number, stream modelagent.AgentStream) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelTargetAgentVersionAndStream", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetModelTargetAgentVersionAndStream", ctx, preCondition, toVersion, stream)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelTargetAgentVersionAndStream indicates an expected call of SetModelTargetAgentVersionAndStream.
-func (mr *MockControllerModelStateMockRecorder) SetModelTargetAgentVersionAndStream(arg0, arg1, arg2, arg3 any) *MockControllerModelStateSetModelTargetAgentVersionAndStreamCall {
+func (mr *MockControllerModelStateMockRecorder) SetModelTargetAgentVersionAndStream(ctx, preCondition, toVersion, stream any) *MockControllerModelStateSetModelTargetAgentVersionAndStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersionAndStream", reflect.TypeOf((*MockControllerModelState)(nil).SetModelTargetAgentVersionAndStream), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelTargetAgentVersionAndStream", reflect.TypeOf((*MockControllerModelState)(nil).SetModelTargetAgentVersionAndStream), ctx, preCondition, toVersion, stream)
 	return &MockControllerModelStateSetModelTargetAgentVersionAndStreamCall{Call: call}
 }
 

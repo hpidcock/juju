@@ -19,6 +19,7 @@ import (
 type MockFileTransporter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileTransporterMockRecorder
+	isgomock struct{}
 }
 
 // MockFileTransporterMockRecorder is the mock recorder for MockFileTransporter.
@@ -39,17 +40,17 @@ func (m *MockFileTransporter) EXPECT() *MockFileTransporterMockRecorder {
 }
 
 // SendBytes mocks base method.
-func (m *MockFileTransporter) SendBytes(arg0 string, arg1 []byte) string {
+func (m *MockFileTransporter) SendBytes(hint string, payload []byte) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SendBytes", arg0, arg1)
+	ret := m.ctrl.Call(m, "SendBytes", hint, payload)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // SendBytes indicates an expected call of SendBytes.
-func (mr *MockFileTransporterMockRecorder) SendBytes(arg0, arg1 any) *MockFileTransporterSendBytesCall {
+func (mr *MockFileTransporterMockRecorder) SendBytes(hint, payload any) *MockFileTransporterSendBytesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBytes", reflect.TypeOf((*MockFileTransporter)(nil).SendBytes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SendBytes", reflect.TypeOf((*MockFileTransporter)(nil).SendBytes), hint, payload)
 	return &MockFileTransporterSendBytesCall{Call: call}
 }
 

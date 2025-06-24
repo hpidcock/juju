@@ -24,6 +24,7 @@ import (
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -201,6 +202,7 @@ func (c *MockMachineTagCall) DoAndReturn(f func() names.MachineTag) *MockMachine
 type MockUnit struct {
 	ctrl     *gomock.Controller
 	recorder *MockUnitMockRecorder
+	isgomock struct{}
 }
 
 // MockUnitMockRecorder is the mock recorder for MockUnit.
@@ -336,17 +338,17 @@ func (c *MockUnitNameCall) DoAndReturn(f func() string) *MockUnitNameCall {
 }
 
 // Refresh mocks base method.
-func (m *MockUnit) Refresh(arg0 context.Context) error {
+func (m *MockUnit) Refresh(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0)
+	ret := m.ctrl.Call(m, "Refresh", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockUnitMockRecorder) Refresh(arg0 any) *MockUnitRefreshCall {
+func (mr *MockUnitMockRecorder) Refresh(ctx any) *MockUnitRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockUnit)(nil).Refresh), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockUnit)(nil).Refresh), ctx)
 	return &MockUnitRefreshCall{Call: call}
 }
 
@@ -377,6 +379,7 @@ func (c *MockUnitRefreshCall) DoAndReturn(f func(context.Context) error) *MockUn
 type MockApplication struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationMockRecorder is the mock recorder for MockApplication.

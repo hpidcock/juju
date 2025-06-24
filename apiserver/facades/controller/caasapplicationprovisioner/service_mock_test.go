@@ -34,6 +34,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -54,25 +55,25 @@ func (m *MockControllerConfigService) EXPECT() *MockControllerConfigServiceMockR
 }
 
 // ControllerConfig mocks base method.
-func (m *MockControllerConfigService) ControllerConfig(arg0 context.Context) (controller.Config, error) {
+func (m *MockControllerConfigService) ControllerConfig(ctx context.Context) (controller.Config, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerConfig", arg0)
+	ret := m.ctrl.Call(m, "ControllerConfig", ctx)
 	ret0, _ := ret[0].(controller.Config)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerConfig indicates an expected call of ControllerConfig.
-func (mr *MockControllerConfigServiceMockRecorder) ControllerConfig(arg0 any) *gomock.Call {
+func (mr *MockControllerConfigServiceMockRecorder) ControllerConfig(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerConfig", reflect.TypeOf((*MockControllerConfigService)(nil).ControllerConfig), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerConfig", reflect.TypeOf((*MockControllerConfigService)(nil).ControllerConfig), ctx)
 }
 
 // WatchControllerConfig mocks base method.
-func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerConfig", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -87,6 +88,7 @@ func (mr *MockControllerConfigServiceMockRecorder) WatchControllerConfig(arg0 an
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -122,10 +124,10 @@ func (mr *MockModelConfigServiceMockRecorder) ModelConfig(arg0 any) *gomock.Call
 }
 
 // Watch mocks base method.
-func (m *MockModelConfigService) Watch() (watcher.Watcher[[]string], error) {
+func (m *MockModelConfigService) Watch() (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch")
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -140,6 +142,7 @@ func (mr *MockModelConfigServiceMockRecorder) Watch() *gomock.Call {
 type MockModelInfoService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelInfoServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelInfoServiceMockRecorder is the mock recorder for MockModelInfoService.
@@ -178,6 +181,7 @@ func (mr *MockModelInfoServiceMockRecorder) GetModelInfo(arg0 any) *gomock.Call 
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -212,123 +216,123 @@ func (mr *MockApplicationServiceMockRecorder) DestroyUnit(arg0, arg1 any) *gomoc
 }
 
 // GetApplicationConstraints mocks base method.
-func (m *MockApplicationService) GetApplicationConstraints(arg0 context.Context, arg1 application.ID) (constraints.Value, error) {
+func (m *MockApplicationService) GetApplicationConstraints(ctx context.Context, appID application.ID) (constraints.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationConstraints", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationConstraints", ctx, appID)
 	ret0, _ := ret[0].(constraints.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationConstraints indicates an expected call of GetApplicationConstraints.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationConstraints(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationConstraints(ctx, appID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConstraints", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationConstraints), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationConstraints", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationConstraints), ctx, appID)
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByName(ctx context.Context, name string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, name)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), ctx, name)
 }
 
 // GetApplicationScale mocks base method.
-func (m *MockApplicationService) GetApplicationScale(arg0 context.Context, arg1 string) (int, error) {
+func (m *MockApplicationService) GetApplicationScale(ctx context.Context, name string) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationScale", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationScale", ctx, name)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationScale indicates an expected call of GetApplicationScale.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationScale(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationScale(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationScale", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationScale), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationScale", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationScale), ctx, name)
 }
 
 // GetCharmLocatorByApplicationName mocks base method.
-func (m *MockApplicationService) GetCharmLocatorByApplicationName(arg0 context.Context, arg1 string) (charm.CharmLocator, error) {
+func (m *MockApplicationService) GetCharmLocatorByApplicationName(ctx context.Context, name string) (charm.CharmLocator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmLocatorByApplicationName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmLocatorByApplicationName", ctx, name)
 	ret0, _ := ret[0].(charm.CharmLocator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmLocatorByApplicationName indicates an expected call of GetCharmLocatorByApplicationName.
-func (mr *MockApplicationServiceMockRecorder) GetCharmLocatorByApplicationName(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetCharmLocatorByApplicationName(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmLocatorByApplicationName", reflect.TypeOf((*MockApplicationService)(nil).GetCharmLocatorByApplicationName), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmLocatorByApplicationName", reflect.TypeOf((*MockApplicationService)(nil).GetCharmLocatorByApplicationName), ctx, name)
 }
 
 // GetCharmMetadataResources mocks base method.
-func (m *MockApplicationService) GetCharmMetadataResources(arg0 context.Context, arg1 charm.CharmLocator) (map[string]resource.Meta, error) {
+func (m *MockApplicationService) GetCharmMetadataResources(ctx context.Context, locator charm.CharmLocator) (map[string]resource.Meta, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmMetadataResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmMetadataResources", ctx, locator)
 	ret0, _ := ret[0].(map[string]resource.Meta)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmMetadataResources indicates an expected call of GetCharmMetadataResources.
-func (mr *MockApplicationServiceMockRecorder) GetCharmMetadataResources(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetCharmMetadataResources(ctx, locator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmMetadataResources", reflect.TypeOf((*MockApplicationService)(nil).GetCharmMetadataResources), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmMetadataResources", reflect.TypeOf((*MockApplicationService)(nil).GetCharmMetadataResources), ctx, locator)
 }
 
 // GetCharmMetadataStorage mocks base method.
-func (m *MockApplicationService) GetCharmMetadataStorage(arg0 context.Context, arg1 charm.CharmLocator) (map[string]charm0.Storage, error) {
+func (m *MockApplicationService) GetCharmMetadataStorage(ctx context.Context, locator charm.CharmLocator) (map[string]charm0.Storage, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmMetadataStorage", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmMetadataStorage", ctx, locator)
 	ret0, _ := ret[0].(map[string]charm0.Storage)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmMetadataStorage indicates an expected call of GetCharmMetadataStorage.
-func (mr *MockApplicationServiceMockRecorder) GetCharmMetadataStorage(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetCharmMetadataStorage(ctx, locator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmMetadataStorage", reflect.TypeOf((*MockApplicationService)(nil).GetCharmMetadataStorage), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmMetadataStorage", reflect.TypeOf((*MockApplicationService)(nil).GetCharmMetadataStorage), ctx, locator)
 }
 
 // GetDeviceConstraints mocks base method.
-func (m *MockApplicationService) GetDeviceConstraints(arg0 context.Context, arg1 string) (map[string]devices.Constraints, error) {
+func (m *MockApplicationService) GetDeviceConstraints(ctx context.Context, name string) (map[string]devices.Constraints, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDeviceConstraints", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetDeviceConstraints", ctx, name)
 	ret0, _ := ret[0].(map[string]devices.Constraints)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDeviceConstraints indicates an expected call of GetDeviceConstraints.
-func (mr *MockApplicationServiceMockRecorder) GetDeviceConstraints(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) GetDeviceConstraints(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceConstraints", reflect.TypeOf((*MockApplicationService)(nil).GetDeviceConstraints), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeviceConstraints", reflect.TypeOf((*MockApplicationService)(nil).GetDeviceConstraints), ctx, name)
 }
 
 // IsCharmAvailable mocks base method.
-func (m *MockApplicationService) IsCharmAvailable(arg0 context.Context, arg1 charm.CharmLocator) (bool, error) {
+func (m *MockApplicationService) IsCharmAvailable(ctx context.Context, locator charm.CharmLocator) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsCharmAvailable", arg0, arg1)
+	ret := m.ctrl.Call(m, "IsCharmAvailable", ctx, locator)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsCharmAvailable indicates an expected call of IsCharmAvailable.
-func (mr *MockApplicationServiceMockRecorder) IsCharmAvailable(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) IsCharmAvailable(ctx, locator any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsCharmAvailable", reflect.TypeOf((*MockApplicationService)(nil).IsCharmAvailable), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsCharmAvailable", reflect.TypeOf((*MockApplicationService)(nil).IsCharmAvailable), ctx, locator)
 }
 
 // RemoveUnit mocks base method.
@@ -360,24 +364,25 @@ func (mr *MockApplicationServiceMockRecorder) UpdateCAASUnit(arg0, arg1, arg2 an
 }
 
 // WatchApplication mocks base method.
-func (m *MockApplicationService) WatchApplication(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockApplicationService) WatchApplication(ctx context.Context, name string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchApplication", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchApplication", ctx, name)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchApplication indicates an expected call of WatchApplication.
-func (mr *MockApplicationServiceMockRecorder) WatchApplication(arg0, arg1 any) *gomock.Call {
+func (mr *MockApplicationServiceMockRecorder) WatchApplication(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplication", reflect.TypeOf((*MockApplicationService)(nil).WatchApplication), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplication", reflect.TypeOf((*MockApplicationService)(nil).WatchApplication), ctx, name)
 }
 
 // MockStatusService is a mock of StatusService interface.
 type MockStatusService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusServiceMockRecorder is the mock recorder for MockStatusService.
@@ -430,6 +435,7 @@ func (mr *MockStatusServiceMockRecorder) SetApplicationStatus(arg0, arg1, arg2 a
 type MockControllerNodeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerNodeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerNodeServiceMockRecorder is the mock recorder for MockControllerNodeService.
@@ -450,10 +456,10 @@ func (m *MockControllerNodeService) EXPECT() *MockControllerNodeServiceMockRecor
 }
 
 // WatchControllerAPIAddresses mocks base method.
-func (m *MockControllerNodeService) WatchControllerAPIAddresses(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockControllerNodeService) WatchControllerAPIAddresses(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerAPIAddresses", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

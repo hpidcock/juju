@@ -27,6 +27,7 @@ import (
 type MockRbacV1Interface struct {
 	ctrl     *gomock.Controller
 	recorder *MockRbacV1InterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockRbacV1InterfaceMockRecorder is the mock recorder for MockRbacV1Interface.
@@ -161,17 +162,17 @@ func (c *MockRbacV1InterfaceRESTClientCall) DoAndReturn(f func() rest.Interface)
 }
 
 // RoleBindings mocks base method.
-func (m *MockRbacV1Interface) RoleBindings(arg0 string) v12.RoleBindingInterface {
+func (m *MockRbacV1Interface) RoleBindings(namespace string) v12.RoleBindingInterface {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RoleBindings", arg0)
+	ret := m.ctrl.Call(m, "RoleBindings", namespace)
 	ret0, _ := ret[0].(v12.RoleBindingInterface)
 	return ret0
 }
 
 // RoleBindings indicates an expected call of RoleBindings.
-func (mr *MockRbacV1InterfaceMockRecorder) RoleBindings(arg0 any) *MockRbacV1InterfaceRoleBindingsCall {
+func (mr *MockRbacV1InterfaceMockRecorder) RoleBindings(namespace any) *MockRbacV1InterfaceRoleBindingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RoleBindings", reflect.TypeOf((*MockRbacV1Interface)(nil).RoleBindings), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RoleBindings", reflect.TypeOf((*MockRbacV1Interface)(nil).RoleBindings), namespace)
 	return &MockRbacV1InterfaceRoleBindingsCall{Call: call}
 }
 
@@ -199,17 +200,17 @@ func (c *MockRbacV1InterfaceRoleBindingsCall) DoAndReturn(f func(string) v12.Rol
 }
 
 // Roles mocks base method.
-func (m *MockRbacV1Interface) Roles(arg0 string) v12.RoleInterface {
+func (m *MockRbacV1Interface) Roles(namespace string) v12.RoleInterface {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Roles", arg0)
+	ret := m.ctrl.Call(m, "Roles", namespace)
 	ret0, _ := ret[0].(v12.RoleInterface)
 	return ret0
 }
 
 // Roles indicates an expected call of Roles.
-func (mr *MockRbacV1InterfaceMockRecorder) Roles(arg0 any) *MockRbacV1InterfaceRolesCall {
+func (mr *MockRbacV1InterfaceMockRecorder) Roles(namespace any) *MockRbacV1InterfaceRolesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Roles", reflect.TypeOf((*MockRbacV1Interface)(nil).Roles), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Roles", reflect.TypeOf((*MockRbacV1Interface)(nil).Roles), namespace)
 	return &MockRbacV1InterfaceRolesCall{Call: call}
 }
 
@@ -240,6 +241,7 @@ func (c *MockRbacV1InterfaceRolesCall) DoAndReturn(f func(string) v12.RoleInterf
 type MockClusterRoleBindingInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterRoleBindingInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterRoleBindingInterfaceMockRecorder is the mock recorder for MockClusterRoleBindingInterface.
@@ -260,18 +262,18 @@ func (m *MockClusterRoleBindingInterface) EXPECT() *MockClusterRoleBindingInterf
 }
 
 // Apply mocks base method.
-func (m *MockClusterRoleBindingInterface) Apply(arg0 context.Context, arg1 *v11.ClusterRoleBindingApplyConfiguration, arg2 v10.ApplyOptions) (*v1.ClusterRoleBinding, error) {
+func (m *MockClusterRoleBindingInterface) Apply(ctx context.Context, clusterRoleBinding *v11.ClusterRoleBindingApplyConfiguration, opts v10.ApplyOptions) (*v1.ClusterRoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, clusterRoleBinding, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceApplyCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Apply(ctx, clusterRoleBinding, opts any) *MockClusterRoleBindingInterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Apply), ctx, clusterRoleBinding, opts)
 	return &MockClusterRoleBindingInterfaceApplyCall{Call: call}
 }
 
@@ -281,8 +283,8 @@ type MockClusterRoleBindingInterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClusterRoleBindingInterfaceApplyCall) Return(arg0 *v1.ClusterRoleBinding, arg1 error) *MockClusterRoleBindingInterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClusterRoleBindingInterfaceApplyCall) Return(result *v1.ClusterRoleBinding, err error) *MockClusterRoleBindingInterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -299,18 +301,18 @@ func (c *MockClusterRoleBindingInterfaceApplyCall) DoAndReturn(f func(context.Co
 }
 
 // Create mocks base method.
-func (m *MockClusterRoleBindingInterface) Create(arg0 context.Context, arg1 *v1.ClusterRoleBinding, arg2 v10.CreateOptions) (*v1.ClusterRoleBinding, error) {
+func (m *MockClusterRoleBindingInterface) Create(ctx context.Context, clusterRoleBinding *v1.ClusterRoleBinding, opts v10.CreateOptions) (*v1.ClusterRoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, clusterRoleBinding, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceCreateCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Create(ctx, clusterRoleBinding, opts any) *MockClusterRoleBindingInterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Create), ctx, clusterRoleBinding, opts)
 	return &MockClusterRoleBindingInterfaceCreateCall{Call: call}
 }
 
@@ -338,17 +340,17 @@ func (c *MockClusterRoleBindingInterfaceCreateCall) DoAndReturn(f func(context.C
 }
 
 // Delete mocks base method.
-func (m *MockClusterRoleBindingInterface) Delete(arg0 context.Context, arg1 string, arg2 v10.DeleteOptions) error {
+func (m *MockClusterRoleBindingInterface) Delete(ctx context.Context, name string, opts v10.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceDeleteCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Delete(ctx, name, opts any) *MockClusterRoleBindingInterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Delete), ctx, name, opts)
 	return &MockClusterRoleBindingInterfaceDeleteCall{Call: call}
 }
 
@@ -376,17 +378,17 @@ func (c *MockClusterRoleBindingInterfaceDeleteCall) DoAndReturn(f func(context.C
 }
 
 // DeleteCollection mocks base method.
-func (m *MockClusterRoleBindingInterface) DeleteCollection(arg0 context.Context, arg1 v10.DeleteOptions, arg2 v10.ListOptions) error {
+func (m *MockClusterRoleBindingInterface) DeleteCollection(ctx context.Context, opts v10.DeleteOptions, listOpts v10.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceDeleteCollectionCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockClusterRoleBindingInterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockClusterRoleBindingInterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -414,18 +416,18 @@ func (c *MockClusterRoleBindingInterfaceDeleteCollectionCall) DoAndReturn(f func
 }
 
 // Get mocks base method.
-func (m *MockClusterRoleBindingInterface) Get(arg0 context.Context, arg1 string, arg2 v10.GetOptions) (*v1.ClusterRoleBinding, error) {
+func (m *MockClusterRoleBindingInterface) Get(ctx context.Context, name string, opts v10.GetOptions) (*v1.ClusterRoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceGetCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Get(ctx, name, opts any) *MockClusterRoleBindingInterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Get), ctx, name, opts)
 	return &MockClusterRoleBindingInterfaceGetCall{Call: call}
 }
 
@@ -453,18 +455,18 @@ func (c *MockClusterRoleBindingInterfaceGetCall) DoAndReturn(f func(context.Cont
 }
 
 // List mocks base method.
-func (m *MockClusterRoleBindingInterface) List(arg0 context.Context, arg1 v10.ListOptions) (*v1.ClusterRoleBindingList, error) {
+func (m *MockClusterRoleBindingInterface) List(ctx context.Context, opts v10.ListOptions) (*v1.ClusterRoleBindingList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleBindingList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) List(arg0, arg1 any) *MockClusterRoleBindingInterfaceListCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) List(ctx, opts any) *MockClusterRoleBindingInterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).List), ctx, opts)
 	return &MockClusterRoleBindingInterfaceListCall{Call: call}
 }
 
@@ -492,10 +494,10 @@ func (c *MockClusterRoleBindingInterfaceListCall) DoAndReturn(f func(context.Con
 }
 
 // Patch mocks base method.
-func (m *MockClusterRoleBindingInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v10.PatchOptions, arg5 ...string) (*v1.ClusterRoleBinding, error) {
+func (m *MockClusterRoleBindingInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v10.PatchOptions, subresources ...string) (*v1.ClusterRoleBinding, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -505,9 +507,9 @@ func (m *MockClusterRoleBindingInterface) Patch(arg0 context.Context, arg1 strin
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockClusterRoleBindingInterfacePatchCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockClusterRoleBindingInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Patch), varargs...)
 	return &MockClusterRoleBindingInterfacePatchCall{Call: call}
 }
@@ -518,8 +520,8 @@ type MockClusterRoleBindingInterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClusterRoleBindingInterfacePatchCall) Return(arg0 *v1.ClusterRoleBinding, arg1 error) *MockClusterRoleBindingInterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClusterRoleBindingInterfacePatchCall) Return(result *v1.ClusterRoleBinding, err error) *MockClusterRoleBindingInterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -536,18 +538,18 @@ func (c *MockClusterRoleBindingInterfacePatchCall) DoAndReturn(f func(context.Co
 }
 
 // Update mocks base method.
-func (m *MockClusterRoleBindingInterface) Update(arg0 context.Context, arg1 *v1.ClusterRoleBinding, arg2 v10.UpdateOptions) (*v1.ClusterRoleBinding, error) {
+func (m *MockClusterRoleBindingInterface) Update(ctx context.Context, clusterRoleBinding *v1.ClusterRoleBinding, opts v10.UpdateOptions) (*v1.ClusterRoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, clusterRoleBinding, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockClusterRoleBindingInterfaceUpdateCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Update(ctx, clusterRoleBinding, opts any) *MockClusterRoleBindingInterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Update), ctx, clusterRoleBinding, opts)
 	return &MockClusterRoleBindingInterfaceUpdateCall{Call: call}
 }
 
@@ -575,18 +577,18 @@ func (c *MockClusterRoleBindingInterfaceUpdateCall) DoAndReturn(f func(context.C
 }
 
 // Watch mocks base method.
-func (m *MockClusterRoleBindingInterface) Watch(arg0 context.Context, arg1 v10.ListOptions) (watch.Interface, error) {
+func (m *MockClusterRoleBindingInterface) Watch(ctx context.Context, opts v10.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockClusterRoleBindingInterfaceMockRecorder) Watch(arg0, arg1 any) *MockClusterRoleBindingInterfaceWatchCall {
+func (mr *MockClusterRoleBindingInterfaceMockRecorder) Watch(ctx, opts any) *MockClusterRoleBindingInterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockClusterRoleBindingInterface)(nil).Watch), ctx, opts)
 	return &MockClusterRoleBindingInterfaceWatchCall{Call: call}
 }
 
@@ -617,6 +619,7 @@ func (c *MockClusterRoleBindingInterfaceWatchCall) DoAndReturn(f func(context.Co
 type MockClusterRoleInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterRoleInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterRoleInterfaceMockRecorder is the mock recorder for MockClusterRoleInterface.
@@ -637,18 +640,18 @@ func (m *MockClusterRoleInterface) EXPECT() *MockClusterRoleInterfaceMockRecorde
 }
 
 // Apply mocks base method.
-func (m *MockClusterRoleInterface) Apply(arg0 context.Context, arg1 *v11.ClusterRoleApplyConfiguration, arg2 v10.ApplyOptions) (*v1.ClusterRole, error) {
+func (m *MockClusterRoleInterface) Apply(ctx context.Context, clusterRole *v11.ClusterRoleApplyConfiguration, opts v10.ApplyOptions) (*v1.ClusterRole, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, clusterRole, opts)
 	ret0, _ := ret[0].(*v1.ClusterRole)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockClusterRoleInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockClusterRoleInterfaceApplyCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Apply(ctx, clusterRole, opts any) *MockClusterRoleInterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockClusterRoleInterface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockClusterRoleInterface)(nil).Apply), ctx, clusterRole, opts)
 	return &MockClusterRoleInterfaceApplyCall{Call: call}
 }
 
@@ -658,8 +661,8 @@ type MockClusterRoleInterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClusterRoleInterfaceApplyCall) Return(arg0 *v1.ClusterRole, arg1 error) *MockClusterRoleInterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClusterRoleInterfaceApplyCall) Return(result *v1.ClusterRole, err error) *MockClusterRoleInterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -676,18 +679,18 @@ func (c *MockClusterRoleInterfaceApplyCall) DoAndReturn(f func(context.Context, 
 }
 
 // Create mocks base method.
-func (m *MockClusterRoleInterface) Create(arg0 context.Context, arg1 *v1.ClusterRole, arg2 v10.CreateOptions) (*v1.ClusterRole, error) {
+func (m *MockClusterRoleInterface) Create(ctx context.Context, clusterRole *v1.ClusterRole, opts v10.CreateOptions) (*v1.ClusterRole, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, clusterRole, opts)
 	ret0, _ := ret[0].(*v1.ClusterRole)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockClusterRoleInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockClusterRoleInterfaceCreateCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Create(ctx, clusterRole, opts any) *MockClusterRoleInterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockClusterRoleInterface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockClusterRoleInterface)(nil).Create), ctx, clusterRole, opts)
 	return &MockClusterRoleInterfaceCreateCall{Call: call}
 }
 
@@ -715,17 +718,17 @@ func (c *MockClusterRoleInterfaceCreateCall) DoAndReturn(f func(context.Context,
 }
 
 // Delete mocks base method.
-func (m *MockClusterRoleInterface) Delete(arg0 context.Context, arg1 string, arg2 v10.DeleteOptions) error {
+func (m *MockClusterRoleInterface) Delete(ctx context.Context, name string, opts v10.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockClusterRoleInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockClusterRoleInterfaceDeleteCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Delete(ctx, name, opts any) *MockClusterRoleInterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockClusterRoleInterface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockClusterRoleInterface)(nil).Delete), ctx, name, opts)
 	return &MockClusterRoleInterfaceDeleteCall{Call: call}
 }
 
@@ -753,17 +756,17 @@ func (c *MockClusterRoleInterfaceDeleteCall) DoAndReturn(f func(context.Context,
 }
 
 // DeleteCollection mocks base method.
-func (m *MockClusterRoleInterface) DeleteCollection(arg0 context.Context, arg1 v10.DeleteOptions, arg2 v10.ListOptions) error {
+func (m *MockClusterRoleInterface) DeleteCollection(ctx context.Context, opts v10.DeleteOptions, listOpts v10.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockClusterRoleInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockClusterRoleInterfaceDeleteCollectionCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockClusterRoleInterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockClusterRoleInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockClusterRoleInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockClusterRoleInterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -791,18 +794,18 @@ func (c *MockClusterRoleInterfaceDeleteCollectionCall) DoAndReturn(f func(contex
 }
 
 // Get mocks base method.
-func (m *MockClusterRoleInterface) Get(arg0 context.Context, arg1 string, arg2 v10.GetOptions) (*v1.ClusterRole, error) {
+func (m *MockClusterRoleInterface) Get(ctx context.Context, name string, opts v10.GetOptions) (*v1.ClusterRole, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1.ClusterRole)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockClusterRoleInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockClusterRoleInterfaceGetCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Get(ctx, name, opts any) *MockClusterRoleInterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockClusterRoleInterface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockClusterRoleInterface)(nil).Get), ctx, name, opts)
 	return &MockClusterRoleInterfaceGetCall{Call: call}
 }
 
@@ -830,18 +833,18 @@ func (c *MockClusterRoleInterfaceGetCall) DoAndReturn(f func(context.Context, st
 }
 
 // List mocks base method.
-func (m *MockClusterRoleInterface) List(arg0 context.Context, arg1 v10.ListOptions) (*v1.ClusterRoleList, error) {
+func (m *MockClusterRoleInterface) List(ctx context.Context, opts v10.ListOptions) (*v1.ClusterRoleList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1.ClusterRoleList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockClusterRoleInterfaceMockRecorder) List(arg0, arg1 any) *MockClusterRoleInterfaceListCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) List(ctx, opts any) *MockClusterRoleInterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockClusterRoleInterface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockClusterRoleInterface)(nil).List), ctx, opts)
 	return &MockClusterRoleInterfaceListCall{Call: call}
 }
 
@@ -869,10 +872,10 @@ func (c *MockClusterRoleInterfaceListCall) DoAndReturn(f func(context.Context, v
 }
 
 // Patch mocks base method.
-func (m *MockClusterRoleInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v10.PatchOptions, arg5 ...string) (*v1.ClusterRole, error) {
+func (m *MockClusterRoleInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v10.PatchOptions, subresources ...string) (*v1.ClusterRole, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -882,9 +885,9 @@ func (m *MockClusterRoleInterface) Patch(arg0 context.Context, arg1 string, arg2
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockClusterRoleInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockClusterRoleInterfacePatchCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockClusterRoleInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockClusterRoleInterface)(nil).Patch), varargs...)
 	return &MockClusterRoleInterfacePatchCall{Call: call}
 }
@@ -895,8 +898,8 @@ type MockClusterRoleInterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClusterRoleInterfacePatchCall) Return(arg0 *v1.ClusterRole, arg1 error) *MockClusterRoleInterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockClusterRoleInterfacePatchCall) Return(result *v1.ClusterRole, err error) *MockClusterRoleInterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -913,18 +916,18 @@ func (c *MockClusterRoleInterfacePatchCall) DoAndReturn(f func(context.Context, 
 }
 
 // Update mocks base method.
-func (m *MockClusterRoleInterface) Update(arg0 context.Context, arg1 *v1.ClusterRole, arg2 v10.UpdateOptions) (*v1.ClusterRole, error) {
+func (m *MockClusterRoleInterface) Update(ctx context.Context, clusterRole *v1.ClusterRole, opts v10.UpdateOptions) (*v1.ClusterRole, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, clusterRole, opts)
 	ret0, _ := ret[0].(*v1.ClusterRole)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockClusterRoleInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockClusterRoleInterfaceUpdateCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Update(ctx, clusterRole, opts any) *MockClusterRoleInterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockClusterRoleInterface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockClusterRoleInterface)(nil).Update), ctx, clusterRole, opts)
 	return &MockClusterRoleInterfaceUpdateCall{Call: call}
 }
 
@@ -952,18 +955,18 @@ func (c *MockClusterRoleInterfaceUpdateCall) DoAndReturn(f func(context.Context,
 }
 
 // Watch mocks base method.
-func (m *MockClusterRoleInterface) Watch(arg0 context.Context, arg1 v10.ListOptions) (watch.Interface, error) {
+func (m *MockClusterRoleInterface) Watch(ctx context.Context, opts v10.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockClusterRoleInterfaceMockRecorder) Watch(arg0, arg1 any) *MockClusterRoleInterfaceWatchCall {
+func (mr *MockClusterRoleInterfaceMockRecorder) Watch(ctx, opts any) *MockClusterRoleInterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockClusterRoleInterface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockClusterRoleInterface)(nil).Watch), ctx, opts)
 	return &MockClusterRoleInterfaceWatchCall{Call: call}
 }
 
@@ -994,6 +997,7 @@ func (c *MockClusterRoleInterfaceWatchCall) DoAndReturn(f func(context.Context, 
 type MockRoleInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockRoleInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockRoleInterfaceMockRecorder is the mock recorder for MockRoleInterface.
@@ -1014,18 +1018,18 @@ func (m *MockRoleInterface) EXPECT() *MockRoleInterfaceMockRecorder {
 }
 
 // Apply mocks base method.
-func (m *MockRoleInterface) Apply(arg0 context.Context, arg1 *v11.RoleApplyConfiguration, arg2 v10.ApplyOptions) (*v1.Role, error) {
+func (m *MockRoleInterface) Apply(ctx context.Context, role *v11.RoleApplyConfiguration, opts v10.ApplyOptions) (*v1.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, role, opts)
 	ret0, _ := ret[0].(*v1.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockRoleInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockRoleInterfaceApplyCall {
+func (mr *MockRoleInterfaceMockRecorder) Apply(ctx, role, opts any) *MockRoleInterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockRoleInterface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockRoleInterface)(nil).Apply), ctx, role, opts)
 	return &MockRoleInterfaceApplyCall{Call: call}
 }
 
@@ -1035,8 +1039,8 @@ type MockRoleInterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRoleInterfaceApplyCall) Return(arg0 *v1.Role, arg1 error) *MockRoleInterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockRoleInterfaceApplyCall) Return(result *v1.Role, err error) *MockRoleInterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -1053,18 +1057,18 @@ func (c *MockRoleInterfaceApplyCall) DoAndReturn(f func(context.Context, *v11.Ro
 }
 
 // Create mocks base method.
-func (m *MockRoleInterface) Create(arg0 context.Context, arg1 *v1.Role, arg2 v10.CreateOptions) (*v1.Role, error) {
+func (m *MockRoleInterface) Create(ctx context.Context, role *v1.Role, opts v10.CreateOptions) (*v1.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, role, opts)
 	ret0, _ := ret[0].(*v1.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRoleInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockRoleInterfaceCreateCall {
+func (mr *MockRoleInterfaceMockRecorder) Create(ctx, role, opts any) *MockRoleInterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleInterface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleInterface)(nil).Create), ctx, role, opts)
 	return &MockRoleInterfaceCreateCall{Call: call}
 }
 
@@ -1092,17 +1096,17 @@ func (c *MockRoleInterfaceCreateCall) DoAndReturn(f func(context.Context, *v1.Ro
 }
 
 // Delete mocks base method.
-func (m *MockRoleInterface) Delete(arg0 context.Context, arg1 string, arg2 v10.DeleteOptions) error {
+func (m *MockRoleInterface) Delete(ctx context.Context, name string, opts v10.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockRoleInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockRoleInterfaceDeleteCall {
+func (mr *MockRoleInterfaceMockRecorder) Delete(ctx, name, opts any) *MockRoleInterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRoleInterface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRoleInterface)(nil).Delete), ctx, name, opts)
 	return &MockRoleInterfaceDeleteCall{Call: call}
 }
 
@@ -1130,17 +1134,17 @@ func (c *MockRoleInterfaceDeleteCall) DoAndReturn(f func(context.Context, string
 }
 
 // DeleteCollection mocks base method.
-func (m *MockRoleInterface) DeleteCollection(arg0 context.Context, arg1 v10.DeleteOptions, arg2 v10.ListOptions) error {
+func (m *MockRoleInterface) DeleteCollection(ctx context.Context, opts v10.DeleteOptions, listOpts v10.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockRoleInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockRoleInterfaceDeleteCollectionCall {
+func (mr *MockRoleInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockRoleInterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockRoleInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockRoleInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockRoleInterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -1168,18 +1172,18 @@ func (c *MockRoleInterfaceDeleteCollectionCall) DoAndReturn(f func(context.Conte
 }
 
 // Get mocks base method.
-func (m *MockRoleInterface) Get(arg0 context.Context, arg1 string, arg2 v10.GetOptions) (*v1.Role, error) {
+func (m *MockRoleInterface) Get(ctx context.Context, name string, opts v10.GetOptions) (*v1.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockRoleInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockRoleInterfaceGetCall {
+func (mr *MockRoleInterfaceMockRecorder) Get(ctx, name, opts any) *MockRoleInterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRoleInterface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRoleInterface)(nil).Get), ctx, name, opts)
 	return &MockRoleInterfaceGetCall{Call: call}
 }
 
@@ -1207,18 +1211,18 @@ func (c *MockRoleInterfaceGetCall) DoAndReturn(f func(context.Context, string, v
 }
 
 // List mocks base method.
-func (m *MockRoleInterface) List(arg0 context.Context, arg1 v10.ListOptions) (*v1.RoleList, error) {
+func (m *MockRoleInterface) List(ctx context.Context, opts v10.ListOptions) (*v1.RoleList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1.RoleList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockRoleInterfaceMockRecorder) List(arg0, arg1 any) *MockRoleInterfaceListCall {
+func (mr *MockRoleInterfaceMockRecorder) List(ctx, opts any) *MockRoleInterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRoleInterface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRoleInterface)(nil).List), ctx, opts)
 	return &MockRoleInterfaceListCall{Call: call}
 }
 
@@ -1246,10 +1250,10 @@ func (c *MockRoleInterfaceListCall) DoAndReturn(f func(context.Context, v10.List
 }
 
 // Patch mocks base method.
-func (m *MockRoleInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v10.PatchOptions, arg5 ...string) (*v1.Role, error) {
+func (m *MockRoleInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v10.PatchOptions, subresources ...string) (*v1.Role, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -1259,9 +1263,9 @@ func (m *MockRoleInterface) Patch(arg0 context.Context, arg1 string, arg2 types.
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockRoleInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockRoleInterfacePatchCall {
+func (mr *MockRoleInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockRoleInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockRoleInterface)(nil).Patch), varargs...)
 	return &MockRoleInterfacePatchCall{Call: call}
 }
@@ -1272,8 +1276,8 @@ type MockRoleInterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRoleInterfacePatchCall) Return(arg0 *v1.Role, arg1 error) *MockRoleInterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockRoleInterfacePatchCall) Return(result *v1.Role, err error) *MockRoleInterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -1290,18 +1294,18 @@ func (c *MockRoleInterfacePatchCall) DoAndReturn(f func(context.Context, string,
 }
 
 // Update mocks base method.
-func (m *MockRoleInterface) Update(arg0 context.Context, arg1 *v1.Role, arg2 v10.UpdateOptions) (*v1.Role, error) {
+func (m *MockRoleInterface) Update(ctx context.Context, role *v1.Role, opts v10.UpdateOptions) (*v1.Role, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, role, opts)
 	ret0, _ := ret[0].(*v1.Role)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockRoleInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockRoleInterfaceUpdateCall {
+func (mr *MockRoleInterfaceMockRecorder) Update(ctx, role, opts any) *MockRoleInterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockRoleInterface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockRoleInterface)(nil).Update), ctx, role, opts)
 	return &MockRoleInterfaceUpdateCall{Call: call}
 }
 
@@ -1329,18 +1333,18 @@ func (c *MockRoleInterfaceUpdateCall) DoAndReturn(f func(context.Context, *v1.Ro
 }
 
 // Watch mocks base method.
-func (m *MockRoleInterface) Watch(arg0 context.Context, arg1 v10.ListOptions) (watch.Interface, error) {
+func (m *MockRoleInterface) Watch(ctx context.Context, opts v10.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockRoleInterfaceMockRecorder) Watch(arg0, arg1 any) *MockRoleInterfaceWatchCall {
+func (mr *MockRoleInterfaceMockRecorder) Watch(ctx, opts any) *MockRoleInterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockRoleInterface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockRoleInterface)(nil).Watch), ctx, opts)
 	return &MockRoleInterfaceWatchCall{Call: call}
 }
 
@@ -1371,6 +1375,7 @@ func (c *MockRoleInterfaceWatchCall) DoAndReturn(f func(context.Context, v10.Lis
 type MockRoleBindingInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockRoleBindingInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockRoleBindingInterfaceMockRecorder is the mock recorder for MockRoleBindingInterface.
@@ -1391,18 +1396,18 @@ func (m *MockRoleBindingInterface) EXPECT() *MockRoleBindingInterfaceMockRecorde
 }
 
 // Apply mocks base method.
-func (m *MockRoleBindingInterface) Apply(arg0 context.Context, arg1 *v11.RoleBindingApplyConfiguration, arg2 v10.ApplyOptions) (*v1.RoleBinding, error) {
+func (m *MockRoleBindingInterface) Apply(ctx context.Context, roleBinding *v11.RoleBindingApplyConfiguration, opts v10.ApplyOptions) (*v1.RoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, roleBinding, opts)
 	ret0, _ := ret[0].(*v1.RoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockRoleBindingInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockRoleBindingInterfaceApplyCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Apply(ctx, roleBinding, opts any) *MockRoleBindingInterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockRoleBindingInterface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockRoleBindingInterface)(nil).Apply), ctx, roleBinding, opts)
 	return &MockRoleBindingInterfaceApplyCall{Call: call}
 }
 
@@ -1412,8 +1417,8 @@ type MockRoleBindingInterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRoleBindingInterfaceApplyCall) Return(arg0 *v1.RoleBinding, arg1 error) *MockRoleBindingInterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockRoleBindingInterfaceApplyCall) Return(result *v1.RoleBinding, err error) *MockRoleBindingInterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -1430,18 +1435,18 @@ func (c *MockRoleBindingInterfaceApplyCall) DoAndReturn(f func(context.Context, 
 }
 
 // Create mocks base method.
-func (m *MockRoleBindingInterface) Create(arg0 context.Context, arg1 *v1.RoleBinding, arg2 v10.CreateOptions) (*v1.RoleBinding, error) {
+func (m *MockRoleBindingInterface) Create(ctx context.Context, roleBinding *v1.RoleBinding, opts v10.CreateOptions) (*v1.RoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, roleBinding, opts)
 	ret0, _ := ret[0].(*v1.RoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRoleBindingInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockRoleBindingInterfaceCreateCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Create(ctx, roleBinding, opts any) *MockRoleBindingInterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleBindingInterface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleBindingInterface)(nil).Create), ctx, roleBinding, opts)
 	return &MockRoleBindingInterfaceCreateCall{Call: call}
 }
 
@@ -1469,17 +1474,17 @@ func (c *MockRoleBindingInterfaceCreateCall) DoAndReturn(f func(context.Context,
 }
 
 // Delete mocks base method.
-func (m *MockRoleBindingInterface) Delete(arg0 context.Context, arg1 string, arg2 v10.DeleteOptions) error {
+func (m *MockRoleBindingInterface) Delete(ctx context.Context, name string, opts v10.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockRoleBindingInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockRoleBindingInterfaceDeleteCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Delete(ctx, name, opts any) *MockRoleBindingInterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRoleBindingInterface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRoleBindingInterface)(nil).Delete), ctx, name, opts)
 	return &MockRoleBindingInterfaceDeleteCall{Call: call}
 }
 
@@ -1507,17 +1512,17 @@ func (c *MockRoleBindingInterfaceDeleteCall) DoAndReturn(f func(context.Context,
 }
 
 // DeleteCollection mocks base method.
-func (m *MockRoleBindingInterface) DeleteCollection(arg0 context.Context, arg1 v10.DeleteOptions, arg2 v10.ListOptions) error {
+func (m *MockRoleBindingInterface) DeleteCollection(ctx context.Context, opts v10.DeleteOptions, listOpts v10.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockRoleBindingInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockRoleBindingInterfaceDeleteCollectionCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockRoleBindingInterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockRoleBindingInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockRoleBindingInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockRoleBindingInterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -1545,18 +1550,18 @@ func (c *MockRoleBindingInterfaceDeleteCollectionCall) DoAndReturn(f func(contex
 }
 
 // Get mocks base method.
-func (m *MockRoleBindingInterface) Get(arg0 context.Context, arg1 string, arg2 v10.GetOptions) (*v1.RoleBinding, error) {
+func (m *MockRoleBindingInterface) Get(ctx context.Context, name string, opts v10.GetOptions) (*v1.RoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1.RoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockRoleBindingInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockRoleBindingInterfaceGetCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Get(ctx, name, opts any) *MockRoleBindingInterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRoleBindingInterface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockRoleBindingInterface)(nil).Get), ctx, name, opts)
 	return &MockRoleBindingInterfaceGetCall{Call: call}
 }
 
@@ -1584,18 +1589,18 @@ func (c *MockRoleBindingInterfaceGetCall) DoAndReturn(f func(context.Context, st
 }
 
 // List mocks base method.
-func (m *MockRoleBindingInterface) List(arg0 context.Context, arg1 v10.ListOptions) (*v1.RoleBindingList, error) {
+func (m *MockRoleBindingInterface) List(ctx context.Context, opts v10.ListOptions) (*v1.RoleBindingList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1.RoleBindingList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockRoleBindingInterfaceMockRecorder) List(arg0, arg1 any) *MockRoleBindingInterfaceListCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) List(ctx, opts any) *MockRoleBindingInterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRoleBindingInterface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockRoleBindingInterface)(nil).List), ctx, opts)
 	return &MockRoleBindingInterfaceListCall{Call: call}
 }
 
@@ -1623,10 +1628,10 @@ func (c *MockRoleBindingInterfaceListCall) DoAndReturn(f func(context.Context, v
 }
 
 // Patch mocks base method.
-func (m *MockRoleBindingInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v10.PatchOptions, arg5 ...string) (*v1.RoleBinding, error) {
+func (m *MockRoleBindingInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v10.PatchOptions, subresources ...string) (*v1.RoleBinding, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -1636,9 +1641,9 @@ func (m *MockRoleBindingInterface) Patch(arg0 context.Context, arg1 string, arg2
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockRoleBindingInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockRoleBindingInterfacePatchCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockRoleBindingInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockRoleBindingInterface)(nil).Patch), varargs...)
 	return &MockRoleBindingInterfacePatchCall{Call: call}
 }
@@ -1649,8 +1654,8 @@ type MockRoleBindingInterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRoleBindingInterfacePatchCall) Return(arg0 *v1.RoleBinding, arg1 error) *MockRoleBindingInterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockRoleBindingInterfacePatchCall) Return(result *v1.RoleBinding, err error) *MockRoleBindingInterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -1667,18 +1672,18 @@ func (c *MockRoleBindingInterfacePatchCall) DoAndReturn(f func(context.Context, 
 }
 
 // Update mocks base method.
-func (m *MockRoleBindingInterface) Update(arg0 context.Context, arg1 *v1.RoleBinding, arg2 v10.UpdateOptions) (*v1.RoleBinding, error) {
+func (m *MockRoleBindingInterface) Update(ctx context.Context, roleBinding *v1.RoleBinding, opts v10.UpdateOptions) (*v1.RoleBinding, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, roleBinding, opts)
 	ret0, _ := ret[0].(*v1.RoleBinding)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockRoleBindingInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockRoleBindingInterfaceUpdateCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Update(ctx, roleBinding, opts any) *MockRoleBindingInterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockRoleBindingInterface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockRoleBindingInterface)(nil).Update), ctx, roleBinding, opts)
 	return &MockRoleBindingInterfaceUpdateCall{Call: call}
 }
 
@@ -1706,18 +1711,18 @@ func (c *MockRoleBindingInterfaceUpdateCall) DoAndReturn(f func(context.Context,
 }
 
 // Watch mocks base method.
-func (m *MockRoleBindingInterface) Watch(arg0 context.Context, arg1 v10.ListOptions) (watch.Interface, error) {
+func (m *MockRoleBindingInterface) Watch(ctx context.Context, opts v10.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockRoleBindingInterfaceMockRecorder) Watch(arg0, arg1 any) *MockRoleBindingInterfaceWatchCall {
+func (mr *MockRoleBindingInterfaceMockRecorder) Watch(ctx, opts any) *MockRoleBindingInterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockRoleBindingInterface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockRoleBindingInterface)(nil).Watch), ctx, opts)
 	return &MockRoleBindingInterfaceWatchCall{Call: call}
 }
 

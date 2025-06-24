@@ -23,6 +23,7 @@ import (
 type MockCharmHubClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmHubClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmHubClientMockRecorder is the mock recorder for MockCharmHubClient.
@@ -43,10 +44,10 @@ func (m *MockCharmHubClient) EXPECT() *MockCharmHubClientMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockCharmHubClient) Download(arg0 context.Context, arg1 *url.URL, arg2 string, arg3 ...charmhub.DownloadOption) (*charmhub.Digest, error) {
+func (m *MockCharmHubClient) Download(ctx context.Context, arg1 *url.URL, path string, options ...charmhub.DownloadOption) (*charmhub.Digest, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{ctx, arg1, path}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Download", varargs...)
@@ -56,9 +57,9 @@ func (m *MockCharmHubClient) Download(arg0 context.Context, arg1 *url.URL, arg2 
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockCharmHubClientMockRecorder) Download(arg0, arg1, arg2 any, arg3 ...any) *MockCharmHubClientDownloadCall {
+func (mr *MockCharmHubClientMockRecorder) Download(ctx, arg1, path any, options ...any) *MockCharmHubClientDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{ctx, arg1, path}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockCharmHubClient)(nil).Download), varargs...)
 	return &MockCharmHubClientDownloadCall{Call: call}
 }
@@ -87,18 +88,18 @@ func (c *MockCharmHubClientDownloadCall) DoAndReturn(f func(context.Context, *ur
 }
 
 // ListResourceRevisions mocks base method.
-func (m *MockCharmHubClient) ListResourceRevisions(arg0 context.Context, arg1, arg2 string) ([]transport.ResourceRevision, error) {
+func (m *MockCharmHubClient) ListResourceRevisions(ctx context.Context, charm, resource string) ([]transport.ResourceRevision, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListResourceRevisions", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListResourceRevisions", ctx, charm, resource)
 	ret0, _ := ret[0].([]transport.ResourceRevision)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListResourceRevisions indicates an expected call of ListResourceRevisions.
-func (mr *MockCharmHubClientMockRecorder) ListResourceRevisions(arg0, arg1, arg2 any) *MockCharmHubClientListResourceRevisionsCall {
+func (mr *MockCharmHubClientMockRecorder) ListResourceRevisions(ctx, charm, resource any) *MockCharmHubClientListResourceRevisionsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListResourceRevisions", reflect.TypeOf((*MockCharmHubClient)(nil).ListResourceRevisions), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListResourceRevisions", reflect.TypeOf((*MockCharmHubClient)(nil).ListResourceRevisions), ctx, charm, resource)
 	return &MockCharmHubClientListResourceRevisionsCall{Call: call}
 }
 
@@ -126,18 +127,18 @@ func (c *MockCharmHubClientListResourceRevisionsCall) DoAndReturn(f func(context
 }
 
 // Refresh mocks base method.
-func (m *MockCharmHubClient) Refresh(arg0 context.Context, arg1 charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
+func (m *MockCharmHubClient) Refresh(ctx context.Context, config charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0, arg1)
+	ret := m.ctrl.Call(m, "Refresh", ctx, config)
 	ret0, _ := ret[0].([]transport.RefreshResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockCharmHubClientMockRecorder) Refresh(arg0, arg1 any) *MockCharmHubClientRefreshCall {
+func (mr *MockCharmHubClientMockRecorder) Refresh(ctx, config any) *MockCharmHubClientRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmHubClient)(nil).Refresh), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmHubClient)(nil).Refresh), ctx, config)
 	return &MockCharmHubClientRefreshCall{Call: call}
 }
 

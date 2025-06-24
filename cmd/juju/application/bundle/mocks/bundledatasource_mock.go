@@ -20,6 +20,7 @@ import (
 type MockBundleDataSource struct {
 	ctrl     *gomock.Controller
 	recorder *MockBundleDataSourceMockRecorder
+	isgomock struct{}
 }
 
 // MockBundleDataSourceMockRecorder is the mock recorder for MockBundleDataSource.
@@ -154,18 +155,18 @@ func (c *MockBundleDataSourcePartsCall) DoAndReturn(f func() []*charm.BundleData
 }
 
 // ResolveInclude mocks base method.
-func (m *MockBundleDataSource) ResolveInclude(arg0 string) ([]byte, error) {
+func (m *MockBundleDataSource) ResolveInclude(path string) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveInclude", arg0)
+	ret := m.ctrl.Call(m, "ResolveInclude", path)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ResolveInclude indicates an expected call of ResolveInclude.
-func (mr *MockBundleDataSourceMockRecorder) ResolveInclude(arg0 any) *MockBundleDataSourceResolveIncludeCall {
+func (mr *MockBundleDataSourceMockRecorder) ResolveInclude(path any) *MockBundleDataSourceResolveIncludeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveInclude", reflect.TypeOf((*MockBundleDataSource)(nil).ResolveInclude), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveInclude", reflect.TypeOf((*MockBundleDataSource)(nil).ResolveInclude), path)
 	return &MockBundleDataSourceResolveIncludeCall{Call: call}
 }
 

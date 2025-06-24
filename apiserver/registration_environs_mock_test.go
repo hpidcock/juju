@@ -21,6 +21,7 @@ import (
 type MockConnectorInfo struct {
 	ctrl     *gomock.Controller
 	recorder *MockConnectorInfoMockRecorder
+	isgomock struct{}
 }
 
 // MockConnectorInfoMockRecorder is the mock recorder for MockConnectorInfo.
@@ -41,18 +42,18 @@ func (m *MockConnectorInfo) EXPECT() *MockConnectorInfoMockRecorder {
 }
 
 // ConnectionProxyInfo mocks base method.
-func (m *MockConnectorInfo) ConnectionProxyInfo(arg0 context.Context) (proxy.Proxier, error) {
+func (m *MockConnectorInfo) ConnectionProxyInfo(ctx context.Context) (proxy.Proxier, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectionProxyInfo", arg0)
+	ret := m.ctrl.Call(m, "ConnectionProxyInfo", ctx)
 	ret0, _ := ret[0].(proxy.Proxier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectionProxyInfo indicates an expected call of ConnectionProxyInfo.
-func (mr *MockConnectorInfoMockRecorder) ConnectionProxyInfo(arg0 any) *MockConnectorInfoConnectionProxyInfoCall {
+func (mr *MockConnectorInfoMockRecorder) ConnectionProxyInfo(ctx any) *MockConnectorInfoConnectionProxyInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectionProxyInfo", reflect.TypeOf((*MockConnectorInfo)(nil).ConnectionProxyInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectionProxyInfo", reflect.TypeOf((*MockConnectorInfo)(nil).ConnectionProxyInfo), ctx)
 	return &MockConnectorInfoConnectionProxyInfoCall{Call: call}
 }
 

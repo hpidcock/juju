@@ -20,6 +20,7 @@ import (
 type MockStatusGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusGetterMockRecorder is the mock recorder for MockStatusGetter.
@@ -82,6 +83,7 @@ func (c *MockStatusGetterStatusCall) DoAndReturn(f func() (status.StatusInfo, er
 type MockStatusSetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusSetterMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusSetterMockRecorder is the mock recorder for MockStatusSetter.

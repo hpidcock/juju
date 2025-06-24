@@ -20,6 +20,7 @@ import (
 type MockProviderRegistry struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderRegistryMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderRegistryMockRecorder is the mock recorder for MockProviderRegistry.
@@ -121,6 +122,7 @@ func (c *MockProviderRegistryStorageProviderTypesCall) DoAndReturn(f func() ([]s
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -332,17 +334,17 @@ func (c *MockProviderScopeCall) DoAndReturn(f func() storage.Scope) *MockProvide
 }
 
 // Supports mocks base method.
-func (m *MockProvider) Supports(arg0 storage.StorageKind) bool {
+func (m *MockProvider) Supports(kind storage.StorageKind) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Supports", arg0)
+	ret := m.ctrl.Call(m, "Supports", kind)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Supports indicates an expected call of Supports.
-func (mr *MockProviderMockRecorder) Supports(arg0 any) *MockProviderSupportsCall {
+func (mr *MockProviderMockRecorder) Supports(kind any) *MockProviderSupportsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Supports", reflect.TypeOf((*MockProvider)(nil).Supports), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Supports", reflect.TypeOf((*MockProvider)(nil).Supports), kind)
 	return &MockProviderSupportsCall{Call: call}
 }
 

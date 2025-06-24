@@ -25,6 +25,7 @@ import (
 type MockContextRelation struct {
 	ctrl     *gomock.Controller
 	recorder *MockContextRelationMockRecorder
+	isgomock struct{}
 }
 
 // MockContextRelationMockRecorder is the mock recorder for MockContextRelation.
@@ -236,18 +237,18 @@ func (c *MockContextRelationNameCall) DoAndReturn(f func() string) *MockContextR
 }
 
 // ReadApplicationSettings mocks base method.
-func (m *MockContextRelation) ReadApplicationSettings(arg0 context.Context, arg1 string) (params.Settings, error) {
+func (m *MockContextRelation) ReadApplicationSettings(ctx context.Context, app string) (params.Settings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadApplicationSettings", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadApplicationSettings", ctx, app)
 	ret0, _ := ret[0].(params.Settings)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadApplicationSettings indicates an expected call of ReadApplicationSettings.
-func (mr *MockContextRelationMockRecorder) ReadApplicationSettings(arg0, arg1 any) *MockContextRelationReadApplicationSettingsCall {
+func (mr *MockContextRelationMockRecorder) ReadApplicationSettings(ctx, app any) *MockContextRelationReadApplicationSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadApplicationSettings", reflect.TypeOf((*MockContextRelation)(nil).ReadApplicationSettings), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadApplicationSettings", reflect.TypeOf((*MockContextRelation)(nil).ReadApplicationSettings), ctx, app)
 	return &MockContextRelationReadApplicationSettingsCall{Call: call}
 }
 
@@ -275,18 +276,18 @@ func (c *MockContextRelationReadApplicationSettingsCall) DoAndReturn(f func(cont
 }
 
 // ReadSettings mocks base method.
-func (m *MockContextRelation) ReadSettings(arg0 context.Context, arg1 string) (params.Settings, error) {
+func (m *MockContextRelation) ReadSettings(ctx context.Context, unit string) (params.Settings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadSettings", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadSettings", ctx, unit)
 	ret0, _ := ret[0].(params.Settings)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadSettings indicates an expected call of ReadSettings.
-func (mr *MockContextRelationMockRecorder) ReadSettings(arg0, arg1 any) *MockContextRelationReadSettingsCall {
+func (mr *MockContextRelationMockRecorder) ReadSettings(ctx, unit any) *MockContextRelationReadSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadSettings", reflect.TypeOf((*MockContextRelation)(nil).ReadSettings), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadSettings", reflect.TypeOf((*MockContextRelation)(nil).ReadSettings), ctx, unit)
 	return &MockContextRelationReadSettingsCall{Call: call}
 }
 

@@ -21,6 +21,7 @@ import (
 type MockClaimer struct {
 	ctrl     *gomock.Controller
 	recorder *MockClaimerMockRecorder
+	isgomock struct{}
 }
 
 // MockClaimerMockRecorder is the mock recorder for MockClaimer.
@@ -41,29 +42,29 @@ func (m *MockClaimer) EXPECT() *MockClaimerMockRecorder {
 }
 
 // BlockUntilLeadershipReleased mocks base method.
-func (m *MockClaimer) BlockUntilLeadershipReleased(arg0 context.Context, arg1 string) error {
+func (m *MockClaimer) BlockUntilLeadershipReleased(ctx context.Context, applicationId string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BlockUntilLeadershipReleased", arg0, arg1)
+	ret := m.ctrl.Call(m, "BlockUntilLeadershipReleased", ctx, applicationId)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // BlockUntilLeadershipReleased indicates an expected call of BlockUntilLeadershipReleased.
-func (mr *MockClaimerMockRecorder) BlockUntilLeadershipReleased(arg0, arg1 any) *gomock.Call {
+func (mr *MockClaimerMockRecorder) BlockUntilLeadershipReleased(ctx, applicationId any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlockUntilLeadershipReleased", reflect.TypeOf((*MockClaimer)(nil).BlockUntilLeadershipReleased), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlockUntilLeadershipReleased", reflect.TypeOf((*MockClaimer)(nil).BlockUntilLeadershipReleased), ctx, applicationId)
 }
 
 // ClaimLeadership mocks base method.
-func (m *MockClaimer) ClaimLeadership(arg0 context.Context, arg1, arg2 string, arg3 time.Duration) error {
+func (m *MockClaimer) ClaimLeadership(ctx context.Context, applicationId, unitId string, duration time.Duration) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ClaimLeadership", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ClaimLeadership", ctx, applicationId, unitId, duration)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ClaimLeadership indicates an expected call of ClaimLeadership.
-func (mr *MockClaimerMockRecorder) ClaimLeadership(arg0, arg1, arg2, arg3 any) *gomock.Call {
+func (mr *MockClaimerMockRecorder) ClaimLeadership(ctx, applicationId, unitId, duration any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClaimLeadership", reflect.TypeOf((*MockClaimer)(nil).ClaimLeadership), arg0, arg1, arg2, arg3)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClaimLeadership", reflect.TypeOf((*MockClaimer)(nil).ClaimLeadership), ctx, applicationId, unitId, duration)
 }

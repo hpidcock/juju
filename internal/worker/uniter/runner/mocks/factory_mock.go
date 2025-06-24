@@ -25,6 +25,7 @@ import (
 type MockFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockFactoryMockRecorder is the mock recorder for MockFactory.
@@ -45,18 +46,18 @@ func (m *MockFactory) EXPECT() *MockFactoryMockRecorder {
 }
 
 // NewActionRunner mocks base method.
-func (m *MockFactory) NewActionRunner(arg0 context.Context, arg1 *uniter.Action, arg2 <-chan struct{}) (runner.Runner, error) {
+func (m *MockFactory) NewActionRunner(stdCtx context.Context, action *uniter.Action, cancel <-chan struct{}) (runner.Runner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewActionRunner", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "NewActionRunner", stdCtx, action, cancel)
 	ret0, _ := ret[0].(runner.Runner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewActionRunner indicates an expected call of NewActionRunner.
-func (mr *MockFactoryMockRecorder) NewActionRunner(arg0, arg1, arg2 any) *MockFactoryNewActionRunnerCall {
+func (mr *MockFactoryMockRecorder) NewActionRunner(stdCtx, action, cancel any) *MockFactoryNewActionRunnerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewActionRunner", reflect.TypeOf((*MockFactory)(nil).NewActionRunner), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewActionRunner", reflect.TypeOf((*MockFactory)(nil).NewActionRunner), stdCtx, action, cancel)
 	return &MockFactoryNewActionRunnerCall{Call: call}
 }
 
@@ -84,18 +85,18 @@ func (c *MockFactoryNewActionRunnerCall) DoAndReturn(f func(context.Context, *un
 }
 
 // NewCommandRunner mocks base method.
-func (m *MockFactory) NewCommandRunner(arg0 context.Context, arg1 context0.CommandInfo) (runner.Runner, error) {
+func (m *MockFactory) NewCommandRunner(stdCtx context.Context, commandInfo context0.CommandInfo) (runner.Runner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewCommandRunner", arg0, arg1)
+	ret := m.ctrl.Call(m, "NewCommandRunner", stdCtx, commandInfo)
 	ret0, _ := ret[0].(runner.Runner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewCommandRunner indicates an expected call of NewCommandRunner.
-func (mr *MockFactoryMockRecorder) NewCommandRunner(arg0, arg1 any) *MockFactoryNewCommandRunnerCall {
+func (mr *MockFactoryMockRecorder) NewCommandRunner(stdCtx, commandInfo any) *MockFactoryNewCommandRunnerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCommandRunner", reflect.TypeOf((*MockFactory)(nil).NewCommandRunner), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCommandRunner", reflect.TypeOf((*MockFactory)(nil).NewCommandRunner), stdCtx, commandInfo)
 	return &MockFactoryNewCommandRunnerCall{Call: call}
 }
 
@@ -123,18 +124,18 @@ func (c *MockFactoryNewCommandRunnerCall) DoAndReturn(f func(context.Context, co
 }
 
 // NewHookRunner mocks base method.
-func (m *MockFactory) NewHookRunner(arg0 context.Context, arg1 hook.Info) (runner.Runner, error) {
+func (m *MockFactory) NewHookRunner(stdCtx context.Context, hookInfo hook.Info) (runner.Runner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewHookRunner", arg0, arg1)
+	ret := m.ctrl.Call(m, "NewHookRunner", stdCtx, hookInfo)
 	ret0, _ := ret[0].(runner.Runner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewHookRunner indicates an expected call of NewHookRunner.
-func (mr *MockFactoryMockRecorder) NewHookRunner(arg0, arg1 any) *MockFactoryNewHookRunnerCall {
+func (mr *MockFactoryMockRecorder) NewHookRunner(stdCtx, hookInfo any) *MockFactoryNewHookRunnerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewHookRunner", reflect.TypeOf((*MockFactory)(nil).NewHookRunner), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewHookRunner", reflect.TypeOf((*MockFactory)(nil).NewHookRunner), stdCtx, hookInfo)
 	return &MockFactoryNewHookRunnerCall{Call: call}
 }
 
@@ -165,6 +166,7 @@ func (c *MockFactoryNewHookRunnerCall) DoAndReturn(f func(context.Context, hook.
 type MockRunner struct {
 	ctrl     *gomock.Controller
 	recorder *MockRunnerMockRecorder
+	isgomock struct{}
 }
 
 // MockRunnerMockRecorder is the mock recorder for MockRunner.
@@ -223,18 +225,18 @@ func (c *MockRunnerContextCall) DoAndReturn(f func() context0.Context) *MockRunn
 }
 
 // RunAction mocks base method.
-func (m *MockRunner) RunAction(arg0 context.Context, arg1 string) (runner.HookHandlerType, error) {
+func (m *MockRunner) RunAction(ctx context.Context, name string) (runner.HookHandlerType, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunAction", arg0, arg1)
+	ret := m.ctrl.Call(m, "RunAction", ctx, name)
 	ret0, _ := ret[0].(runner.HookHandlerType)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RunAction indicates an expected call of RunAction.
-func (mr *MockRunnerMockRecorder) RunAction(arg0, arg1 any) *MockRunnerRunActionCall {
+func (mr *MockRunnerMockRecorder) RunAction(ctx, name any) *MockRunnerRunActionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunAction", reflect.TypeOf((*MockRunner)(nil).RunAction), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunAction", reflect.TypeOf((*MockRunner)(nil).RunAction), ctx, name)
 	return &MockRunnerRunActionCall{Call: call}
 }
 
@@ -262,18 +264,18 @@ func (c *MockRunnerRunActionCall) DoAndReturn(f func(context.Context, string) (r
 }
 
 // RunCommands mocks base method.
-func (m *MockRunner) RunCommands(arg0 context.Context, arg1 string) (*exec.ExecResponse, error) {
+func (m *MockRunner) RunCommands(ctx context.Context, commands string) (*exec.ExecResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunCommands", arg0, arg1)
+	ret := m.ctrl.Call(m, "RunCommands", ctx, commands)
 	ret0, _ := ret[0].(*exec.ExecResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RunCommands indicates an expected call of RunCommands.
-func (mr *MockRunnerMockRecorder) RunCommands(arg0, arg1 any) *MockRunnerRunCommandsCall {
+func (mr *MockRunnerMockRecorder) RunCommands(ctx, commands any) *MockRunnerRunCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockRunner)(nil).RunCommands), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockRunner)(nil).RunCommands), ctx, commands)
 	return &MockRunnerRunCommandsCall{Call: call}
 }
 
@@ -301,18 +303,18 @@ func (c *MockRunnerRunCommandsCall) DoAndReturn(f func(context.Context, string) 
 }
 
 // RunHook mocks base method.
-func (m *MockRunner) RunHook(arg0 context.Context, arg1 string) (runner.HookHandlerType, error) {
+func (m *MockRunner) RunHook(ctx context.Context, name string) (runner.HookHandlerType, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunHook", arg0, arg1)
+	ret := m.ctrl.Call(m, "RunHook", ctx, name)
 	ret0, _ := ret[0].(runner.HookHandlerType)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RunHook indicates an expected call of RunHook.
-func (mr *MockRunnerMockRecorder) RunHook(arg0, arg1 any) *MockRunnerRunHookCall {
+func (mr *MockRunnerMockRecorder) RunHook(ctx, name any) *MockRunnerRunHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunHook", reflect.TypeOf((*MockRunner)(nil).RunHook), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunHook", reflect.TypeOf((*MockRunner)(nil).RunHook), ctx, name)
 	return &MockRunnerRunHookCall{Call: call}
 }
 

@@ -22,6 +22,7 @@ import (
 type MockSubordinateCreator struct {
 	ctrl     *gomock.Controller
 	recorder *MockSubordinateCreatorMockRecorder
+	isgomock struct{}
 }
 
 // MockSubordinateCreatorMockRecorder is the mock recorder for MockSubordinateCreator.
@@ -42,17 +43,17 @@ func (m *MockSubordinateCreator) EXPECT() *MockSubordinateCreatorMockRecorder {
 }
 
 // CreateSubordinate mocks base method.
-func (m *MockSubordinateCreator) CreateSubordinate(arg0 context.Context, arg1 application.ID, arg2 unit.Name) error {
+func (m *MockSubordinateCreator) CreateSubordinate(ctx context.Context, subordinateAppID application.ID, principalUnitName unit.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSubordinate", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "CreateSubordinate", ctx, subordinateAppID, principalUnitName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateSubordinate indicates an expected call of CreateSubordinate.
-func (mr *MockSubordinateCreatorMockRecorder) CreateSubordinate(arg0, arg1, arg2 any) *MockSubordinateCreatorCreateSubordinateCall {
+func (mr *MockSubordinateCreatorMockRecorder) CreateSubordinate(ctx, subordinateAppID, principalUnitName any) *MockSubordinateCreatorCreateSubordinateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSubordinate", reflect.TypeOf((*MockSubordinateCreator)(nil).CreateSubordinate), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSubordinate", reflect.TypeOf((*MockSubordinateCreator)(nil).CreateSubordinate), ctx, subordinateAppID, principalUnitName)
 	return &MockSubordinateCreatorCreateSubordinateCall{Call: call}
 }
 

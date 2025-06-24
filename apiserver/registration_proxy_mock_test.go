@@ -20,6 +20,7 @@ import (
 type MockProxier struct {
 	ctrl     *gomock.Controller
 	recorder *MockProxierMockRecorder
+	isgomock struct{}
 }
 
 // MockProxierMockRecorder is the mock recorder for MockProxier.
@@ -154,17 +155,17 @@ func (c *MockProxierRawConfigCall) DoAndReturn(f func() (map[string]any, error))
 }
 
 // Start mocks base method.
-func (m *MockProxier) Start(arg0 context.Context) error {
+func (m *MockProxier) Start(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Start", arg0)
+	ret := m.ctrl.Call(m, "Start", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Start indicates an expected call of Start.
-func (mr *MockProxierMockRecorder) Start(arg0 any) *MockProxierStartCall {
+func (mr *MockProxierMockRecorder) Start(ctx any) *MockProxierStartCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockProxier)(nil).Start), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockProxier)(nil).Start), ctx)
 	return &MockProxierStartCall{Call: call}
 }
 

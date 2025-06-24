@@ -22,6 +22,7 @@ import (
 type MockModelExtractor struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelExtractorMockRecorder
+	isgomock struct{}
 }
 
 // MockModelExtractorMockRecorder is the mock recorder for MockModelExtractor.
@@ -42,18 +43,18 @@ func (m *MockModelExtractor) EXPECT() *MockModelExtractorMockRecorder {
 }
 
 // GetAnnotations mocks base method.
-func (m *MockModelExtractor) GetAnnotations(arg0 context.Context, arg1 []string) ([]params.AnnotationsGetResult, error) {
+func (m *MockModelExtractor) GetAnnotations(ctx context.Context, tags []string) ([]params.AnnotationsGetResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAnnotations", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAnnotations", ctx, tags)
 	ret0, _ := ret[0].([]params.AnnotationsGetResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAnnotations indicates an expected call of GetAnnotations.
-func (mr *MockModelExtractorMockRecorder) GetAnnotations(arg0, arg1 any) *MockModelExtractorGetAnnotationsCall {
+func (mr *MockModelExtractorMockRecorder) GetAnnotations(ctx, tags any) *MockModelExtractorGetAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockModelExtractor)(nil).GetAnnotations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockModelExtractor)(nil).GetAnnotations), ctx, tags)
 	return &MockModelExtractorGetAnnotationsCall{Call: call}
 }
 
@@ -81,10 +82,10 @@ func (c *MockModelExtractorGetAnnotationsCall) DoAndReturn(f func(context.Contex
 }
 
 // GetConfig mocks base method.
-func (m *MockModelExtractor) GetConfig(arg0 context.Context, arg1 ...string) ([]map[string]any, error) {
+func (m *MockModelExtractor) GetConfig(ctx context.Context, applications ...string) ([]map[string]any, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range applications {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetConfig", varargs...)
@@ -94,9 +95,9 @@ func (m *MockModelExtractor) GetConfig(arg0 context.Context, arg1 ...string) ([]
 }
 
 // GetConfig indicates an expected call of GetConfig.
-func (mr *MockModelExtractorMockRecorder) GetConfig(arg0 any, arg1 ...any) *MockModelExtractorGetConfigCall {
+func (mr *MockModelExtractorMockRecorder) GetConfig(ctx any, applications ...any) *MockModelExtractorGetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, applications...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockModelExtractor)(nil).GetConfig), varargs...)
 	return &MockModelExtractorGetConfigCall{Call: call}
 }
@@ -125,10 +126,10 @@ func (c *MockModelExtractorGetConfigCall) DoAndReturn(f func(context.Context, ..
 }
 
 // GetConstraints mocks base method.
-func (m *MockModelExtractor) GetConstraints(arg0 context.Context, arg1 ...string) ([]constraints.Value, error) {
+func (m *MockModelExtractor) GetConstraints(ctx context.Context, applications ...string) ([]constraints.Value, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range applications {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetConstraints", varargs...)
@@ -138,9 +139,9 @@ func (m *MockModelExtractor) GetConstraints(arg0 context.Context, arg1 ...string
 }
 
 // GetConstraints indicates an expected call of GetConstraints.
-func (mr *MockModelExtractorMockRecorder) GetConstraints(arg0 any, arg1 ...any) *MockModelExtractorGetConstraintsCall {
+func (mr *MockModelExtractorMockRecorder) GetConstraints(ctx any, applications ...any) *MockModelExtractorGetConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, applications...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConstraints", reflect.TypeOf((*MockModelExtractor)(nil).GetConstraints), varargs...)
 	return &MockModelExtractorGetConstraintsCall{Call: call}
 }
@@ -169,18 +170,18 @@ func (c *MockModelExtractorGetConstraintsCall) DoAndReturn(f func(context.Contex
 }
 
 // Sequences mocks base method.
-func (m *MockModelExtractor) Sequences(arg0 context.Context) (map[string]int, error) {
+func (m *MockModelExtractor) Sequences(ctx context.Context) (map[string]int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sequences", arg0)
+	ret := m.ctrl.Call(m, "Sequences", ctx)
 	ret0, _ := ret[0].(map[string]int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Sequences indicates an expected call of Sequences.
-func (mr *MockModelExtractorMockRecorder) Sequences(arg0 any) *MockModelExtractorSequencesCall {
+func (mr *MockModelExtractorMockRecorder) Sequences(ctx any) *MockModelExtractorSequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sequences", reflect.TypeOf((*MockModelExtractor)(nil).Sequences), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sequences", reflect.TypeOf((*MockModelExtractor)(nil).Sequences), ctx)
 	return &MockModelExtractorSequencesCall{Call: call}
 }
 

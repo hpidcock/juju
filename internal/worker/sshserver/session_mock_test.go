@@ -21,6 +21,7 @@ import (
 type MockSSHConnector struct {
 	ctrl     *gomock.Controller
 	recorder *MockSSHConnectorMockRecorder
+	isgomock struct{}
 }
 
 // MockSSHConnectorMockRecorder is the mock recorder for MockSSHConnector.
@@ -41,18 +42,18 @@ func (m *MockSSHConnector) EXPECT() *MockSSHConnectorMockRecorder {
 }
 
 // Connect mocks base method.
-func (m *MockSSHConnector) Connect(arg0 virtualhostname.Info) (*ssh.Client, error) {
+func (m *MockSSHConnector) Connect(destination virtualhostname.Info) (*ssh.Client, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Connect", arg0)
+	ret := m.ctrl.Call(m, "Connect", destination)
 	ret0, _ := ret[0].(*ssh.Client)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Connect indicates an expected call of Connect.
-func (mr *MockSSHConnectorMockRecorder) Connect(arg0 any) *MockSSHConnectorConnectCall {
+func (mr *MockSSHConnectorMockRecorder) Connect(destination any) *MockSSHConnectorConnectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Connect", reflect.TypeOf((*MockSSHConnector)(nil).Connect), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Connect", reflect.TypeOf((*MockSSHConnector)(nil).Connect), destination)
 	return &MockSSHConnectorConnectCall{Call: call}
 }
 

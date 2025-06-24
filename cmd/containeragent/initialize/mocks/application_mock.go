@@ -21,6 +21,7 @@ import (
 type MockApplicationAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationAPIMockRecorder is the mock recorder for MockApplicationAPI.
@@ -79,18 +80,18 @@ func (c *MockApplicationAPICloseCall) DoAndReturn(f func() error) *MockApplicati
 }
 
 // UnitIntroduction mocks base method.
-func (m *MockApplicationAPI) UnitIntroduction(arg0 context.Context, arg1, arg2 string) (*caasapplication.UnitConfig, error) {
+func (m *MockApplicationAPI) UnitIntroduction(ctx context.Context, podName, podUUID string) (*caasapplication.UnitConfig, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnitIntroduction", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UnitIntroduction", ctx, podName, podUUID)
 	ret0, _ := ret[0].(*caasapplication.UnitConfig)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UnitIntroduction indicates an expected call of UnitIntroduction.
-func (mr *MockApplicationAPIMockRecorder) UnitIntroduction(arg0, arg1, arg2 any) *MockApplicationAPIUnitIntroductionCall {
+func (mr *MockApplicationAPIMockRecorder) UnitIntroduction(ctx, podName, podUUID any) *MockApplicationAPIUnitIntroductionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitIntroduction", reflect.TypeOf((*MockApplicationAPI)(nil).UnitIntroduction), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnitIntroduction", reflect.TypeOf((*MockApplicationAPI)(nil).UnitIntroduction), ctx, podName, podUUID)
 	return &MockApplicationAPIUnitIntroductionCall{Call: call}
 }
 

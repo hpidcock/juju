@@ -20,6 +20,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -79,17 +80,17 @@ func (c *MockStateGetFlagCall) DoAndReturn(f func(context.Context, string) (bool
 }
 
 // SetFlag mocks base method.
-func (m *MockState) SetFlag(arg0 context.Context, arg1 string, arg2 bool, arg3 string) error {
+func (m *MockState) SetFlag(ctx context.Context, flag string, value bool, description string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetFlag", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetFlag", ctx, flag, value, description)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetFlag indicates an expected call of SetFlag.
-func (mr *MockStateMockRecorder) SetFlag(arg0, arg1, arg2, arg3 any) *MockStateSetFlagCall {
+func (mr *MockStateMockRecorder) SetFlag(ctx, flag, value, description any) *MockStateSetFlagCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetFlag", reflect.TypeOf((*MockState)(nil).SetFlag), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetFlag", reflect.TypeOf((*MockState)(nil).SetFlag), ctx, flag, value, description)
 	return &MockStateSetFlagCall{Call: call}
 }
 

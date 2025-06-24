@@ -21,6 +21,7 @@ import (
 type MockRunner struct {
 	ctrl     *gomock.Controller
 	recorder *MockRunnerMockRecorder
+	isgomock struct{}
 }
 
 // MockRunnerMockRecorder is the mock recorder for MockRunner.
@@ -115,17 +116,17 @@ func (c *MockRunnerReportCall) DoAndReturn(f func() map[string]any) *MockRunnerR
 }
 
 // StartWorker mocks base method.
-func (m *MockRunner) StartWorker(arg0 context.Context, arg1 string, arg2 func(context.Context) (worker.Worker, error)) error {
+func (m *MockRunner) StartWorker(ctx context.Context, id string, startFunc func(context.Context) (worker.Worker, error)) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StartWorker", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "StartWorker", ctx, id, startFunc)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // StartWorker indicates an expected call of StartWorker.
-func (mr *MockRunnerMockRecorder) StartWorker(arg0, arg1, arg2 any) *MockRunnerStartWorkerCall {
+func (mr *MockRunnerMockRecorder) StartWorker(ctx, id, startFunc any) *MockRunnerStartWorkerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartWorker", reflect.TypeOf((*MockRunner)(nil).StartWorker), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartWorker", reflect.TypeOf((*MockRunner)(nil).StartWorker), ctx, id, startFunc)
 	return &MockRunnerStartWorkerCall{Call: call}
 }
 
@@ -153,17 +154,17 @@ func (c *MockRunnerStartWorkerCall) DoAndReturn(f func(context.Context, string, 
 }
 
 // StopAndRemoveWorker mocks base method.
-func (m *MockRunner) StopAndRemoveWorker(arg0 string, arg1 <-chan struct{}) error {
+func (m *MockRunner) StopAndRemoveWorker(id string, abort <-chan struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StopAndRemoveWorker", arg0, arg1)
+	ret := m.ctrl.Call(m, "StopAndRemoveWorker", id, abort)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // StopAndRemoveWorker indicates an expected call of StopAndRemoveWorker.
-func (mr *MockRunnerMockRecorder) StopAndRemoveWorker(arg0, arg1 any) *MockRunnerStopAndRemoveWorkerCall {
+func (mr *MockRunnerMockRecorder) StopAndRemoveWorker(id, abort any) *MockRunnerStopAndRemoveWorkerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StopAndRemoveWorker", reflect.TypeOf((*MockRunner)(nil).StopAndRemoveWorker), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StopAndRemoveWorker", reflect.TypeOf((*MockRunner)(nil).StopAndRemoveWorker), id, abort)
 	return &MockRunnerStopAndRemoveWorkerCall{Call: call}
 }
 
@@ -229,18 +230,18 @@ func (c *MockRunnerWaitCall) DoAndReturn(f func() error) *MockRunnerWaitCall {
 }
 
 // Worker mocks base method.
-func (m *MockRunner) Worker(arg0 string, arg1 <-chan struct{}) (worker.Worker, error) {
+func (m *MockRunner) Worker(id string, abort <-chan struct{}) (worker.Worker, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Worker", arg0, arg1)
+	ret := m.ctrl.Call(m, "Worker", id, abort)
 	ret0, _ := ret[0].(worker.Worker)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Worker indicates an expected call of Worker.
-func (mr *MockRunnerMockRecorder) Worker(arg0, arg1 any) *MockRunnerWorkerCall {
+func (mr *MockRunnerMockRecorder) Worker(id, abort any) *MockRunnerWorkerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Worker", reflect.TypeOf((*MockRunner)(nil).Worker), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Worker", reflect.TypeOf((*MockRunner)(nil).Worker), id, abort)
 	return &MockRunnerWorkerCall{Call: call}
 }
 

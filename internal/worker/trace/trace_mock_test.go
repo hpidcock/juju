@@ -22,6 +22,7 @@ import (
 type MockSpan struct {
 	ctrl     *gomock.Controller
 	recorder *MockSpanMockRecorder
+	isgomock struct{}
 }
 
 // MockSpanMockRecorder is the mock recorder for MockSpan.
@@ -42,19 +43,19 @@ func (m *MockSpan) EXPECT() *MockSpanMockRecorder {
 }
 
 // AddEvent mocks base method.
-func (m *MockSpan) AddEvent(arg0 string, arg1 ...trace.EventOption) {
+func (m *MockSpan) AddEvent(name string, options ...trace.EventOption) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{name}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "AddEvent", varargs...)
 }
 
 // AddEvent indicates an expected call of AddEvent.
-func (mr *MockSpanMockRecorder) AddEvent(arg0 any, arg1 ...any) *MockSpanAddEventCall {
+func (mr *MockSpanMockRecorder) AddEvent(name any, options ...any) *MockSpanAddEventCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{name}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddEvent", reflect.TypeOf((*MockSpan)(nil).AddEvent), varargs...)
 	return &MockSpanAddEventCall{Call: call}
 }
@@ -83,15 +84,15 @@ func (c *MockSpanAddEventCall) DoAndReturn(f func(string, ...trace.EventOption))
 }
 
 // AddLink mocks base method.
-func (m *MockSpan) AddLink(arg0 trace.Link) {
+func (m *MockSpan) AddLink(link trace.Link) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "AddLink", arg0)
+	m.ctrl.Call(m, "AddLink", link)
 }
 
 // AddLink indicates an expected call of AddLink.
-func (mr *MockSpanMockRecorder) AddLink(arg0 any) *MockSpanAddLinkCall {
+func (mr *MockSpanMockRecorder) AddLink(link any) *MockSpanAddLinkCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddLink", reflect.TypeOf((*MockSpan)(nil).AddLink), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddLink", reflect.TypeOf((*MockSpan)(nil).AddLink), link)
 	return &MockSpanAddLinkCall{Call: call}
 }
 
@@ -119,19 +120,19 @@ func (c *MockSpanAddLinkCall) DoAndReturn(f func(trace.Link)) *MockSpanAddLinkCa
 }
 
 // End mocks base method.
-func (m *MockSpan) End(arg0 ...trace.SpanEndOption) {
+func (m *MockSpan) End(options ...trace.SpanEndOption) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "End", varargs...)
 }
 
 // End indicates an expected call of End.
-func (mr *MockSpanMockRecorder) End(arg0 ...any) *MockSpanEndCall {
+func (mr *MockSpanMockRecorder) End(options ...any) *MockSpanEndCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "End", reflect.TypeOf((*MockSpan)(nil).End), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "End", reflect.TypeOf((*MockSpan)(nil).End), options...)
 	return &MockSpanEndCall{Call: call}
 }
 
@@ -197,19 +198,19 @@ func (c *MockSpanIsRecordingCall) DoAndReturn(f func() bool) *MockSpanIsRecordin
 }
 
 // RecordError mocks base method.
-func (m *MockSpan) RecordError(arg0 error, arg1 ...trace.EventOption) {
+func (m *MockSpan) RecordError(err error, options ...trace.EventOption) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{err}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "RecordError", varargs...)
 }
 
 // RecordError indicates an expected call of RecordError.
-func (mr *MockSpanMockRecorder) RecordError(arg0 any, arg1 ...any) *MockSpanRecordErrorCall {
+func (mr *MockSpanMockRecorder) RecordError(err any, options ...any) *MockSpanRecordErrorCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{err}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordError", reflect.TypeOf((*MockSpan)(nil).RecordError), varargs...)
 	return &MockSpanRecordErrorCall{Call: call}
 }
@@ -238,19 +239,19 @@ func (c *MockSpanRecordErrorCall) DoAndReturn(f func(error, ...trace.EventOption
 }
 
 // SetAttributes mocks base method.
-func (m *MockSpan) SetAttributes(arg0 ...attribute.KeyValue) {
+func (m *MockSpan) SetAttributes(kv ...attribute.KeyValue) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range kv {
 		varargs = append(varargs, a)
 	}
 	m.ctrl.Call(m, "SetAttributes", varargs...)
 }
 
 // SetAttributes indicates an expected call of SetAttributes.
-func (mr *MockSpanMockRecorder) SetAttributes(arg0 ...any) *MockSpanSetAttributesCall {
+func (mr *MockSpanMockRecorder) SetAttributes(kv ...any) *MockSpanSetAttributesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAttributes", reflect.TypeOf((*MockSpan)(nil).SetAttributes), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAttributes", reflect.TypeOf((*MockSpan)(nil).SetAttributes), kv...)
 	return &MockSpanSetAttributesCall{Call: call}
 }
 
@@ -278,15 +279,15 @@ func (c *MockSpanSetAttributesCall) DoAndReturn(f func(...attribute.KeyValue)) *
 }
 
 // SetName mocks base method.
-func (m *MockSpan) SetName(arg0 string) {
+func (m *MockSpan) SetName(name string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetName", arg0)
+	m.ctrl.Call(m, "SetName", name)
 }
 
 // SetName indicates an expected call of SetName.
-func (mr *MockSpanMockRecorder) SetName(arg0 any) *MockSpanSetNameCall {
+func (mr *MockSpanMockRecorder) SetName(name any) *MockSpanSetNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetName", reflect.TypeOf((*MockSpan)(nil).SetName), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetName", reflect.TypeOf((*MockSpan)(nil).SetName), name)
 	return &MockSpanSetNameCall{Call: call}
 }
 
@@ -314,15 +315,15 @@ func (c *MockSpanSetNameCall) DoAndReturn(f func(string)) *MockSpanSetNameCall {
 }
 
 // SetStatus mocks base method.
-func (m *MockSpan) SetStatus(arg0 codes.Code, arg1 string) {
+func (m *MockSpan) SetStatus(code codes.Code, description string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetStatus", arg0, arg1)
+	m.ctrl.Call(m, "SetStatus", code, description)
 }
 
 // SetStatus indicates an expected call of SetStatus.
-func (mr *MockSpanMockRecorder) SetStatus(arg0, arg1 any) *MockSpanSetStatusCall {
+func (mr *MockSpanMockRecorder) SetStatus(code, description any) *MockSpanSetStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockSpan)(nil).SetStatus), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockSpan)(nil).SetStatus), code, description)
 	return &MockSpanSetStatusCall{Call: call}
 }
 

@@ -26,6 +26,7 @@ import (
 type MockSecretTriggers struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretTriggersMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretTriggersMockRecorder is the mock recorder for MockSecretTriggers.
@@ -219,6 +220,7 @@ func (c *MockSecretTriggersWatchSecretsRotationChangesCall) DoAndReturn(f func(c
 type MockSecretsConsumer struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsConsumerMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsConsumerMockRecorder is the mock recorder for MockSecretsConsumer.
@@ -552,6 +554,7 @@ func (c *MockSecretsConsumerWatchConsumedSecretsChangesCall) DoAndReturn(f func(
 type MockSecretService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretServiceMockRecorder is the mock recorder for MockSecretService.
@@ -860,6 +863,7 @@ func (c *MockSecretServiceProcessCharmSecretConsumerLabelCall) DoAndReturn(f fun
 type MockSecretBackendService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretBackendServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretBackendServiceMockRecorder is the mock recorder for MockSecretBackendService.

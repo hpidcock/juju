@@ -24,6 +24,7 @@ import (
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -44,18 +45,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetAllUnitNames mocks base method.
-func (m *MockApplicationService) GetAllUnitNames(arg0 context.Context) ([]unit.Name, error) {
+func (m *MockApplicationService) GetAllUnitNames(ctx context.Context) ([]unit.Name, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllUnitNames", arg0)
+	ret := m.ctrl.Call(m, "GetAllUnitNames", ctx)
 	ret0, _ := ret[0].([]unit.Name)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllUnitNames indicates an expected call of GetAllUnitNames.
-func (mr *MockApplicationServiceMockRecorder) GetAllUnitNames(arg0 any) *MockApplicationServiceGetAllUnitNamesCall {
+func (mr *MockApplicationServiceMockRecorder) GetAllUnitNames(ctx any) *MockApplicationServiceGetAllUnitNamesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUnitNames", reflect.TypeOf((*MockApplicationService)(nil).GetAllUnitNames), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUnitNames", reflect.TypeOf((*MockApplicationService)(nil).GetAllUnitNames), ctx)
 	return &MockApplicationServiceGetAllUnitNamesCall{Call: call}
 }
 
@@ -83,18 +84,18 @@ func (c *MockApplicationServiceGetAllUnitNamesCall) DoAndReturn(f func(context.C
 }
 
 // GetCharmActions mocks base method.
-func (m *MockApplicationService) GetCharmActions(arg0 context.Context, arg1 charm.CharmLocator) (charm0.Actions, error) {
+func (m *MockApplicationService) GetCharmActions(ctx context.Context, locator charm.CharmLocator) (charm0.Actions, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmActions", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmActions", ctx, locator)
 	ret0, _ := ret[0].(charm0.Actions)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmActions indicates an expected call of GetCharmActions.
-func (mr *MockApplicationServiceMockRecorder) GetCharmActions(arg0, arg1 any) *MockApplicationServiceGetCharmActionsCall {
+func (mr *MockApplicationServiceMockRecorder) GetCharmActions(ctx, locator any) *MockApplicationServiceGetCharmActionsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmActions", reflect.TypeOf((*MockApplicationService)(nil).GetCharmActions), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmActions", reflect.TypeOf((*MockApplicationService)(nil).GetCharmActions), ctx, locator)
 	return &MockApplicationServiceGetCharmActionsCall{Call: call}
 }
 
@@ -122,18 +123,18 @@ func (c *MockApplicationServiceGetCharmActionsCall) DoAndReturn(f func(context.C
 }
 
 // GetCharmLocatorByApplicationName mocks base method.
-func (m *MockApplicationService) GetCharmLocatorByApplicationName(arg0 context.Context, arg1 string) (charm.CharmLocator, error) {
+func (m *MockApplicationService) GetCharmLocatorByApplicationName(ctx context.Context, name string) (charm.CharmLocator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmLocatorByApplicationName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmLocatorByApplicationName", ctx, name)
 	ret0, _ := ret[0].(charm.CharmLocator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmLocatorByApplicationName indicates an expected call of GetCharmLocatorByApplicationName.
-func (mr *MockApplicationServiceMockRecorder) GetCharmLocatorByApplicationName(arg0, arg1 any) *MockApplicationServiceGetCharmLocatorByApplicationNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetCharmLocatorByApplicationName(ctx, name any) *MockApplicationServiceGetCharmLocatorByApplicationNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmLocatorByApplicationName", reflect.TypeOf((*MockApplicationService)(nil).GetCharmLocatorByApplicationName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmLocatorByApplicationName", reflect.TypeOf((*MockApplicationService)(nil).GetCharmLocatorByApplicationName), ctx, name)
 	return &MockApplicationServiceGetCharmLocatorByApplicationNameCall{Call: call}
 }
 
@@ -161,18 +162,18 @@ func (c *MockApplicationServiceGetCharmLocatorByApplicationNameCall) DoAndReturn
 }
 
 // GetUnitNamesForApplication mocks base method.
-func (m *MockApplicationService) GetUnitNamesForApplication(arg0 context.Context, arg1 string) ([]unit.Name, error) {
+func (m *MockApplicationService) GetUnitNamesForApplication(ctx context.Context, name string) ([]unit.Name, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitNamesForApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitNamesForApplication", ctx, name)
 	ret0, _ := ret[0].([]unit.Name)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitNamesForApplication indicates an expected call of GetUnitNamesForApplication.
-func (mr *MockApplicationServiceMockRecorder) GetUnitNamesForApplication(arg0, arg1 any) *MockApplicationServiceGetUnitNamesForApplicationCall {
+func (mr *MockApplicationServiceMockRecorder) GetUnitNamesForApplication(ctx, name any) *MockApplicationServiceGetUnitNamesForApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitNamesForApplication", reflect.TypeOf((*MockApplicationService)(nil).GetUnitNamesForApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitNamesForApplication", reflect.TypeOf((*MockApplicationService)(nil).GetUnitNamesForApplication), ctx, name)
 	return &MockApplicationServiceGetUnitNamesForApplicationCall{Call: call}
 }
 
@@ -203,6 +204,7 @@ func (c *MockApplicationServiceGetUnitNamesForApplicationCall) DoAndReturn(f fun
 type MockModelInfoService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelInfoServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelInfoServiceMockRecorder is the mock recorder for MockModelInfoService.

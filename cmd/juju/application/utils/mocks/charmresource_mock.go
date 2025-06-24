@@ -23,6 +23,7 @@ import (
 type MockCharmClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmClientMockRecorder is the mock recorder for MockCharmClient.
@@ -82,18 +83,18 @@ func (c *MockCharmClientCharmInfoCall) DoAndReturn(f func(context.Context, strin
 }
 
 // ListCharmResources mocks base method.
-func (m *MockCharmClient) ListCharmResources(arg0 context.Context, arg1 string, arg2 charm.Origin) ([]resource.Resource, error) {
+func (m *MockCharmClient) ListCharmResources(ctx context.Context, curl string, origin charm.Origin) ([]resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListCharmResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListCharmResources", ctx, curl, origin)
 	ret0, _ := ret[0].([]resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListCharmResources indicates an expected call of ListCharmResources.
-func (mr *MockCharmClientMockRecorder) ListCharmResources(arg0, arg1, arg2 any) *MockCharmClientListCharmResourcesCall {
+func (mr *MockCharmClientMockRecorder) ListCharmResources(ctx, curl, origin any) *MockCharmClientListCharmResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCharmResources", reflect.TypeOf((*MockCharmClient)(nil).ListCharmResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCharmResources", reflect.TypeOf((*MockCharmClient)(nil).ListCharmResources), ctx, curl, origin)
 	return &MockCharmClientListCharmResourcesCall{Call: call}
 }
 

@@ -26,6 +26,7 @@ import (
 type MockModelCommand struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelCommandMockRecorder
+	isgomock struct{}
 }
 
 // MockModelCommandMockRecorder is the mock recorder for MockModelCommand.
@@ -201,9 +202,9 @@ func (c *MockModelCommandFilesystemCall) DoAndReturn(f func() modelcmd.Filesyste
 }
 
 // ModelDetails mocks base method.
-func (m *MockModelCommand) ModelDetails(arg0 context.Context) (string, *jujuclient.ModelDetails, error) {
+func (m *MockModelCommand) ModelDetails(ctx context.Context) (string, *jujuclient.ModelDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelDetails", arg0)
+	ret := m.ctrl.Call(m, "ModelDetails", ctx)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(*jujuclient.ModelDetails)
 	ret2, _ := ret[2].(error)
@@ -211,9 +212,9 @@ func (m *MockModelCommand) ModelDetails(arg0 context.Context) (string, *jujuclie
 }
 
 // ModelDetails indicates an expected call of ModelDetails.
-func (mr *MockModelCommandMockRecorder) ModelDetails(arg0 any) *MockModelCommandModelDetailsCall {
+func (mr *MockModelCommandMockRecorder) ModelDetails(ctx any) *MockModelCommandModelDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelDetails", reflect.TypeOf((*MockModelCommand)(nil).ModelDetails), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelDetails", reflect.TypeOf((*MockModelCommand)(nil).ModelDetails), ctx)
 	return &MockModelCommandModelDetailsCall{Call: call}
 }
 
@@ -241,18 +242,18 @@ func (c *MockModelCommandModelDetailsCall) DoAndReturn(f func(context.Context) (
 }
 
 // ModelType mocks base method.
-func (m *MockModelCommand) ModelType(arg0 context.Context) (model.ModelType, error) {
+func (m *MockModelCommand) ModelType(ctx context.Context) (model.ModelType, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelType", arg0)
+	ret := m.ctrl.Call(m, "ModelType", ctx)
 	ret0, _ := ret[0].(model.ModelType)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelType indicates an expected call of ModelType.
-func (mr *MockModelCommandMockRecorder) ModelType(arg0 any) *MockModelCommandModelTypeCall {
+func (mr *MockModelCommandMockRecorder) ModelType(ctx any) *MockModelCommandModelTypeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelType", reflect.TypeOf((*MockModelCommand)(nil).ModelType), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelType", reflect.TypeOf((*MockModelCommand)(nil).ModelType), ctx)
 	return &MockModelCommandModelTypeCall{Call: call}
 }
 
@@ -283,6 +284,7 @@ func (c *MockModelCommandModelTypeCall) DoAndReturn(f func(context.Context) (mod
 type MockConsumeDetails struct {
 	ctrl     *gomock.Controller
 	recorder *MockConsumeDetailsMockRecorder
+	isgomock struct{}
 }
 
 // MockConsumeDetailsMockRecorder is the mock recorder for MockConsumeDetails.
@@ -341,18 +343,18 @@ func (c *MockConsumeDetailsCloseCall) DoAndReturn(f func() error) *MockConsumeDe
 }
 
 // GetConsumeDetails mocks base method.
-func (m *MockConsumeDetails) GetConsumeDetails(arg0 context.Context, arg1 string) (params.ConsumeOfferDetails, error) {
+func (m *MockConsumeDetails) GetConsumeDetails(ctx context.Context, url string) (params.ConsumeOfferDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetConsumeDetails", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetConsumeDetails", ctx, url)
 	ret0, _ := ret[0].(params.ConsumeOfferDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetConsumeDetails indicates an expected call of GetConsumeDetails.
-func (mr *MockConsumeDetailsMockRecorder) GetConsumeDetails(arg0, arg1 any) *MockConsumeDetailsGetConsumeDetailsCall {
+func (mr *MockConsumeDetailsMockRecorder) GetConsumeDetails(ctx, url any) *MockConsumeDetailsGetConsumeDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConsumeDetails", reflect.TypeOf((*MockConsumeDetails)(nil).GetConsumeDetails), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConsumeDetails", reflect.TypeOf((*MockConsumeDetails)(nil).GetConsumeDetails), ctx, url)
 	return &MockConsumeDetailsGetConsumeDetailsCall{Call: call}
 }
 
@@ -383,6 +385,7 @@ func (c *MockConsumeDetailsGetConsumeDetailsCall) DoAndReturn(f func(context.Con
 type MockCharmDeployAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmDeployAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmDeployAPIMockRecorder is the mock recorder for MockCharmDeployAPI.
@@ -442,18 +445,18 @@ func (c *MockCharmDeployAPICharmInfoCall) DoAndReturn(f func(context.Context, st
 }
 
 // ModelGet mocks base method.
-func (m *MockCharmDeployAPI) ModelGet(arg0 context.Context) (map[string]any, error) {
+func (m *MockCharmDeployAPI) ModelGet(ctx context.Context) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelGet", arg0)
+	ret := m.ctrl.Call(m, "ModelGet", ctx)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelGet indicates an expected call of ModelGet.
-func (mr *MockCharmDeployAPIMockRecorder) ModelGet(arg0 any) *MockCharmDeployAPIModelGetCall {
+func (mr *MockCharmDeployAPIMockRecorder) ModelGet(ctx any) *MockCharmDeployAPIModelGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockCharmDeployAPI)(nil).ModelGet), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockCharmDeployAPI)(nil).ModelGet), ctx)
 	return &MockCharmDeployAPIModelGetCall{Call: call}
 }
 

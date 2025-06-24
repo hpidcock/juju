@@ -37,6 +37,7 @@ import (
 type MockAgentBinaryStorage struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStorageMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStorageMockRecorder is the mock recorder for MockAgentBinaryStorage.
@@ -98,6 +99,7 @@ func (c *MockAgentBinaryStorageAddCall) DoAndReturn(f func(context.Context, io.R
 type MockAgentBinaryStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStoreMockRecorder is the mock recorder for MockAgentBinaryStore.
@@ -159,6 +161,7 @@ func (c *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call) DoAndReturn(f func(co
 type MockControllerCharmDeployer struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerCharmDeployerMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerCharmDeployerMockRecorder is the mock recorder for MockControllerCharmDeployer.
@@ -490,6 +493,7 @@ func (c *MockControllerCharmDeployerDeployLocalCharmCall) DoAndReturn(f func(con
 type MockHTTPClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientMockRecorder is the mock recorder for MockHTTPClient.
@@ -552,6 +556,7 @@ func (c *MockHTTPClientDoCall) DoAndReturn(f func(*http.Request) (*http.Response
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -652,6 +657,7 @@ func (c *MockMachinePublicAddressCall) DoAndReturn(f func() (network.SpaceAddres
 type MockMachineGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineGetterMockRecorder is the mock recorder for MockMachineGetter.
@@ -714,6 +720,7 @@ func (c *MockMachineGetterMachineCall) DoAndReturn(f func(string) (Machine, erro
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -734,18 +741,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // ResolveControllerCharmDownload mocks base method.
-func (m *MockApplicationService) ResolveControllerCharmDownload(arg0 context.Context, arg1 application0.ResolveControllerCharmDownload) (application0.ResolvedControllerCharmDownload, error) {
+func (m *MockApplicationService) ResolveControllerCharmDownload(ctx context.Context, resolve application0.ResolveControllerCharmDownload) (application0.ResolvedControllerCharmDownload, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveControllerCharmDownload", arg0, arg1)
+	ret := m.ctrl.Call(m, "ResolveControllerCharmDownload", ctx, resolve)
 	ret0, _ := ret[0].(application0.ResolvedControllerCharmDownload)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ResolveControllerCharmDownload indicates an expected call of ResolveControllerCharmDownload.
-func (mr *MockApplicationServiceMockRecorder) ResolveControllerCharmDownload(arg0, arg1 any) *MockApplicationServiceResolveControllerCharmDownloadCall {
+func (mr *MockApplicationServiceMockRecorder) ResolveControllerCharmDownload(ctx, resolve any) *MockApplicationServiceResolveControllerCharmDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveControllerCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveControllerCharmDownload), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveControllerCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveControllerCharmDownload), ctx, resolve)
 	return &MockApplicationServiceResolveControllerCharmDownloadCall{Call: call}
 }
 
@@ -773,17 +780,17 @@ func (c *MockApplicationServiceResolveControllerCharmDownloadCall) DoAndReturn(f
 }
 
 // UpdateCloudService mocks base method.
-func (m *MockApplicationService) UpdateCloudService(arg0 context.Context, arg1, arg2 string, arg3 network.ProviderAddresses) error {
+func (m *MockApplicationService) UpdateCloudService(ctx context.Context, appName, providerID string, sAddrs network.ProviderAddresses) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCloudService", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateCloudService", ctx, appName, providerID, sAddrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCloudService indicates an expected call of UpdateCloudService.
-func (mr *MockApplicationServiceMockRecorder) UpdateCloudService(arg0, arg1, arg2, arg3 any) *MockApplicationServiceUpdateCloudServiceCall {
+func (mr *MockApplicationServiceMockRecorder) UpdateCloudService(ctx, appName, providerID, sAddrs any) *MockApplicationServiceUpdateCloudServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockApplicationService)(nil).UpdateCloudService), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockApplicationService)(nil).UpdateCloudService), ctx, appName, providerID, sAddrs)
 	return &MockApplicationServiceUpdateCloudServiceCall{Call: call}
 }
 
@@ -814,6 +821,7 @@ func (c *MockApplicationServiceUpdateCloudServiceCall) DoAndReturn(f func(contex
 type MockIAASApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockIAASApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockIAASApplicationServiceMockRecorder is the mock recorder for MockIAASApplicationService.
@@ -881,6 +889,7 @@ func (c *MockIAASApplicationServiceCreateIAASApplicationCall) DoAndReturn(f func
 type MockCAASApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockCAASApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockCAASApplicationServiceMockRecorder is the mock recorder for MockCAASApplicationService.
@@ -945,17 +954,17 @@ func (c *MockCAASApplicationServiceCreateCAASApplicationCall) DoAndReturn(f func
 }
 
 // UpdateCAASUnit mocks base method.
-func (m *MockCAASApplicationService) UpdateCAASUnit(arg0 context.Context, arg1 unit.Name, arg2 service.UpdateCAASUnitParams) error {
+func (m *MockCAASApplicationService) UpdateCAASUnit(ctx context.Context, unitName unit.Name, params service.UpdateCAASUnitParams) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCAASUnit", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateCAASUnit", ctx, unitName, params)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCAASUnit indicates an expected call of UpdateCAASUnit.
-func (mr *MockCAASApplicationServiceMockRecorder) UpdateCAASUnit(arg0, arg1, arg2 any) *MockCAASApplicationServiceUpdateCAASUnitCall {
+func (mr *MockCAASApplicationServiceMockRecorder) UpdateCAASUnit(ctx, unitName, params any) *MockCAASApplicationServiceUpdateCAASUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCAASUnit", reflect.TypeOf((*MockCAASApplicationService)(nil).UpdateCAASUnit), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCAASUnit", reflect.TypeOf((*MockCAASApplicationService)(nil).UpdateCAASUnit), ctx, unitName, params)
 	return &MockCAASApplicationServiceUpdateCAASUnitCall{Call: call}
 }
 
@@ -983,17 +992,17 @@ func (c *MockCAASApplicationServiceUpdateCAASUnitCall) DoAndReturn(f func(contex
 }
 
 // UpdateCloudService mocks base method.
-func (m *MockCAASApplicationService) UpdateCloudService(arg0 context.Context, arg1, arg2 string, arg3 network.ProviderAddresses) error {
+func (m *MockCAASApplicationService) UpdateCloudService(ctx context.Context, appName, providerID string, sAddrs network.ProviderAddresses) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCloudService", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateCloudService", ctx, appName, providerID, sAddrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCloudService indicates an expected call of UpdateCloudService.
-func (mr *MockCAASApplicationServiceMockRecorder) UpdateCloudService(arg0, arg1, arg2, arg3 any) *MockCAASApplicationServiceUpdateCloudServiceCall {
+func (mr *MockCAASApplicationServiceMockRecorder) UpdateCloudService(ctx, appName, providerID, sAddrs any) *MockCAASApplicationServiceUpdateCloudServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockCAASApplicationService)(nil).UpdateCloudService), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockCAASApplicationService)(nil).UpdateCloudService), ctx, appName, providerID, sAddrs)
 	return &MockCAASApplicationServiceUpdateCloudServiceCall{Call: call}
 }
 
@@ -1024,6 +1033,7 @@ func (c *MockCAASApplicationServiceUpdateCloudServiceCall) DoAndReturn(f func(co
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -1086,6 +1096,7 @@ func (c *MockModelConfigServiceModelConfigCall) DoAndReturn(f func(context.Conte
 type MockDownloader struct {
 	ctrl     *gomock.Controller
 	recorder *MockDownloaderMockRecorder
+	isgomock struct{}
 }
 
 // MockDownloaderMockRecorder is the mock recorder for MockDownloader.
@@ -1106,18 +1117,18 @@ func (m *MockDownloader) EXPECT() *MockDownloaderMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockDownloader) Download(arg0 context.Context, arg1 *url.URL, arg2 string) (*charmdownloader.DownloadResult, error) {
+func (m *MockDownloader) Download(ctx context.Context, arg1 *url.URL, hash string) (*charmdownloader.DownloadResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Download", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Download", ctx, arg1, hash)
 	ret0, _ := ret[0].(*charmdownloader.DownloadResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockDownloaderMockRecorder) Download(arg0, arg1, arg2 any) *MockDownloaderDownloadCall {
+func (mr *MockDownloaderMockRecorder) Download(ctx, arg1, hash any) *MockDownloaderDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), ctx, arg1, hash)
 	return &MockDownloaderDownloadCall{Call: call}
 }
 
@@ -1148,6 +1159,7 @@ func (c *MockDownloaderDownloadCall) DoAndReturn(f func(context.Context, *url.UR
 type MockAgentPasswordService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentPasswordServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentPasswordServiceMockRecorder is the mock recorder for MockAgentPasswordService.
@@ -1168,17 +1180,17 @@ func (m *MockAgentPasswordService) EXPECT() *MockAgentPasswordServiceMockRecorde
 }
 
 // SetUnitPassword mocks base method.
-func (m *MockAgentPasswordService) SetUnitPassword(arg0 context.Context, arg1 unit.Name, arg2 string) error {
+func (m *MockAgentPasswordService) SetUnitPassword(ctx context.Context, unitName unit.Name, password string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitPassword", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetUnitPassword", ctx, unitName, password)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitPassword indicates an expected call of SetUnitPassword.
-func (mr *MockAgentPasswordServiceMockRecorder) SetUnitPassword(arg0, arg1, arg2 any) *MockAgentPasswordServiceSetUnitPasswordCall {
+func (mr *MockAgentPasswordServiceMockRecorder) SetUnitPassword(ctx, unitName, password any) *MockAgentPasswordServiceSetUnitPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetUnitPassword), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetUnitPassword), ctx, unitName, password)
 	return &MockAgentPasswordServiceSetUnitPasswordCall{Call: call}
 }
 
@@ -1209,6 +1221,7 @@ func (c *MockAgentPasswordServiceSetUnitPasswordCall) DoAndReturn(f func(context
 type MockServiceManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceManagerMockRecorder is the mock recorder for MockServiceManager.
@@ -1229,18 +1242,18 @@ func (m *MockServiceManager) EXPECT() *MockServiceManagerMockRecorder {
 }
 
 // GetService mocks base method.
-func (m *MockServiceManager) GetService(arg0 context.Context, arg1 string, arg2 bool) (*caas.Service, error) {
+func (m *MockServiceManager) GetService(ctx context.Context, appName string, includeClusterIP bool) (*caas.Service, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetService", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetService", ctx, appName, includeClusterIP)
 	ret0, _ := ret[0].(*caas.Service)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetService indicates an expected call of GetService.
-func (mr *MockServiceManagerMockRecorder) GetService(arg0, arg1, arg2 any) *MockServiceManagerGetServiceCall {
+func (mr *MockServiceManagerMockRecorder) GetService(ctx, appName, includeClusterIP any) *MockServiceManagerGetServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockServiceManager)(nil).GetService), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockServiceManager)(nil).GetService), ctx, appName, includeClusterIP)
 	return &MockServiceManagerGetServiceCall{Call: call}
 }
 

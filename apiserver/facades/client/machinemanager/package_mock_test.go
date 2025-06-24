@@ -39,6 +39,7 @@ import (
 type MockLeadership struct {
 	ctrl     *gomock.Controller
 	recorder *MockLeadershipMockRecorder
+	isgomock struct{}
 }
 
 // MockLeadershipMockRecorder is the mock recorder for MockLeadership.
@@ -140,6 +141,7 @@ func (c *MockLeadershipUnpinApplicationLeadersByNameCall) DoAndReturn(f func(con
 type MockAuthorizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthorizerMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthorizerMockRecorder is the mock recorder for MockAuthorizer.
@@ -277,6 +279,7 @@ func (c *MockAuthorizerCanWriteCall) DoAndReturn(f func(context.Context) error) 
 type MockControllerBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerBackendMockRecorder is the mock recorder for MockControllerBackend.
@@ -377,6 +380,7 @@ func (c *MockControllerBackendControllerTagCall) DoAndReturn(f func() names.Cont
 type MockInstanceConfigBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockInstanceConfigBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockInstanceConfigBackendMockRecorder is the mock recorder for MockInstanceConfigBackend.
@@ -478,6 +482,7 @@ func (c *MockInstanceConfigBackendToolsStorageCall) DoAndReturn(f func(objectsto
 type MockBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockBackendMockRecorder is the mock recorder for MockBackend.
@@ -498,18 +503,18 @@ func (m *MockBackend) EXPECT() *MockBackendMockRecorder {
 }
 
 // AddMachineInsideMachine mocks base method.
-func (m *MockBackend) AddMachineInsideMachine(arg0 state.MachineTemplate, arg1 string, arg2 instance.ContainerType) (Machine, error) {
+func (m *MockBackend) AddMachineInsideMachine(template state.MachineTemplate, parentId string, containerType instance.ContainerType) (Machine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddMachineInsideMachine", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AddMachineInsideMachine", template, parentId, containerType)
 	ret0, _ := ret[0].(Machine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddMachineInsideMachine indicates an expected call of AddMachineInsideMachine.
-func (mr *MockBackendMockRecorder) AddMachineInsideMachine(arg0, arg1, arg2 any) *MockBackendAddMachineInsideMachineCall {
+func (mr *MockBackendMockRecorder) AddMachineInsideMachine(template, parentId, containerType any) *MockBackendAddMachineInsideMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachineInsideMachine", reflect.TypeOf((*MockBackend)(nil).AddMachineInsideMachine), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachineInsideMachine", reflect.TypeOf((*MockBackend)(nil).AddMachineInsideMachine), template, parentId, containerType)
 	return &MockBackendAddMachineInsideMachineCall{Call: call}
 }
 
@@ -537,18 +542,18 @@ func (c *MockBackendAddMachineInsideMachineCall) DoAndReturn(f func(state.Machin
 }
 
 // AddMachineInsideNewMachine mocks base method.
-func (m *MockBackend) AddMachineInsideNewMachine(arg0, arg1 state.MachineTemplate, arg2 instance.ContainerType) (Machine, error) {
+func (m *MockBackend) AddMachineInsideNewMachine(template, parentTemplate state.MachineTemplate, containerType instance.ContainerType) (Machine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddMachineInsideNewMachine", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AddMachineInsideNewMachine", template, parentTemplate, containerType)
 	ret0, _ := ret[0].(Machine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddMachineInsideNewMachine indicates an expected call of AddMachineInsideNewMachine.
-func (mr *MockBackendMockRecorder) AddMachineInsideNewMachine(arg0, arg1, arg2 any) *MockBackendAddMachineInsideNewMachineCall {
+func (mr *MockBackendMockRecorder) AddMachineInsideNewMachine(template, parentTemplate, containerType any) *MockBackendAddMachineInsideNewMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachineInsideNewMachine", reflect.TypeOf((*MockBackend)(nil).AddMachineInsideNewMachine), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachineInsideNewMachine", reflect.TypeOf((*MockBackend)(nil).AddMachineInsideNewMachine), template, parentTemplate, containerType)
 	return &MockBackendAddMachineInsideNewMachineCall{Call: call}
 }
 
@@ -576,18 +581,18 @@ func (c *MockBackendAddMachineInsideNewMachineCall) DoAndReturn(f func(state.Mac
 }
 
 // AddOneMachine mocks base method.
-func (m *MockBackend) AddOneMachine(arg0 state.MachineTemplate) (Machine, error) {
+func (m *MockBackend) AddOneMachine(template state.MachineTemplate) (Machine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddOneMachine", arg0)
+	ret := m.ctrl.Call(m, "AddOneMachine", template)
 	ret0, _ := ret[0].(Machine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddOneMachine indicates an expected call of AddOneMachine.
-func (mr *MockBackendMockRecorder) AddOneMachine(arg0 any) *MockBackendAddOneMachineCall {
+func (mr *MockBackendMockRecorder) AddOneMachine(template any) *MockBackendAddOneMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddOneMachine", reflect.TypeOf((*MockBackend)(nil).AddOneMachine), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddOneMachine", reflect.TypeOf((*MockBackend)(nil).AddOneMachine), template)
 	return &MockBackendAddOneMachineCall{Call: call}
 }
 
@@ -735,6 +740,7 @@ func (c *MockBackendToolsStorageCall) DoAndReturn(f func(objectstore.ObjectStore
 type MockStorageInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageInterfaceMockRecorder is the mock recorder for MockStorageInterface.
@@ -912,6 +918,7 @@ func (c *MockStorageInterfaceVolumeAccessCall) DoAndReturn(f func() storagecommo
 type MockPool struct {
 	ctrl     *gomock.Controller
 	recorder *MockPoolMockRecorder
+	isgomock struct{}
 }
 
 // MockPoolMockRecorder is the mock recorder for MockPool.
@@ -974,6 +981,7 @@ func (c *MockPoolSystemStateCall) DoAndReturn(f func() (ControllerBackend, error
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -1262,17 +1270,17 @@ func (c *MockMachinePrincipalsCall) DoAndReturn(f func() []string) *MockMachineP
 }
 
 // SetInstanceStatus mocks base method.
-func (m *MockMachine) SetInstanceStatus(arg0 status.StatusInfo) error {
+func (m *MockMachine) SetInstanceStatus(sInfo status.StatusInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetInstanceStatus", arg0)
+	ret := m.ctrl.Call(m, "SetInstanceStatus", sInfo)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetInstanceStatus indicates an expected call of SetInstanceStatus.
-func (mr *MockMachineMockRecorder) SetInstanceStatus(arg0 any) *MockMachineSetInstanceStatusCall {
+func (mr *MockMachineMockRecorder) SetInstanceStatus(sInfo any) *MockMachineSetInstanceStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceStatus", reflect.TypeOf((*MockMachine)(nil).SetInstanceStatus), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetInstanceStatus", reflect.TypeOf((*MockMachine)(nil).SetInstanceStatus), sInfo)
 	return &MockMachineSetInstanceStatusCall{Call: call}
 }
 
@@ -1341,6 +1349,7 @@ func (c *MockMachineTagCall) DoAndReturn(f func() names.Tag) *MockMachineTagCall
 type MockCharmhubClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmhubClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmhubClientMockRecorder is the mock recorder for MockCharmhubClient.
@@ -1361,18 +1370,18 @@ func (m *MockCharmhubClient) EXPECT() *MockCharmhubClientMockRecorder {
 }
 
 // Refresh mocks base method.
-func (m *MockCharmhubClient) Refresh(arg0 context.Context, arg1 charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
+func (m *MockCharmhubClient) Refresh(ctx context.Context, arg1 charmhub.RefreshConfig) ([]transport.RefreshResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0, arg1)
+	ret := m.ctrl.Call(m, "Refresh", ctx, arg1)
 	ret0, _ := ret[0].([]transport.RefreshResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockCharmhubClientMockRecorder) Refresh(arg0, arg1 any) *MockCharmhubClientRefreshCall {
+func (mr *MockCharmhubClientMockRecorder) Refresh(ctx, arg1 any) *MockCharmhubClientRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmhubClient)(nil).Refresh), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockCharmhubClient)(nil).Refresh), ctx, arg1)
 	return &MockCharmhubClientRefreshCall{Call: call}
 }
 
@@ -1403,6 +1412,7 @@ func (c *MockCharmhubClientRefreshCall) DoAndReturn(f func(context.Context, char
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -1465,6 +1475,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -1601,18 +1612,18 @@ func (c *MockMachineServiceGetBootstrapEnvironCall) DoAndReturn(f func(context.C
 }
 
 // GetHardwareCharacteristics mocks base method.
-func (m *MockMachineService) GetHardwareCharacteristics(arg0 context.Context, arg1 machine.UUID) (*instance.HardwareCharacteristics, error) {
+func (m *MockMachineService) GetHardwareCharacteristics(ctx context.Context, machineUUID machine.UUID) (*instance.HardwareCharacteristics, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", ctx, machineUUID)
 	ret0, _ := ret[0].(*instance.HardwareCharacteristics)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetHardwareCharacteristics indicates an expected call of GetHardwareCharacteristics.
-func (mr *MockMachineServiceMockRecorder) GetHardwareCharacteristics(arg0, arg1 any) *MockMachineServiceGetHardwareCharacteristicsCall {
+func (mr *MockMachineServiceMockRecorder) GetHardwareCharacteristics(ctx, machineUUID any) *MockMachineServiceGetHardwareCharacteristicsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockMachineService)(nil).GetHardwareCharacteristics), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockMachineService)(nil).GetHardwareCharacteristics), ctx, machineUUID)
 	return &MockMachineServiceGetHardwareCharacteristicsCall{Call: call}
 }
 
@@ -1679,18 +1690,18 @@ func (c *MockMachineServiceGetInstanceTypesFetcherCall) DoAndReturn(f func(conte
 }
 
 // GetMachineUUID mocks base method.
-func (m *MockMachineService) GetMachineUUID(arg0 context.Context, arg1 machine.Name) (machine.UUID, error) {
+func (m *MockMachineService) GetMachineUUID(ctx context.Context, name machine.Name) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineUUID", ctx, name)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineUUID indicates an expected call of GetMachineUUID.
-func (mr *MockMachineServiceMockRecorder) GetMachineUUID(arg0, arg1 any) *MockMachineServiceGetMachineUUIDCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineUUID(ctx, name any) *MockMachineServiceGetMachineUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), ctx, name)
 	return &MockMachineServiceGetMachineUUIDCall{Call: call}
 }
 
@@ -1718,17 +1729,17 @@ func (c *MockMachineServiceGetMachineUUIDCall) DoAndReturn(f func(context.Contex
 }
 
 // SetKeepInstance mocks base method.
-func (m *MockMachineService) SetKeepInstance(arg0 context.Context, arg1 machine.Name, arg2 bool) error {
+func (m *MockMachineService) SetKeepInstance(ctx context.Context, machineName machine.Name, keep bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetKeepInstance", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetKeepInstance", ctx, machineName, keep)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetKeepInstance indicates an expected call of SetKeepInstance.
-func (mr *MockMachineServiceMockRecorder) SetKeepInstance(arg0, arg1, arg2 any) *MockMachineServiceSetKeepInstanceCall {
+func (mr *MockMachineServiceMockRecorder) SetKeepInstance(ctx, machineName, keep any) *MockMachineServiceSetKeepInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetKeepInstance", reflect.TypeOf((*MockMachineService)(nil).SetKeepInstance), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetKeepInstance", reflect.TypeOf((*MockMachineService)(nil).SetKeepInstance), ctx, machineName, keep)
 	return &MockMachineServiceSetKeepInstanceCall{Call: call}
 }
 
@@ -1756,18 +1767,18 @@ func (c *MockMachineServiceSetKeepInstanceCall) DoAndReturn(f func(context.Conte
 }
 
 // ShouldKeepInstance mocks base method.
-func (m *MockMachineService) ShouldKeepInstance(arg0 context.Context, arg1 machine.Name) (bool, error) {
+func (m *MockMachineService) ShouldKeepInstance(ctx context.Context, machineName machine.Name) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ShouldKeepInstance", arg0, arg1)
+	ret := m.ctrl.Call(m, "ShouldKeepInstance", ctx, machineName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ShouldKeepInstance indicates an expected call of ShouldKeepInstance.
-func (mr *MockMachineServiceMockRecorder) ShouldKeepInstance(arg0, arg1 any) *MockMachineServiceShouldKeepInstanceCall {
+func (mr *MockMachineServiceMockRecorder) ShouldKeepInstance(ctx, machineName any) *MockMachineServiceShouldKeepInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldKeepInstance", reflect.TypeOf((*MockMachineService)(nil).ShouldKeepInstance), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ShouldKeepInstance", reflect.TypeOf((*MockMachineService)(nil).ShouldKeepInstance), ctx, machineName)
 	return &MockMachineServiceShouldKeepInstanceCall{Call: call}
 }
 
@@ -1798,6 +1809,7 @@ func (c *MockMachineServiceShouldKeepInstanceCall) DoAndReturn(f func(context.Co
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -1860,6 +1872,7 @@ func (c *MockApplicationServiceGetUnitNamesOnMachineCall) DoAndReturn(f func(con
 type MockNetworkService struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkServiceMockRecorder is the mock recorder for MockNetworkService.
@@ -1880,18 +1893,18 @@ func (m *MockNetworkService) EXPECT() *MockNetworkServiceMockRecorder {
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockNetworkService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockNetworkService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(arg0 any) *MockNetworkServiceGetAllSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(ctx any) *MockNetworkServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), ctx)
 	return &MockNetworkServiceGetAllSpacesCall{Call: call}
 }
 
@@ -1922,6 +1935,7 @@ func (c *MockNetworkServiceGetAllSpacesCall) DoAndReturn(f func(context.Context)
 type MockKeyUpdaterService struct {
 	ctrl     *gomock.Controller
 	recorder *MockKeyUpdaterServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockKeyUpdaterServiceMockRecorder is the mock recorder for MockKeyUpdaterService.
@@ -1984,6 +1998,7 @@ func (c *MockKeyUpdaterServiceGetAuthorisedKeysForMachineCall) DoAndReturn(f fun
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -2046,6 +2061,7 @@ func (c *MockModelConfigServiceModelConfigCall) DoAndReturn(f func(context.Conte
 type MockBlockCommandService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCommandServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCommandServiceMockRecorder is the mock recorder for MockBlockCommandService.
@@ -2066,18 +2082,18 @@ func (m *MockBlockCommandService) EXPECT() *MockBlockCommandServiceMockRecorder 
 }
 
 // GetBlockSwitchedOn mocks base method.
-func (m *MockBlockCommandService) GetBlockSwitchedOn(arg0 context.Context, arg1 blockcommand.BlockType) (string, error) {
+func (m *MockBlockCommandService) GetBlockSwitchedOn(ctx context.Context, t blockcommand.BlockType) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", ctx, t)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlockSwitchedOn indicates an expected call of GetBlockSwitchedOn.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(arg0, arg1 any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(ctx, t any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), ctx, t)
 	return &MockBlockCommandServiceGetBlockSwitchedOnCall{Call: call}
 }
 
@@ -2105,18 +2121,18 @@ func (c *MockBlockCommandServiceGetBlockSwitchedOnCall) DoAndReturn(f func(conte
 }
 
 // GetBlocks mocks base method.
-func (m *MockBlockCommandService) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockBlockCommandService) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(arg0 any) *MockBlockCommandServiceGetBlocksCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(ctx any) *MockBlockCommandServiceGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), ctx)
 	return &MockBlockCommandServiceGetBlocksCall{Call: call}
 }
 
@@ -2147,6 +2163,7 @@ func (c *MockBlockCommandServiceGetBlocksCall) DoAndReturn(f func(context.Contex
 type MockAgentBinaryService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryServiceMockRecorder is the mock recorder for MockAgentBinaryService.
@@ -2208,6 +2225,7 @@ func (c *MockAgentBinaryServiceGetEnvironAgentBinariesFinderCall) DoAndReturn(f 
 type MockAgentPasswordService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentPasswordServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentPasswordServiceMockRecorder is the mock recorder for MockAgentPasswordService.

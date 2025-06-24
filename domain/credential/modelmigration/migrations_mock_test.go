@@ -23,6 +23,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -82,6 +83,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -182,6 +184,7 @@ func (c *MockImportServiceUpdateCloudCredentialCall) DoAndReturn(f func(context.
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -202,18 +205,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // CloudCredential mocks base method.
-func (m *MockExportService) CloudCredential(arg0 context.Context, arg1 credential.Key) (cloud.Credential, error) {
+func (m *MockExportService) CloudCredential(ctx context.Context, key credential.Key) (cloud.Credential, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CloudCredential", arg0, arg1)
+	ret := m.ctrl.Call(m, "CloudCredential", ctx, key)
 	ret0, _ := ret[0].(cloud.Credential)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CloudCredential indicates an expected call of CloudCredential.
-func (mr *MockExportServiceMockRecorder) CloudCredential(arg0, arg1 any) *MockExportServiceCloudCredentialCall {
+func (mr *MockExportServiceMockRecorder) CloudCredential(ctx, key any) *MockExportServiceCloudCredentialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloudCredential", reflect.TypeOf((*MockExportService)(nil).CloudCredential), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloudCredential", reflect.TypeOf((*MockExportService)(nil).CloudCredential), ctx, key)
 	return &MockExportServiceCloudCredentialCall{Call: call}
 }
 

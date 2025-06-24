@@ -25,6 +25,7 @@ import (
 type MockRelationStateTracker struct {
 	ctrl     *gomock.Controller
 	recorder *MockRelationStateTrackerMockRecorder
+	isgomock struct{}
 }
 
 // MockRelationStateTrackerMockRecorder is the mock recorder for MockRelationStateTracker.
@@ -354,18 +355,18 @@ func (c *MockRelationStateTrackerLocalUnitNameCall) DoAndReturn(f func() string)
 }
 
 // Name mocks base method.
-func (m *MockRelationStateTracker) Name(arg0 int) (string, error) {
+func (m *MockRelationStateTracker) Name(id int) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Name", arg0)
+	ret := m.ctrl.Call(m, "Name", id)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Name indicates an expected call of Name.
-func (mr *MockRelationStateTrackerMockRecorder) Name(arg0 any) *MockRelationStateTrackerNameCall {
+func (mr *MockRelationStateTrackerMockRecorder) Name(id any) *MockRelationStateTrackerNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Name", reflect.TypeOf((*MockRelationStateTracker)(nil).Name), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Name", reflect.TypeOf((*MockRelationStateTracker)(nil).Name), id)
 	return &MockRelationStateTrackerNameCall{Call: call}
 }
 

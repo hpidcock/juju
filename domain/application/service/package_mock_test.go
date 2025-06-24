@@ -43,6 +43,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -5257,6 +5258,7 @@ func (c *MockStateValidateEndpointBindingsForApplicationCall) DoAndReturn(f func
 type MockAgentVersionGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentVersionGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentVersionGetterMockRecorder is the mock recorder for MockAgentVersionGetter.
@@ -5319,6 +5321,7 @@ func (c *MockAgentVersionGetterGetModelTargetAgentVersionCall) DoAndReturn(f fun
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -5381,6 +5384,7 @@ func (c *MockProviderConstraintsValidatorCall) DoAndReturn(f func(context.Contex
 type MockSupportedFeatureProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockSupportedFeatureProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockSupportedFeatureProviderMockRecorder is the mock recorder for MockSupportedFeatureProvider.
@@ -5443,6 +5447,7 @@ func (c *MockSupportedFeatureProviderSupportedFeaturesCall) DoAndReturn(f func()
 type MockCAASApplicationProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockCAASApplicationProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockCAASApplicationProviderMockRecorder is the mock recorder for MockCAASApplicationProvider.
@@ -5504,6 +5509,7 @@ func (c *MockCAASApplicationProviderApplicationCall) DoAndReturn(f func(string, 
 type MockWatcherFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherFactoryMockRecorder is the mock recorder for MockWatcherFactory.

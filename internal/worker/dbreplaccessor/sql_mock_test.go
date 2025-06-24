@@ -20,6 +20,7 @@ import (
 type MockDriver struct {
 	ctrl     *gomock.Controller
 	recorder *MockDriverMockRecorder
+	isgomock struct{}
 }
 
 // MockDriverMockRecorder is the mock recorder for MockDriver.
@@ -40,18 +41,18 @@ func (m *MockDriver) EXPECT() *MockDriverMockRecorder {
 }
 
 // Open mocks base method.
-func (m *MockDriver) Open(arg0 string) (driver.Conn, error) {
+func (m *MockDriver) Open(name string) (driver.Conn, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Open", arg0)
+	ret := m.ctrl.Call(m, "Open", name)
 	ret0, _ := ret[0].(driver.Conn)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Open indicates an expected call of Open.
-func (mr *MockDriverMockRecorder) Open(arg0 any) *MockDriverOpenCall {
+func (mr *MockDriverMockRecorder) Open(name any) *MockDriverOpenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockDriver)(nil).Open), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockDriver)(nil).Open), name)
 	return &MockDriverOpenCall{Call: call}
 }
 

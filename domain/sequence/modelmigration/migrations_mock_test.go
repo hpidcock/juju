@@ -20,6 +20,7 @@ import (
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -40,17 +41,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // ImportSequences mocks base method.
-func (m *MockImportService) ImportSequences(arg0 context.Context, arg1 map[string]uint64) error {
+func (m *MockImportService) ImportSequences(ctx context.Context, seqs map[string]uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportSequences", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportSequences", ctx, seqs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportSequences indicates an expected call of ImportSequences.
-func (mr *MockImportServiceMockRecorder) ImportSequences(arg0, arg1 any) *MockImportServiceImportSequencesCall {
+func (mr *MockImportServiceMockRecorder) ImportSequences(ctx, seqs any) *MockImportServiceImportSequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportSequences", reflect.TypeOf((*MockImportService)(nil).ImportSequences), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportSequences", reflect.TypeOf((*MockImportService)(nil).ImportSequences), ctx, seqs)
 	return &MockImportServiceImportSequencesCall{Call: call}
 }
 
@@ -78,17 +79,17 @@ func (c *MockImportServiceImportSequencesCall) DoAndReturn(f func(context.Contex
 }
 
 // RemoveAllSequences mocks base method.
-func (m *MockImportService) RemoveAllSequences(arg0 context.Context) error {
+func (m *MockImportService) RemoveAllSequences(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAllSequences", arg0)
+	ret := m.ctrl.Call(m, "RemoveAllSequences", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAllSequences indicates an expected call of RemoveAllSequences.
-func (mr *MockImportServiceMockRecorder) RemoveAllSequences(arg0 any) *MockImportServiceRemoveAllSequencesCall {
+func (mr *MockImportServiceMockRecorder) RemoveAllSequences(ctx any) *MockImportServiceRemoveAllSequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllSequences", reflect.TypeOf((*MockImportService)(nil).RemoveAllSequences), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllSequences", reflect.TypeOf((*MockImportService)(nil).RemoveAllSequences), ctx)
 	return &MockImportServiceRemoveAllSequencesCall{Call: call}
 }
 
@@ -119,6 +120,7 @@ func (c *MockImportServiceRemoveAllSequencesCall) DoAndReturn(f func(context.Con
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -139,18 +141,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetSequencesForExport mocks base method.
-func (m *MockExportService) GetSequencesForExport(arg0 context.Context) (map[string]uint64, error) {
+func (m *MockExportService) GetSequencesForExport(ctx context.Context) (map[string]uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSequencesForExport", arg0)
+	ret := m.ctrl.Call(m, "GetSequencesForExport", ctx)
 	ret0, _ := ret[0].(map[string]uint64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSequencesForExport indicates an expected call of GetSequencesForExport.
-func (mr *MockExportServiceMockRecorder) GetSequencesForExport(arg0 any) *MockExportServiceGetSequencesForExportCall {
+func (mr *MockExportServiceMockRecorder) GetSequencesForExport(ctx any) *MockExportServiceGetSequencesForExportCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSequencesForExport", reflect.TypeOf((*MockExportService)(nil).GetSequencesForExport), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSequencesForExport", reflect.TypeOf((*MockExportService)(nil).GetSequencesForExport), ctx)
 	return &MockExportServiceGetSequencesForExportCall{Call: call}
 }
 

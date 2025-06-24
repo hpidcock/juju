@@ -22,6 +22,7 @@ import (
 type MockPrecheckBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockPrecheckBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockPrecheckBackendMockRecorder is the mock recorder for MockPrecheckBackend.
@@ -237,10 +238,10 @@ func (c *MockPrecheckBackendIsMigrationActiveCall) DoAndReturn(f func(string) (b
 }
 
 // MachineCountForBase mocks base method.
-func (m *MockPrecheckBackend) MachineCountForBase(arg0 ...state.Base) (map[string]int, error) {
+func (m *MockPrecheckBackend) MachineCountForBase(base ...state.Base) (map[string]int, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range base {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MachineCountForBase", varargs...)
@@ -250,9 +251,9 @@ func (m *MockPrecheckBackend) MachineCountForBase(arg0 ...state.Base) (map[strin
 }
 
 // MachineCountForBase indicates an expected call of MachineCountForBase.
-func (mr *MockPrecheckBackendMockRecorder) MachineCountForBase(arg0 ...any) *MockPrecheckBackendMachineCountForBaseCall {
+func (mr *MockPrecheckBackendMockRecorder) MachineCountForBase(base ...any) *MockPrecheckBackendMachineCountForBaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockPrecheckBackend)(nil).MachineCountForBase), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockPrecheckBackend)(nil).MachineCountForBase), base...)
 	return &MockPrecheckBackendMachineCountForBaseCall{Call: call}
 }
 

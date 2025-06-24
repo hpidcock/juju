@@ -20,6 +20,7 @@ import (
 type MockFileSystem struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileSystemMockRecorder
+	isgomock struct{}
 }
 
 // MockFileSystemMockRecorder is the mock recorder for MockFileSystem.
@@ -40,18 +41,18 @@ func (m *MockFileSystem) EXPECT() *MockFileSystemMockRecorder {
 }
 
 // CreateTemp mocks base method.
-func (m *MockFileSystem) CreateTemp(arg0, arg1 string) (*os.File, error) {
+func (m *MockFileSystem) CreateTemp(dir, pattern string) (*os.File, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTemp", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateTemp", dir, pattern)
 	ret0, _ := ret[0].(*os.File)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateTemp indicates an expected call of CreateTemp.
-func (mr *MockFileSystemMockRecorder) CreateTemp(arg0, arg1 any) *MockFileSystemCreateTempCall {
+func (mr *MockFileSystemMockRecorder) CreateTemp(dir, pattern any) *MockFileSystemCreateTempCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTemp", reflect.TypeOf((*MockFileSystem)(nil).CreateTemp), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTemp", reflect.TypeOf((*MockFileSystem)(nil).CreateTemp), dir, pattern)
 	return &MockFileSystemCreateTempCall{Call: call}
 }
 
@@ -79,18 +80,18 @@ func (c *MockFileSystemCreateTempCall) DoAndReturn(f func(string, string) (*os.F
 }
 
 // Open mocks base method.
-func (m *MockFileSystem) Open(arg0 string) (*os.File, error) {
+func (m *MockFileSystem) Open(name string) (*os.File, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Open", arg0)
+	ret := m.ctrl.Call(m, "Open", name)
 	ret0, _ := ret[0].(*os.File)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Open indicates an expected call of Open.
-func (mr *MockFileSystemMockRecorder) Open(arg0 any) *MockFileSystemOpenCall {
+func (mr *MockFileSystemMockRecorder) Open(name any) *MockFileSystemOpenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockFileSystem)(nil).Open), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockFileSystem)(nil).Open), name)
 	return &MockFileSystemOpenCall{Call: call}
 }
 
@@ -118,17 +119,17 @@ func (c *MockFileSystemOpenCall) DoAndReturn(f func(string) (*os.File, error)) *
 }
 
 // Remove mocks base method.
-func (m *MockFileSystem) Remove(arg0 string) error {
+func (m *MockFileSystem) Remove(name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0)
+	ret := m.ctrl.Call(m, "Remove", name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockFileSystemMockRecorder) Remove(arg0 any) *MockFileSystemRemoveCall {
+func (mr *MockFileSystemMockRecorder) Remove(name any) *MockFileSystemRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockFileSystem)(nil).Remove), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockFileSystem)(nil).Remove), name)
 	return &MockFileSystemRemoveCall{Call: call}
 }
 

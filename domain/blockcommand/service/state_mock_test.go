@@ -21,6 +21,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -41,18 +42,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetBlockMessage mocks base method.
-func (m *MockState) GetBlockMessage(arg0 context.Context, arg1 blockcommand.BlockType) (string, error) {
+func (m *MockState) GetBlockMessage(ctx context.Context, t blockcommand.BlockType) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlockMessage", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBlockMessage", ctx, t)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlockMessage indicates an expected call of GetBlockMessage.
-func (mr *MockStateMockRecorder) GetBlockMessage(arg0, arg1 any) *MockStateGetBlockMessageCall {
+func (mr *MockStateMockRecorder) GetBlockMessage(ctx, t any) *MockStateGetBlockMessageCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockMessage", reflect.TypeOf((*MockState)(nil).GetBlockMessage), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockMessage", reflect.TypeOf((*MockState)(nil).GetBlockMessage), ctx, t)
 	return &MockStateGetBlockMessageCall{Call: call}
 }
 
@@ -80,18 +81,18 @@ func (c *MockStateGetBlockMessageCall) DoAndReturn(f func(context.Context, block
 }
 
 // GetBlocks mocks base method.
-func (m *MockState) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockState) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockStateMockRecorder) GetBlocks(arg0 any) *MockStateGetBlocksCall {
+func (mr *MockStateMockRecorder) GetBlocks(ctx any) *MockStateGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockState)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockState)(nil).GetBlocks), ctx)
 	return &MockStateGetBlocksCall{Call: call}
 }
 
@@ -119,17 +120,17 @@ func (c *MockStateGetBlocksCall) DoAndReturn(f func(context.Context) ([]blockcom
 }
 
 // RemoveAllBlocks mocks base method.
-func (m *MockState) RemoveAllBlocks(arg0 context.Context) error {
+func (m *MockState) RemoveAllBlocks(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAllBlocks", arg0)
+	ret := m.ctrl.Call(m, "RemoveAllBlocks", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAllBlocks indicates an expected call of RemoveAllBlocks.
-func (mr *MockStateMockRecorder) RemoveAllBlocks(arg0 any) *MockStateRemoveAllBlocksCall {
+func (mr *MockStateMockRecorder) RemoveAllBlocks(ctx any) *MockStateRemoveAllBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllBlocks", reflect.TypeOf((*MockState)(nil).RemoveAllBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllBlocks", reflect.TypeOf((*MockState)(nil).RemoveAllBlocks), ctx)
 	return &MockStateRemoveAllBlocksCall{Call: call}
 }
 
@@ -157,17 +158,17 @@ func (c *MockStateRemoveAllBlocksCall) DoAndReturn(f func(context.Context) error
 }
 
 // RemoveBlock mocks base method.
-func (m *MockState) RemoveBlock(arg0 context.Context, arg1 blockcommand.BlockType) error {
+func (m *MockState) RemoveBlock(ctx context.Context, t blockcommand.BlockType) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveBlock", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveBlock", ctx, t)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveBlock indicates an expected call of RemoveBlock.
-func (mr *MockStateMockRecorder) RemoveBlock(arg0, arg1 any) *MockStateRemoveBlockCall {
+func (mr *MockStateMockRecorder) RemoveBlock(ctx, t any) *MockStateRemoveBlockCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveBlock", reflect.TypeOf((*MockState)(nil).RemoveBlock), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveBlock", reflect.TypeOf((*MockState)(nil).RemoveBlock), ctx, t)
 	return &MockStateRemoveBlockCall{Call: call}
 }
 
@@ -195,17 +196,17 @@ func (c *MockStateRemoveBlockCall) DoAndReturn(f func(context.Context, blockcomm
 }
 
 // SetBlock mocks base method.
-func (m *MockState) SetBlock(arg0 context.Context, arg1 blockcommand.BlockType, arg2 string) error {
+func (m *MockState) SetBlock(ctx context.Context, t blockcommand.BlockType, message string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetBlock", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetBlock", ctx, t, message)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetBlock indicates an expected call of SetBlock.
-func (mr *MockStateMockRecorder) SetBlock(arg0, arg1, arg2 any) *MockStateSetBlockCall {
+func (mr *MockStateMockRecorder) SetBlock(ctx, t, message any) *MockStateSetBlockCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetBlock", reflect.TypeOf((*MockState)(nil).SetBlock), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetBlock", reflect.TypeOf((*MockState)(nil).SetBlock), ctx, t, message)
 	return &MockStateSetBlockCall{Call: call}
 }
 

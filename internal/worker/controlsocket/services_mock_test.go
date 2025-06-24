@@ -24,6 +24,7 @@ import (
 type MockAccessService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAccessServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAccessServiceMockRecorder is the mock recorder for MockAccessService.
@@ -44,9 +45,9 @@ func (m *MockAccessService) EXPECT() *MockAccessServiceMockRecorder {
 }
 
 // AddUser mocks base method.
-func (m *MockAccessService) AddUser(arg0 context.Context, arg1 service.AddUserArg) (user.UUID, []byte, error) {
+func (m *MockAccessService) AddUser(ctx context.Context, arg service.AddUserArg) (user.UUID, []byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddUser", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddUser", ctx, arg)
 	ret0, _ := ret[0].(user.UUID)
 	ret1, _ := ret[1].([]byte)
 	ret2, _ := ret[2].(error)
@@ -54,9 +55,9 @@ func (m *MockAccessService) AddUser(arg0 context.Context, arg1 service.AddUserAr
 }
 
 // AddUser indicates an expected call of AddUser.
-func (mr *MockAccessServiceMockRecorder) AddUser(arg0, arg1 any) *MockAccessServiceAddUserCall {
+func (mr *MockAccessServiceMockRecorder) AddUser(ctx, arg any) *MockAccessServiceAddUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockAccessService)(nil).AddUser), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockAccessService)(nil).AddUser), ctx, arg)
 	return &MockAccessServiceAddUserCall{Call: call}
 }
 
@@ -84,18 +85,18 @@ func (c *MockAccessServiceAddUserCall) DoAndReturn(f func(context.Context, servi
 }
 
 // GetUserByAuth mocks base method.
-func (m *MockAccessService) GetUserByAuth(arg0 context.Context, arg1 user.Name, arg2 auth.Password) (user.User, error) {
+func (m *MockAccessService) GetUserByAuth(ctx context.Context, name user.Name, password auth.Password) (user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByAuth", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetUserByAuth", ctx, name, password)
 	ret0, _ := ret[0].(user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserByAuth indicates an expected call of GetUserByAuth.
-func (mr *MockAccessServiceMockRecorder) GetUserByAuth(arg0, arg1, arg2 any) *MockAccessServiceGetUserByAuthCall {
+func (mr *MockAccessServiceMockRecorder) GetUserByAuth(ctx, name, password any) *MockAccessServiceGetUserByAuthCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByAuth", reflect.TypeOf((*MockAccessService)(nil).GetUserByAuth), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByAuth", reflect.TypeOf((*MockAccessService)(nil).GetUserByAuth), ctx, name, password)
 	return &MockAccessServiceGetUserByAuthCall{Call: call}
 }
 
@@ -123,18 +124,18 @@ func (c *MockAccessServiceGetUserByAuthCall) DoAndReturn(f func(context.Context,
 }
 
 // GetUserByName mocks base method.
-func (m *MockAccessService) GetUserByName(arg0 context.Context, arg1 user.Name) (user.User, error) {
+func (m *MockAccessService) GetUserByName(ctx context.Context, name user.Name) (user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByName", ctx, name)
 	ret0, _ := ret[0].(user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserByName indicates an expected call of GetUserByName.
-func (mr *MockAccessServiceMockRecorder) GetUserByName(arg0, arg1 any) *MockAccessServiceGetUserByNameCall {
+func (mr *MockAccessServiceMockRecorder) GetUserByName(ctx, name any) *MockAccessServiceGetUserByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockAccessService)(nil).GetUserByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockAccessService)(nil).GetUserByName), ctx, name)
 	return &MockAccessServiceGetUserByNameCall{Call: call}
 }
 
@@ -162,18 +163,18 @@ func (c *MockAccessServiceGetUserByNameCall) DoAndReturn(f func(context.Context,
 }
 
 // ReadUserAccessLevelForTarget mocks base method.
-func (m *MockAccessService) ReadUserAccessLevelForTarget(arg0 context.Context, arg1 user.Name, arg2 permission.ID) (permission.Access, error) {
+func (m *MockAccessService) ReadUserAccessLevelForTarget(ctx context.Context, subject user.Name, target permission.ID) (permission.Access, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadUserAccessLevelForTarget", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ReadUserAccessLevelForTarget", ctx, subject, target)
 	ret0, _ := ret[0].(permission.Access)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadUserAccessLevelForTarget indicates an expected call of ReadUserAccessLevelForTarget.
-func (mr *MockAccessServiceMockRecorder) ReadUserAccessLevelForTarget(arg0, arg1, arg2 any) *MockAccessServiceReadUserAccessLevelForTargetCall {
+func (mr *MockAccessServiceMockRecorder) ReadUserAccessLevelForTarget(ctx, subject, target any) *MockAccessServiceReadUserAccessLevelForTargetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessLevelForTarget", reflect.TypeOf((*MockAccessService)(nil).ReadUserAccessLevelForTarget), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUserAccessLevelForTarget", reflect.TypeOf((*MockAccessService)(nil).ReadUserAccessLevelForTarget), ctx, subject, target)
 	return &MockAccessServiceReadUserAccessLevelForTargetCall{Call: call}
 }
 
@@ -201,17 +202,17 @@ func (c *MockAccessServiceReadUserAccessLevelForTargetCall) DoAndReturn(f func(c
 }
 
 // RemoveUser mocks base method.
-func (m *MockAccessService) RemoveUser(arg0 context.Context, arg1 user.Name) error {
+func (m *MockAccessService) RemoveUser(ctx context.Context, name user.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveUser", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveUser", ctx, name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveUser indicates an expected call of RemoveUser.
-func (mr *MockAccessServiceMockRecorder) RemoveUser(arg0, arg1 any) *MockAccessServiceRemoveUserCall {
+func (mr *MockAccessServiceMockRecorder) RemoveUser(ctx, name any) *MockAccessServiceRemoveUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUser", reflect.TypeOf((*MockAccessService)(nil).RemoveUser), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUser", reflect.TypeOf((*MockAccessService)(nil).RemoveUser), ctx, name)
 	return &MockAccessServiceRemoveUserCall{Call: call}
 }
 

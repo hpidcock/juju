@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -42,17 +43,17 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // InsertSSHConnRequest mocks base method.
-func (m *MockState) InsertSSHConnRequest(arg0 sshRequestArgs) error {
+func (m *MockState) InsertSSHConnRequest(args sshRequestArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InsertSSHConnRequest", arg0)
+	ret := m.ctrl.Call(m, "InsertSSHConnRequest", args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // InsertSSHConnRequest indicates an expected call of InsertSSHConnRequest.
-func (mr *MockStateMockRecorder) InsertSSHConnRequest(arg0 any) *MockStateInsertSSHConnRequestCall {
+func (mr *MockStateMockRecorder) InsertSSHConnRequest(args any) *MockStateInsertSSHConnRequestCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertSSHConnRequest", reflect.TypeOf((*MockState)(nil).InsertSSHConnRequest), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InsertSSHConnRequest", reflect.TypeOf((*MockState)(nil).InsertSSHConnRequest), args)
 	return &MockStateInsertSSHConnRequestCall{Call: call}
 }
 
@@ -80,18 +81,18 @@ func (c *MockStateInsertSSHConnRequestCall) DoAndReturn(f func(sshRequestArgs) e
 }
 
 // MachineHostKeys mocks base method.
-func (m *MockState) MachineHostKeys(arg0, arg1 string) ([]string, error) {
+func (m *MockState) MachineHostKeys(modelUUID, machineID string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MachineHostKeys", arg0, arg1)
+	ret := m.ctrl.Call(m, "MachineHostKeys", modelUUID, machineID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // MachineHostKeys indicates an expected call of MachineHostKeys.
-func (mr *MockStateMockRecorder) MachineHostKeys(arg0, arg1 any) *MockStateMachineHostKeysCall {
+func (mr *MockStateMockRecorder) MachineHostKeys(modelUUID, machineID any) *MockStateMachineHostKeysCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineHostKeys", reflect.TypeOf((*MockState)(nil).MachineHostKeys), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineHostKeys", reflect.TypeOf((*MockState)(nil).MachineHostKeys), modelUUID, machineID)
 	return &MockStateMachineHostKeysCall{Call: call}
 }
 
@@ -122,6 +123,7 @@ func (c *MockStateMachineHostKeysCall) DoAndReturn(f func(string, string) ([]str
 type MockControllerInfo struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerInfoMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerInfoMockRecorder is the mock recorder for MockControllerInfo.
@@ -184,6 +186,7 @@ func (c *MockControllerInfoAddressesCall) DoAndReturn(f func() (network.SpaceAdd
 type MockSSHDial struct {
 	ctrl     *gomock.Controller
 	recorder *MockSSHDialMockRecorder
+	isgomock struct{}
 }
 
 // MockSSHDialMockRecorder is the mock recorder for MockSSHDial.
@@ -204,18 +207,18 @@ func (m *MockSSHDial) EXPECT() *MockSSHDialMockRecorder {
 }
 
 // Dial mocks base method.
-func (m *MockSSHDial) Dial(arg0 net.Conn, arg1 string, arg2 ssh.Signer, arg3 ssh.HostKeyCallback) (*ssh.Client, error) {
+func (m *MockSSHDial) Dial(conn net.Conn, username string, privateKey ssh.Signer, hostKeyCallback ssh.HostKeyCallback) (*ssh.Client, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Dial", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Dial", conn, username, privateKey, hostKeyCallback)
 	ret0, _ := ret[0].(*ssh.Client)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Dial indicates an expected call of Dial.
-func (mr *MockSSHDialMockRecorder) Dial(arg0, arg1, arg2, arg3 any) *MockSSHDialDialCall {
+func (mr *MockSSHDialMockRecorder) Dial(conn, username, privateKey, hostKeyCallback any) *MockSSHDialDialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Dial", reflect.TypeOf((*MockSSHDial)(nil).Dial), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Dial", reflect.TypeOf((*MockSSHDial)(nil).Dial), conn, username, privateKey, hostKeyCallback)
 	return &MockSSHDialDialCall{Call: call}
 }
 

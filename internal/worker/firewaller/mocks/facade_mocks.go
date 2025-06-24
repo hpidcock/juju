@@ -33,6 +33,7 @@ import (
 type MockFirewallerAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockFirewallerAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockFirewallerAPIMockRecorder is the mock recorder for MockFirewallerAPI.
@@ -53,18 +54,18 @@ func (m *MockFirewallerAPI) EXPECT() *MockFirewallerAPIMockRecorder {
 }
 
 // AllSpaceInfos mocks base method.
-func (m *MockFirewallerAPI) AllSpaceInfos(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockFirewallerAPI) AllSpaceInfos(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllSpaceInfos", arg0)
+	ret := m.ctrl.Call(m, "AllSpaceInfos", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllSpaceInfos indicates an expected call of AllSpaceInfos.
-func (mr *MockFirewallerAPIMockRecorder) AllSpaceInfos(arg0 any) *MockFirewallerAPIAllSpaceInfosCall {
+func (mr *MockFirewallerAPIMockRecorder) AllSpaceInfos(ctx any) *MockFirewallerAPIAllSpaceInfosCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaceInfos", reflect.TypeOf((*MockFirewallerAPI)(nil).AllSpaceInfos), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaceInfos", reflect.TypeOf((*MockFirewallerAPI)(nil).AllSpaceInfos), ctx)
 	return &MockFirewallerAPIAllSpaceInfosCall{Call: call}
 }
 
@@ -92,18 +93,18 @@ func (c *MockFirewallerAPIAllSpaceInfosCall) DoAndReturn(f func(context.Context)
 }
 
 // ControllerAPIInfoForModel mocks base method.
-func (m *MockFirewallerAPI) ControllerAPIInfoForModel(arg0 context.Context, arg1 string) (*api.Info, error) {
+func (m *MockFirewallerAPI) ControllerAPIInfoForModel(ctx context.Context, modelUUID string) (*api.Info, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerAPIInfoForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ControllerAPIInfoForModel", ctx, modelUUID)
 	ret0, _ := ret[0].(*api.Info)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerAPIInfoForModel indicates an expected call of ControllerAPIInfoForModel.
-func (mr *MockFirewallerAPIMockRecorder) ControllerAPIInfoForModel(arg0, arg1 any) *MockFirewallerAPIControllerAPIInfoForModelCall {
+func (mr *MockFirewallerAPIMockRecorder) ControllerAPIInfoForModel(ctx, modelUUID any) *MockFirewallerAPIControllerAPIInfoForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerAPIInfoForModel", reflect.TypeOf((*MockFirewallerAPI)(nil).ControllerAPIInfoForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerAPIInfoForModel", reflect.TypeOf((*MockFirewallerAPI)(nil).ControllerAPIInfoForModel), ctx, modelUUID)
 	return &MockFirewallerAPIControllerAPIInfoForModelCall{Call: call}
 }
 
@@ -131,18 +132,18 @@ func (c *MockFirewallerAPIControllerAPIInfoForModelCall) DoAndReturn(f func(cont
 }
 
 // MacaroonForRelation mocks base method.
-func (m *MockFirewallerAPI) MacaroonForRelation(arg0 context.Context, arg1 string) (*macaroon.Macaroon, error) {
+func (m *MockFirewallerAPI) MacaroonForRelation(ctx context.Context, relationKey string) (*macaroon.Macaroon, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MacaroonForRelation", arg0, arg1)
+	ret := m.ctrl.Call(m, "MacaroonForRelation", ctx, relationKey)
 	ret0, _ := ret[0].(*macaroon.Macaroon)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // MacaroonForRelation indicates an expected call of MacaroonForRelation.
-func (mr *MockFirewallerAPIMockRecorder) MacaroonForRelation(arg0, arg1 any) *MockFirewallerAPIMacaroonForRelationCall {
+func (mr *MockFirewallerAPIMockRecorder) MacaroonForRelation(ctx, relationKey any) *MockFirewallerAPIMacaroonForRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MacaroonForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).MacaroonForRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MacaroonForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).MacaroonForRelation), ctx, relationKey)
 	return &MockFirewallerAPIMacaroonForRelationCall{Call: call}
 }
 
@@ -170,18 +171,18 @@ func (c *MockFirewallerAPIMacaroonForRelationCall) DoAndReturn(f func(context.Co
 }
 
 // Machine mocks base method.
-func (m *MockFirewallerAPI) Machine(arg0 context.Context, arg1 names.MachineTag) (firewaller0.Machine, error) {
+func (m *MockFirewallerAPI) Machine(ctx context.Context, tag names.MachineTag) (firewaller0.Machine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Machine", arg0, arg1)
+	ret := m.ctrl.Call(m, "Machine", ctx, tag)
 	ret0, _ := ret[0].(firewaller0.Machine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Machine indicates an expected call of Machine.
-func (mr *MockFirewallerAPIMockRecorder) Machine(arg0, arg1 any) *MockFirewallerAPIMachineCall {
+func (mr *MockFirewallerAPIMockRecorder) Machine(ctx, tag any) *MockFirewallerAPIMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Machine", reflect.TypeOf((*MockFirewallerAPI)(nil).Machine), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Machine", reflect.TypeOf((*MockFirewallerAPI)(nil).Machine), ctx, tag)
 	return &MockFirewallerAPIMachineCall{Call: call}
 }
 
@@ -287,18 +288,18 @@ func (c *MockFirewallerAPIModelFirewallRulesCall) DoAndReturn(f func(context.Con
 }
 
 // Relation mocks base method.
-func (m *MockFirewallerAPI) Relation(arg0 context.Context, arg1 names.RelationTag) (*firewaller.Relation, error) {
+func (m *MockFirewallerAPI) Relation(ctx context.Context, tag names.RelationTag) (*firewaller.Relation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Relation", arg0, arg1)
+	ret := m.ctrl.Call(m, "Relation", ctx, tag)
 	ret0, _ := ret[0].(*firewaller.Relation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Relation indicates an expected call of Relation.
-func (mr *MockFirewallerAPIMockRecorder) Relation(arg0, arg1 any) *MockFirewallerAPIRelationCall {
+func (mr *MockFirewallerAPIMockRecorder) Relation(ctx, tag any) *MockFirewallerAPIRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockFirewallerAPI)(nil).Relation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockFirewallerAPI)(nil).Relation), ctx, tag)
 	return &MockFirewallerAPIRelationCall{Call: call}
 }
 
@@ -326,17 +327,17 @@ func (c *MockFirewallerAPIRelationCall) DoAndReturn(f func(context.Context, name
 }
 
 // SetRelationStatus mocks base method.
-func (m *MockFirewallerAPI) SetRelationStatus(arg0 context.Context, arg1 string, arg2 relation.Status, arg3 string) error {
+func (m *MockFirewallerAPI) SetRelationStatus(ctx context.Context, relationKey string, status relation.Status, message string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRelationStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetRelationStatus", ctx, relationKey, status, message)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetRelationStatus indicates an expected call of SetRelationStatus.
-func (mr *MockFirewallerAPIMockRecorder) SetRelationStatus(arg0, arg1, arg2, arg3 any) *MockFirewallerAPISetRelationStatusCall {
+func (mr *MockFirewallerAPIMockRecorder) SetRelationStatus(ctx, relationKey, status, message any) *MockFirewallerAPISetRelationStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationStatus", reflect.TypeOf((*MockFirewallerAPI)(nil).SetRelationStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationStatus", reflect.TypeOf((*MockFirewallerAPI)(nil).SetRelationStatus), ctx, relationKey, status, message)
 	return &MockFirewallerAPISetRelationStatusCall{Call: call}
 }
 
@@ -364,18 +365,18 @@ func (c *MockFirewallerAPISetRelationStatusCall) DoAndReturn(f func(context.Cont
 }
 
 // Unit mocks base method.
-func (m *MockFirewallerAPI) Unit(arg0 context.Context, arg1 names.UnitTag) (firewaller0.Unit, error) {
+func (m *MockFirewallerAPI) Unit(ctx context.Context, tag names.UnitTag) (firewaller0.Unit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unit", arg0, arg1)
+	ret := m.ctrl.Call(m, "Unit", ctx, tag)
 	ret0, _ := ret[0].(firewaller0.Unit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Unit indicates an expected call of Unit.
-func (mr *MockFirewallerAPIMockRecorder) Unit(arg0, arg1 any) *MockFirewallerAPIUnitCall {
+func (mr *MockFirewallerAPIMockRecorder) Unit(ctx, tag any) *MockFirewallerAPIUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockFirewallerAPI)(nil).Unit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockFirewallerAPI)(nil).Unit), ctx, tag)
 	return &MockFirewallerAPIUnitCall{Call: call}
 }
 
@@ -403,18 +404,18 @@ func (c *MockFirewallerAPIUnitCall) DoAndReturn(f func(context.Context, names.Un
 }
 
 // WatchEgressAddressesForRelation mocks base method.
-func (m *MockFirewallerAPI) WatchEgressAddressesForRelation(arg0 context.Context, arg1 names.RelationTag) (watcher.Watcher[[]string], error) {
+func (m *MockFirewallerAPI) WatchEgressAddressesForRelation(ctx context.Context, tag names.RelationTag) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchEgressAddressesForRelation", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchEgressAddressesForRelation", ctx, tag)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchEgressAddressesForRelation indicates an expected call of WatchEgressAddressesForRelation.
-func (mr *MockFirewallerAPIMockRecorder) WatchEgressAddressesForRelation(arg0, arg1 any) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
+func (mr *MockFirewallerAPIMockRecorder) WatchEgressAddressesForRelation(ctx, tag any) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchEgressAddressesForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchEgressAddressesForRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchEgressAddressesForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchEgressAddressesForRelation), ctx, tag)
 	return &MockFirewallerAPIWatchEgressAddressesForRelationCall{Call: call}
 }
 
@@ -424,36 +425,36 @@ type MockFirewallerAPIWatchEgressAddressesForRelationCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) Do(f func(context.Context, names.RelationTag) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) Do(f func(context.Context, names.RelationTag) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) DoAndReturn(f func(context.Context, names.RelationTag) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchEgressAddressesForRelationCall) DoAndReturn(f func(context.Context, names.RelationTag) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchIngressAddressesForRelation mocks base method.
-func (m *MockFirewallerAPI) WatchIngressAddressesForRelation(arg0 context.Context, arg1 names.RelationTag) (watcher.Watcher[[]string], error) {
+func (m *MockFirewallerAPI) WatchIngressAddressesForRelation(ctx context.Context, tag names.RelationTag) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchIngressAddressesForRelation", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchIngressAddressesForRelation", ctx, tag)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchIngressAddressesForRelation indicates an expected call of WatchIngressAddressesForRelation.
-func (mr *MockFirewallerAPIMockRecorder) WatchIngressAddressesForRelation(arg0, arg1 any) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
+func (mr *MockFirewallerAPIMockRecorder) WatchIngressAddressesForRelation(ctx, tag any) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchIngressAddressesForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchIngressAddressesForRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchIngressAddressesForRelation", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchIngressAddressesForRelation), ctx, tag)
 	return &MockFirewallerAPIWatchIngressAddressesForRelationCall{Call: call}
 }
 
@@ -463,28 +464,28 @@ type MockFirewallerAPIWatchIngressAddressesForRelationCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) Do(f func(context.Context, names.RelationTag) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) Do(f func(context.Context, names.RelationTag) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) DoAndReturn(f func(context.Context, names.RelationTag) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
+func (c *MockFirewallerAPIWatchIngressAddressesForRelationCall) DoAndReturn(f func(context.Context, names.RelationTag) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchIngressAddressesForRelationCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchModelFirewallRules mocks base method.
-func (m *MockFirewallerAPI) WatchModelFirewallRules(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockFirewallerAPI) WatchModelFirewallRules(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchModelFirewallRules", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -502,28 +503,28 @@ type MockFirewallerAPIWatchModelFirewallRulesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFirewallerAPIWatchModelFirewallRulesCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockFirewallerAPIWatchModelFirewallRulesCall {
+func (c *MockFirewallerAPIWatchModelFirewallRulesCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockFirewallerAPIWatchModelFirewallRulesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFirewallerAPIWatchModelFirewallRulesCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFirewallerAPIWatchModelFirewallRulesCall {
+func (c *MockFirewallerAPIWatchModelFirewallRulesCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFirewallerAPIWatchModelFirewallRulesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFirewallerAPIWatchModelFirewallRulesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockFirewallerAPIWatchModelFirewallRulesCall {
+func (c *MockFirewallerAPIWatchModelFirewallRulesCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockFirewallerAPIWatchModelFirewallRulesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchModelMachines mocks base method.
-func (m *MockFirewallerAPI) WatchModelMachines(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockFirewallerAPI) WatchModelMachines(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchModelMachines", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -541,36 +542,36 @@ type MockFirewallerAPIWatchModelMachinesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFirewallerAPIWatchModelMachinesCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockFirewallerAPIWatchModelMachinesCall {
+func (c *MockFirewallerAPIWatchModelMachinesCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockFirewallerAPIWatchModelMachinesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFirewallerAPIWatchModelMachinesCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchModelMachinesCall {
+func (c *MockFirewallerAPIWatchModelMachinesCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchModelMachinesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFirewallerAPIWatchModelMachinesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchModelMachinesCall {
+func (c *MockFirewallerAPIWatchModelMachinesCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchModelMachinesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchSubnets mocks base method.
-func (m *MockFirewallerAPI) WatchSubnets(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockFirewallerAPI) WatchSubnets(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchSubnets", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchSubnets", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchSubnets indicates an expected call of WatchSubnets.
-func (mr *MockFirewallerAPIMockRecorder) WatchSubnets(arg0 any) *MockFirewallerAPIWatchSubnetsCall {
+func (mr *MockFirewallerAPIMockRecorder) WatchSubnets(ctx any) *MockFirewallerAPIWatchSubnetsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchSubnets", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchSubnets), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchSubnets", reflect.TypeOf((*MockFirewallerAPI)(nil).WatchSubnets), ctx)
 	return &MockFirewallerAPIWatchSubnetsCall{Call: call}
 }
 
@@ -580,19 +581,19 @@ type MockFirewallerAPIWatchSubnetsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFirewallerAPIWatchSubnetsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockFirewallerAPIWatchSubnetsCall {
+func (c *MockFirewallerAPIWatchSubnetsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockFirewallerAPIWatchSubnetsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFirewallerAPIWatchSubnetsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchSubnetsCall {
+func (c *MockFirewallerAPIWatchSubnetsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchSubnetsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFirewallerAPIWatchSubnetsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFirewallerAPIWatchSubnetsCall {
+func (c *MockFirewallerAPIWatchSubnetsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockFirewallerAPIWatchSubnetsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -601,6 +602,7 @@ func (c *MockFirewallerAPIWatchSubnetsCall) DoAndReturn(f func(context.Context) 
 type MockRemoteRelationsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoteRelationsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoteRelationsAPIMockRecorder is the mock recorder for MockRemoteRelationsAPI.
@@ -660,18 +662,18 @@ func (c *MockRemoteRelationsAPIGetTokenCall) DoAndReturn(f func(context.Context,
 }
 
 // Relations mocks base method.
-func (m *MockRemoteRelationsAPI) Relations(arg0 context.Context, arg1 []string) ([]params.RemoteRelationResult, error) {
+func (m *MockRemoteRelationsAPI) Relations(ctx context.Context, keys []string) ([]params.RemoteRelationResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Relations", arg0, arg1)
+	ret := m.ctrl.Call(m, "Relations", ctx, keys)
 	ret0, _ := ret[0].([]params.RemoteRelationResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Relations indicates an expected call of Relations.
-func (mr *MockRemoteRelationsAPIMockRecorder) Relations(arg0, arg1 any) *MockRemoteRelationsAPIRelationsCall {
+func (mr *MockRemoteRelationsAPIMockRecorder) Relations(ctx, keys any) *MockRemoteRelationsAPIRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relations", reflect.TypeOf((*MockRemoteRelationsAPI)(nil).Relations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relations", reflect.TypeOf((*MockRemoteRelationsAPI)(nil).Relations), ctx, keys)
 	return &MockRemoteRelationsAPIRelationsCall{Call: call}
 }
 
@@ -699,18 +701,18 @@ func (c *MockRemoteRelationsAPIRelationsCall) DoAndReturn(f func(context.Context
 }
 
 // RemoteApplications mocks base method.
-func (m *MockRemoteRelationsAPI) RemoteApplications(arg0 context.Context, arg1 []string) ([]params.RemoteApplicationResult, error) {
+func (m *MockRemoteRelationsAPI) RemoteApplications(ctx context.Context, arg1 []string) ([]params.RemoteApplicationResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoteApplications", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoteApplications", ctx, arg1)
 	ret0, _ := ret[0].([]params.RemoteApplicationResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RemoteApplications indicates an expected call of RemoteApplications.
-func (mr *MockRemoteRelationsAPIMockRecorder) RemoteApplications(arg0, arg1 any) *MockRemoteRelationsAPIRemoteApplicationsCall {
+func (mr *MockRemoteRelationsAPIMockRecorder) RemoteApplications(ctx, arg1 any) *MockRemoteRelationsAPIRemoteApplicationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoteApplications", reflect.TypeOf((*MockRemoteRelationsAPI)(nil).RemoteApplications), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoteApplications", reflect.TypeOf((*MockRemoteRelationsAPI)(nil).RemoteApplications), ctx, arg1)
 	return &MockRemoteRelationsAPIRemoteApplicationsCall{Call: call}
 }
 
@@ -738,10 +740,10 @@ func (c *MockRemoteRelationsAPIRemoteApplicationsCall) DoAndReturn(f func(contex
 }
 
 // WatchRemoteRelations mocks base method.
-func (m *MockRemoteRelationsAPI) WatchRemoteRelations(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockRemoteRelationsAPI) WatchRemoteRelations(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchRemoteRelations", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -759,19 +761,19 @@ type MockRemoteRelationsAPIWatchRemoteRelationsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
+func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
+func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
+func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockRemoteRelationsAPIWatchRemoteRelationsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -780,6 +782,7 @@ func (c *MockRemoteRelationsAPIWatchRemoteRelationsCall) DoAndReturn(f func(cont
 type MockCrossModelFirewallerFacadeCloser struct {
 	ctrl     *gomock.Controller
 	recorder *MockCrossModelFirewallerFacadeCloserMockRecorder
+	isgomock struct{}
 }
 
 // MockCrossModelFirewallerFacadeCloserMockRecorder is the mock recorder for MockCrossModelFirewallerFacadeCloser.
@@ -876,18 +879,18 @@ func (c *MockCrossModelFirewallerFacadeCloserPublishIngressNetworkChangeCall) Do
 }
 
 // WatchEgressAddressesForRelation mocks base method.
-func (m *MockCrossModelFirewallerFacadeCloser) WatchEgressAddressesForRelation(arg0 context.Context, arg1 params.RemoteEntityArg) (watcher.Watcher[[]string], error) {
+func (m *MockCrossModelFirewallerFacadeCloser) WatchEgressAddressesForRelation(ctx context.Context, details params.RemoteEntityArg) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchEgressAddressesForRelation", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchEgressAddressesForRelation", ctx, details)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchEgressAddressesForRelation indicates an expected call of WatchEgressAddressesForRelation.
-func (mr *MockCrossModelFirewallerFacadeCloserMockRecorder) WatchEgressAddressesForRelation(arg0, arg1 any) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
+func (mr *MockCrossModelFirewallerFacadeCloserMockRecorder) WatchEgressAddressesForRelation(ctx, details any) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchEgressAddressesForRelation", reflect.TypeOf((*MockCrossModelFirewallerFacadeCloser)(nil).WatchEgressAddressesForRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchEgressAddressesForRelation", reflect.TypeOf((*MockCrossModelFirewallerFacadeCloser)(nil).WatchEgressAddressesForRelation), ctx, details)
 	return &MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall{Call: call}
 }
 
@@ -897,19 +900,19 @@ type MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall str
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
+func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) Do(f func(context.Context, params.RemoteEntityArg) (watcher.Watcher[[]string], error)) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
+func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) Do(f func(context.Context, params.RemoteEntityArg) (watcher.StringsWatcher, error)) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) DoAndReturn(f func(context.Context, params.RemoteEntityArg) (watcher.Watcher[[]string], error)) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
+func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall) DoAndReturn(f func(context.Context, params.RemoteEntityArg) (watcher.StringsWatcher, error)) *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -918,6 +921,7 @@ func (c *MockCrossModelFirewallerFacadeCloserWatchEgressAddressesForRelationCall
 type MockEnvironFirewaller struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironFirewallerMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironFirewallerMockRecorder is the mock recorder for MockEnvironFirewaller.
@@ -938,17 +942,17 @@ func (m *MockEnvironFirewaller) EXPECT() *MockEnvironFirewallerMockRecorder {
 }
 
 // ClosePorts mocks base method.
-func (m *MockEnvironFirewaller) ClosePorts(arg0 context.Context, arg1 firewall.IngressRules) error {
+func (m *MockEnvironFirewaller) ClosePorts(ctx context.Context, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ClosePorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "ClosePorts", ctx, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ClosePorts indicates an expected call of ClosePorts.
-func (mr *MockEnvironFirewallerMockRecorder) ClosePorts(arg0, arg1 any) *MockEnvironFirewallerClosePortsCall {
+func (mr *MockEnvironFirewallerMockRecorder) ClosePorts(ctx, rules any) *MockEnvironFirewallerClosePortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePorts", reflect.TypeOf((*MockEnvironFirewaller)(nil).ClosePorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePorts", reflect.TypeOf((*MockEnvironFirewaller)(nil).ClosePorts), ctx, rules)
 	return &MockEnvironFirewallerClosePortsCall{Call: call}
 }
 
@@ -976,18 +980,18 @@ func (c *MockEnvironFirewallerClosePortsCall) DoAndReturn(f func(context.Context
 }
 
 // IngressRules mocks base method.
-func (m *MockEnvironFirewaller) IngressRules(arg0 context.Context) (firewall.IngressRules, error) {
+func (m *MockEnvironFirewaller) IngressRules(ctx context.Context) (firewall.IngressRules, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IngressRules", arg0)
+	ret := m.ctrl.Call(m, "IngressRules", ctx)
 	ret0, _ := ret[0].(firewall.IngressRules)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IngressRules indicates an expected call of IngressRules.
-func (mr *MockEnvironFirewallerMockRecorder) IngressRules(arg0 any) *MockEnvironFirewallerIngressRulesCall {
+func (mr *MockEnvironFirewallerMockRecorder) IngressRules(ctx any) *MockEnvironFirewallerIngressRulesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IngressRules", reflect.TypeOf((*MockEnvironFirewaller)(nil).IngressRules), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IngressRules", reflect.TypeOf((*MockEnvironFirewaller)(nil).IngressRules), ctx)
 	return &MockEnvironFirewallerIngressRulesCall{Call: call}
 }
 
@@ -1015,17 +1019,17 @@ func (c *MockEnvironFirewallerIngressRulesCall) DoAndReturn(f func(context.Conte
 }
 
 // OpenPorts mocks base method.
-func (m *MockEnvironFirewaller) OpenPorts(arg0 context.Context, arg1 firewall.IngressRules) error {
+func (m *MockEnvironFirewaller) OpenPorts(ctx context.Context, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "OpenPorts", ctx, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // OpenPorts indicates an expected call of OpenPorts.
-func (mr *MockEnvironFirewallerMockRecorder) OpenPorts(arg0, arg1 any) *MockEnvironFirewallerOpenPortsCall {
+func (mr *MockEnvironFirewallerMockRecorder) OpenPorts(ctx, rules any) *MockEnvironFirewallerOpenPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPorts", reflect.TypeOf((*MockEnvironFirewaller)(nil).OpenPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPorts", reflect.TypeOf((*MockEnvironFirewaller)(nil).OpenPorts), ctx, rules)
 	return &MockEnvironFirewallerOpenPortsCall{Call: call}
 }
 
@@ -1056,6 +1060,7 @@ func (c *MockEnvironFirewallerOpenPortsCall) DoAndReturn(f func(context.Context,
 type MockEnvironModelFirewaller struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironModelFirewallerMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironModelFirewallerMockRecorder is the mock recorder for MockEnvironModelFirewaller.
@@ -1076,17 +1081,17 @@ func (m *MockEnvironModelFirewaller) EXPECT() *MockEnvironModelFirewallerMockRec
 }
 
 // CloseModelPorts mocks base method.
-func (m *MockEnvironModelFirewaller) CloseModelPorts(arg0 context.Context, arg1 firewall.IngressRules) error {
+func (m *MockEnvironModelFirewaller) CloseModelPorts(ctx context.Context, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CloseModelPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "CloseModelPorts", ctx, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CloseModelPorts indicates an expected call of CloseModelPorts.
-func (mr *MockEnvironModelFirewallerMockRecorder) CloseModelPorts(arg0, arg1 any) *MockEnvironModelFirewallerCloseModelPortsCall {
+func (mr *MockEnvironModelFirewallerMockRecorder) CloseModelPorts(ctx, rules any) *MockEnvironModelFirewallerCloseModelPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseModelPorts", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).CloseModelPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloseModelPorts", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).CloseModelPorts), ctx, rules)
 	return &MockEnvironModelFirewallerCloseModelPortsCall{Call: call}
 }
 
@@ -1114,18 +1119,18 @@ func (c *MockEnvironModelFirewallerCloseModelPortsCall) DoAndReturn(f func(conte
 }
 
 // ModelIngressRules mocks base method.
-func (m *MockEnvironModelFirewaller) ModelIngressRules(arg0 context.Context) (firewall.IngressRules, error) {
+func (m *MockEnvironModelFirewaller) ModelIngressRules(ctx context.Context) (firewall.IngressRules, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelIngressRules", arg0)
+	ret := m.ctrl.Call(m, "ModelIngressRules", ctx)
 	ret0, _ := ret[0].(firewall.IngressRules)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelIngressRules indicates an expected call of ModelIngressRules.
-func (mr *MockEnvironModelFirewallerMockRecorder) ModelIngressRules(arg0 any) *MockEnvironModelFirewallerModelIngressRulesCall {
+func (mr *MockEnvironModelFirewallerMockRecorder) ModelIngressRules(ctx any) *MockEnvironModelFirewallerModelIngressRulesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelIngressRules", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).ModelIngressRules), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelIngressRules", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).ModelIngressRules), ctx)
 	return &MockEnvironModelFirewallerModelIngressRulesCall{Call: call}
 }
 
@@ -1153,17 +1158,17 @@ func (c *MockEnvironModelFirewallerModelIngressRulesCall) DoAndReturn(f func(con
 }
 
 // OpenModelPorts mocks base method.
-func (m *MockEnvironModelFirewaller) OpenModelPorts(arg0 context.Context, arg1 firewall.IngressRules) error {
+func (m *MockEnvironModelFirewaller) OpenModelPorts(ctx context.Context, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenModelPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "OpenModelPorts", ctx, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // OpenModelPorts indicates an expected call of OpenModelPorts.
-func (mr *MockEnvironModelFirewallerMockRecorder) OpenModelPorts(arg0, arg1 any) *MockEnvironModelFirewallerOpenModelPortsCall {
+func (mr *MockEnvironModelFirewallerMockRecorder) OpenModelPorts(ctx, rules any) *MockEnvironModelFirewallerOpenModelPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenModelPorts", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).OpenModelPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenModelPorts", reflect.TypeOf((*MockEnvironModelFirewaller)(nil).OpenModelPorts), ctx, rules)
 	return &MockEnvironModelFirewallerOpenModelPortsCall{Call: call}
 }
 
@@ -1194,6 +1199,7 @@ func (c *MockEnvironModelFirewallerOpenModelPortsCall) DoAndReturn(f func(contex
 type MockEnvironInstances struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironInstancesMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironInstancesMockRecorder is the mock recorder for MockEnvironInstances.
@@ -1214,18 +1220,18 @@ func (m *MockEnvironInstances) EXPECT() *MockEnvironInstancesMockRecorder {
 }
 
 // Instances mocks base method.
-func (m *MockEnvironInstances) Instances(arg0 context.Context, arg1 []instance.Id) ([]instances.Instance, error) {
+func (m *MockEnvironInstances) Instances(ctx context.Context, ids []instance.Id) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Instances", arg0, arg1)
+	ret := m.ctrl.Call(m, "Instances", ctx, ids)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Instances indicates an expected call of Instances.
-func (mr *MockEnvironInstancesMockRecorder) Instances(arg0, arg1 any) *MockEnvironInstancesInstancesCall {
+func (mr *MockEnvironInstancesMockRecorder) Instances(ctx, ids any) *MockEnvironInstancesInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnvironInstances)(nil).Instances), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnvironInstances)(nil).Instances), ctx, ids)
 	return &MockEnvironInstancesInstancesCall{Call: call}
 }
 
@@ -1256,6 +1262,7 @@ func (c *MockEnvironInstancesInstancesCall) DoAndReturn(f func(context.Context, 
 type MockEnvironInstance struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironInstanceMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironInstanceMockRecorder is the mock recorder for MockEnvironInstance.
@@ -1276,18 +1283,18 @@ func (m *MockEnvironInstance) EXPECT() *MockEnvironInstanceMockRecorder {
 }
 
 // Addresses mocks base method.
-func (m *MockEnvironInstance) Addresses(arg0 context.Context) (network.ProviderAddresses, error) {
+func (m *MockEnvironInstance) Addresses(ctx context.Context) (network.ProviderAddresses, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Addresses", arg0)
+	ret := m.ctrl.Call(m, "Addresses", ctx)
 	ret0, _ := ret[0].(network.ProviderAddresses)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Addresses indicates an expected call of Addresses.
-func (mr *MockEnvironInstanceMockRecorder) Addresses(arg0 any) *MockEnvironInstanceAddressesCall {
+func (mr *MockEnvironInstanceMockRecorder) Addresses(ctx any) *MockEnvironInstanceAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Addresses", reflect.TypeOf((*MockEnvironInstance)(nil).Addresses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Addresses", reflect.TypeOf((*MockEnvironInstance)(nil).Addresses), ctx)
 	return &MockEnvironInstanceAddressesCall{Call: call}
 }
 
@@ -1315,17 +1322,17 @@ func (c *MockEnvironInstanceAddressesCall) DoAndReturn(f func(context.Context) (
 }
 
 // ClosePorts mocks base method.
-func (m *MockEnvironInstance) ClosePorts(arg0 context.Context, arg1 string, arg2 firewall.IngressRules) error {
+func (m *MockEnvironInstance) ClosePorts(ctx context.Context, machineId string, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ClosePorts", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ClosePorts", ctx, machineId, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ClosePorts indicates an expected call of ClosePorts.
-func (mr *MockEnvironInstanceMockRecorder) ClosePorts(arg0, arg1, arg2 any) *MockEnvironInstanceClosePortsCall {
+func (mr *MockEnvironInstanceMockRecorder) ClosePorts(ctx, machineId, rules any) *MockEnvironInstanceClosePortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePorts", reflect.TypeOf((*MockEnvironInstance)(nil).ClosePorts), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePorts", reflect.TypeOf((*MockEnvironInstance)(nil).ClosePorts), ctx, machineId, rules)
 	return &MockEnvironInstanceClosePortsCall{Call: call}
 }
 
@@ -1391,18 +1398,18 @@ func (c *MockEnvironInstanceIdCall) DoAndReturn(f func() instance.Id) *MockEnvir
 }
 
 // IngressRules mocks base method.
-func (m *MockEnvironInstance) IngressRules(arg0 context.Context, arg1 string) (firewall.IngressRules, error) {
+func (m *MockEnvironInstance) IngressRules(ctx context.Context, machineId string) (firewall.IngressRules, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IngressRules", arg0, arg1)
+	ret := m.ctrl.Call(m, "IngressRules", ctx, machineId)
 	ret0, _ := ret[0].(firewall.IngressRules)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IngressRules indicates an expected call of IngressRules.
-func (mr *MockEnvironInstanceMockRecorder) IngressRules(arg0, arg1 any) *MockEnvironInstanceIngressRulesCall {
+func (mr *MockEnvironInstanceMockRecorder) IngressRules(ctx, machineId any) *MockEnvironInstanceIngressRulesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IngressRules", reflect.TypeOf((*MockEnvironInstance)(nil).IngressRules), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IngressRules", reflect.TypeOf((*MockEnvironInstance)(nil).IngressRules), ctx, machineId)
 	return &MockEnvironInstanceIngressRulesCall{Call: call}
 }
 
@@ -1430,17 +1437,17 @@ func (c *MockEnvironInstanceIngressRulesCall) DoAndReturn(f func(context.Context
 }
 
 // OpenPorts mocks base method.
-func (m *MockEnvironInstance) OpenPorts(arg0 context.Context, arg1 string, arg2 firewall.IngressRules) error {
+func (m *MockEnvironInstance) OpenPorts(ctx context.Context, machineId string, rules firewall.IngressRules) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenPorts", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "OpenPorts", ctx, machineId, rules)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // OpenPorts indicates an expected call of OpenPorts.
-func (mr *MockEnvironInstanceMockRecorder) OpenPorts(arg0, arg1, arg2 any) *MockEnvironInstanceOpenPortsCall {
+func (mr *MockEnvironInstanceMockRecorder) OpenPorts(ctx, machineId, rules any) *MockEnvironInstanceOpenPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPorts", reflect.TypeOf((*MockEnvironInstance)(nil).OpenPorts), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPorts", reflect.TypeOf((*MockEnvironInstance)(nil).OpenPorts), ctx, machineId, rules)
 	return &MockEnvironInstanceOpenPortsCall{Call: call}
 }
 

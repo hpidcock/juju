@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -42,18 +43,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetContainerImageMetadata mocks base method.
-func (m *MockState) GetContainerImageMetadata(arg0 context.Context, arg1 string) (containerimageresourcestore.ContainerImageMetadata, error) {
+func (m *MockState) GetContainerImageMetadata(ctx context.Context, storageKey string) (containerimageresourcestore.ContainerImageMetadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetContainerImageMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetContainerImageMetadata", ctx, storageKey)
 	ret0, _ := ret[0].(containerimageresourcestore.ContainerImageMetadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetContainerImageMetadata indicates an expected call of GetContainerImageMetadata.
-func (mr *MockStateMockRecorder) GetContainerImageMetadata(arg0, arg1 any) *MockStateGetContainerImageMetadataCall {
+func (mr *MockStateMockRecorder) GetContainerImageMetadata(ctx, storageKey any) *MockStateGetContainerImageMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContainerImageMetadata", reflect.TypeOf((*MockState)(nil).GetContainerImageMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContainerImageMetadata", reflect.TypeOf((*MockState)(nil).GetContainerImageMetadata), ctx, storageKey)
 	return &MockStateGetContainerImageMetadataCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockStateGetContainerImageMetadataCall) DoAndReturn(f func(context.Cont
 }
 
 // PutContainerImageMetadata mocks base method.
-func (m *MockState) PutContainerImageMetadata(arg0 context.Context, arg1, arg2, arg3, arg4 string) (store.ID, error) {
+func (m *MockState) PutContainerImageMetadata(ctx context.Context, storageKey, registryPath, userName, password string) (store.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutContainerImageMetadata", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutContainerImageMetadata", ctx, storageKey, registryPath, userName, password)
 	ret0, _ := ret[0].(store.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutContainerImageMetadata indicates an expected call of PutContainerImageMetadata.
-func (mr *MockStateMockRecorder) PutContainerImageMetadata(arg0, arg1, arg2, arg3, arg4 any) *MockStatePutContainerImageMetadataCall {
+func (mr *MockStateMockRecorder) PutContainerImageMetadata(ctx, storageKey, registryPath, userName, password any) *MockStatePutContainerImageMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutContainerImageMetadata", reflect.TypeOf((*MockState)(nil).PutContainerImageMetadata), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutContainerImageMetadata", reflect.TypeOf((*MockState)(nil).PutContainerImageMetadata), ctx, storageKey, registryPath, userName, password)
 	return &MockStatePutContainerImageMetadataCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockStatePutContainerImageMetadataCall) DoAndReturn(f func(context.Cont
 }
 
 // RemoveContainerImageMetadata mocks base method.
-func (m *MockState) RemoveContainerImageMetadata(arg0 context.Context, arg1 string) error {
+func (m *MockState) RemoveContainerImageMetadata(ctx context.Context, storageKey string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveContainerImageMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveContainerImageMetadata", ctx, storageKey)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveContainerImageMetadata indicates an expected call of RemoveContainerImageMetadata.
-func (mr *MockStateMockRecorder) RemoveContainerImageMetadata(arg0, arg1 any) *MockStateRemoveContainerImageMetadataCall {
+func (mr *MockStateMockRecorder) RemoveContainerImageMetadata(ctx, storageKey any) *MockStateRemoveContainerImageMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveContainerImageMetadata", reflect.TypeOf((*MockState)(nil).RemoveContainerImageMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveContainerImageMetadata", reflect.TypeOf((*MockState)(nil).RemoveContainerImageMetadata), ctx, storageKey)
 	return &MockStateRemoveContainerImageMetadataCall{Call: call}
 }
 

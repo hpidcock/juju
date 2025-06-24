@@ -22,6 +22,7 @@ import (
 type MockAnnotationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAnnotationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAnnotationServiceMockRecorder is the mock recorder for MockAnnotationService.

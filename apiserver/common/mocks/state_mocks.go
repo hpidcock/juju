@@ -21,6 +21,7 @@ import (
 type MockEntityFinder struct {
 	ctrl     *gomock.Controller
 	recorder *MockEntityFinderMockRecorder
+	isgomock struct{}
 }
 
 // MockEntityFinderMockRecorder is the mock recorder for MockEntityFinder.
@@ -83,6 +84,7 @@ func (c *MockEntityFinderFindEntityCall) DoAndReturn(f func(names.Tag) (state.En
 type MockEntity struct {
 	ctrl     *gomock.Controller
 	recorder *MockEntityMockRecorder
+	isgomock struct{}
 }
 
 // MockEntityMockRecorder is the mock recorder for MockEntity.

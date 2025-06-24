@@ -21,6 +21,7 @@ import (
 type MockStorageRegistryGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageRegistryGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageRegistryGetterMockRecorder is the mock recorder for MockStorageRegistryGetter.
@@ -83,6 +84,7 @@ func (c *MockStorageRegistryGetterGetStorageRegistryCall) DoAndReturn(f func(con
 type MockModelStorageRegistryGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelStorageRegistryGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockModelStorageRegistryGetterMockRecorder is the mock recorder for MockModelStorageRegistryGetter.

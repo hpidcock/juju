@@ -22,6 +22,7 @@ import (
 type MockConfigSource struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigSourceMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigSourceMockRecorder is the mock recorder for MockConfigSource.
@@ -201,6 +202,7 @@ func (c *MockConfigSourceOvsManagedBridgesCall) DoAndReturn(f func() (set.String
 type MockConfigSourceNIC struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigSourceNICMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigSourceNICMockRecorder is the mock recorder for MockConfigSourceNIC.
@@ -491,6 +493,7 @@ func (c *MockConfigSourceNICTypeCall) DoAndReturn(f func() network.LinkLayerDevi
 type MockConfigSourceAddr struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigSourceAddrMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigSourceAddrMockRecorder is the mock recorder for MockConfigSourceAddr.

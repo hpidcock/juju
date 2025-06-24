@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -142,6 +144,7 @@ func (c *MockImportServiceImportSecretsCall) DoAndReturn(f func(context.Context,
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -162,18 +165,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetSecretsForExport mocks base method.
-func (m *MockExportService) GetSecretsForExport(arg0 context.Context) (*service.SecretExport, error) {
+func (m *MockExportService) GetSecretsForExport(ctx context.Context) (*service.SecretExport, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSecretsForExport", arg0)
+	ret := m.ctrl.Call(m, "GetSecretsForExport", ctx)
 	ret0, _ := ret[0].(*service.SecretExport)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSecretsForExport indicates an expected call of GetSecretsForExport.
-func (mr *MockExportServiceMockRecorder) GetSecretsForExport(arg0 any) *MockExportServiceGetSecretsForExportCall {
+func (mr *MockExportServiceMockRecorder) GetSecretsForExport(ctx any) *MockExportServiceGetSecretsForExportCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretsForExport", reflect.TypeOf((*MockExportService)(nil).GetSecretsForExport), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretsForExport", reflect.TypeOf((*MockExportService)(nil).GetSecretsForExport), ctx)
 	return &MockExportServiceGetSecretsForExportCall{Call: call}
 }
 
@@ -204,6 +207,7 @@ func (c *MockExportServiceGetSecretsForExportCall) DoAndReturn(f func(context.Co
 type MockSecretBackendService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretBackendServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretBackendServiceMockRecorder is the mock recorder for MockSecretBackendService.
@@ -224,18 +228,18 @@ func (m *MockSecretBackendService) EXPECT() *MockSecretBackendServiceMockRecorde
 }
 
 // ListBackendIDs mocks base method.
-func (m *MockSecretBackendService) ListBackendIDs(arg0 context.Context) ([]string, error) {
+func (m *MockSecretBackendService) ListBackendIDs(ctx context.Context) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListBackendIDs", arg0)
+	ret := m.ctrl.Call(m, "ListBackendIDs", ctx)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListBackendIDs indicates an expected call of ListBackendIDs.
-func (mr *MockSecretBackendServiceMockRecorder) ListBackendIDs(arg0 any) *MockSecretBackendServiceListBackendIDsCall {
+func (mr *MockSecretBackendServiceMockRecorder) ListBackendIDs(ctx any) *MockSecretBackendServiceListBackendIDsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListBackendIDs", reflect.TypeOf((*MockSecretBackendService)(nil).ListBackendIDs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListBackendIDs", reflect.TypeOf((*MockSecretBackendService)(nil).ListBackendIDs), ctx)
 	return &MockSecretBackendServiceListBackendIDsCall{Call: call}
 }
 

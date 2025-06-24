@@ -22,6 +22,7 @@ import (
 type MockSecretManagerFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretManagerFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretManagerFacadeMockRecorder is the mock recorder for MockSecretManagerFacade.

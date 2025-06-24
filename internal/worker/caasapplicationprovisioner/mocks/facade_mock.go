@@ -25,6 +25,7 @@ import (
 type MockCAASProvisionerFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockCAASProvisionerFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockCAASProvisionerFacadeMockRecorder is the mock recorder for MockCAASProvisionerFacade.
@@ -84,18 +85,18 @@ func (c *MockCAASProvisionerFacadeApplicationCharmInfoCall) DoAndReturn(f func(c
 }
 
 // ApplicationOCIResources mocks base method.
-func (m *MockCAASProvisionerFacade) ApplicationOCIResources(arg0 context.Context, arg1 string) (map[string]resource.DockerImageDetails, error) {
+func (m *MockCAASProvisionerFacade) ApplicationOCIResources(ctx context.Context, appName string) (map[string]resource.DockerImageDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplicationOCIResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ApplicationOCIResources", ctx, appName)
 	ret0, _ := ret[0].(map[string]resource.DockerImageDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ApplicationOCIResources indicates an expected call of ApplicationOCIResources.
-func (mr *MockCAASProvisionerFacadeMockRecorder) ApplicationOCIResources(arg0, arg1 any) *MockCAASProvisionerFacadeApplicationOCIResourcesCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) ApplicationOCIResources(ctx, appName any) *MockCAASProvisionerFacadeApplicationOCIResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationOCIResources", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).ApplicationOCIResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationOCIResources", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).ApplicationOCIResources), ctx, appName)
 	return &MockCAASProvisionerFacadeApplicationOCIResourcesCall{Call: call}
 }
 
@@ -162,17 +163,17 @@ func (c *MockCAASProvisionerFacadeCharmInfoCall) DoAndReturn(f func(context.Cont
 }
 
 // ClearApplicationResources mocks base method.
-func (m *MockCAASProvisionerFacade) ClearApplicationResources(arg0 context.Context, arg1 string) error {
+func (m *MockCAASProvisionerFacade) ClearApplicationResources(ctx context.Context, appName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ClearApplicationResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ClearApplicationResources", ctx, appName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ClearApplicationResources indicates an expected call of ClearApplicationResources.
-func (mr *MockCAASProvisionerFacadeMockRecorder) ClearApplicationResources(arg0, arg1 any) *MockCAASProvisionerFacadeClearApplicationResourcesCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) ClearApplicationResources(ctx, appName any) *MockCAASProvisionerFacadeClearApplicationResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClearApplicationResources", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).ClearApplicationResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClearApplicationResources", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).ClearApplicationResources), ctx, appName)
 	return &MockCAASProvisionerFacadeClearApplicationResourcesCall{Call: call}
 }
 
@@ -200,17 +201,17 @@ func (c *MockCAASProvisionerFacadeClearApplicationResourcesCall) DoAndReturn(f f
 }
 
 // DestroyUnits mocks base method.
-func (m *MockCAASProvisionerFacade) DestroyUnits(arg0 context.Context, arg1 []string) error {
+func (m *MockCAASProvisionerFacade) DestroyUnits(ctx context.Context, unitNames []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyUnits", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyUnits", ctx, unitNames)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyUnits indicates an expected call of DestroyUnits.
-func (mr *MockCAASProvisionerFacadeMockRecorder) DestroyUnits(arg0, arg1 any) *MockCAASProvisionerFacadeDestroyUnitsCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) DestroyUnits(ctx, unitNames any) *MockCAASProvisionerFacadeDestroyUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyUnits", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).DestroyUnits), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyUnits", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).DestroyUnits), ctx, unitNames)
 	return &MockCAASProvisionerFacadeDestroyUnitsCall{Call: call}
 }
 
@@ -277,17 +278,17 @@ func (c *MockCAASProvisionerFacadeProvisioningInfoCall) DoAndReturn(f func(conte
 }
 
 // RemoveUnit mocks base method.
-func (m *MockCAASProvisionerFacade) RemoveUnit(arg0 context.Context, arg1 string) error {
+func (m *MockCAASProvisionerFacade) RemoveUnit(ctx context.Context, unitName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveUnit", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveUnit", ctx, unitName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveUnit indicates an expected call of RemoveUnit.
-func (mr *MockCAASProvisionerFacadeMockRecorder) RemoveUnit(arg0, arg1 any) *MockCAASProvisionerFacadeRemoveUnitCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) RemoveUnit(ctx, unitName any) *MockCAASProvisionerFacadeRemoveUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUnit", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).RemoveUnit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUnit", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).RemoveUnit), ctx, unitName)
 	return &MockCAASProvisionerFacadeRemoveUnitCall{Call: call}
 }
 
@@ -353,18 +354,18 @@ func (c *MockCAASProvisionerFacadeSetPasswordCall) DoAndReturn(f func(context.Co
 }
 
 // UpdateUnits mocks base method.
-func (m *MockCAASProvisionerFacade) UpdateUnits(arg0 context.Context, arg1 params.UpdateApplicationUnits) (*params.UpdateApplicationUnitsInfo, error) {
+func (m *MockCAASProvisionerFacade) UpdateUnits(ctx context.Context, arg params.UpdateApplicationUnits) (*params.UpdateApplicationUnitsInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateUnits", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateUnits", ctx, arg)
 	ret0, _ := ret[0].(*params.UpdateApplicationUnitsInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateUnits indicates an expected call of UpdateUnits.
-func (mr *MockCAASProvisionerFacadeMockRecorder) UpdateUnits(arg0, arg1 any) *MockCAASProvisionerFacadeUpdateUnitsCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) UpdateUnits(ctx, arg any) *MockCAASProvisionerFacadeUpdateUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnits", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).UpdateUnits), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnits", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).UpdateUnits), ctx, arg)
 	return &MockCAASProvisionerFacadeUpdateUnitsCall{Call: call}
 }
 
@@ -392,18 +393,18 @@ func (c *MockCAASProvisionerFacadeUpdateUnitsCall) DoAndReturn(f func(context.Co
 }
 
 // WatchApplication mocks base method.
-func (m *MockCAASProvisionerFacade) WatchApplication(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockCAASProvisionerFacade) WatchApplication(ctx context.Context, appName string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchApplication", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchApplication", ctx, appName)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchApplication indicates an expected call of WatchApplication.
-func (mr *MockCAASProvisionerFacadeMockRecorder) WatchApplication(arg0, arg1 any) *MockCAASProvisionerFacadeWatchApplicationCall {
+func (mr *MockCAASProvisionerFacadeMockRecorder) WatchApplication(ctx, appName any) *MockCAASProvisionerFacadeWatchApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplication", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).WatchApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplication", reflect.TypeOf((*MockCAASProvisionerFacade)(nil).WatchApplication), ctx, appName)
 	return &MockCAASProvisionerFacadeWatchApplicationCall{Call: call}
 }
 
@@ -413,28 +414,28 @@ type MockCAASProvisionerFacadeWatchApplicationCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockCAASProvisionerFacadeWatchApplicationCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockCAASProvisionerFacadeWatchApplicationCall {
+func (c *MockCAASProvisionerFacadeWatchApplicationCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockCAASProvisionerFacadeWatchApplicationCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockCAASProvisionerFacadeWatchApplicationCall) Do(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockCAASProvisionerFacadeWatchApplicationCall {
+func (c *MockCAASProvisionerFacadeWatchApplicationCall) Do(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockCAASProvisionerFacadeWatchApplicationCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockCAASProvisionerFacadeWatchApplicationCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockCAASProvisionerFacadeWatchApplicationCall {
+func (c *MockCAASProvisionerFacadeWatchApplicationCall) DoAndReturn(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockCAASProvisionerFacadeWatchApplicationCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchProvisioningInfo mocks base method.
-func (m *MockCAASProvisionerFacade) WatchProvisioningInfo(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockCAASProvisionerFacade) WatchProvisioningInfo(arg0 context.Context, arg1 string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchProvisioningInfo", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -452,19 +453,19 @@ type MockCAASProvisionerFacadeWatchProvisioningInfoCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
+func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) Do(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
+func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) Do(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
+func (c *MockCAASProvisionerFacadeWatchProvisioningInfoCall) DoAndReturn(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockCAASProvisionerFacadeWatchProvisioningInfoCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

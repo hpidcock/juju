@@ -21,6 +21,7 @@ import (
 type MockSecretsFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsFacadeMockRecorder is the mock recorder for MockSecretsFacade.
@@ -79,10 +80,10 @@ func (c *MockSecretsFacadeDeleteObsoleteUserSecretRevisionsCall) DoAndReturn(f f
 }
 
 // WatchRevisionsToPrune mocks base method.
-func (m *MockSecretsFacade) WatchRevisionsToPrune(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockSecretsFacade) WatchRevisionsToPrune(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchRevisionsToPrune", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -100,19 +101,19 @@ type MockSecretsFacadeWatchRevisionsToPruneCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretsFacadeWatchRevisionsToPruneCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockSecretsFacadeWatchRevisionsToPruneCall {
+func (c *MockSecretsFacadeWatchRevisionsToPruneCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockSecretsFacadeWatchRevisionsToPruneCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretsFacadeWatchRevisionsToPruneCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockSecretsFacadeWatchRevisionsToPruneCall {
+func (c *MockSecretsFacadeWatchRevisionsToPruneCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockSecretsFacadeWatchRevisionsToPruneCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretsFacadeWatchRevisionsToPruneCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockSecretsFacadeWatchRevisionsToPruneCall {
+func (c *MockSecretsFacadeWatchRevisionsToPruneCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockSecretsFacadeWatchRevisionsToPruneCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

@@ -25,6 +25,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -84,6 +85,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -104,18 +106,18 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // CreatePermission mocks base method.
-func (m *MockImportService) CreatePermission(arg0 context.Context, arg1 permission.UserAccessSpec) (permission.UserAccess, error) {
+func (m *MockImportService) CreatePermission(ctx context.Context, spec permission.UserAccessSpec) (permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreatePermission", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreatePermission", ctx, spec)
 	ret0, _ := ret[0].(permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreatePermission indicates an expected call of CreatePermission.
-func (mr *MockImportServiceMockRecorder) CreatePermission(arg0, arg1 any) *MockImportServiceCreatePermissionCall {
+func (mr *MockImportServiceMockRecorder) CreatePermission(ctx, spec any) *MockImportServiceCreatePermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePermission", reflect.TypeOf((*MockImportService)(nil).CreatePermission), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreatePermission", reflect.TypeOf((*MockImportService)(nil).CreatePermission), ctx, spec)
 	return &MockImportServiceCreatePermissionCall{Call: call}
 }
 
@@ -143,17 +145,17 @@ func (c *MockImportServiceCreatePermissionCall) DoAndReturn(f func(context.Conte
 }
 
 // SetLastModelLogin mocks base method.
-func (m *MockImportService) SetLastModelLogin(arg0 context.Context, arg1 user.Name, arg2 model.UUID, arg3 time.Time) error {
+func (m *MockImportService) SetLastModelLogin(ctx context.Context, name user.Name, modelUUID model.UUID, arg3 time.Time) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetLastModelLogin", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetLastModelLogin", ctx, name, modelUUID, arg3)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetLastModelLogin indicates an expected call of SetLastModelLogin.
-func (mr *MockImportServiceMockRecorder) SetLastModelLogin(arg0, arg1, arg2, arg3 any) *MockImportServiceSetLastModelLoginCall {
+func (mr *MockImportServiceMockRecorder) SetLastModelLogin(ctx, name, modelUUID, arg3 any) *MockImportServiceSetLastModelLoginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetLastModelLogin", reflect.TypeOf((*MockImportService)(nil).SetLastModelLogin), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetLastModelLogin", reflect.TypeOf((*MockImportService)(nil).SetLastModelLogin), ctx, name, modelUUID, arg3)
 	return &MockImportServiceSetLastModelLoginCall{Call: call}
 }
 
@@ -184,6 +186,7 @@ func (c *MockImportServiceSetLastModelLoginCall) DoAndReturn(f func(context.Cont
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -204,18 +207,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // LastModelLogin mocks base method.
-func (m *MockExportService) LastModelLogin(arg0 context.Context, arg1 user.Name, arg2 model.UUID) (time.Time, error) {
+func (m *MockExportService) LastModelLogin(ctx context.Context, name user.Name, modelUUID model.UUID) (time.Time, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LastModelLogin", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "LastModelLogin", ctx, name, modelUUID)
 	ret0, _ := ret[0].(time.Time)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // LastModelLogin indicates an expected call of LastModelLogin.
-func (mr *MockExportServiceMockRecorder) LastModelLogin(arg0, arg1, arg2 any) *MockExportServiceLastModelLoginCall {
+func (mr *MockExportServiceMockRecorder) LastModelLogin(ctx, name, modelUUID any) *MockExportServiceLastModelLoginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LastModelLogin", reflect.TypeOf((*MockExportService)(nil).LastModelLogin), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LastModelLogin", reflect.TypeOf((*MockExportService)(nil).LastModelLogin), ctx, name, modelUUID)
 	return &MockExportServiceLastModelLoginCall{Call: call}
 }
 
@@ -243,18 +246,18 @@ func (c *MockExportServiceLastModelLoginCall) DoAndReturn(f func(context.Context
 }
 
 // ReadAllUserAccessForTarget mocks base method.
-func (m *MockExportService) ReadAllUserAccessForTarget(arg0 context.Context, arg1 permission.ID) ([]permission.UserAccess, error) {
+func (m *MockExportService) ReadAllUserAccessForTarget(ctx context.Context, target permission.ID) ([]permission.UserAccess, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadAllUserAccessForTarget", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReadAllUserAccessForTarget", ctx, target)
 	ret0, _ := ret[0].([]permission.UserAccess)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadAllUserAccessForTarget indicates an expected call of ReadAllUserAccessForTarget.
-func (mr *MockExportServiceMockRecorder) ReadAllUserAccessForTarget(arg0, arg1 any) *MockExportServiceReadAllUserAccessForTargetCall {
+func (mr *MockExportServiceMockRecorder) ReadAllUserAccessForTarget(ctx, target any) *MockExportServiceReadAllUserAccessForTargetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForTarget", reflect.TypeOf((*MockExportService)(nil).ReadAllUserAccessForTarget), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadAllUserAccessForTarget", reflect.TypeOf((*MockExportService)(nil).ReadAllUserAccessForTarget), ctx, target)
 	return &MockExportServiceReadAllUserAccessForTargetCall{Call: call}
 }
 

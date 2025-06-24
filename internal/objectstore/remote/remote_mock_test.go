@@ -21,6 +21,7 @@ import (
 type MockBlobsClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlobsClientMockRecorder
+	isgomock struct{}
 }
 
 // MockBlobsClientMockRecorder is the mock recorder for MockBlobsClient.
@@ -41,9 +42,9 @@ func (m *MockBlobsClient) EXPECT() *MockBlobsClientMockRecorder {
 }
 
 // GetObject mocks base method.
-func (m *MockBlobsClient) GetObject(arg0 context.Context, arg1, arg2 string) (io.ReadCloser, int64, error) {
+func (m *MockBlobsClient) GetObject(ctx context.Context, bucket, key string) (io.ReadCloser, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetObject", ctx, bucket, key)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -51,9 +52,9 @@ func (m *MockBlobsClient) GetObject(arg0 context.Context, arg1, arg2 string) (io
 }
 
 // GetObject indicates an expected call of GetObject.
-func (mr *MockBlobsClientMockRecorder) GetObject(arg0, arg1, arg2 any) *MockBlobsClientGetObjectCall {
+func (mr *MockBlobsClientMockRecorder) GetObject(ctx, bucket, key any) *MockBlobsClientGetObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockBlobsClient)(nil).GetObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockBlobsClient)(nil).GetObject), ctx, bucket, key)
 	return &MockBlobsClientGetObjectCall{Call: call}
 }
 

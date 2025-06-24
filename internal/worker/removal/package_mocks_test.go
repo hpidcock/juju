@@ -24,6 +24,7 @@ import (
 type MockRemovalService struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemovalServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockRemovalServiceMockRecorder is the mock recorder for MockRemovalService.
@@ -44,17 +45,17 @@ func (m *MockRemovalService) EXPECT() *MockRemovalServiceMockRecorder {
 }
 
 // ExecuteJob mocks base method.
-func (m *MockRemovalService) ExecuteJob(arg0 context.Context, arg1 removal.Job) error {
+func (m *MockRemovalService) ExecuteJob(ctx context.Context, job removal.Job) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExecuteJob", arg0, arg1)
+	ret := m.ctrl.Call(m, "ExecuteJob", ctx, job)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ExecuteJob indicates an expected call of ExecuteJob.
-func (mr *MockRemovalServiceMockRecorder) ExecuteJob(arg0, arg1 any) *MockRemovalServiceExecuteJobCall {
+func (mr *MockRemovalServiceMockRecorder) ExecuteJob(ctx, job any) *MockRemovalServiceExecuteJobCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExecuteJob", reflect.TypeOf((*MockRemovalService)(nil).ExecuteJob), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExecuteJob", reflect.TypeOf((*MockRemovalService)(nil).ExecuteJob), ctx, job)
 	return &MockRemovalServiceExecuteJobCall{Call: call}
 }
 
@@ -82,18 +83,18 @@ func (c *MockRemovalServiceExecuteJobCall) DoAndReturn(f func(context.Context, r
 }
 
 // GetAllJobs mocks base method.
-func (m *MockRemovalService) GetAllJobs(arg0 context.Context) ([]removal.Job, error) {
+func (m *MockRemovalService) GetAllJobs(ctx context.Context) ([]removal.Job, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllJobs", arg0)
+	ret := m.ctrl.Call(m, "GetAllJobs", ctx)
 	ret0, _ := ret[0].([]removal.Job)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllJobs indicates an expected call of GetAllJobs.
-func (mr *MockRemovalServiceMockRecorder) GetAllJobs(arg0 any) *MockRemovalServiceGetAllJobsCall {
+func (mr *MockRemovalServiceMockRecorder) GetAllJobs(ctx any) *MockRemovalServiceGetAllJobsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllJobs", reflect.TypeOf((*MockRemovalService)(nil).GetAllJobs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllJobs", reflect.TypeOf((*MockRemovalService)(nil).GetAllJobs), ctx)
 	return &MockRemovalServiceGetAllJobsCall{Call: call}
 }
 
@@ -121,10 +122,10 @@ func (c *MockRemovalServiceGetAllJobsCall) DoAndReturn(f func(context.Context) (
 }
 
 // WatchRemovals mocks base method.
-func (m *MockRemovalService) WatchRemovals() (watcher.Watcher[[]string], error) {
+func (m *MockRemovalService) WatchRemovals() (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchRemovals")
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -142,19 +143,19 @@ type MockRemovalServiceWatchRemovalsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockRemovalServiceWatchRemovalsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockRemovalServiceWatchRemovalsCall {
+func (c *MockRemovalServiceWatchRemovalsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockRemovalServiceWatchRemovalsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockRemovalServiceWatchRemovalsCall) Do(f func() (watcher.Watcher[[]string], error)) *MockRemovalServiceWatchRemovalsCall {
+func (c *MockRemovalServiceWatchRemovalsCall) Do(f func() (watcher.StringsWatcher, error)) *MockRemovalServiceWatchRemovalsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockRemovalServiceWatchRemovalsCall) DoAndReturn(f func() (watcher.Watcher[[]string], error)) *MockRemovalServiceWatchRemovalsCall {
+func (c *MockRemovalServiceWatchRemovalsCall) DoAndReturn(f func() (watcher.StringsWatcher, error)) *MockRemovalServiceWatchRemovalsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -163,6 +164,7 @@ func (c *MockRemovalServiceWatchRemovalsCall) DoAndReturn(f func() (watcher.Watc
 type MockClock struct {
 	ctrl     *gomock.Controller
 	recorder *MockClockMockRecorder
+	isgomock struct{}
 }
 
 // MockClockMockRecorder is the mock recorder for MockClock.
@@ -183,17 +185,17 @@ func (m *MockClock) EXPECT() *MockClockMockRecorder {
 }
 
 // NewTimer mocks base method.
-func (m *MockClock) NewTimer(arg0 time.Duration) clock.Timer {
+func (m *MockClock) NewTimer(d time.Duration) clock.Timer {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewTimer", arg0)
+	ret := m.ctrl.Call(m, "NewTimer", d)
 	ret0, _ := ret[0].(clock.Timer)
 	return ret0
 }
 
 // NewTimer indicates an expected call of NewTimer.
-func (mr *MockClockMockRecorder) NewTimer(arg0 any) *MockClockNewTimerCall {
+func (mr *MockClockMockRecorder) NewTimer(d any) *MockClockNewTimerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewTimer", reflect.TypeOf((*MockClock)(nil).NewTimer), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewTimer", reflect.TypeOf((*MockClock)(nil).NewTimer), d)
 	return &MockClockNewTimerCall{Call: call}
 }
 

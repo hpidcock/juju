@@ -22,6 +22,7 @@ import (
 type MockBundleReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockBundleReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockBundleReaderMockRecorder is the mock recorder for MockBundleReader.
@@ -42,18 +43,18 @@ func (m *MockBundleReader) EXPECT() *MockBundleReaderMockRecorder {
 }
 
 // Read mocks base method.
-func (m *MockBundleReader) Read(arg0 context.Context, arg1 charm.BundleInfo) (charm.Bundle, error) {
+func (m *MockBundleReader) Read(ctx context.Context, bi charm.BundleInfo) (charm.Bundle, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Read", arg0, arg1)
+	ret := m.ctrl.Call(m, "Read", ctx, bi)
 	ret0, _ := ret[0].(charm.Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Read indicates an expected call of Read.
-func (mr *MockBundleReaderMockRecorder) Read(arg0, arg1 any) *MockBundleReaderReadCall {
+func (mr *MockBundleReaderMockRecorder) Read(ctx, bi any) *MockBundleReaderReadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockBundleReader)(nil).Read), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Read", reflect.TypeOf((*MockBundleReader)(nil).Read), ctx, bi)
 	return &MockBundleReaderReadCall{Call: call}
 }
 
@@ -84,6 +85,7 @@ func (c *MockBundleReaderReadCall) DoAndReturn(f func(context.Context, charm.Bun
 type MockBundleInfo struct {
 	ctrl     *gomock.Controller
 	recorder *MockBundleInfoMockRecorder
+	isgomock struct{}
 }
 
 // MockBundleInfoMockRecorder is the mock recorder for MockBundleInfo.
@@ -184,6 +186,7 @@ func (c *MockBundleInfoURLCall) DoAndReturn(f func() string) *MockBundleInfoURLC
 type MockBundle struct {
 	ctrl     *gomock.Controller
 	recorder *MockBundleMockRecorder
+	isgomock struct{}
 }
 
 // MockBundleMockRecorder is the mock recorder for MockBundle.
@@ -243,17 +246,17 @@ func (c *MockBundleArchiveMembersCall) DoAndReturn(f func() (set.Strings, error)
 }
 
 // ExpandTo mocks base method.
-func (m *MockBundle) ExpandTo(arg0 string) error {
+func (m *MockBundle) ExpandTo(dir string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExpandTo", arg0)
+	ret := m.ctrl.Call(m, "ExpandTo", dir)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ExpandTo indicates an expected call of ExpandTo.
-func (mr *MockBundleMockRecorder) ExpandTo(arg0 any) *MockBundleExpandToCall {
+func (mr *MockBundleMockRecorder) ExpandTo(dir any) *MockBundleExpandToCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpandTo", reflect.TypeOf((*MockBundle)(nil).ExpandTo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpandTo", reflect.TypeOf((*MockBundle)(nil).ExpandTo), dir)
 	return &MockBundleExpandToCall{Call: call}
 }
 

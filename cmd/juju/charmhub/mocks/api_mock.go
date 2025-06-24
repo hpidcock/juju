@@ -23,6 +23,7 @@ import (
 type MockCharmHubClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmHubClientMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmHubClientMockRecorder is the mock recorder for MockCharmHubClient.
@@ -43,10 +44,10 @@ func (m *MockCharmHubClient) EXPECT() *MockCharmHubClientMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockCharmHubClient) Download(arg0 context.Context, arg1 *url.URL, arg2 string, arg3 ...charmhub.DownloadOption) (*charmhub.Digest, error) {
+func (m *MockCharmHubClient) Download(ctx context.Context, resourceURL *url.URL, archivePath string, options ...charmhub.DownloadOption) (*charmhub.Digest, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{ctx, resourceURL, archivePath}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Download", varargs...)
@@ -56,9 +57,9 @@ func (m *MockCharmHubClient) Download(arg0 context.Context, arg1 *url.URL, arg2 
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockCharmHubClientMockRecorder) Download(arg0, arg1, arg2 any, arg3 ...any) *MockCharmHubClientDownloadCall {
+func (mr *MockCharmHubClientMockRecorder) Download(ctx, resourceURL, archivePath any, options ...any) *MockCharmHubClientDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{ctx, resourceURL, archivePath}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockCharmHubClient)(nil).Download), varargs...)
 	return &MockCharmHubClientDownloadCall{Call: call}
 }
@@ -87,10 +88,10 @@ func (c *MockCharmHubClientDownloadCall) DoAndReturn(f func(context.Context, *ur
 }
 
 // Find mocks base method.
-func (m *MockCharmHubClient) Find(arg0 context.Context, arg1 string, arg2 ...charmhub.FindOption) ([]transport.FindResponse, error) {
+func (m *MockCharmHubClient) Find(ctx context.Context, query string, options ...charmhub.FindOption) ([]transport.FindResponse, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{ctx, query}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Find", varargs...)
@@ -100,9 +101,9 @@ func (m *MockCharmHubClient) Find(arg0 context.Context, arg1 string, arg2 ...cha
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockCharmHubClientMockRecorder) Find(arg0, arg1 any, arg2 ...any) *MockCharmHubClientFindCall {
+func (mr *MockCharmHubClientMockRecorder) Find(ctx, query any, options ...any) *MockCharmHubClientFindCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{ctx, query}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCharmHubClient)(nil).Find), varargs...)
 	return &MockCharmHubClientFindCall{Call: call}
 }
@@ -131,10 +132,10 @@ func (c *MockCharmHubClientFindCall) DoAndReturn(f func(context.Context, string,
 }
 
 // Info mocks base method.
-func (m *MockCharmHubClient) Info(arg0 context.Context, arg1 string, arg2 ...charmhub.InfoOption) (transport.InfoResponse, error) {
+func (m *MockCharmHubClient) Info(ctx context.Context, name string, options ...charmhub.InfoOption) (transport.InfoResponse, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{ctx, name}
+	for _, a := range options {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Info", varargs...)
@@ -144,9 +145,9 @@ func (m *MockCharmHubClient) Info(arg0 context.Context, arg1 string, arg2 ...cha
 }
 
 // Info indicates an expected call of Info.
-func (mr *MockCharmHubClientMockRecorder) Info(arg0, arg1 any, arg2 ...any) *MockCharmHubClientInfoCall {
+func (mr *MockCharmHubClientMockRecorder) Info(ctx, name any, options ...any) *MockCharmHubClientInfoCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{ctx, name}, options...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Info", reflect.TypeOf((*MockCharmHubClient)(nil).Info), varargs...)
 	return &MockCharmHubClientInfoCall{Call: call}
 }

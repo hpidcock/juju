@@ -26,6 +26,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -85,18 +86,18 @@ func (c *MockStateCheckAgentBinarySHA256ExistsCall) DoAndReturn(f func(context.C
 }
 
 // GetObjectUUID mocks base method.
-func (m *MockState) GetObjectUUID(arg0 context.Context, arg1 string) (objectstore.UUID, error) {
+func (m *MockState) GetObjectUUID(ctx context.Context, path string) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetObjectUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetObjectUUID", ctx, path)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetObjectUUID indicates an expected call of GetObjectUUID.
-func (mr *MockStateMockRecorder) GetObjectUUID(arg0, arg1 any) *MockStateGetObjectUUIDCall {
+func (mr *MockStateMockRecorder) GetObjectUUID(ctx, path any) *MockStateGetObjectUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObjectUUID", reflect.TypeOf((*MockState)(nil).GetObjectUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObjectUUID", reflect.TypeOf((*MockState)(nil).GetObjectUUID), ctx, path)
 	return &MockStateGetObjectUUIDCall{Call: call}
 }
 
@@ -124,17 +125,17 @@ func (c *MockStateGetObjectUUIDCall) DoAndReturn(f func(context.Context, string)
 }
 
 // RegisterAgentBinary mocks base method.
-func (m *MockState) RegisterAgentBinary(arg0 context.Context, arg1 agentbinary.RegisterAgentBinaryArg) error {
+func (m *MockState) RegisterAgentBinary(ctx context.Context, arg agentbinary.RegisterAgentBinaryArg) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RegisterAgentBinary", arg0, arg1)
+	ret := m.ctrl.Call(m, "RegisterAgentBinary", ctx, arg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RegisterAgentBinary indicates an expected call of RegisterAgentBinary.
-func (mr *MockStateMockRecorder) RegisterAgentBinary(arg0, arg1 any) *MockStateRegisterAgentBinaryCall {
+func (mr *MockStateMockRecorder) RegisterAgentBinary(ctx, arg any) *MockStateRegisterAgentBinaryCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterAgentBinary", reflect.TypeOf((*MockState)(nil).RegisterAgentBinary), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterAgentBinary", reflect.TypeOf((*MockState)(nil).RegisterAgentBinary), ctx, arg)
 	return &MockStateRegisterAgentBinaryCall{Call: call}
 }
 
@@ -165,6 +166,7 @@ func (c *MockStateRegisterAgentBinaryCall) DoAndReturn(f func(context.Context, a
 type MockAgentBinaryState struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStateMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStateMockRecorder is the mock recorder for MockAgentBinaryState.
@@ -185,18 +187,18 @@ func (m *MockAgentBinaryState) EXPECT() *MockAgentBinaryStateMockRecorder {
 }
 
 // ListAgentBinaries mocks base method.
-func (m *MockAgentBinaryState) ListAgentBinaries(arg0 context.Context) ([]agentbinary.Metadata, error) {
+func (m *MockAgentBinaryState) ListAgentBinaries(ctx context.Context) ([]agentbinary.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListAgentBinaries", arg0)
+	ret := m.ctrl.Call(m, "ListAgentBinaries", ctx)
 	ret0, _ := ret[0].([]agentbinary.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListAgentBinaries indicates an expected call of ListAgentBinaries.
-func (mr *MockAgentBinaryStateMockRecorder) ListAgentBinaries(arg0 any) *MockAgentBinaryStateListAgentBinariesCall {
+func (mr *MockAgentBinaryStateMockRecorder) ListAgentBinaries(ctx any) *MockAgentBinaryStateListAgentBinariesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAgentBinaries", reflect.TypeOf((*MockAgentBinaryState)(nil).ListAgentBinaries), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAgentBinaries", reflect.TypeOf((*MockAgentBinaryState)(nil).ListAgentBinaries), ctx)
 	return &MockAgentBinaryStateListAgentBinariesCall{Call: call}
 }
 
@@ -227,6 +229,7 @@ func (c *MockAgentBinaryStateListAgentBinariesCall) DoAndReturn(f func(context.C
 type MockProviderForAgentBinaryFinder struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderForAgentBinaryFinderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderForAgentBinaryFinderMockRecorder is the mock recorder for MockProviderForAgentBinaryFinder.
@@ -247,18 +250,18 @@ func (m *MockProviderForAgentBinaryFinder) EXPECT() *MockProviderForAgentBinaryF
 }
 
 // Bootstrap mocks base method.
-func (m *MockProviderForAgentBinaryFinder) Bootstrap(arg0 environs.BootstrapContext, arg1 environs.BootstrapParams) (*environs.BootstrapResult, error) {
+func (m *MockProviderForAgentBinaryFinder) Bootstrap(ctx environs.BootstrapContext, params environs.BootstrapParams) (*environs.BootstrapResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Bootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "Bootstrap", ctx, params)
 	ret0, _ := ret[0].(*environs.BootstrapResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Bootstrap indicates an expected call of Bootstrap.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) Bootstrap(arg0, arg1 any) *MockProviderForAgentBinaryFinderBootstrapCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) Bootstrap(ctx, params any) *MockProviderForAgentBinaryFinderBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).Bootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).Bootstrap), ctx, params)
 	return &MockProviderForAgentBinaryFinderBootstrapCall{Call: call}
 }
 
@@ -324,18 +327,18 @@ func (c *MockProviderForAgentBinaryFinderConfigCall) DoAndReturn(f func() *confi
 }
 
 // ConstraintsValidator mocks base method.
-func (m *MockProviderForAgentBinaryFinder) ConstraintsValidator(arg0 context.Context) (constraints.Validator, error) {
+func (m *MockProviderForAgentBinaryFinder) ConstraintsValidator(ctx context.Context) (constraints.Validator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsValidator", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsValidator", ctx)
 	ret0, _ := ret[0].(constraints.Validator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsValidator indicates an expected call of ConstraintsValidator.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) ConstraintsValidator(arg0 any) *MockProviderForAgentBinaryFinderConstraintsValidatorCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) ConstraintsValidator(ctx any) *MockProviderForAgentBinaryFinderConstraintsValidatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).ConstraintsValidator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).ConstraintsValidator), ctx)
 	return &MockProviderForAgentBinaryFinderConstraintsValidatorCall{Call: call}
 }
 
@@ -363,17 +366,17 @@ func (c *MockProviderForAgentBinaryFinderConstraintsValidatorCall) DoAndReturn(f
 }
 
 // Destroy mocks base method.
-func (m *MockProviderForAgentBinaryFinder) Destroy(arg0 context.Context) error {
+func (m *MockProviderForAgentBinaryFinder) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) Destroy(arg0 any) *MockProviderForAgentBinaryFinderDestroyCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) Destroy(ctx any) *MockProviderForAgentBinaryFinderDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).Destroy), ctx)
 	return &MockProviderForAgentBinaryFinderDestroyCall{Call: call}
 }
 
@@ -401,17 +404,17 @@ func (c *MockProviderForAgentBinaryFinderDestroyCall) DoAndReturn(f func(context
 }
 
 // DestroyController mocks base method.
-func (m *MockProviderForAgentBinaryFinder) DestroyController(arg0 context.Context, arg1 string) error {
+func (m *MockProviderForAgentBinaryFinder) DestroyController(ctx context.Context, controllerUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyController", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyController", ctx, controllerUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyController indicates an expected call of DestroyController.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) DestroyController(arg0, arg1 any) *MockProviderForAgentBinaryFinderDestroyControllerCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) DestroyController(ctx, controllerUUID any) *MockProviderForAgentBinaryFinderDestroyControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).DestroyController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).DestroyController), ctx, controllerUUID)
 	return &MockProviderForAgentBinaryFinderDestroyControllerCall{Call: call}
 }
 
@@ -439,17 +442,17 @@ func (c *MockProviderForAgentBinaryFinderDestroyControllerCall) DoAndReturn(f fu
 }
 
 // PrepareForBootstrap mocks base method.
-func (m *MockProviderForAgentBinaryFinder) PrepareForBootstrap(arg0 environs.BootstrapContext, arg1 string) error {
+func (m *MockProviderForAgentBinaryFinder) PrepareForBootstrap(ctx environs.BootstrapContext, controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareForBootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareForBootstrap", ctx, controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PrepareForBootstrap indicates an expected call of PrepareForBootstrap.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) PrepareForBootstrap(arg0, arg1 any) *MockProviderForAgentBinaryFinderPrepareForBootstrapCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) PrepareForBootstrap(ctx, controllerName any) *MockProviderForAgentBinaryFinderPrepareForBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).PrepareForBootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).PrepareForBootstrap), ctx, controllerName)
 	return &MockProviderForAgentBinaryFinderPrepareForBootstrapCall{Call: call}
 }
 
@@ -477,17 +480,17 @@ func (c *MockProviderForAgentBinaryFinderPrepareForBootstrapCall) DoAndReturn(f 
 }
 
 // SetConfig mocks base method.
-func (m *MockProviderForAgentBinaryFinder) SetConfig(arg0 context.Context, arg1 *config.Config) error {
+func (m *MockProviderForAgentBinaryFinder) SetConfig(ctx context.Context, cfg *config.Config) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockProviderForAgentBinaryFinderMockRecorder) SetConfig(arg0, arg1 any) *MockProviderForAgentBinaryFinderSetConfigCall {
+func (mr *MockProviderForAgentBinaryFinderMockRecorder) SetConfig(ctx, cfg any) *MockProviderForAgentBinaryFinderSetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).SetConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockProviderForAgentBinaryFinder)(nil).SetConfig), ctx, cfg)
 	return &MockProviderForAgentBinaryFinderSetConfigCall{Call: call}
 }
 

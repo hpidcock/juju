@@ -23,6 +23,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -396,6 +397,7 @@ func (c *MockStateUnpinLeaseCall) DoAndReturn(f func(context.Context, lease.Key,
 type MockMigrationState struct {
 	ctrl     *gomock.Controller
 	recorder *MockMigrationStateMockRecorder
+	isgomock struct{}
 }
 
 // MockMigrationStateMockRecorder is the mock recorder for MockMigrationState.
@@ -416,18 +418,18 @@ func (m *MockMigrationState) EXPECT() *MockMigrationStateMockRecorder {
 }
 
 // GetApplicationLeadershipForModel mocks base method.
-func (m *MockMigrationState) GetApplicationLeadershipForModel(arg0 context.Context, arg1 model.UUID) (map[string]string, error) {
+func (m *MockMigrationState) GetApplicationLeadershipForModel(ctx context.Context, modelUUID model.UUID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationLeadershipForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationLeadershipForModel", ctx, modelUUID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationLeadershipForModel indicates an expected call of GetApplicationLeadershipForModel.
-func (mr *MockMigrationStateMockRecorder) GetApplicationLeadershipForModel(arg0, arg1 any) *MockMigrationStateGetApplicationLeadershipForModelCall {
+func (mr *MockMigrationStateMockRecorder) GetApplicationLeadershipForModel(ctx, modelUUID any) *MockMigrationStateGetApplicationLeadershipForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLeadershipForModel", reflect.TypeOf((*MockMigrationState)(nil).GetApplicationLeadershipForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLeadershipForModel", reflect.TypeOf((*MockMigrationState)(nil).GetApplicationLeadershipForModel), ctx, modelUUID)
 	return &MockMigrationStateGetApplicationLeadershipForModelCall{Call: call}
 }
 

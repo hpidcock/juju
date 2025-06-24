@@ -20,6 +20,7 @@ import (
 type MockTerm struct {
 	ctrl     *gomock.Controller
 	recorder *MockTermMockRecorder
+	isgomock struct{}
 }
 
 // MockTermMockRecorder is the mock recorder for MockTerm.
@@ -78,15 +79,15 @@ func (c *MockTermChangesCall) DoAndReturn(f func() []changestream.ChangeEvent) *
 }
 
 // Done mocks base method.
-func (m *MockTerm) Done(arg0 bool, arg1 <-chan struct{}) {
+func (m *MockTerm) Done(empty bool, abort <-chan struct{}) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Done", arg0, arg1)
+	m.ctrl.Call(m, "Done", empty, abort)
 }
 
 // Done indicates an expected call of Done.
-func (mr *MockTermMockRecorder) Done(arg0, arg1 any) *MockTermDoneCall {
+func (mr *MockTermMockRecorder) Done(empty, abort any) *MockTermDoneCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Done", reflect.TypeOf((*MockTerm)(nil).Done), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Done", reflect.TypeOf((*MockTerm)(nil).Done), empty, abort)
 	return &MockTermDoneCall{Call: call}
 }
 

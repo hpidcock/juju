@@ -23,6 +23,7 @@ import (
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -124,6 +125,7 @@ func (c *MockExportServiceGetAllUnitPasswordHashesCall) DoAndReturn(f func(conte
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -144,17 +146,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // SetMachinePasswordHash mocks base method.
-func (m *MockImportService) SetMachinePasswordHash(arg0 context.Context, arg1 machine.Name, arg2 agentpassword.PasswordHash) error {
+func (m *MockImportService) SetMachinePasswordHash(ctx context.Context, machineName machine.Name, passwordHash agentpassword.PasswordHash) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMachinePasswordHash", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetMachinePasswordHash", ctx, machineName, passwordHash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetMachinePasswordHash indicates an expected call of SetMachinePasswordHash.
-func (mr *MockImportServiceMockRecorder) SetMachinePasswordHash(arg0, arg1, arg2 any) *MockImportServiceSetMachinePasswordHashCall {
+func (mr *MockImportServiceMockRecorder) SetMachinePasswordHash(ctx, machineName, passwordHash any) *MockImportServiceSetMachinePasswordHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachinePasswordHash", reflect.TypeOf((*MockImportService)(nil).SetMachinePasswordHash), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachinePasswordHash", reflect.TypeOf((*MockImportService)(nil).SetMachinePasswordHash), ctx, machineName, passwordHash)
 	return &MockImportServiceSetMachinePasswordHashCall{Call: call}
 }
 
@@ -182,17 +184,17 @@ func (c *MockImportServiceSetMachinePasswordHashCall) DoAndReturn(f func(context
 }
 
 // SetUnitPasswordHash mocks base method.
-func (m *MockImportService) SetUnitPasswordHash(arg0 context.Context, arg1 unit.Name, arg2 agentpassword.PasswordHash) error {
+func (m *MockImportService) SetUnitPasswordHash(ctx context.Context, unitName unit.Name, passwordHash agentpassword.PasswordHash) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitPasswordHash", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetUnitPasswordHash", ctx, unitName, passwordHash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitPasswordHash indicates an expected call of SetUnitPasswordHash.
-func (mr *MockImportServiceMockRecorder) SetUnitPasswordHash(arg0, arg1, arg2 any) *MockImportServiceSetUnitPasswordHashCall {
+func (mr *MockImportServiceMockRecorder) SetUnitPasswordHash(ctx, unitName, passwordHash any) *MockImportServiceSetUnitPasswordHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPasswordHash", reflect.TypeOf((*MockImportService)(nil).SetUnitPasswordHash), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPasswordHash", reflect.TypeOf((*MockImportService)(nil).SetUnitPasswordHash), ctx, unitName, passwordHash)
 	return &MockImportServiceSetUnitPasswordHashCall{Call: call}
 }
 

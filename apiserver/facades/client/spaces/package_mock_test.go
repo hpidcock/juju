@@ -27,6 +27,7 @@ import (
 type MockBacking struct {
 	ctrl     *gomock.Controller
 	recorder *MockBackingMockRecorder
+	isgomock struct{}
 }
 
 // MockBackingMockRecorder is the mock recorder for MockBacking.
@@ -125,18 +126,18 @@ func (c *MockBackingAllMachinesCall) DoAndReturn(f func() ([]Machine, error)) *M
 }
 
 // ConstraintsBySpaceName mocks base method.
-func (m *MockBacking) ConstraintsBySpaceName(arg0 string) ([]Constraints, error) {
+func (m *MockBacking) ConstraintsBySpaceName(name string) ([]Constraints, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsBySpaceName", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsBySpaceName", name)
 	ret0, _ := ret[0].([]Constraints)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsBySpaceName indicates an expected call of ConstraintsBySpaceName.
-func (mr *MockBackingMockRecorder) ConstraintsBySpaceName(arg0 any) *MockBackingConstraintsBySpaceNameCall {
+func (mr *MockBackingMockRecorder) ConstraintsBySpaceName(name any) *MockBackingConstraintsBySpaceNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsBySpaceName", reflect.TypeOf((*MockBacking)(nil).ConstraintsBySpaceName), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsBySpaceName", reflect.TypeOf((*MockBacking)(nil).ConstraintsBySpaceName), name)
 	return &MockBackingConstraintsBySpaceNameCall{Call: call}
 }
 
@@ -205,6 +206,7 @@ func (c *MockBackingIsControllerCall) DoAndReturn(f func() bool) *MockBackingIsC
 type MockBlockChecker struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCheckerMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCheckerMockRecorder is the mock recorder for MockBlockChecker.
@@ -304,6 +306,7 @@ func (c *MockBlockCheckerRemoveAllowedCall) DoAndReturn(f func(context.Context) 
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -363,18 +366,18 @@ func (c *MockMachineAllAddressesCall) DoAndReturn(f func() ([]Address, error)) *
 }
 
 // AllSpaces mocks base method.
-func (m *MockMachine) AllSpaces(arg0 network.SubnetInfos) (set.Strings, error) {
+func (m *MockMachine) AllSpaces(allSubnets network.SubnetInfos) (set.Strings, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllSpaces", arg0)
+	ret := m.ctrl.Call(m, "AllSpaces", allSubnets)
 	ret0, _ := ret[0].(set.Strings)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllSpaces indicates an expected call of AllSpaces.
-func (mr *MockMachineMockRecorder) AllSpaces(arg0 any) *MockMachineAllSpacesCall {
+func (mr *MockMachineMockRecorder) AllSpaces(allSubnets any) *MockMachineAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaces", reflect.TypeOf((*MockMachine)(nil).AllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllSpaces", reflect.TypeOf((*MockMachine)(nil).AllSpaces), allSubnets)
 	return &MockMachineAllSpacesCall{Call: call}
 }
 
@@ -443,6 +446,7 @@ func (c *MockMachineIdCall) DoAndReturn(f func() string) *MockMachineIdCall {
 type MockConstraints struct {
 	ctrl     *gomock.Controller
 	recorder *MockConstraintsMockRecorder
+	isgomock struct{}
 }
 
 // MockConstraintsMockRecorder is the mock recorder for MockConstraints.
@@ -463,17 +467,17 @@ func (m *MockConstraints) EXPECT() *MockConstraintsMockRecorder {
 }
 
 // ChangeSpaceNameOps mocks base method.
-func (m *MockConstraints) ChangeSpaceNameOps(arg0, arg1 string) []txn.Op {
+func (m *MockConstraints) ChangeSpaceNameOps(from, to string) []txn.Op {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ChangeSpaceNameOps", arg0, arg1)
+	ret := m.ctrl.Call(m, "ChangeSpaceNameOps", from, to)
 	ret0, _ := ret[0].([]txn.Op)
 	return ret0
 }
 
 // ChangeSpaceNameOps indicates an expected call of ChangeSpaceNameOps.
-func (mr *MockConstraintsMockRecorder) ChangeSpaceNameOps(arg0, arg1 any) *MockConstraintsChangeSpaceNameOpsCall {
+func (mr *MockConstraintsMockRecorder) ChangeSpaceNameOps(from, to any) *MockConstraintsChangeSpaceNameOpsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeSpaceNameOps", reflect.TypeOf((*MockConstraints)(nil).ChangeSpaceNameOps), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ChangeSpaceNameOps", reflect.TypeOf((*MockConstraints)(nil).ChangeSpaceNameOps), from, to)
 	return &MockConstraintsChangeSpaceNameOpsCall{Call: call}
 }
 
@@ -580,6 +584,7 @@ func (c *MockConstraintsValueCall) DoAndReturn(f func() constraints.Value) *Mock
 type MockAddress struct {
 	ctrl     *gomock.Controller
 	recorder *MockAddressMockRecorder
+	isgomock struct{}
 }
 
 // MockAddressMockRecorder is the mock recorder for MockAddress.
@@ -717,6 +722,7 @@ func (c *MockAddressValueCall) DoAndReturn(f func() string) *MockAddressValueCal
 type MockNetworkService struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkServiceMockRecorder is the mock recorder for MockNetworkService.
@@ -737,18 +743,18 @@ func (m *MockNetworkService) EXPECT() *MockNetworkServiceMockRecorder {
 }
 
 // AddSpace mocks base method.
-func (m *MockNetworkService) AddSpace(arg0 context.Context, arg1 network.SpaceInfo) (network.SpaceUUID, error) {
+func (m *MockNetworkService) AddSpace(ctx context.Context, space network.SpaceInfo) (network.SpaceUUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddSpace", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddSpace", ctx, space)
 	ret0, _ := ret[0].(network.SpaceUUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddSpace indicates an expected call of AddSpace.
-func (mr *MockNetworkServiceMockRecorder) AddSpace(arg0, arg1 any) *MockNetworkServiceAddSpaceCall {
+func (mr *MockNetworkServiceMockRecorder) AddSpace(ctx, space any) *MockNetworkServiceAddSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSpace", reflect.TypeOf((*MockNetworkService)(nil).AddSpace), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSpace", reflect.TypeOf((*MockNetworkService)(nil).AddSpace), ctx, space)
 	return &MockNetworkServiceAddSpaceCall{Call: call}
 }
 
@@ -776,18 +782,18 @@ func (c *MockNetworkServiceAddSpaceCall) DoAndReturn(f func(context.Context, net
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockNetworkService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockNetworkService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(arg0 any) *MockNetworkServiceGetAllSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(ctx any) *MockNetworkServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), ctx)
 	return &MockNetworkServiceGetAllSpacesCall{Call: call}
 }
 
@@ -815,18 +821,18 @@ func (c *MockNetworkServiceGetAllSpacesCall) DoAndReturn(f func(context.Context)
 }
 
 // GetAllSubnets mocks base method.
-func (m *MockNetworkService) GetAllSubnets(arg0 context.Context) (network.SubnetInfos, error) {
+func (m *MockNetworkService) GetAllSubnets(ctx context.Context) (network.SubnetInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSubnets", arg0)
+	ret := m.ctrl.Call(m, "GetAllSubnets", ctx)
 	ret0, _ := ret[0].(network.SubnetInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSubnets indicates an expected call of GetAllSubnets.
-func (mr *MockNetworkServiceMockRecorder) GetAllSubnets(arg0 any) *MockNetworkServiceGetAllSubnetsCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSubnets(ctx any) *MockNetworkServiceGetAllSubnetsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSubnets", reflect.TypeOf((*MockNetworkService)(nil).GetAllSubnets), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSubnets", reflect.TypeOf((*MockNetworkService)(nil).GetAllSubnets), ctx)
 	return &MockNetworkServiceGetAllSubnetsCall{Call: call}
 }
 
@@ -854,17 +860,17 @@ func (c *MockNetworkServiceGetAllSubnetsCall) DoAndReturn(f func(context.Context
 }
 
 // ReloadSpaces mocks base method.
-func (m *MockNetworkService) ReloadSpaces(arg0 context.Context) error {
+func (m *MockNetworkService) ReloadSpaces(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReloadSpaces", arg0)
+	ret := m.ctrl.Call(m, "ReloadSpaces", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReloadSpaces indicates an expected call of ReloadSpaces.
-func (mr *MockNetworkServiceMockRecorder) ReloadSpaces(arg0 any) *MockNetworkServiceReloadSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) ReloadSpaces(ctx any) *MockNetworkServiceReloadSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReloadSpaces", reflect.TypeOf((*MockNetworkService)(nil).ReloadSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReloadSpaces", reflect.TypeOf((*MockNetworkService)(nil).ReloadSpaces), ctx)
 	return &MockNetworkServiceReloadSpacesCall{Call: call}
 }
 
@@ -892,17 +898,17 @@ func (c *MockNetworkServiceReloadSpacesCall) DoAndReturn(f func(context.Context)
 }
 
 // RemoveSpace mocks base method.
-func (m *MockNetworkService) RemoveSpace(arg0 context.Context, arg1 network.SpaceUUID) error {
+func (m *MockNetworkService) RemoveSpace(ctx context.Context, uuid network.SpaceUUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveSpace", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveSpace", ctx, uuid)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveSpace indicates an expected call of RemoveSpace.
-func (mr *MockNetworkServiceMockRecorder) RemoveSpace(arg0, arg1 any) *MockNetworkServiceRemoveSpaceCall {
+func (mr *MockNetworkServiceMockRecorder) RemoveSpace(ctx, uuid any) *MockNetworkServiceRemoveSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSpace", reflect.TypeOf((*MockNetworkService)(nil).RemoveSpace), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSpace", reflect.TypeOf((*MockNetworkService)(nil).RemoveSpace), ctx, uuid)
 	return &MockNetworkServiceRemoveSpaceCall{Call: call}
 }
 
@@ -930,18 +936,18 @@ func (c *MockNetworkServiceRemoveSpaceCall) DoAndReturn(f func(context.Context, 
 }
 
 // SpaceByName mocks base method.
-func (m *MockNetworkService) SpaceByName(arg0 context.Context, arg1 network.SpaceName) (*network.SpaceInfo, error) {
+func (m *MockNetworkService) SpaceByName(ctx context.Context, name network.SpaceName) (*network.SpaceInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SpaceByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "SpaceByName", ctx, name)
 	ret0, _ := ret[0].(*network.SpaceInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SpaceByName indicates an expected call of SpaceByName.
-func (mr *MockNetworkServiceMockRecorder) SpaceByName(arg0, arg1 any) *MockNetworkServiceSpaceByNameCall {
+func (mr *MockNetworkServiceMockRecorder) SpaceByName(ctx, name any) *MockNetworkServiceSpaceByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceByName", reflect.TypeOf((*MockNetworkService)(nil).SpaceByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceByName", reflect.TypeOf((*MockNetworkService)(nil).SpaceByName), ctx, name)
 	return &MockNetworkServiceSpaceByNameCall{Call: call}
 }
 
@@ -969,18 +975,18 @@ func (c *MockNetworkServiceSpaceByNameCall) DoAndReturn(f func(context.Context, 
 }
 
 // Subnet mocks base method.
-func (m *MockNetworkService) Subnet(arg0 context.Context, arg1 string) (*network.SubnetInfo, error) {
+func (m *MockNetworkService) Subnet(ctx context.Context, uuid string) (*network.SubnetInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Subnet", arg0, arg1)
+	ret := m.ctrl.Call(m, "Subnet", ctx, uuid)
 	ret0, _ := ret[0].(*network.SubnetInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Subnet indicates an expected call of Subnet.
-func (mr *MockNetworkServiceMockRecorder) Subnet(arg0, arg1 any) *MockNetworkServiceSubnetCall {
+func (mr *MockNetworkServiceMockRecorder) Subnet(ctx, uuid any) *MockNetworkServiceSubnetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subnet", reflect.TypeOf((*MockNetworkService)(nil).Subnet), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subnet", reflect.TypeOf((*MockNetworkService)(nil).Subnet), ctx, uuid)
 	return &MockNetworkServiceSubnetCall{Call: call}
 }
 
@@ -1008,10 +1014,10 @@ func (c *MockNetworkServiceSubnetCall) DoAndReturn(f func(context.Context, strin
 }
 
 // SubnetsByCIDR mocks base method.
-func (m *MockNetworkService) SubnetsByCIDR(arg0 context.Context, arg1 ...string) ([]network.SubnetInfo, error) {
+func (m *MockNetworkService) SubnetsByCIDR(ctx context.Context, cidrs ...string) ([]network.SubnetInfo, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range cidrs {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SubnetsByCIDR", varargs...)
@@ -1021,9 +1027,9 @@ func (m *MockNetworkService) SubnetsByCIDR(arg0 context.Context, arg1 ...string)
 }
 
 // SubnetsByCIDR indicates an expected call of SubnetsByCIDR.
-func (mr *MockNetworkServiceMockRecorder) SubnetsByCIDR(arg0 any, arg1 ...any) *MockNetworkServiceSubnetsByCIDRCall {
+func (mr *MockNetworkServiceMockRecorder) SubnetsByCIDR(ctx any, cidrs ...any) *MockNetworkServiceSubnetsByCIDRCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, cidrs...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubnetsByCIDR", reflect.TypeOf((*MockNetworkService)(nil).SubnetsByCIDR), varargs...)
 	return &MockNetworkServiceSubnetsByCIDRCall{Call: call}
 }
@@ -1052,18 +1058,18 @@ func (c *MockNetworkServiceSubnetsByCIDRCall) DoAndReturn(f func(context.Context
 }
 
 // SupportsSpaceDiscovery mocks base method.
-func (m *MockNetworkService) SupportsSpaceDiscovery(arg0 context.Context) (bool, error) {
+func (m *MockNetworkService) SupportsSpaceDiscovery(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportsSpaceDiscovery", arg0)
+	ret := m.ctrl.Call(m, "SupportsSpaceDiscovery", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SupportsSpaceDiscovery indicates an expected call of SupportsSpaceDiscovery.
-func (mr *MockNetworkServiceMockRecorder) SupportsSpaceDiscovery(arg0 any) *MockNetworkServiceSupportsSpaceDiscoveryCall {
+func (mr *MockNetworkServiceMockRecorder) SupportsSpaceDiscovery(ctx any) *MockNetworkServiceSupportsSpaceDiscoveryCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsSpaceDiscovery", reflect.TypeOf((*MockNetworkService)(nil).SupportsSpaceDiscovery), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsSpaceDiscovery", reflect.TypeOf((*MockNetworkService)(nil).SupportsSpaceDiscovery), ctx)
 	return &MockNetworkServiceSupportsSpaceDiscoveryCall{Call: call}
 }
 
@@ -1091,18 +1097,18 @@ func (c *MockNetworkServiceSupportsSpaceDiscoveryCall) DoAndReturn(f func(contex
 }
 
 // SupportsSpaces mocks base method.
-func (m *MockNetworkService) SupportsSpaces(arg0 context.Context) (bool, error) {
+func (m *MockNetworkService) SupportsSpaces(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportsSpaces", arg0)
+	ret := m.ctrl.Call(m, "SupportsSpaces", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SupportsSpaces indicates an expected call of SupportsSpaces.
-func (mr *MockNetworkServiceMockRecorder) SupportsSpaces(arg0 any) *MockNetworkServiceSupportsSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) SupportsSpaces(ctx any) *MockNetworkServiceSupportsSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsSpaces", reflect.TypeOf((*MockNetworkService)(nil).SupportsSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsSpaces", reflect.TypeOf((*MockNetworkService)(nil).SupportsSpaces), ctx)
 	return &MockNetworkServiceSupportsSpacesCall{Call: call}
 }
 
@@ -1130,17 +1136,17 @@ func (c *MockNetworkServiceSupportsSpacesCall) DoAndReturn(f func(context.Contex
 }
 
 // UpdateSpace mocks base method.
-func (m *MockNetworkService) UpdateSpace(arg0 context.Context, arg1 network.SpaceUUID, arg2 network.SpaceName) error {
+func (m *MockNetworkService) UpdateSpace(ctx context.Context, uuid network.SpaceUUID, name network.SpaceName) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateSpace", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateSpace", ctx, uuid, name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateSpace indicates an expected call of UpdateSpace.
-func (mr *MockNetworkServiceMockRecorder) UpdateSpace(arg0, arg1, arg2 any) *MockNetworkServiceUpdateSpaceCall {
+func (mr *MockNetworkServiceMockRecorder) UpdateSpace(ctx, uuid, name any) *MockNetworkServiceUpdateSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSpace", reflect.TypeOf((*MockNetworkService)(nil).UpdateSpace), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSpace", reflect.TypeOf((*MockNetworkService)(nil).UpdateSpace), ctx, uuid, name)
 	return &MockNetworkServiceUpdateSpaceCall{Call: call}
 }
 
@@ -1168,17 +1174,17 @@ func (c *MockNetworkServiceUpdateSpaceCall) DoAndReturn(f func(context.Context, 
 }
 
 // UpdateSubnet mocks base method.
-func (m *MockNetworkService) UpdateSubnet(arg0 context.Context, arg1 string, arg2 network.SpaceUUID) error {
+func (m *MockNetworkService) UpdateSubnet(ctx context.Context, uuid string, spaceUUID network.SpaceUUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateSubnet", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateSubnet", ctx, uuid, spaceUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateSubnet indicates an expected call of UpdateSubnet.
-func (mr *MockNetworkServiceMockRecorder) UpdateSubnet(arg0, arg1, arg2 any) *MockNetworkServiceUpdateSubnetCall {
+func (mr *MockNetworkServiceMockRecorder) UpdateSubnet(ctx, uuid, spaceUUID any) *MockNetworkServiceUpdateSubnetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSubnet", reflect.TypeOf((*MockNetworkService)(nil).UpdateSubnet), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSubnet", reflect.TypeOf((*MockNetworkService)(nil).UpdateSubnet), ctx, uuid, spaceUUID)
 	return &MockNetworkServiceUpdateSubnetCall{Call: call}
 }
 
@@ -1209,6 +1215,7 @@ func (c *MockNetworkServiceUpdateSubnetCall) DoAndReturn(f func(context.Context,
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -1271,6 +1278,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -1291,18 +1299,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetAllEndpointBindings mocks base method.
-func (m *MockApplicationService) GetAllEndpointBindings(arg0 context.Context) (map[string]map[string]network.SpaceName, error) {
+func (m *MockApplicationService) GetAllEndpointBindings(ctx context.Context) (map[string]map[string]network.SpaceName, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllEndpointBindings", arg0)
+	ret := m.ctrl.Call(m, "GetAllEndpointBindings", ctx)
 	ret0, _ := ret[0].(map[string]map[string]network.SpaceName)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllEndpointBindings indicates an expected call of GetAllEndpointBindings.
-func (mr *MockApplicationServiceMockRecorder) GetAllEndpointBindings(arg0 any) *MockApplicationServiceGetAllEndpointBindingsCall {
+func (mr *MockApplicationServiceMockRecorder) GetAllEndpointBindings(ctx any) *MockApplicationServiceGetAllEndpointBindingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllEndpointBindings", reflect.TypeOf((*MockApplicationService)(nil).GetAllEndpointBindings), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllEndpointBindings", reflect.TypeOf((*MockApplicationService)(nil).GetAllEndpointBindings), ctx)
 	return &MockApplicationServiceGetAllEndpointBindingsCall{Call: call}
 }
 
@@ -1330,18 +1338,18 @@ func (c *MockApplicationServiceGetAllEndpointBindingsCall) DoAndReturn(f func(co
 }
 
 // GetApplicationsBoundToSpace mocks base method.
-func (m *MockApplicationService) GetApplicationsBoundToSpace(arg0 context.Context, arg1 network.SpaceUUID) ([]string, error) {
+func (m *MockApplicationService) GetApplicationsBoundToSpace(ctx context.Context, uuid network.SpaceUUID) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationsBoundToSpace", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationsBoundToSpace", ctx, uuid)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationsBoundToSpace indicates an expected call of GetApplicationsBoundToSpace.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationsBoundToSpace(arg0, arg1 any) *MockApplicationServiceGetApplicationsBoundToSpaceCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationsBoundToSpace(ctx, uuid any) *MockApplicationServiceGetApplicationsBoundToSpaceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationsBoundToSpace", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationsBoundToSpace), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationsBoundToSpace", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationsBoundToSpace), ctx, uuid)
 	return &MockApplicationServiceGetApplicationsBoundToSpaceCall{Call: call}
 }
 

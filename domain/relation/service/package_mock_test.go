@@ -27,6 +27,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -47,9 +48,9 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // AddRelation mocks base method.
-func (m *MockState) AddRelation(arg0 context.Context, arg1, arg2 relation0.CandidateEndpointIdentifier) (relation0.Endpoint, relation0.Endpoint, error) {
+func (m *MockState) AddRelation(ctx context.Context, ep1, ep2 relation0.CandidateEndpointIdentifier) (relation0.Endpoint, relation0.Endpoint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddRelation", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AddRelation", ctx, ep1, ep2)
 	ret0, _ := ret[0].(relation0.Endpoint)
 	ret1, _ := ret[1].(relation0.Endpoint)
 	ret2, _ := ret[2].(error)
@@ -57,9 +58,9 @@ func (m *MockState) AddRelation(arg0 context.Context, arg1, arg2 relation0.Candi
 }
 
 // AddRelation indicates an expected call of AddRelation.
-func (mr *MockStateMockRecorder) AddRelation(arg0, arg1, arg2 any) *MockStateAddRelationCall {
+func (mr *MockStateMockRecorder) AddRelation(ctx, ep1, ep2 any) *MockStateAddRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRelation", reflect.TypeOf((*MockState)(nil).AddRelation), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRelation", reflect.TypeOf((*MockState)(nil).AddRelation), ctx, ep1, ep2)
 	return &MockStateAddRelationCall{Call: call}
 }
 
@@ -87,18 +88,18 @@ func (c *MockStateAddRelationCall) DoAndReturn(f func(context.Context, relation0
 }
 
 // ApplicationRelationsInfo mocks base method.
-func (m *MockState) ApplicationRelationsInfo(arg0 context.Context, arg1 application.ID) ([]relation0.EndpointRelationData, error) {
+func (m *MockState) ApplicationRelationsInfo(ctx context.Context, applicationID application.ID) ([]relation0.EndpointRelationData, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplicationRelationsInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "ApplicationRelationsInfo", ctx, applicationID)
 	ret0, _ := ret[0].([]relation0.EndpointRelationData)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ApplicationRelationsInfo indicates an expected call of ApplicationRelationsInfo.
-func (mr *MockStateMockRecorder) ApplicationRelationsInfo(arg0, arg1 any) *MockStateApplicationRelationsInfoCall {
+func (mr *MockStateMockRecorder) ApplicationRelationsInfo(ctx, applicationID any) *MockStateApplicationRelationsInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationRelationsInfo", reflect.TypeOf((*MockState)(nil).ApplicationRelationsInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationRelationsInfo", reflect.TypeOf((*MockState)(nil).ApplicationRelationsInfo), ctx, applicationID)
 	return &MockStateApplicationRelationsInfoCall{Call: call}
 }
 
@@ -126,17 +127,17 @@ func (c *MockStateApplicationRelationsInfoCall) DoAndReturn(f func(context.Conte
 }
 
 // DeleteImportedRelations mocks base method.
-func (m *MockState) DeleteImportedRelations(arg0 context.Context) error {
+func (m *MockState) DeleteImportedRelations(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportedRelations", arg0)
+	ret := m.ctrl.Call(m, "DeleteImportedRelations", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteImportedRelations indicates an expected call of DeleteImportedRelations.
-func (mr *MockStateMockRecorder) DeleteImportedRelations(arg0 any) *MockStateDeleteImportedRelationsCall {
+func (mr *MockStateMockRecorder) DeleteImportedRelations(ctx any) *MockStateDeleteImportedRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedRelations", reflect.TypeOf((*MockState)(nil).DeleteImportedRelations), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedRelations", reflect.TypeOf((*MockState)(nil).DeleteImportedRelations), ctx)
 	return &MockStateDeleteImportedRelationsCall{Call: call}
 }
 
@@ -164,17 +165,17 @@ func (c *MockStateDeleteImportedRelationsCall) DoAndReturn(f func(context.Contex
 }
 
 // EnterScope mocks base method.
-func (m *MockState) EnterScope(arg0 context.Context, arg1 relation.UUID, arg2 unit.Name, arg3 map[string]string) error {
+func (m *MockState) EnterScope(ctx context.Context, relationUUID relation.UUID, unitName unit.Name, settings map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnterScope", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "EnterScope", ctx, relationUUID, unitName, settings)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnterScope indicates an expected call of EnterScope.
-func (mr *MockStateMockRecorder) EnterScope(arg0, arg1, arg2, arg3 any) *MockStateEnterScopeCall {
+func (mr *MockStateMockRecorder) EnterScope(ctx, relationUUID, unitName, settings any) *MockStateEnterScopeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnterScope", reflect.TypeOf((*MockState)(nil).EnterScope), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnterScope", reflect.TypeOf((*MockState)(nil).EnterScope), ctx, relationUUID, unitName, settings)
 	return &MockStateEnterScopeCall{Call: call}
 }
 
@@ -202,18 +203,18 @@ func (c *MockStateEnterScopeCall) DoAndReturn(f func(context.Context, relation.U
 }
 
 // ExportRelations mocks base method.
-func (m *MockState) ExportRelations(arg0 context.Context) ([]relation0.ExportRelation, error) {
+func (m *MockState) ExportRelations(ctx context.Context) ([]relation0.ExportRelation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportRelations", arg0)
+	ret := m.ctrl.Call(m, "ExportRelations", ctx)
 	ret0, _ := ret[0].([]relation0.ExportRelation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportRelations indicates an expected call of ExportRelations.
-func (mr *MockStateMockRecorder) ExportRelations(arg0 any) *MockStateExportRelationsCall {
+func (mr *MockStateMockRecorder) ExportRelations(ctx any) *MockStateExportRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelations", reflect.TypeOf((*MockState)(nil).ExportRelations), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelations", reflect.TypeOf((*MockState)(nil).ExportRelations), ctx)
 	return &MockStateExportRelationsCall{Call: call}
 }
 
@@ -241,18 +242,18 @@ func (c *MockStateExportRelationsCall) DoAndReturn(f func(context.Context) ([]re
 }
 
 // GetAllRelationDetails mocks base method.
-func (m *MockState) GetAllRelationDetails(arg0 context.Context) ([]relation0.RelationDetailsResult, error) {
+func (m *MockState) GetAllRelationDetails(ctx context.Context) ([]relation0.RelationDetailsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllRelationDetails", arg0)
+	ret := m.ctrl.Call(m, "GetAllRelationDetails", ctx)
 	ret0, _ := ret[0].([]relation0.RelationDetailsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllRelationDetails indicates an expected call of GetAllRelationDetails.
-func (mr *MockStateMockRecorder) GetAllRelationDetails(arg0 any) *MockStateGetAllRelationDetailsCall {
+func (mr *MockStateMockRecorder) GetAllRelationDetails(ctx any) *MockStateGetAllRelationDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllRelationDetails", reflect.TypeOf((*MockState)(nil).GetAllRelationDetails), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllRelationDetails", reflect.TypeOf((*MockState)(nil).GetAllRelationDetails), ctx)
 	return &MockStateGetAllRelationDetailsCall{Call: call}
 }
 
@@ -280,18 +281,18 @@ func (c *MockStateGetAllRelationDetailsCall) DoAndReturn(f func(context.Context)
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockState) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockState) GetApplicationIDByName(ctx context.Context, appName string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, appName)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockStateMockRecorder) GetApplicationIDByName(arg0, arg1 any) *MockStateGetApplicationIDByNameCall {
+func (mr *MockStateMockRecorder) GetApplicationIDByName(ctx, appName any) *MockStateGetApplicationIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockState)(nil).GetApplicationIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockState)(nil).GetApplicationIDByName), ctx, appName)
 	return &MockStateGetApplicationIDByNameCall{Call: call}
 }
 
@@ -319,18 +320,18 @@ func (c *MockStateGetApplicationIDByNameCall) DoAndReturn(f func(context.Context
 }
 
 // GetGoalStateRelationDataForApplication mocks base method.
-func (m *MockState) GetGoalStateRelationDataForApplication(arg0 context.Context, arg1 application.ID) ([]relation0.GoalStateRelationData, error) {
+func (m *MockState) GetGoalStateRelationDataForApplication(ctx context.Context, applicationID application.ID) ([]relation0.GoalStateRelationData, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetGoalStateRelationDataForApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetGoalStateRelationDataForApplication", ctx, applicationID)
 	ret0, _ := ret[0].([]relation0.GoalStateRelationData)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetGoalStateRelationDataForApplication indicates an expected call of GetGoalStateRelationDataForApplication.
-func (mr *MockStateMockRecorder) GetGoalStateRelationDataForApplication(arg0, arg1 any) *MockStateGetGoalStateRelationDataForApplicationCall {
+func (mr *MockStateMockRecorder) GetGoalStateRelationDataForApplication(ctx, applicationID any) *MockStateGetGoalStateRelationDataForApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGoalStateRelationDataForApplication", reflect.TypeOf((*MockState)(nil).GetGoalStateRelationDataForApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetGoalStateRelationDataForApplication", reflect.TypeOf((*MockState)(nil).GetGoalStateRelationDataForApplication), ctx, applicationID)
 	return &MockStateGetGoalStateRelationDataForApplicationCall{Call: call}
 }
 
@@ -358,18 +359,18 @@ func (c *MockStateGetGoalStateRelationDataForApplicationCall) DoAndReturn(f func
 }
 
 // GetMapperDataForWatchLifeSuspendedStatus mocks base method.
-func (m *MockState) GetMapperDataForWatchLifeSuspendedStatus(arg0 context.Context, arg1 relation.UUID, arg2 application.ID) (relation0.RelationLifeSuspendedData, error) {
+func (m *MockState) GetMapperDataForWatchLifeSuspendedStatus(ctx context.Context, relUUID relation.UUID, appID application.ID) (relation0.RelationLifeSuspendedData, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMapperDataForWatchLifeSuspendedStatus", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetMapperDataForWatchLifeSuspendedStatus", ctx, relUUID, appID)
 	ret0, _ := ret[0].(relation0.RelationLifeSuspendedData)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMapperDataForWatchLifeSuspendedStatus indicates an expected call of GetMapperDataForWatchLifeSuspendedStatus.
-func (mr *MockStateMockRecorder) GetMapperDataForWatchLifeSuspendedStatus(arg0, arg1, arg2 any) *MockStateGetMapperDataForWatchLifeSuspendedStatusCall {
+func (mr *MockStateMockRecorder) GetMapperDataForWatchLifeSuspendedStatus(ctx, relUUID, appID any) *MockStateGetMapperDataForWatchLifeSuspendedStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMapperDataForWatchLifeSuspendedStatus", reflect.TypeOf((*MockState)(nil).GetMapperDataForWatchLifeSuspendedStatus), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMapperDataForWatchLifeSuspendedStatus", reflect.TypeOf((*MockState)(nil).GetMapperDataForWatchLifeSuspendedStatus), ctx, relUUID, appID)
 	return &MockStateGetMapperDataForWatchLifeSuspendedStatusCall{Call: call}
 }
 
@@ -397,18 +398,18 @@ func (c *MockStateGetMapperDataForWatchLifeSuspendedStatusCall) DoAndReturn(f fu
 }
 
 // GetOtherRelatedEndpointApplicationData mocks base method.
-func (m *MockState) GetOtherRelatedEndpointApplicationData(arg0 context.Context, arg1 relation.UUID, arg2 application.ID) (relation0.OtherApplicationForWatcher, error) {
+func (m *MockState) GetOtherRelatedEndpointApplicationData(ctx context.Context, relUUID relation.UUID, applicationID application.ID) (relation0.OtherApplicationForWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetOtherRelatedEndpointApplicationData", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetOtherRelatedEndpointApplicationData", ctx, relUUID, applicationID)
 	ret0, _ := ret[0].(relation0.OtherApplicationForWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetOtherRelatedEndpointApplicationData indicates an expected call of GetOtherRelatedEndpointApplicationData.
-func (mr *MockStateMockRecorder) GetOtherRelatedEndpointApplicationData(arg0, arg1, arg2 any) *MockStateGetOtherRelatedEndpointApplicationDataCall {
+func (mr *MockStateMockRecorder) GetOtherRelatedEndpointApplicationData(ctx, relUUID, applicationID any) *MockStateGetOtherRelatedEndpointApplicationDataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOtherRelatedEndpointApplicationData", reflect.TypeOf((*MockState)(nil).GetOtherRelatedEndpointApplicationData), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetOtherRelatedEndpointApplicationData", reflect.TypeOf((*MockState)(nil).GetOtherRelatedEndpointApplicationData), ctx, relUUID, applicationID)
 	return &MockStateGetOtherRelatedEndpointApplicationDataCall{Call: call}
 }
 
@@ -436,18 +437,18 @@ func (c *MockStateGetOtherRelatedEndpointApplicationDataCall) DoAndReturn(f func
 }
 
 // GetPeerRelationUUIDByEndpointIdentifiers mocks base method.
-func (m *MockState) GetPeerRelationUUIDByEndpointIdentifiers(arg0 context.Context, arg1 relation.EndpointIdentifier) (relation.UUID, error) {
+func (m *MockState) GetPeerRelationUUIDByEndpointIdentifiers(ctx context.Context, endpoint relation.EndpointIdentifier) (relation.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPeerRelationUUIDByEndpointIdentifiers", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetPeerRelationUUIDByEndpointIdentifiers", ctx, endpoint)
 	ret0, _ := ret[0].(relation.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetPeerRelationUUIDByEndpointIdentifiers indicates an expected call of GetPeerRelationUUIDByEndpointIdentifiers.
-func (mr *MockStateMockRecorder) GetPeerRelationUUIDByEndpointIdentifiers(arg0, arg1 any) *MockStateGetPeerRelationUUIDByEndpointIdentifiersCall {
+func (mr *MockStateMockRecorder) GetPeerRelationUUIDByEndpointIdentifiers(ctx, endpoint any) *MockStateGetPeerRelationUUIDByEndpointIdentifiersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPeerRelationUUIDByEndpointIdentifiers", reflect.TypeOf((*MockState)(nil).GetPeerRelationUUIDByEndpointIdentifiers), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPeerRelationUUIDByEndpointIdentifiers", reflect.TypeOf((*MockState)(nil).GetPeerRelationUUIDByEndpointIdentifiers), ctx, endpoint)
 	return &MockStateGetPeerRelationUUIDByEndpointIdentifiersCall{Call: call}
 }
 
@@ -475,9 +476,9 @@ func (c *MockStateGetPeerRelationUUIDByEndpointIdentifiersCall) DoAndReturn(f fu
 }
 
 // GetPrincipalSubordinateApplicationIDs mocks base method.
-func (m *MockState) GetPrincipalSubordinateApplicationIDs(arg0 context.Context, arg1 unit.UUID) (application.ID, application.ID, error) {
+func (m *MockState) GetPrincipalSubordinateApplicationIDs(ctx context.Context, unitUUID unit.UUID) (application.ID, application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetPrincipalSubordinateApplicationIDs", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetPrincipalSubordinateApplicationIDs", ctx, unitUUID)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(application.ID)
 	ret2, _ := ret[2].(error)
@@ -485,9 +486,9 @@ func (m *MockState) GetPrincipalSubordinateApplicationIDs(arg0 context.Context, 
 }
 
 // GetPrincipalSubordinateApplicationIDs indicates an expected call of GetPrincipalSubordinateApplicationIDs.
-func (mr *MockStateMockRecorder) GetPrincipalSubordinateApplicationIDs(arg0, arg1 any) *MockStateGetPrincipalSubordinateApplicationIDsCall {
+func (mr *MockStateMockRecorder) GetPrincipalSubordinateApplicationIDs(ctx, unitUUID any) *MockStateGetPrincipalSubordinateApplicationIDsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPrincipalSubordinateApplicationIDs", reflect.TypeOf((*MockState)(nil).GetPrincipalSubordinateApplicationIDs), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPrincipalSubordinateApplicationIDs", reflect.TypeOf((*MockState)(nil).GetPrincipalSubordinateApplicationIDs), ctx, unitUUID)
 	return &MockStateGetPrincipalSubordinateApplicationIDsCall{Call: call}
 }
 
@@ -515,18 +516,18 @@ func (c *MockStateGetPrincipalSubordinateApplicationIDsCall) DoAndReturn(f func(
 }
 
 // GetRegularRelationUUIDByEndpointIdentifiers mocks base method.
-func (m *MockState) GetRegularRelationUUIDByEndpointIdentifiers(arg0 context.Context, arg1, arg2 relation.EndpointIdentifier) (relation.UUID, error) {
+func (m *MockState) GetRegularRelationUUIDByEndpointIdentifiers(ctx context.Context, endpoint1, endpoint2 relation.EndpointIdentifier) (relation.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRegularRelationUUIDByEndpointIdentifiers", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetRegularRelationUUIDByEndpointIdentifiers", ctx, endpoint1, endpoint2)
 	ret0, _ := ret[0].(relation.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRegularRelationUUIDByEndpointIdentifiers indicates an expected call of GetRegularRelationUUIDByEndpointIdentifiers.
-func (mr *MockStateMockRecorder) GetRegularRelationUUIDByEndpointIdentifiers(arg0, arg1, arg2 any) *MockStateGetRegularRelationUUIDByEndpointIdentifiersCall {
+func (mr *MockStateMockRecorder) GetRegularRelationUUIDByEndpointIdentifiers(ctx, endpoint1, endpoint2 any) *MockStateGetRegularRelationUUIDByEndpointIdentifiersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRegularRelationUUIDByEndpointIdentifiers", reflect.TypeOf((*MockState)(nil).GetRegularRelationUUIDByEndpointIdentifiers), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRegularRelationUUIDByEndpointIdentifiers", reflect.TypeOf((*MockState)(nil).GetRegularRelationUUIDByEndpointIdentifiers), ctx, endpoint1, endpoint2)
 	return &MockStateGetRegularRelationUUIDByEndpointIdentifiersCall{Call: call}
 }
 
@@ -554,18 +555,18 @@ func (c *MockStateGetRegularRelationUUIDByEndpointIdentifiersCall) DoAndReturn(f
 }
 
 // GetRelationApplicationSettings mocks base method.
-func (m *MockState) GetRelationApplicationSettings(arg0 context.Context, arg1 relation.UUID, arg2 application.ID) (map[string]string, error) {
+func (m *MockState) GetRelationApplicationSettings(ctx context.Context, relationUUID relation.UUID, applicationID application.ID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationApplicationSettings", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetRelationApplicationSettings", ctx, relationUUID, applicationID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationApplicationSettings indicates an expected call of GetRelationApplicationSettings.
-func (mr *MockStateMockRecorder) GetRelationApplicationSettings(arg0, arg1, arg2 any) *MockStateGetRelationApplicationSettingsCall {
+func (mr *MockStateMockRecorder) GetRelationApplicationSettings(ctx, relationUUID, applicationID any) *MockStateGetRelationApplicationSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationApplicationSettings", reflect.TypeOf((*MockState)(nil).GetRelationApplicationSettings), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationApplicationSettings", reflect.TypeOf((*MockState)(nil).GetRelationApplicationSettings), ctx, relationUUID, applicationID)
 	return &MockStateGetRelationApplicationSettingsCall{Call: call}
 }
 
@@ -593,18 +594,18 @@ func (c *MockStateGetRelationApplicationSettingsCall) DoAndReturn(f func(context
 }
 
 // GetRelationDetails mocks base method.
-func (m *MockState) GetRelationDetails(arg0 context.Context, arg1 relation.UUID) (relation0.RelationDetailsResult, error) {
+func (m *MockState) GetRelationDetails(ctx context.Context, relationUUID relation.UUID) (relation0.RelationDetailsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationDetails", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationDetails", ctx, relationUUID)
 	ret0, _ := ret[0].(relation0.RelationDetailsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationDetails indicates an expected call of GetRelationDetails.
-func (mr *MockStateMockRecorder) GetRelationDetails(arg0, arg1 any) *MockStateGetRelationDetailsCall {
+func (mr *MockStateMockRecorder) GetRelationDetails(ctx, relationUUID any) *MockStateGetRelationDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationDetails", reflect.TypeOf((*MockState)(nil).GetRelationDetails), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationDetails", reflect.TypeOf((*MockState)(nil).GetRelationDetails), ctx, relationUUID)
 	return &MockStateGetRelationDetailsCall{Call: call}
 }
 
@@ -632,18 +633,18 @@ func (c *MockStateGetRelationDetailsCall) DoAndReturn(f func(context.Context, re
 }
 
 // GetRelationEndpointScope mocks base method.
-func (m *MockState) GetRelationEndpointScope(arg0 context.Context, arg1 relation.UUID, arg2 application.ID) (charm.RelationScope, error) {
+func (m *MockState) GetRelationEndpointScope(ctx context.Context, relationUUID relation.UUID, applicationID application.ID) (charm.RelationScope, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationEndpointScope", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetRelationEndpointScope", ctx, relationUUID, applicationID)
 	ret0, _ := ret[0].(charm.RelationScope)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationEndpointScope indicates an expected call of GetRelationEndpointScope.
-func (mr *MockStateMockRecorder) GetRelationEndpointScope(arg0, arg1, arg2 any) *MockStateGetRelationEndpointScopeCall {
+func (mr *MockStateMockRecorder) GetRelationEndpointScope(ctx, relationUUID, applicationID any) *MockStateGetRelationEndpointScopeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationEndpointScope", reflect.TypeOf((*MockState)(nil).GetRelationEndpointScope), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationEndpointScope", reflect.TypeOf((*MockState)(nil).GetRelationEndpointScope), ctx, relationUUID, applicationID)
 	return &MockStateGetRelationEndpointScopeCall{Call: call}
 }
 
@@ -671,18 +672,18 @@ func (c *MockStateGetRelationEndpointScopeCall) DoAndReturn(f func(context.Conte
 }
 
 // GetRelationEndpointUUID mocks base method.
-func (m *MockState) GetRelationEndpointUUID(arg0 context.Context, arg1 relation0.GetRelationEndpointUUIDArgs) (relation.EndpointUUID, error) {
+func (m *MockState) GetRelationEndpointUUID(ctx context.Context, args relation0.GetRelationEndpointUUIDArgs) (relation.EndpointUUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationEndpointUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationEndpointUUID", ctx, args)
 	ret0, _ := ret[0].(relation.EndpointUUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationEndpointUUID indicates an expected call of GetRelationEndpointUUID.
-func (mr *MockStateMockRecorder) GetRelationEndpointUUID(arg0, arg1 any) *MockStateGetRelationEndpointUUIDCall {
+func (mr *MockStateMockRecorder) GetRelationEndpointUUID(ctx, args any) *MockStateGetRelationEndpointUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationEndpointUUID", reflect.TypeOf((*MockState)(nil).GetRelationEndpointUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationEndpointUUID", reflect.TypeOf((*MockState)(nil).GetRelationEndpointUUID), ctx, args)
 	return &MockStateGetRelationEndpointUUIDCall{Call: call}
 }
 
@@ -710,18 +711,18 @@ func (c *MockStateGetRelationEndpointUUIDCall) DoAndReturn(f func(context.Contex
 }
 
 // GetRelationUUIDByID mocks base method.
-func (m *MockState) GetRelationUUIDByID(arg0 context.Context, arg1 int) (relation.UUID, error) {
+func (m *MockState) GetRelationUUIDByID(ctx context.Context, relationID int) (relation.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationUUIDByID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationUUIDByID", ctx, relationID)
 	ret0, _ := ret[0].(relation.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationUUIDByID indicates an expected call of GetRelationUUIDByID.
-func (mr *MockStateMockRecorder) GetRelationUUIDByID(arg0, arg1 any) *MockStateGetRelationUUIDByIDCall {
+func (mr *MockStateMockRecorder) GetRelationUUIDByID(ctx, relationID any) *MockStateGetRelationUUIDByIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUUIDByID", reflect.TypeOf((*MockState)(nil).GetRelationUUIDByID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUUIDByID", reflect.TypeOf((*MockState)(nil).GetRelationUUIDByID), ctx, relationID)
 	return &MockStateGetRelationUUIDByIDCall{Call: call}
 }
 
@@ -749,18 +750,18 @@ func (c *MockStateGetRelationUUIDByIDCall) DoAndReturn(f func(context.Context, i
 }
 
 // GetRelationUnit mocks base method.
-func (m *MockState) GetRelationUnit(arg0 context.Context, arg1 relation.UUID, arg2 unit.Name) (relation.UnitUUID, error) {
+func (m *MockState) GetRelationUnit(ctx context.Context, relationUUID relation.UUID, unitName unit.Name) (relation.UnitUUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationUnit", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetRelationUnit", ctx, relationUUID, unitName)
 	ret0, _ := ret[0].(relation.UnitUUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationUnit indicates an expected call of GetRelationUnit.
-func (mr *MockStateMockRecorder) GetRelationUnit(arg0, arg1, arg2 any) *MockStateGetRelationUnitCall {
+func (mr *MockStateMockRecorder) GetRelationUnit(ctx, relationUUID, unitName any) *MockStateGetRelationUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnit", reflect.TypeOf((*MockState)(nil).GetRelationUnit), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnit", reflect.TypeOf((*MockState)(nil).GetRelationUnit), ctx, relationUUID, unitName)
 	return &MockStateGetRelationUnitCall{Call: call}
 }
 
@@ -788,18 +789,18 @@ func (c *MockStateGetRelationUnitCall) DoAndReturn(f func(context.Context, relat
 }
 
 // GetRelationUnitChanges mocks base method.
-func (m *MockState) GetRelationUnitChanges(arg0 context.Context, arg1 []unit.UUID, arg2 []application.ID) (relation0.RelationUnitsChange, error) {
+func (m *MockState) GetRelationUnitChanges(ctx context.Context, unitUUIDs []unit.UUID, appUUIDs []application.ID) (relation0.RelationUnitsChange, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationUnitChanges", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetRelationUnitChanges", ctx, unitUUIDs, appUUIDs)
 	ret0, _ := ret[0].(relation0.RelationUnitsChange)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationUnitChanges indicates an expected call of GetRelationUnitChanges.
-func (mr *MockStateMockRecorder) GetRelationUnitChanges(arg0, arg1, arg2 any) *MockStateGetRelationUnitChangesCall {
+func (mr *MockStateMockRecorder) GetRelationUnitChanges(ctx, unitUUIDs, appUUIDs any) *MockStateGetRelationUnitChangesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnitChanges", reflect.TypeOf((*MockState)(nil).GetRelationUnitChanges), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnitChanges", reflect.TypeOf((*MockState)(nil).GetRelationUnitChanges), ctx, unitUUIDs, appUUIDs)
 	return &MockStateGetRelationUnitChangesCall{Call: call}
 }
 
@@ -827,18 +828,18 @@ func (c *MockStateGetRelationUnitChangesCall) DoAndReturn(f func(context.Context
 }
 
 // GetRelationUnitSettings mocks base method.
-func (m *MockState) GetRelationUnitSettings(arg0 context.Context, arg1 relation.UnitUUID) (map[string]string, error) {
+func (m *MockState) GetRelationUnitSettings(ctx context.Context, relationUnitUUID relation.UnitUUID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationUnitSettings", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationUnitSettings", ctx, relationUnitUUID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationUnitSettings indicates an expected call of GetRelationUnitSettings.
-func (mr *MockStateMockRecorder) GetRelationUnitSettings(arg0, arg1 any) *MockStateGetRelationUnitSettingsCall {
+func (mr *MockStateMockRecorder) GetRelationUnitSettings(ctx, relationUnitUUID any) *MockStateGetRelationUnitSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnitSettings", reflect.TypeOf((*MockState)(nil).GetRelationUnitSettings), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationUnitSettings", reflect.TypeOf((*MockState)(nil).GetRelationUnitSettings), ctx, relationUnitUUID)
 	return &MockStateGetRelationUnitSettingsCall{Call: call}
 }
 
@@ -866,18 +867,18 @@ func (c *MockStateGetRelationUnitSettingsCall) DoAndReturn(f func(context.Contex
 }
 
 // GetRelationsStatusForUnit mocks base method.
-func (m *MockState) GetRelationsStatusForUnit(arg0 context.Context, arg1 unit.UUID) ([]relation0.RelationUnitStatusResult, error) {
+func (m *MockState) GetRelationsStatusForUnit(ctx context.Context, unitUUID unit.UUID) ([]relation0.RelationUnitStatusResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRelationsStatusForUnit", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetRelationsStatusForUnit", ctx, unitUUID)
 	ret0, _ := ret[0].([]relation0.RelationUnitStatusResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetRelationsStatusForUnit indicates an expected call of GetRelationsStatusForUnit.
-func (mr *MockStateMockRecorder) GetRelationsStatusForUnit(arg0, arg1 any) *MockStateGetRelationsStatusForUnitCall {
+func (mr *MockStateMockRecorder) GetRelationsStatusForUnit(ctx, unitUUID any) *MockStateGetRelationsStatusForUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationsStatusForUnit", reflect.TypeOf((*MockState)(nil).GetRelationsStatusForUnit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRelationsStatusForUnit", reflect.TypeOf((*MockState)(nil).GetRelationsStatusForUnit), ctx, unitUUID)
 	return &MockStateGetRelationsStatusForUnitCall{Call: call}
 }
 
@@ -905,18 +906,18 @@ func (c *MockStateGetRelationsStatusForUnitCall) DoAndReturn(f func(context.Cont
 }
 
 // InferRelationUUIDByEndpoints mocks base method.
-func (m *MockState) InferRelationUUIDByEndpoints(arg0 context.Context, arg1, arg2 relation0.CandidateEndpointIdentifier) (relation.UUID, error) {
+func (m *MockState) InferRelationUUIDByEndpoints(ctx context.Context, epIdentifier1, epIdentifier2 relation0.CandidateEndpointIdentifier) (relation.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InferRelationUUIDByEndpoints", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "InferRelationUUIDByEndpoints", ctx, epIdentifier1, epIdentifier2)
 	ret0, _ := ret[0].(relation.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // InferRelationUUIDByEndpoints indicates an expected call of InferRelationUUIDByEndpoints.
-func (mr *MockStateMockRecorder) InferRelationUUIDByEndpoints(arg0, arg1, arg2 any) *MockStateInferRelationUUIDByEndpointsCall {
+func (mr *MockStateMockRecorder) InferRelationUUIDByEndpoints(ctx, epIdentifier1, epIdentifier2 any) *MockStateInferRelationUUIDByEndpointsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InferRelationUUIDByEndpoints", reflect.TypeOf((*MockState)(nil).InferRelationUUIDByEndpoints), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InferRelationUUIDByEndpoints", reflect.TypeOf((*MockState)(nil).InferRelationUUIDByEndpoints), ctx, epIdentifier1, epIdentifier2)
 	return &MockStateInferRelationUUIDByEndpointsCall{Call: call}
 }
 
@@ -944,9 +945,9 @@ func (c *MockStateInferRelationUUIDByEndpointsCall) DoAndReturn(f func(context.C
 }
 
 // InitialWatchLifeSuspendedStatus mocks base method.
-func (m *MockState) InitialWatchLifeSuspendedStatus(arg0 application.ID) (string, string, eventsource.NamespaceQuery) {
+func (m *MockState) InitialWatchLifeSuspendedStatus(id application.ID) (string, string, eventsource.NamespaceQuery) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InitialWatchLifeSuspendedStatus", arg0)
+	ret := m.ctrl.Call(m, "InitialWatchLifeSuspendedStatus", id)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(eventsource.NamespaceQuery)
@@ -954,9 +955,9 @@ func (m *MockState) InitialWatchLifeSuspendedStatus(arg0 application.ID) (string
 }
 
 // InitialWatchLifeSuspendedStatus indicates an expected call of InitialWatchLifeSuspendedStatus.
-func (mr *MockStateMockRecorder) InitialWatchLifeSuspendedStatus(arg0 any) *MockStateInitialWatchLifeSuspendedStatusCall {
+func (mr *MockStateMockRecorder) InitialWatchLifeSuspendedStatus(id any) *MockStateInitialWatchLifeSuspendedStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialWatchLifeSuspendedStatus", reflect.TypeOf((*MockState)(nil).InitialWatchLifeSuspendedStatus), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialWatchLifeSuspendedStatus", reflect.TypeOf((*MockState)(nil).InitialWatchLifeSuspendedStatus), id)
 	return &MockStateInitialWatchLifeSuspendedStatusCall{Call: call}
 }
 
@@ -984,9 +985,9 @@ func (c *MockStateInitialWatchLifeSuspendedStatusCall) DoAndReturn(f func(applic
 }
 
 // InitialWatchRelatedUnits mocks base method.
-func (m *MockState) InitialWatchRelatedUnits(arg0 unit.Name, arg1 relation.UUID) ([]string, eventsource.NamespaceQuery, eventsource.Mapper) {
+func (m *MockState) InitialWatchRelatedUnits(name unit.Name, uuid relation.UUID) ([]string, eventsource.NamespaceQuery, eventsource.Mapper) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InitialWatchRelatedUnits", arg0, arg1)
+	ret := m.ctrl.Call(m, "InitialWatchRelatedUnits", name, uuid)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(eventsource.NamespaceQuery)
 	ret2, _ := ret[2].(eventsource.Mapper)
@@ -994,9 +995,9 @@ func (m *MockState) InitialWatchRelatedUnits(arg0 unit.Name, arg1 relation.UUID)
 }
 
 // InitialWatchRelatedUnits indicates an expected call of InitialWatchRelatedUnits.
-func (mr *MockStateMockRecorder) InitialWatchRelatedUnits(arg0, arg1 any) *MockStateInitialWatchRelatedUnitsCall {
+func (mr *MockStateMockRecorder) InitialWatchRelatedUnits(name, uuid any) *MockStateInitialWatchRelatedUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialWatchRelatedUnits", reflect.TypeOf((*MockState)(nil).InitialWatchRelatedUnits), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InitialWatchRelatedUnits", reflect.TypeOf((*MockState)(nil).InitialWatchRelatedUnits), name, uuid)
 	return &MockStateInitialWatchRelatedUnitsCall{Call: call}
 }
 
@@ -1024,18 +1025,18 @@ func (c *MockStateInitialWatchRelatedUnitsCall) DoAndReturn(f func(unit.Name, re
 }
 
 // IsPeerRelation mocks base method.
-func (m *MockState) IsPeerRelation(arg0 context.Context, arg1 relation.UUID) (bool, error) {
+func (m *MockState) IsPeerRelation(ctx context.Context, relationUUID relation.UUID) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsPeerRelation", arg0, arg1)
+	ret := m.ctrl.Call(m, "IsPeerRelation", ctx, relationUUID)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsPeerRelation indicates an expected call of IsPeerRelation.
-func (mr *MockStateMockRecorder) IsPeerRelation(arg0, arg1 any) *MockStateIsPeerRelationCall {
+func (mr *MockStateMockRecorder) IsPeerRelation(ctx, relationUUID any) *MockStateIsPeerRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsPeerRelation", reflect.TypeOf((*MockState)(nil).IsPeerRelation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsPeerRelation", reflect.TypeOf((*MockState)(nil).IsPeerRelation), ctx, relationUUID)
 	return &MockStateIsPeerRelationCall{Call: call}
 }
 
@@ -1063,17 +1064,17 @@ func (c *MockStateIsPeerRelationCall) DoAndReturn(f func(context.Context, relati
 }
 
 // LeaveScope mocks base method.
-func (m *MockState) LeaveScope(arg0 context.Context, arg1 relation.UnitUUID) error {
+func (m *MockState) LeaveScope(ctx context.Context, relationUnitUUID relation.UnitUUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LeaveScope", arg0, arg1)
+	ret := m.ctrl.Call(m, "LeaveScope", ctx, relationUnitUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // LeaveScope indicates an expected call of LeaveScope.
-func (mr *MockStateMockRecorder) LeaveScope(arg0, arg1 any) *MockStateLeaveScopeCall {
+func (mr *MockStateMockRecorder) LeaveScope(ctx, relationUnitUUID any) *MockStateLeaveScopeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeaveScope", reflect.TypeOf((*MockState)(nil).LeaveScope), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeaveScope", reflect.TypeOf((*MockState)(nil).LeaveScope), ctx, relationUnitUUID)
 	return &MockStateLeaveScopeCall{Call: call}
 }
 
@@ -1101,18 +1102,18 @@ func (c *MockStateLeaveScopeCall) DoAndReturn(f func(context.Context, relation.U
 }
 
 // NeedsSubordinateUnit mocks base method.
-func (m *MockState) NeedsSubordinateUnit(arg0 context.Context, arg1 relation.UUID, arg2 unit.Name) (*application.ID, error) {
+func (m *MockState) NeedsSubordinateUnit(ctx context.Context, relationUUID relation.UUID, principalUnitName unit.Name) (*application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NeedsSubordinateUnit", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "NeedsSubordinateUnit", ctx, relationUUID, principalUnitName)
 	ret0, _ := ret[0].(*application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NeedsSubordinateUnit indicates an expected call of NeedsSubordinateUnit.
-func (mr *MockStateMockRecorder) NeedsSubordinateUnit(arg0, arg1, arg2 any) *MockStateNeedsSubordinateUnitCall {
+func (mr *MockStateMockRecorder) NeedsSubordinateUnit(ctx, relationUUID, principalUnitName any) *MockStateNeedsSubordinateUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NeedsSubordinateUnit", reflect.TypeOf((*MockState)(nil).NeedsSubordinateUnit), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NeedsSubordinateUnit", reflect.TypeOf((*MockState)(nil).NeedsSubordinateUnit), ctx, relationUUID, principalUnitName)
 	return &MockStateNeedsSubordinateUnitCall{Call: call}
 }
 
@@ -1140,17 +1141,17 @@ func (c *MockStateNeedsSubordinateUnitCall) DoAndReturn(f func(context.Context, 
 }
 
 // SetRelationApplicationAndUnitSettings mocks base method.
-func (m *MockState) SetRelationApplicationAndUnitSettings(arg0 context.Context, arg1 relation.UnitUUID, arg2, arg3 map[string]string) error {
+func (m *MockState) SetRelationApplicationAndUnitSettings(ctx context.Context, relationUnitUUID relation.UnitUUID, applicationSettings, unitSettings map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRelationApplicationAndUnitSettings", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetRelationApplicationAndUnitSettings", ctx, relationUnitUUID, applicationSettings, unitSettings)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetRelationApplicationAndUnitSettings indicates an expected call of SetRelationApplicationAndUnitSettings.
-func (mr *MockStateMockRecorder) SetRelationApplicationAndUnitSettings(arg0, arg1, arg2, arg3 any) *MockStateSetRelationApplicationAndUnitSettingsCall {
+func (mr *MockStateMockRecorder) SetRelationApplicationAndUnitSettings(ctx, relationUnitUUID, applicationSettings, unitSettings any) *MockStateSetRelationApplicationAndUnitSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationApplicationAndUnitSettings", reflect.TypeOf((*MockState)(nil).SetRelationApplicationAndUnitSettings), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationApplicationAndUnitSettings", reflect.TypeOf((*MockState)(nil).SetRelationApplicationAndUnitSettings), ctx, relationUnitUUID, applicationSettings, unitSettings)
 	return &MockStateSetRelationApplicationAndUnitSettingsCall{Call: call}
 }
 
@@ -1178,17 +1179,17 @@ func (c *MockStateSetRelationApplicationAndUnitSettingsCall) DoAndReturn(f func(
 }
 
 // SetRelationApplicationSettings mocks base method.
-func (m *MockState) SetRelationApplicationSettings(arg0 context.Context, arg1 relation.UUID, arg2 application.ID, arg3 map[string]string) error {
+func (m *MockState) SetRelationApplicationSettings(ctx context.Context, relationUUID relation.UUID, applicationID application.ID, settings map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRelationApplicationSettings", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetRelationApplicationSettings", ctx, relationUUID, applicationID, settings)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetRelationApplicationSettings indicates an expected call of SetRelationApplicationSettings.
-func (mr *MockStateMockRecorder) SetRelationApplicationSettings(arg0, arg1, arg2, arg3 any) *MockStateSetRelationApplicationSettingsCall {
+func (mr *MockStateMockRecorder) SetRelationApplicationSettings(ctx, relationUUID, applicationID, settings any) *MockStateSetRelationApplicationSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationApplicationSettings", reflect.TypeOf((*MockState)(nil).SetRelationApplicationSettings), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationApplicationSettings", reflect.TypeOf((*MockState)(nil).SetRelationApplicationSettings), ctx, relationUUID, applicationID, settings)
 	return &MockStateSetRelationApplicationSettingsCall{Call: call}
 }
 
@@ -1216,17 +1217,17 @@ func (c *MockStateSetRelationApplicationSettingsCall) DoAndReturn(f func(context
 }
 
 // SetRelationUnitSettings mocks base method.
-func (m *MockState) SetRelationUnitSettings(arg0 context.Context, arg1 relation.UnitUUID, arg2 map[string]string) error {
+func (m *MockState) SetRelationUnitSettings(ctx context.Context, relationUnitUUID relation.UnitUUID, settings map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRelationUnitSettings", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetRelationUnitSettings", ctx, relationUnitUUID, settings)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetRelationUnitSettings indicates an expected call of SetRelationUnitSettings.
-func (mr *MockStateMockRecorder) SetRelationUnitSettings(arg0, arg1, arg2 any) *MockStateSetRelationUnitSettingsCall {
+func (mr *MockStateMockRecorder) SetRelationUnitSettings(ctx, relationUnitUUID, settings any) *MockStateSetRelationUnitSettingsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationUnitSettings", reflect.TypeOf((*MockState)(nil).SetRelationUnitSettings), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationUnitSettings", reflect.TypeOf((*MockState)(nil).SetRelationUnitSettings), ctx, relationUnitUUID, settings)
 	return &MockStateSetRelationUnitSettingsCall{Call: call}
 }
 
@@ -1254,18 +1255,18 @@ func (c *MockStateSetRelationUnitSettingsCall) DoAndReturn(f func(context.Contex
 }
 
 // SetRelationWithID mocks base method.
-func (m *MockState) SetRelationWithID(arg0 context.Context, arg1, arg2 relation.EndpointIdentifier, arg3 uint64) (relation.UUID, error) {
+func (m *MockState) SetRelationWithID(ctx context.Context, ep1, ep2 relation.EndpointIdentifier, id uint64) (relation.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRelationWithID", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetRelationWithID", ctx, ep1, ep2, id)
 	ret0, _ := ret[0].(relation.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SetRelationWithID indicates an expected call of SetRelationWithID.
-func (mr *MockStateMockRecorder) SetRelationWithID(arg0, arg1, arg2, arg3 any) *MockStateSetRelationWithIDCall {
+func (mr *MockStateMockRecorder) SetRelationWithID(ctx, ep1, ep2, id any) *MockStateSetRelationWithIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationWithID", reflect.TypeOf((*MockState)(nil).SetRelationWithID), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRelationWithID", reflect.TypeOf((*MockState)(nil).SetRelationWithID), ctx, ep1, ep2, id)
 	return &MockStateSetRelationWithIDCall{Call: call}
 }
 
@@ -1334,6 +1335,7 @@ func (c *MockStateWatcherApplicationSettingsNamespaceCall) DoAndReturn(f func() 
 type MockWatcherFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherFactoryMockRecorder is the mock recorder for MockWatcherFactory.
@@ -1354,22 +1356,22 @@ func (m *MockWatcherFactory) EXPECT() *MockWatcherFactoryMockRecorder {
 }
 
 // NewNamespaceMapperWatcher mocks base method.
-func (m *MockWatcherFactory) NewNamespaceMapperWatcher(arg0 eventsource.NamespaceQuery, arg1 eventsource.Mapper, arg2 eventsource.FilterOption, arg3 ...eventsource.FilterOption) (watcher.Watcher[[]string], error) {
+func (m *MockWatcherFactory) NewNamespaceMapperWatcher(initialQuery eventsource.NamespaceQuery, mapper eventsource.Mapper, filterOption eventsource.FilterOption, filterOptions ...eventsource.FilterOption) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{initialQuery, mapper, filterOption}
+	for _, a := range filterOptions {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "NewNamespaceMapperWatcher", varargs...)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewNamespaceMapperWatcher indicates an expected call of NewNamespaceMapperWatcher.
-func (mr *MockWatcherFactoryMockRecorder) NewNamespaceMapperWatcher(arg0, arg1, arg2 any, arg3 ...any) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
+func (mr *MockWatcherFactoryMockRecorder) NewNamespaceMapperWatcher(initialQuery, mapper, filterOption any, filterOptions ...any) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{initialQuery, mapper, filterOption}, filterOptions...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNamespaceMapperWatcher", reflect.TypeOf((*MockWatcherFactory)(nil).NewNamespaceMapperWatcher), varargs...)
 	return &MockWatcherFactoryNewNamespaceMapperWatcherCall{Call: call}
 }
@@ -1380,40 +1382,40 @@ type MockWatcherFactoryNewNamespaceMapperWatcherCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) Do(f func(eventsource.NamespaceQuery, eventsource.Mapper, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[[]string], error)) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) Do(f func(eventsource.NamespaceQuery, eventsource.Mapper, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.StringsWatcher, error)) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) DoAndReturn(f func(eventsource.NamespaceQuery, eventsource.Mapper, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[[]string], error)) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
+func (c *MockWatcherFactoryNewNamespaceMapperWatcherCall) DoAndReturn(f func(eventsource.NamespaceQuery, eventsource.Mapper, eventsource.FilterOption, ...eventsource.FilterOption) (watcher.StringsWatcher, error)) *MockWatcherFactoryNewNamespaceMapperWatcherCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // NewNotifyWatcher mocks base method.
-func (m *MockWatcherFactory) NewNotifyWatcher(arg0 eventsource.FilterOption, arg1 ...eventsource.FilterOption) (watcher.Watcher[struct{}], error) {
+func (m *MockWatcherFactory) NewNotifyWatcher(filter eventsource.FilterOption, filterOpts ...eventsource.FilterOption) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{filter}
+	for _, a := range filterOpts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "NewNotifyWatcher", varargs...)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewNotifyWatcher indicates an expected call of NewNotifyWatcher.
-func (mr *MockWatcherFactoryMockRecorder) NewNotifyWatcher(arg0 any, arg1 ...any) *MockWatcherFactoryNewNotifyWatcherCall {
+func (mr *MockWatcherFactoryMockRecorder) NewNotifyWatcher(filter any, filterOpts ...any) *MockWatcherFactoryNewNotifyWatcherCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{filter}, filterOpts...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNotifyWatcher", reflect.TypeOf((*MockWatcherFactory)(nil).NewNotifyWatcher), varargs...)
 	return &MockWatcherFactoryNewNotifyWatcherCall{Call: call}
 }
@@ -1424,19 +1426,19 @@ type MockWatcherFactoryNewNotifyWatcherCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockWatcherFactoryNewNotifyWatcherCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockWatcherFactoryNewNotifyWatcherCall) Do(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[struct{}], error)) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) Do(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.NotifyWatcher, error)) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockWatcherFactoryNewNotifyWatcherCall) DoAndReturn(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[struct{}], error)) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) DoAndReturn(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.NotifyWatcher, error)) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

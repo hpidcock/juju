@@ -24,6 +24,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -86,6 +87,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockExternalControllerService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalControllerServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalControllerServiceMockRecorder is the mock recorder for MockExternalControllerService.
@@ -106,18 +108,18 @@ func (m *MockExternalControllerService) EXPECT() *MockExternalControllerServiceM
 }
 
 // ControllerForModel mocks base method.
-func (m *MockExternalControllerService) ControllerForModel(arg0 context.Context, arg1 string) (*crossmodel.ControllerInfo, error) {
+func (m *MockExternalControllerService) ControllerForModel(ctx context.Context, modelUUID string) (*crossmodel.ControllerInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ControllerForModel", ctx, modelUUID)
 	ret0, _ := ret[0].(*crossmodel.ControllerInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerForModel indicates an expected call of ControllerForModel.
-func (mr *MockExternalControllerServiceMockRecorder) ControllerForModel(arg0, arg1 any) *MockExternalControllerServiceControllerForModelCall {
+func (mr *MockExternalControllerServiceMockRecorder) ControllerForModel(ctx, modelUUID any) *MockExternalControllerServiceControllerForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerForModel", reflect.TypeOf((*MockExternalControllerService)(nil).ControllerForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerForModel", reflect.TypeOf((*MockExternalControllerService)(nil).ControllerForModel), ctx, modelUUID)
 	return &MockExternalControllerServiceControllerForModelCall{Call: call}
 }
 
@@ -145,17 +147,17 @@ func (c *MockExternalControllerServiceControllerForModelCall) DoAndReturn(f func
 }
 
 // UpdateExternalController mocks base method.
-func (m *MockExternalControllerService) UpdateExternalController(arg0 context.Context, arg1 crossmodel.ControllerInfo) error {
+func (m *MockExternalControllerService) UpdateExternalController(ctx context.Context, ec crossmodel.ControllerInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateExternalController", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateExternalController", ctx, ec)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateExternalController indicates an expected call of UpdateExternalController.
-func (mr *MockExternalControllerServiceMockRecorder) UpdateExternalController(arg0, arg1 any) *MockExternalControllerServiceUpdateExternalControllerCall {
+func (mr *MockExternalControllerServiceMockRecorder) UpdateExternalController(ctx, ec any) *MockExternalControllerServiceUpdateExternalControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExternalController", reflect.TypeOf((*MockExternalControllerService)(nil).UpdateExternalController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExternalController", reflect.TypeOf((*MockExternalControllerService)(nil).UpdateExternalController), ctx, ec)
 	return &MockExternalControllerServiceUpdateExternalControllerCall{Call: call}
 }
 
@@ -186,6 +188,7 @@ func (c *MockExternalControllerServiceUpdateExternalControllerCall) DoAndReturn(
 type MockControllerConfigState struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigStateMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigStateMockRecorder is the mock recorder for MockControllerConfigState.

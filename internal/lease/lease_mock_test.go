@@ -21,6 +21,7 @@ import (
 type MockSecretary struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretaryMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretaryMockRecorder is the mock recorder for MockSecretary.
@@ -41,17 +42,17 @@ func (m *MockSecretary) EXPECT() *MockSecretaryMockRecorder {
 }
 
 // CheckDuration mocks base method.
-func (m *MockSecretary) CheckDuration(arg0 time.Duration) error {
+func (m *MockSecretary) CheckDuration(duration time.Duration) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckDuration", arg0)
+	ret := m.ctrl.Call(m, "CheckDuration", duration)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CheckDuration indicates an expected call of CheckDuration.
-func (mr *MockSecretaryMockRecorder) CheckDuration(arg0 any) *MockSecretaryCheckDurationCall {
+func (mr *MockSecretaryMockRecorder) CheckDuration(duration any) *MockSecretaryCheckDurationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckDuration", reflect.TypeOf((*MockSecretary)(nil).CheckDuration), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckDuration", reflect.TypeOf((*MockSecretary)(nil).CheckDuration), duration)
 	return &MockSecretaryCheckDurationCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockSecretaryCheckDurationCall) DoAndReturn(f func(time.Duration) error
 }
 
 // CheckHolder mocks base method.
-func (m *MockSecretary) CheckHolder(arg0 string) error {
+func (m *MockSecretary) CheckHolder(name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckHolder", arg0)
+	ret := m.ctrl.Call(m, "CheckHolder", name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CheckHolder indicates an expected call of CheckHolder.
-func (mr *MockSecretaryMockRecorder) CheckHolder(arg0 any) *MockSecretaryCheckHolderCall {
+func (mr *MockSecretaryMockRecorder) CheckHolder(name any) *MockSecretaryCheckHolderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckHolder", reflect.TypeOf((*MockSecretary)(nil).CheckHolder), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckHolder", reflect.TypeOf((*MockSecretary)(nil).CheckHolder), name)
 	return &MockSecretaryCheckHolderCall{Call: call}
 }
 
@@ -117,17 +118,17 @@ func (c *MockSecretaryCheckHolderCall) DoAndReturn(f func(string) error) *MockSe
 }
 
 // CheckLease mocks base method.
-func (m *MockSecretary) CheckLease(arg0 lease.Key) error {
+func (m *MockSecretary) CheckLease(key lease.Key) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckLease", arg0)
+	ret := m.ctrl.Call(m, "CheckLease", key)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CheckLease indicates an expected call of CheckLease.
-func (mr *MockSecretaryMockRecorder) CheckLease(arg0 any) *MockSecretaryCheckLeaseCall {
+func (mr *MockSecretaryMockRecorder) CheckLease(key any) *MockSecretaryCheckLeaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckLease", reflect.TypeOf((*MockSecretary)(nil).CheckLease), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckLease", reflect.TypeOf((*MockSecretary)(nil).CheckLease), key)
 	return &MockSecretaryCheckLeaseCall{Call: call}
 }
 

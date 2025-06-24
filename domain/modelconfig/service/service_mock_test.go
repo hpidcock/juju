@@ -20,6 +20,7 @@ import (
 type MockProviderState struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderStateMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderStateMockRecorder is the mock recorder for MockProviderState.
@@ -158,6 +159,7 @@ func (c *MockProviderStateNamespaceForWatchModelConfigCall) DoAndReturn(f func()
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -238,8 +240,8 @@ type MockStateGetModelAgentVersionAndStreamCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStateGetModelAgentVersionAndStreamCall) Return(arg0, arg1 string, arg2 error) *MockStateGetModelAgentVersionAndStreamCall {
-	c.Call = c.Call.Return(arg0, arg1, arg2)
+func (c *MockStateGetModelAgentVersionAndStreamCall) Return(ver, stream string, err error) *MockStateGetModelAgentVersionAndStreamCall {
+	c.Call = c.Call.Return(ver, stream, err)
 	return c
 }
 
@@ -410,18 +412,18 @@ func (c *MockStateSetModelConfigCall) DoAndReturn(f func(context.Context, map[st
 }
 
 // SpaceExists mocks base method.
-func (m *MockState) SpaceExists(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockState) SpaceExists(ctx context.Context, spaceName string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SpaceExists", arg0, arg1)
+	ret := m.ctrl.Call(m, "SpaceExists", ctx, spaceName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SpaceExists indicates an expected call of SpaceExists.
-func (mr *MockStateMockRecorder) SpaceExists(arg0, arg1 any) *MockStateSpaceExistsCall {
+func (mr *MockStateMockRecorder) SpaceExists(ctx, spaceName any) *MockStateSpaceExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceExists", reflect.TypeOf((*MockState)(nil).SpaceExists), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceExists", reflect.TypeOf((*MockState)(nil).SpaceExists), ctx, spaceName)
 	return &MockStateSpaceExistsCall{Call: call}
 }
 

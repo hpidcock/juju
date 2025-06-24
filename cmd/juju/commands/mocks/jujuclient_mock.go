@@ -23,6 +23,7 @@ import (
 type MockClientStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockClientStoreMockRecorder is the mock recorder for MockClientStore.
@@ -43,18 +44,18 @@ func (m *MockClientStore) EXPECT() *MockClientStoreMockRecorder {
 }
 
 // AccountDetails mocks base method.
-func (m *MockClientStore) AccountDetails(arg0 string) (*jujuclient.AccountDetails, error) {
+func (m *MockClientStore) AccountDetails(controllerName string) (*jujuclient.AccountDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AccountDetails", arg0)
+	ret := m.ctrl.Call(m, "AccountDetails", controllerName)
 	ret0, _ := ret[0].(*jujuclient.AccountDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AccountDetails indicates an expected call of AccountDetails.
-func (mr *MockClientStoreMockRecorder) AccountDetails(arg0 any) *MockClientStoreAccountDetailsCall {
+func (mr *MockClientStoreMockRecorder) AccountDetails(controllerName any) *MockClientStoreAccountDetailsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountDetails", reflect.TypeOf((*MockClientStore)(nil).AccountDetails), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountDetails", reflect.TypeOf((*MockClientStore)(nil).AccountDetails), controllerName)
 	return &MockClientStoreAccountDetailsCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockClientStoreAccountDetailsCall) DoAndReturn(f func(string) (*jujucli
 }
 
 // AddController mocks base method.
-func (m *MockClientStore) AddController(arg0 string, arg1 jujuclient.ControllerDetails) error {
+func (m *MockClientStore) AddController(controllerName string, details jujuclient.ControllerDetails) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddController", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddController", controllerName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddController indicates an expected call of AddController.
-func (mr *MockClientStoreMockRecorder) AddController(arg0, arg1 any) *MockClientStoreAddControllerCall {
+func (mr *MockClientStoreMockRecorder) AddController(controllerName, details any) *MockClientStoreAddControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddController", reflect.TypeOf((*MockClientStore)(nil).AddController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddController", reflect.TypeOf((*MockClientStore)(nil).AddController), controllerName, details)
 	return &MockClientStoreAddControllerCall{Call: call}
 }
 
@@ -198,18 +199,18 @@ func (c *MockClientStoreAllCredentialsCall) DoAndReturn(f func() (map[string]clo
 }
 
 // AllModels mocks base method.
-func (m *MockClientStore) AllModels(arg0 string) (map[string]jujuclient.ModelDetails, error) {
+func (m *MockClientStore) AllModels(controllerName string) (map[string]jujuclient.ModelDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllModels", arg0)
+	ret := m.ctrl.Call(m, "AllModels", controllerName)
 	ret0, _ := ret[0].(map[string]jujuclient.ModelDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllModels indicates an expected call of AllModels.
-func (mr *MockClientStoreMockRecorder) AllModels(arg0 any) *MockClientStoreAllModelsCall {
+func (mr *MockClientStoreMockRecorder) AllModels(controllerName any) *MockClientStoreAllModelsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllModels", reflect.TypeOf((*MockClientStore)(nil).AllModels), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllModels", reflect.TypeOf((*MockClientStore)(nil).AllModels), controllerName)
 	return &MockClientStoreAllModelsCall{Call: call}
 }
 
@@ -276,10 +277,10 @@ func (c *MockClientStoreBootstrapConfigForControllerCall) DoAndReturn(f func(str
 }
 
 // ControllerByAPIEndpoints mocks base method.
-func (m *MockClientStore) ControllerByAPIEndpoints(arg0 ...string) (*jujuclient.ControllerDetails, string, error) {
+func (m *MockClientStore) ControllerByAPIEndpoints(endpoints ...string) (*jujuclient.ControllerDetails, string, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range endpoints {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ControllerByAPIEndpoints", varargs...)
@@ -290,9 +291,9 @@ func (m *MockClientStore) ControllerByAPIEndpoints(arg0 ...string) (*jujuclient.
 }
 
 // ControllerByAPIEndpoints indicates an expected call of ControllerByAPIEndpoints.
-func (mr *MockClientStoreMockRecorder) ControllerByAPIEndpoints(arg0 ...any) *MockClientStoreControllerByAPIEndpointsCall {
+func (mr *MockClientStoreMockRecorder) ControllerByAPIEndpoints(endpoints ...any) *MockClientStoreControllerByAPIEndpointsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerByAPIEndpoints", reflect.TypeOf((*MockClientStore)(nil).ControllerByAPIEndpoints), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerByAPIEndpoints", reflect.TypeOf((*MockClientStore)(nil).ControllerByAPIEndpoints), endpoints...)
 	return &MockClientStoreControllerByAPIEndpointsCall{Call: call}
 }
 
@@ -320,18 +321,18 @@ func (c *MockClientStoreControllerByAPIEndpointsCall) DoAndReturn(f func(...stri
 }
 
 // ControllerByName mocks base method.
-func (m *MockClientStore) ControllerByName(arg0 string) (*jujuclient.ControllerDetails, error) {
+func (m *MockClientStore) ControllerByName(controllerName string) (*jujuclient.ControllerDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerByName", arg0)
+	ret := m.ctrl.Call(m, "ControllerByName", controllerName)
 	ret0, _ := ret[0].(*jujuclient.ControllerDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerByName indicates an expected call of ControllerByName.
-func (mr *MockClientStoreMockRecorder) ControllerByName(arg0 any) *MockClientStoreControllerByNameCall {
+func (mr *MockClientStoreMockRecorder) ControllerByName(controllerName any) *MockClientStoreControllerByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerByName", reflect.TypeOf((*MockClientStore)(nil).ControllerByName), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerByName", reflect.TypeOf((*MockClientStore)(nil).ControllerByName), controllerName)
 	return &MockClientStoreControllerByNameCall{Call: call}
 }
 
@@ -359,18 +360,18 @@ func (c *MockClientStoreControllerByNameCall) DoAndReturn(f func(string) (*jujuc
 }
 
 // CookieJar mocks base method.
-func (m *MockClientStore) CookieJar(arg0 string) (jujuclient.CookieJar, error) {
+func (m *MockClientStore) CookieJar(controllerName string) (jujuclient.CookieJar, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CookieJar", arg0)
+	ret := m.ctrl.Call(m, "CookieJar", controllerName)
 	ret0, _ := ret[0].(jujuclient.CookieJar)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CookieJar indicates an expected call of CookieJar.
-func (mr *MockClientStoreMockRecorder) CookieJar(arg0 any) *MockClientStoreCookieJarCall {
+func (mr *MockClientStoreMockRecorder) CookieJar(controllerName any) *MockClientStoreCookieJarCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CookieJar", reflect.TypeOf((*MockClientStore)(nil).CookieJar), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CookieJar", reflect.TypeOf((*MockClientStore)(nil).CookieJar), controllerName)
 	return &MockClientStoreCookieJarCall{Call: call}
 }
 
@@ -476,18 +477,18 @@ func (c *MockClientStoreCurrentControllerCall) DoAndReturn(f func() (string, err
 }
 
 // CurrentModel mocks base method.
-func (m *MockClientStore) CurrentModel(arg0 string) (string, error) {
+func (m *MockClientStore) CurrentModel(controllerName string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CurrentModel", arg0)
+	ret := m.ctrl.Call(m, "CurrentModel", controllerName)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CurrentModel indicates an expected call of CurrentModel.
-func (mr *MockClientStoreMockRecorder) CurrentModel(arg0 any) *MockClientStoreCurrentModelCall {
+func (mr *MockClientStoreMockRecorder) CurrentModel(controllerName any) *MockClientStoreCurrentModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CurrentModel", reflect.TypeOf((*MockClientStore)(nil).CurrentModel), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CurrentModel", reflect.TypeOf((*MockClientStore)(nil).CurrentModel), controllerName)
 	return &MockClientStoreCurrentModelCall{Call: call}
 }
 
@@ -515,18 +516,18 @@ func (c *MockClientStoreCurrentModelCall) DoAndReturn(f func(string) (string, er
 }
 
 // ModelByName mocks base method.
-func (m *MockClientStore) ModelByName(arg0, arg1 string) (*jujuclient.ModelDetails, error) {
+func (m *MockClientStore) ModelByName(controllerName, modelName string) (*jujuclient.ModelDetails, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "ModelByName", controllerName, modelName)
 	ret0, _ := ret[0].(*jujuclient.ModelDetails)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelByName indicates an expected call of ModelByName.
-func (mr *MockClientStoreMockRecorder) ModelByName(arg0, arg1 any) *MockClientStoreModelByNameCall {
+func (mr *MockClientStoreMockRecorder) ModelByName(controllerName, modelName any) *MockClientStoreModelByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelByName", reflect.TypeOf((*MockClientStore)(nil).ModelByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelByName", reflect.TypeOf((*MockClientStore)(nil).ModelByName), controllerName, modelName)
 	return &MockClientStoreModelByNameCall{Call: call}
 }
 
@@ -594,18 +595,18 @@ func (c *MockClientStorePreviousControllerCall) DoAndReturn(f func() (string, bo
 }
 
 // PreviousModel mocks base method.
-func (m *MockClientStore) PreviousModel(arg0 string) (string, error) {
+func (m *MockClientStore) PreviousModel(controllerName string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PreviousModel", arg0)
+	ret := m.ctrl.Call(m, "PreviousModel", controllerName)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PreviousModel indicates an expected call of PreviousModel.
-func (mr *MockClientStoreMockRecorder) PreviousModel(arg0 any) *MockClientStorePreviousModelCall {
+func (mr *MockClientStoreMockRecorder) PreviousModel(controllerName any) *MockClientStorePreviousModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PreviousModel", reflect.TypeOf((*MockClientStore)(nil).PreviousModel), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PreviousModel", reflect.TypeOf((*MockClientStore)(nil).PreviousModel), controllerName)
 	return &MockClientStorePreviousModelCall{Call: call}
 }
 
@@ -633,17 +634,17 @@ func (c *MockClientStorePreviousModelCall) DoAndReturn(f func(string) (string, e
 }
 
 // RemoveAccount mocks base method.
-func (m *MockClientStore) RemoveAccount(arg0 string) error {
+func (m *MockClientStore) RemoveAccount(controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAccount", arg0)
+	ret := m.ctrl.Call(m, "RemoveAccount", controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAccount indicates an expected call of RemoveAccount.
-func (mr *MockClientStoreMockRecorder) RemoveAccount(arg0 any) *MockClientStoreRemoveAccountCall {
+func (mr *MockClientStoreMockRecorder) RemoveAccount(controllerName any) *MockClientStoreRemoveAccountCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAccount", reflect.TypeOf((*MockClientStore)(nil).RemoveAccount), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAccount", reflect.TypeOf((*MockClientStore)(nil).RemoveAccount), controllerName)
 	return &MockClientStoreRemoveAccountCall{Call: call}
 }
 
@@ -671,17 +672,17 @@ func (c *MockClientStoreRemoveAccountCall) DoAndReturn(f func(string) error) *Mo
 }
 
 // RemoveController mocks base method.
-func (m *MockClientStore) RemoveController(arg0 string) error {
+func (m *MockClientStore) RemoveController(controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveController", arg0)
+	ret := m.ctrl.Call(m, "RemoveController", controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveController indicates an expected call of RemoveController.
-func (mr *MockClientStoreMockRecorder) RemoveController(arg0 any) *MockClientStoreRemoveControllerCall {
+func (mr *MockClientStoreMockRecorder) RemoveController(controllerName any) *MockClientStoreRemoveControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveController", reflect.TypeOf((*MockClientStore)(nil).RemoveController), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveController", reflect.TypeOf((*MockClientStore)(nil).RemoveController), controllerName)
 	return &MockClientStoreRemoveControllerCall{Call: call}
 }
 
@@ -709,17 +710,17 @@ func (c *MockClientStoreRemoveControllerCall) DoAndReturn(f func(string) error) 
 }
 
 // RemoveModel mocks base method.
-func (m *MockClientStore) RemoveModel(arg0, arg1 string) error {
+func (m *MockClientStore) RemoveModel(controllerName, modelName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveModel", controllerName, modelName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveModel indicates an expected call of RemoveModel.
-func (mr *MockClientStoreMockRecorder) RemoveModel(arg0, arg1 any) *MockClientStoreRemoveModelCall {
+func (mr *MockClientStoreMockRecorder) RemoveModel(controllerName, modelName any) *MockClientStoreRemoveModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveModel", reflect.TypeOf((*MockClientStore)(nil).RemoveModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveModel", reflect.TypeOf((*MockClientStore)(nil).RemoveModel), controllerName, modelName)
 	return &MockClientStoreRemoveModelCall{Call: call}
 }
 
@@ -747,17 +748,17 @@ func (c *MockClientStoreRemoveModelCall) DoAndReturn(f func(string, string) erro
 }
 
 // SetCurrentController mocks base method.
-func (m *MockClientStore) SetCurrentController(arg0 string) error {
+func (m *MockClientStore) SetCurrentController(controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCurrentController", arg0)
+	ret := m.ctrl.Call(m, "SetCurrentController", controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetCurrentController indicates an expected call of SetCurrentController.
-func (mr *MockClientStoreMockRecorder) SetCurrentController(arg0 any) *MockClientStoreSetCurrentControllerCall {
+func (mr *MockClientStoreMockRecorder) SetCurrentController(controllerName any) *MockClientStoreSetCurrentControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentController", reflect.TypeOf((*MockClientStore)(nil).SetCurrentController), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentController", reflect.TypeOf((*MockClientStore)(nil).SetCurrentController), controllerName)
 	return &MockClientStoreSetCurrentControllerCall{Call: call}
 }
 
@@ -785,17 +786,17 @@ func (c *MockClientStoreSetCurrentControllerCall) DoAndReturn(f func(string) err
 }
 
 // SetCurrentModel mocks base method.
-func (m *MockClientStore) SetCurrentModel(arg0, arg1 string) error {
+func (m *MockClientStore) SetCurrentModel(controllerName, modelName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCurrentModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetCurrentModel", controllerName, modelName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetCurrentModel indicates an expected call of SetCurrentModel.
-func (mr *MockClientStoreMockRecorder) SetCurrentModel(arg0, arg1 any) *MockClientStoreSetCurrentModelCall {
+func (mr *MockClientStoreMockRecorder) SetCurrentModel(controllerName, modelName any) *MockClientStoreSetCurrentModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentModel", reflect.TypeOf((*MockClientStore)(nil).SetCurrentModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentModel", reflect.TypeOf((*MockClientStore)(nil).SetCurrentModel), controllerName, modelName)
 	return &MockClientStoreSetCurrentModelCall{Call: call}
 }
 
@@ -823,17 +824,17 @@ func (c *MockClientStoreSetCurrentModelCall) DoAndReturn(f func(string, string) 
 }
 
 // SetModels mocks base method.
-func (m *MockClientStore) SetModels(arg0 string, arg1 map[string]jujuclient.ModelDetails) error {
+func (m *MockClientStore) SetModels(controllerName string, models map[string]jujuclient.ModelDetails) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModels", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetModels", controllerName, models)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModels indicates an expected call of SetModels.
-func (mr *MockClientStoreMockRecorder) SetModels(arg0, arg1 any) *MockClientStoreSetModelsCall {
+func (mr *MockClientStoreMockRecorder) SetModels(controllerName, models any) *MockClientStoreSetModelsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModels", reflect.TypeOf((*MockClientStore)(nil).SetModels), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModels", reflect.TypeOf((*MockClientStore)(nil).SetModels), controllerName, models)
 	return &MockClientStoreSetModelsCall{Call: call}
 }
 
@@ -861,17 +862,17 @@ func (c *MockClientStoreSetModelsCall) DoAndReturn(f func(string, map[string]juj
 }
 
 // UpdateAccount mocks base method.
-func (m *MockClientStore) UpdateAccount(arg0 string, arg1 jujuclient.AccountDetails) error {
+func (m *MockClientStore) UpdateAccount(controllerName string, details jujuclient.AccountDetails) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateAccount", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateAccount", controllerName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateAccount indicates an expected call of UpdateAccount.
-func (mr *MockClientStoreMockRecorder) UpdateAccount(arg0, arg1 any) *MockClientStoreUpdateAccountCall {
+func (mr *MockClientStoreMockRecorder) UpdateAccount(controllerName, details any) *MockClientStoreUpdateAccountCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAccount", reflect.TypeOf((*MockClientStore)(nil).UpdateAccount), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAccount", reflect.TypeOf((*MockClientStore)(nil).UpdateAccount), controllerName, details)
 	return &MockClientStoreUpdateAccountCall{Call: call}
 }
 
@@ -899,17 +900,17 @@ func (c *MockClientStoreUpdateAccountCall) DoAndReturn(f func(string, jujuclient
 }
 
 // UpdateBootstrapConfig mocks base method.
-func (m *MockClientStore) UpdateBootstrapConfig(arg0 string, arg1 jujuclient.BootstrapConfig) error {
+func (m *MockClientStore) UpdateBootstrapConfig(controller string, cfg jujuclient.BootstrapConfig) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateBootstrapConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateBootstrapConfig", controller, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateBootstrapConfig indicates an expected call of UpdateBootstrapConfig.
-func (mr *MockClientStoreMockRecorder) UpdateBootstrapConfig(arg0, arg1 any) *MockClientStoreUpdateBootstrapConfigCall {
+func (mr *MockClientStoreMockRecorder) UpdateBootstrapConfig(controller, cfg any) *MockClientStoreUpdateBootstrapConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateBootstrapConfig", reflect.TypeOf((*MockClientStore)(nil).UpdateBootstrapConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateBootstrapConfig", reflect.TypeOf((*MockClientStore)(nil).UpdateBootstrapConfig), controller, cfg)
 	return &MockClientStoreUpdateBootstrapConfigCall{Call: call}
 }
 
@@ -937,17 +938,17 @@ func (c *MockClientStoreUpdateBootstrapConfigCall) DoAndReturn(f func(string, ju
 }
 
 // UpdateController mocks base method.
-func (m *MockClientStore) UpdateController(arg0 string, arg1 jujuclient.ControllerDetails) error {
+func (m *MockClientStore) UpdateController(controllerName string, details jujuclient.ControllerDetails) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateController", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateController", controllerName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateController indicates an expected call of UpdateController.
-func (mr *MockClientStoreMockRecorder) UpdateController(arg0, arg1 any) *MockClientStoreUpdateControllerCall {
+func (mr *MockClientStoreMockRecorder) UpdateController(controllerName, details any) *MockClientStoreUpdateControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateController", reflect.TypeOf((*MockClientStore)(nil).UpdateController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateController", reflect.TypeOf((*MockClientStore)(nil).UpdateController), controllerName, details)
 	return &MockClientStoreUpdateControllerCall{Call: call}
 }
 
@@ -975,17 +976,17 @@ func (c *MockClientStoreUpdateControllerCall) DoAndReturn(f func(string, jujucli
 }
 
 // UpdateCredential mocks base method.
-func (m *MockClientStore) UpdateCredential(arg0 string, arg1 cloud.CloudCredential) error {
+func (m *MockClientStore) UpdateCredential(cloudName string, details cloud.CloudCredential) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCredential", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateCredential", cloudName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCredential indicates an expected call of UpdateCredential.
-func (mr *MockClientStoreMockRecorder) UpdateCredential(arg0, arg1 any) *MockClientStoreUpdateCredentialCall {
+func (mr *MockClientStoreMockRecorder) UpdateCredential(cloudName, details any) *MockClientStoreUpdateCredentialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCredential", reflect.TypeOf((*MockClientStore)(nil).UpdateCredential), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCredential", reflect.TypeOf((*MockClientStore)(nil).UpdateCredential), cloudName, details)
 	return &MockClientStoreUpdateCredentialCall{Call: call}
 }
 
@@ -1013,17 +1014,17 @@ func (c *MockClientStoreUpdateCredentialCall) DoAndReturn(f func(string, cloud.C
 }
 
 // UpdateModel mocks base method.
-func (m *MockClientStore) UpdateModel(arg0, arg1 string, arg2 jujuclient.ModelDetails) error {
+func (m *MockClientStore) UpdateModel(controllerName, modelName string, details jujuclient.ModelDetails) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateModel", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateModel", controllerName, modelName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateModel indicates an expected call of UpdateModel.
-func (mr *MockClientStoreMockRecorder) UpdateModel(arg0, arg1, arg2 any) *MockClientStoreUpdateModelCall {
+func (mr *MockClientStoreMockRecorder) UpdateModel(controllerName, modelName, details any) *MockClientStoreUpdateModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateModel", reflect.TypeOf((*MockClientStore)(nil).UpdateModel), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateModel", reflect.TypeOf((*MockClientStore)(nil).UpdateModel), controllerName, modelName, details)
 	return &MockClientStoreUpdateModelCall{Call: call}
 }
 
@@ -1054,6 +1055,7 @@ func (c *MockClientStoreUpdateModelCall) DoAndReturn(f func(string, string, juju
 type MockCookieJar struct {
 	ctrl     *gomock.Controller
 	recorder *MockCookieJarMockRecorder
+	isgomock struct{}
 }
 
 // MockCookieJarMockRecorder is the mock recorder for MockCookieJar.
@@ -1074,17 +1076,17 @@ func (m *MockCookieJar) EXPECT() *MockCookieJarMockRecorder {
 }
 
 // Cookies mocks base method.
-func (m *MockCookieJar) Cookies(arg0 *url.URL) []*http.Cookie {
+func (m *MockCookieJar) Cookies(u *url.URL) []*http.Cookie {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Cookies", arg0)
+	ret := m.ctrl.Call(m, "Cookies", u)
 	ret0, _ := ret[0].([]*http.Cookie)
 	return ret0
 }
 
 // Cookies indicates an expected call of Cookies.
-func (mr *MockCookieJarMockRecorder) Cookies(arg0 any) *MockCookieJarCookiesCall {
+func (mr *MockCookieJarMockRecorder) Cookies(u any) *MockCookieJarCookiesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cookies", reflect.TypeOf((*MockCookieJar)(nil).Cookies), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Cookies", reflect.TypeOf((*MockCookieJar)(nil).Cookies), u)
 	return &MockCookieJarCookiesCall{Call: call}
 }
 
@@ -1186,15 +1188,15 @@ func (c *MockCookieJarSaveCall) DoAndReturn(f func() error) *MockCookieJarSaveCa
 }
 
 // SetCookies mocks base method.
-func (m *MockCookieJar) SetCookies(arg0 *url.URL, arg1 []*http.Cookie) {
+func (m *MockCookieJar) SetCookies(u *url.URL, cookies []*http.Cookie) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetCookies", arg0, arg1)
+	m.ctrl.Call(m, "SetCookies", u, cookies)
 }
 
 // SetCookies indicates an expected call of SetCookies.
-func (mr *MockCookieJarMockRecorder) SetCookies(arg0, arg1 any) *MockCookieJarSetCookiesCall {
+func (mr *MockCookieJarMockRecorder) SetCookies(u, cookies any) *MockCookieJarSetCookiesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCookies", reflect.TypeOf((*MockCookieJar)(nil).SetCookies), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCookies", reflect.TypeOf((*MockCookieJar)(nil).SetCookies), u, cookies)
 	return &MockCookieJarSetCookiesCall{Call: call}
 }
 

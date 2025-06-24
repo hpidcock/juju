@@ -25,6 +25,7 @@ import (
 type MockDiscoveryInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockDiscoveryInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockDiscoveryInterfaceMockRecorder is the mock recorder for MockDiscoveryInterface.
@@ -317,18 +318,18 @@ func (c *MockDiscoveryInterfaceServerPreferredResourcesCall) DoAndReturn(f func(
 }
 
 // ServerResourcesForGroupVersion mocks base method.
-func (m *MockDiscoveryInterface) ServerResourcesForGroupVersion(arg0 string) (*v1.APIResourceList, error) {
+func (m *MockDiscoveryInterface) ServerResourcesForGroupVersion(groupVersion string) (*v1.APIResourceList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ServerResourcesForGroupVersion", arg0)
+	ret := m.ctrl.Call(m, "ServerResourcesForGroupVersion", groupVersion)
 	ret0, _ := ret[0].(*v1.APIResourceList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ServerResourcesForGroupVersion indicates an expected call of ServerResourcesForGroupVersion.
-func (mr *MockDiscoveryInterfaceMockRecorder) ServerResourcesForGroupVersion(arg0 any) *MockDiscoveryInterfaceServerResourcesForGroupVersionCall {
+func (mr *MockDiscoveryInterfaceMockRecorder) ServerResourcesForGroupVersion(groupVersion any) *MockDiscoveryInterfaceServerResourcesForGroupVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServerResourcesForGroupVersion", reflect.TypeOf((*MockDiscoveryInterface)(nil).ServerResourcesForGroupVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServerResourcesForGroupVersion", reflect.TypeOf((*MockDiscoveryInterface)(nil).ServerResourcesForGroupVersion), groupVersion)
 	return &MockDiscoveryInterfaceServerResourcesForGroupVersionCall{Call: call}
 }
 

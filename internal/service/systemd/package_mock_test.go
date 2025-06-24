@@ -10,7 +10,7 @@
 package systemd_test
 
 import (
-	fs "io/fs"
+	os "os"
 	reflect "reflect"
 
 	dbus "github.com/coreos/go-systemd/v22/dbus"
@@ -21,6 +21,7 @@ import (
 type MockDBusAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBusAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockDBusAPIMockRecorder is the mock recorder for MockDBusAPI.
@@ -431,6 +432,7 @@ func (c *MockDBusAPIStopUnitCall) DoAndReturn(f func(string, string, chan<- stri
 type MockFileSystemOps struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileSystemOpsMockRecorder
+	isgomock struct{}
 }
 
 // MockFileSystemOpsMockRecorder is the mock recorder for MockFileSystemOps.
@@ -451,17 +453,17 @@ func (m *MockFileSystemOps) EXPECT() *MockFileSystemOpsMockRecorder {
 }
 
 // Remove mocks base method.
-func (m *MockFileSystemOps) Remove(arg0 string) error {
+func (m *MockFileSystemOps) Remove(name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0)
+	ret := m.ctrl.Call(m, "Remove", name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockFileSystemOpsMockRecorder) Remove(arg0 any) *MockFileSystemOpsRemoveCall {
+func (mr *MockFileSystemOpsMockRecorder) Remove(name any) *MockFileSystemOpsRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockFileSystemOps)(nil).Remove), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockFileSystemOps)(nil).Remove), name)
 	return &MockFileSystemOpsRemoveCall{Call: call}
 }
 
@@ -489,17 +491,17 @@ func (c *MockFileSystemOpsRemoveCall) DoAndReturn(f func(string) error) *MockFil
 }
 
 // RemoveAll mocks base method.
-func (m *MockFileSystemOps) RemoveAll(arg0 string) error {
+func (m *MockFileSystemOps) RemoveAll(name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAll", arg0)
+	ret := m.ctrl.Call(m, "RemoveAll", name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAll indicates an expected call of RemoveAll.
-func (mr *MockFileSystemOpsMockRecorder) RemoveAll(arg0 any) *MockFileSystemOpsRemoveAllCall {
+func (mr *MockFileSystemOpsMockRecorder) RemoveAll(name any) *MockFileSystemOpsRemoveAllCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFileSystemOps)(nil).RemoveAll), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFileSystemOps)(nil).RemoveAll), name)
 	return &MockFileSystemOpsRemoveAllCall{Call: call}
 }
 
@@ -527,17 +529,17 @@ func (c *MockFileSystemOpsRemoveAllCall) DoAndReturn(f func(string) error) *Mock
 }
 
 // WriteFile mocks base method.
-func (m *MockFileSystemOps) WriteFile(arg0 string, arg1 []byte, arg2 fs.FileMode) error {
+func (m *MockFileSystemOps) WriteFile(fileName string, data []byte, perm os.FileMode) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteFile", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WriteFile", fileName, data, perm)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WriteFile indicates an expected call of WriteFile.
-func (mr *MockFileSystemOpsMockRecorder) WriteFile(arg0, arg1, arg2 any) *MockFileSystemOpsWriteFileCall {
+func (mr *MockFileSystemOpsMockRecorder) WriteFile(fileName, data, perm any) *MockFileSystemOpsWriteFileCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFile", reflect.TypeOf((*MockFileSystemOps)(nil).WriteFile), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFile", reflect.TypeOf((*MockFileSystemOps)(nil).WriteFile), fileName, data, perm)
 	return &MockFileSystemOpsWriteFileCall{Call: call}
 }
 
@@ -553,13 +555,13 @@ func (c *MockFileSystemOpsWriteFileCall) Return(arg0 error) *MockFileSystemOpsWr
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFileSystemOpsWriteFileCall) Do(f func(string, []byte, fs.FileMode) error) *MockFileSystemOpsWriteFileCall {
+func (c *MockFileSystemOpsWriteFileCall) Do(f func(string, []byte, os.FileMode) error) *MockFileSystemOpsWriteFileCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFileSystemOpsWriteFileCall) DoAndReturn(f func(string, []byte, fs.FileMode) error) *MockFileSystemOpsWriteFileCall {
+func (c *MockFileSystemOpsWriteFileCall) DoAndReturn(f func(string, []byte, os.FileMode) error) *MockFileSystemOpsWriteFileCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

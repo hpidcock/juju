@@ -19,6 +19,7 @@ import (
 type MockUpgrader struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpgraderMockRecorder
+	isgomock struct{}
 }
 
 // MockUpgraderMockRecorder is the mock recorder for MockUpgrader.

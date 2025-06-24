@@ -22,6 +22,7 @@ import (
 type MockStorageBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageBackendMockRecorder is the mock recorder for MockStorageBackend.
@@ -729,17 +730,17 @@ func (c *MockStorageBackendSetVolumeAttachmentInfoCall) DoAndReturn(f func(names
 }
 
 // SetVolumeAttachmentPlanBlockInfo mocks base method.
-func (m *MockStorageBackend) SetVolumeAttachmentPlanBlockInfo(arg0 names.Tag, arg1 names.VolumeTag, arg2 state.BlockDeviceInfo) error {
+func (m *MockStorageBackend) SetVolumeAttachmentPlanBlockInfo(machineTag names.Tag, volumeTag names.VolumeTag, info state.BlockDeviceInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetVolumeAttachmentPlanBlockInfo", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetVolumeAttachmentPlanBlockInfo", machineTag, volumeTag, info)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetVolumeAttachmentPlanBlockInfo indicates an expected call of SetVolumeAttachmentPlanBlockInfo.
-func (mr *MockStorageBackendMockRecorder) SetVolumeAttachmentPlanBlockInfo(arg0, arg1, arg2 any) *MockStorageBackendSetVolumeAttachmentPlanBlockInfoCall {
+func (mr *MockStorageBackendMockRecorder) SetVolumeAttachmentPlanBlockInfo(machineTag, volumeTag, info any) *MockStorageBackendSetVolumeAttachmentPlanBlockInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVolumeAttachmentPlanBlockInfo", reflect.TypeOf((*MockStorageBackend)(nil).SetVolumeAttachmentPlanBlockInfo), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVolumeAttachmentPlanBlockInfo", reflect.TypeOf((*MockStorageBackend)(nil).SetVolumeAttachmentPlanBlockInfo), machineTag, volumeTag, info)
 	return &MockStorageBackendSetVolumeAttachmentPlanBlockInfoCall{Call: call}
 }
 
@@ -1039,18 +1040,18 @@ func (c *MockStorageBackendVolumeAttachmentPlanCall) DoAndReturn(f func(names.Ta
 }
 
 // VolumeAttachmentPlans mocks base method.
-func (m *MockStorageBackend) VolumeAttachmentPlans(arg0 names.VolumeTag) ([]state.VolumeAttachmentPlan, error) {
+func (m *MockStorageBackend) VolumeAttachmentPlans(volume names.VolumeTag) ([]state.VolumeAttachmentPlan, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "VolumeAttachmentPlans", arg0)
+	ret := m.ctrl.Call(m, "VolumeAttachmentPlans", volume)
 	ret0, _ := ret[0].([]state.VolumeAttachmentPlan)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // VolumeAttachmentPlans indicates an expected call of VolumeAttachmentPlans.
-func (mr *MockStorageBackendMockRecorder) VolumeAttachmentPlans(arg0 any) *MockStorageBackendVolumeAttachmentPlansCall {
+func (mr *MockStorageBackendMockRecorder) VolumeAttachmentPlans(volume any) *MockStorageBackendVolumeAttachmentPlansCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VolumeAttachmentPlans", reflect.TypeOf((*MockStorageBackend)(nil).VolumeAttachmentPlans), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VolumeAttachmentPlans", reflect.TypeOf((*MockStorageBackend)(nil).VolumeAttachmentPlans), volume)
 	return &MockStorageBackendVolumeAttachmentPlansCall{Call: call}
 }
 
@@ -1459,17 +1460,17 @@ func (c *MockStorageBackendWatchModelVolumesCall) DoAndReturn(f func() state.Str
 }
 
 // WatchUnitFilesystemAttachments mocks base method.
-func (m *MockStorageBackend) WatchUnitFilesystemAttachments(arg0 names.ApplicationTag) state.StringsWatcher {
+func (m *MockStorageBackend) WatchUnitFilesystemAttachments(tag names.ApplicationTag) state.StringsWatcher {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchUnitFilesystemAttachments", arg0)
+	ret := m.ctrl.Call(m, "WatchUnitFilesystemAttachments", tag)
 	ret0, _ := ret[0].(state.StringsWatcher)
 	return ret0
 }
 
 // WatchUnitFilesystemAttachments indicates an expected call of WatchUnitFilesystemAttachments.
-func (mr *MockStorageBackendMockRecorder) WatchUnitFilesystemAttachments(arg0 any) *MockStorageBackendWatchUnitFilesystemAttachmentsCall {
+func (mr *MockStorageBackendMockRecorder) WatchUnitFilesystemAttachments(tag any) *MockStorageBackendWatchUnitFilesystemAttachmentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitFilesystemAttachments", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitFilesystemAttachments), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitFilesystemAttachments", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitFilesystemAttachments), tag)
 	return &MockStorageBackendWatchUnitFilesystemAttachmentsCall{Call: call}
 }
 
@@ -1497,17 +1498,17 @@ func (c *MockStorageBackendWatchUnitFilesystemAttachmentsCall) DoAndReturn(f fun
 }
 
 // WatchUnitFilesystems mocks base method.
-func (m *MockStorageBackend) WatchUnitFilesystems(arg0 names.ApplicationTag) state.StringsWatcher {
+func (m *MockStorageBackend) WatchUnitFilesystems(tag names.ApplicationTag) state.StringsWatcher {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchUnitFilesystems", arg0)
+	ret := m.ctrl.Call(m, "WatchUnitFilesystems", tag)
 	ret0, _ := ret[0].(state.StringsWatcher)
 	return ret0
 }
 
 // WatchUnitFilesystems indicates an expected call of WatchUnitFilesystems.
-func (mr *MockStorageBackendMockRecorder) WatchUnitFilesystems(arg0 any) *MockStorageBackendWatchUnitFilesystemsCall {
+func (mr *MockStorageBackendMockRecorder) WatchUnitFilesystems(tag any) *MockStorageBackendWatchUnitFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitFilesystems", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitFilesystems), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitFilesystems", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitFilesystems), tag)
 	return &MockStorageBackendWatchUnitFilesystemsCall{Call: call}
 }
 
@@ -1535,17 +1536,17 @@ func (c *MockStorageBackendWatchUnitFilesystemsCall) DoAndReturn(f func(names.Ap
 }
 
 // WatchUnitVolumeAttachments mocks base method.
-func (m *MockStorageBackend) WatchUnitVolumeAttachments(arg0 names.ApplicationTag) state.StringsWatcher {
+func (m *MockStorageBackend) WatchUnitVolumeAttachments(tag names.ApplicationTag) state.StringsWatcher {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchUnitVolumeAttachments", arg0)
+	ret := m.ctrl.Call(m, "WatchUnitVolumeAttachments", tag)
 	ret0, _ := ret[0].(state.StringsWatcher)
 	return ret0
 }
 
 // WatchUnitVolumeAttachments indicates an expected call of WatchUnitVolumeAttachments.
-func (mr *MockStorageBackendMockRecorder) WatchUnitVolumeAttachments(arg0 any) *MockStorageBackendWatchUnitVolumeAttachmentsCall {
+func (mr *MockStorageBackendMockRecorder) WatchUnitVolumeAttachments(tag any) *MockStorageBackendWatchUnitVolumeAttachmentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitVolumeAttachments", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitVolumeAttachments), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitVolumeAttachments", reflect.TypeOf((*MockStorageBackend)(nil).WatchUnitVolumeAttachments), tag)
 	return &MockStorageBackendWatchUnitVolumeAttachmentsCall{Call: call}
 }
 
@@ -1614,6 +1615,7 @@ func (c *MockStorageBackendWatchVolumeAttachmentCall) DoAndReturn(f func(names.T
 type MockBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockBackendMockRecorder is the mock recorder for MockBackend.

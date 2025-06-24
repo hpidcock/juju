@@ -21,6 +21,7 @@ import (
 type MockAPIAddressAccessor struct {
 	ctrl     *gomock.Controller
 	recorder *MockAPIAddressAccessorMockRecorder
+	isgomock struct{}
 }
 
 // MockAPIAddressAccessorMockRecorder is the mock recorder for MockAPIAddressAccessor.
@@ -41,18 +42,18 @@ func (m *MockAPIAddressAccessor) EXPECT() *MockAPIAddressAccessorMockRecorder {
 }
 
 // GetAllAPIAddressesForAgents mocks base method.
-func (m *MockAPIAddressAccessor) GetAllAPIAddressesForAgents(arg0 context.Context) (map[string][]string, error) {
+func (m *MockAPIAddressAccessor) GetAllAPIAddressesForAgents(ctx context.Context) (map[string][]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllAPIAddressesForAgents", arg0)
+	ret := m.ctrl.Call(m, "GetAllAPIAddressesForAgents", ctx)
 	ret0, _ := ret[0].(map[string][]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllAPIAddressesForAgents indicates an expected call of GetAllAPIAddressesForAgents.
-func (mr *MockAPIAddressAccessorMockRecorder) GetAllAPIAddressesForAgents(arg0 any) *MockAPIAddressAccessorGetAllAPIAddressesForAgentsCall {
+func (mr *MockAPIAddressAccessorMockRecorder) GetAllAPIAddressesForAgents(ctx any) *MockAPIAddressAccessorGetAllAPIAddressesForAgentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAPIAddressesForAgents", reflect.TypeOf((*MockAPIAddressAccessor)(nil).GetAllAPIAddressesForAgents), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAPIAddressesForAgents", reflect.TypeOf((*MockAPIAddressAccessor)(nil).GetAllAPIAddressesForAgents), ctx)
 	return &MockAPIAddressAccessorGetAllAPIAddressesForAgentsCall{Call: call}
 }
 
@@ -80,10 +81,10 @@ func (c *MockAPIAddressAccessorGetAllAPIAddressesForAgentsCall) DoAndReturn(f fu
 }
 
 // WatchControllerAPIAddresses mocks base method.
-func (m *MockAPIAddressAccessor) WatchControllerAPIAddresses(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockAPIAddressAccessor) WatchControllerAPIAddresses(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerAPIAddresses", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -101,19 +102,19 @@ type MockAPIAddressAccessorWatchControllerAPIAddressesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
+func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
+func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
+func (c *MockAPIAddressAccessorWatchControllerAPIAddressesCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockAPIAddressAccessorWatchControllerAPIAddressesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

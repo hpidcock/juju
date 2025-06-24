@@ -28,6 +28,7 @@ import (
 type MockEnviron struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironMockRecorder is the mock recorder for MockEnviron.
@@ -48,17 +49,17 @@ func (m *MockEnviron) EXPECT() *MockEnvironMockRecorder {
 }
 
 // AdoptResources mocks base method.
-func (m *MockEnviron) AdoptResources(arg0 context.Context, arg1 string, arg2 semversion.Number) error {
+func (m *MockEnviron) AdoptResources(ctx context.Context, controllerUUID string, fromVersion semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AdoptResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AdoptResources", ctx, controllerUUID, fromVersion)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AdoptResources indicates an expected call of AdoptResources.
-func (mr *MockEnvironMockRecorder) AdoptResources(arg0, arg1, arg2 any) *MockEnvironAdoptResourcesCall {
+func (mr *MockEnvironMockRecorder) AdoptResources(ctx, controllerUUID, fromVersion any) *MockEnvironAdoptResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockEnviron)(nil).AdoptResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockEnviron)(nil).AdoptResources), ctx, controllerUUID, fromVersion)
 	return &MockEnvironAdoptResourcesCall{Call: call}
 }
 
@@ -86,18 +87,18 @@ func (c *MockEnvironAdoptResourcesCall) DoAndReturn(f func(context.Context, stri
 }
 
 // AllInstances mocks base method.
-func (m *MockEnviron) AllInstances(arg0 context.Context) ([]instances.Instance, error) {
+func (m *MockEnviron) AllInstances(ctx context.Context) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllInstances", arg0)
+	ret := m.ctrl.Call(m, "AllInstances", ctx)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllInstances indicates an expected call of AllInstances.
-func (mr *MockEnvironMockRecorder) AllInstances(arg0 any) *MockEnvironAllInstancesCall {
+func (mr *MockEnvironMockRecorder) AllInstances(ctx any) *MockEnvironAllInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllInstances", reflect.TypeOf((*MockEnviron)(nil).AllInstances), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllInstances", reflect.TypeOf((*MockEnviron)(nil).AllInstances), ctx)
 	return &MockEnvironAllInstancesCall{Call: call}
 }
 
@@ -125,18 +126,18 @@ func (c *MockEnvironAllInstancesCall) DoAndReturn(f func(context.Context) ([]ins
 }
 
 // AllRunningInstances mocks base method.
-func (m *MockEnviron) AllRunningInstances(arg0 context.Context) ([]instances.Instance, error) {
+func (m *MockEnviron) AllRunningInstances(ctx context.Context) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllRunningInstances", arg0)
+	ret := m.ctrl.Call(m, "AllRunningInstances", ctx)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllRunningInstances indicates an expected call of AllRunningInstances.
-func (mr *MockEnvironMockRecorder) AllRunningInstances(arg0 any) *MockEnvironAllRunningInstancesCall {
+func (mr *MockEnvironMockRecorder) AllRunningInstances(ctx any) *MockEnvironAllRunningInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllRunningInstances", reflect.TypeOf((*MockEnviron)(nil).AllRunningInstances), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllRunningInstances", reflect.TypeOf((*MockEnviron)(nil).AllRunningInstances), ctx)
 	return &MockEnvironAllRunningInstancesCall{Call: call}
 }
 
@@ -164,18 +165,18 @@ func (c *MockEnvironAllRunningInstancesCall) DoAndReturn(f func(context.Context)
 }
 
 // Bootstrap mocks base method.
-func (m *MockEnviron) Bootstrap(arg0 environs.BootstrapContext, arg1 environs.BootstrapParams) (*environs.BootstrapResult, error) {
+func (m *MockEnviron) Bootstrap(ctx environs.BootstrapContext, params environs.BootstrapParams) (*environs.BootstrapResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Bootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "Bootstrap", ctx, params)
 	ret0, _ := ret[0].(*environs.BootstrapResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Bootstrap indicates an expected call of Bootstrap.
-func (mr *MockEnvironMockRecorder) Bootstrap(arg0, arg1 any) *MockEnvironBootstrapCall {
+func (mr *MockEnvironMockRecorder) Bootstrap(ctx, params any) *MockEnvironBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockEnviron)(nil).Bootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockEnviron)(nil).Bootstrap), ctx, params)
 	return &MockEnvironBootstrapCall{Call: call}
 }
 
@@ -241,18 +242,18 @@ func (c *MockEnvironConfigCall) DoAndReturn(f func() *config.Config) *MockEnviro
 }
 
 // ConstraintsValidator mocks base method.
-func (m *MockEnviron) ConstraintsValidator(arg0 context.Context) (constraints.Validator, error) {
+func (m *MockEnviron) ConstraintsValidator(ctx context.Context) (constraints.Validator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsValidator", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsValidator", ctx)
 	ret0, _ := ret[0].(constraints.Validator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsValidator indicates an expected call of ConstraintsValidator.
-func (mr *MockEnvironMockRecorder) ConstraintsValidator(arg0 any) *MockEnvironConstraintsValidatorCall {
+func (mr *MockEnvironMockRecorder) ConstraintsValidator(ctx any) *MockEnvironConstraintsValidatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockEnviron)(nil).ConstraintsValidator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockEnviron)(nil).ConstraintsValidator), ctx)
 	return &MockEnvironConstraintsValidatorCall{Call: call}
 }
 
@@ -280,18 +281,18 @@ func (c *MockEnvironConstraintsValidatorCall) DoAndReturn(f func(context.Context
 }
 
 // ControllerInstances mocks base method.
-func (m *MockEnviron) ControllerInstances(arg0 context.Context, arg1 string) ([]instance.Id, error) {
+func (m *MockEnviron) ControllerInstances(ctx context.Context, controllerUUID string) ([]instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerInstances", arg0, arg1)
+	ret := m.ctrl.Call(m, "ControllerInstances", ctx, controllerUUID)
 	ret0, _ := ret[0].([]instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerInstances indicates an expected call of ControllerInstances.
-func (mr *MockEnvironMockRecorder) ControllerInstances(arg0, arg1 any) *MockEnvironControllerInstancesCall {
+func (mr *MockEnvironMockRecorder) ControllerInstances(ctx, controllerUUID any) *MockEnvironControllerInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerInstances", reflect.TypeOf((*MockEnviron)(nil).ControllerInstances), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerInstances", reflect.TypeOf((*MockEnviron)(nil).ControllerInstances), ctx, controllerUUID)
 	return &MockEnvironControllerInstancesCall{Call: call}
 }
 
@@ -319,17 +320,17 @@ func (c *MockEnvironControllerInstancesCall) DoAndReturn(f func(context.Context,
 }
 
 // Destroy mocks base method.
-func (m *MockEnviron) Destroy(arg0 context.Context) error {
+func (m *MockEnviron) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockEnvironMockRecorder) Destroy(arg0 any) *MockEnvironDestroyCall {
+func (mr *MockEnvironMockRecorder) Destroy(ctx any) *MockEnvironDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockEnviron)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockEnviron)(nil).Destroy), ctx)
 	return &MockEnvironDestroyCall{Call: call}
 }
 
@@ -357,17 +358,17 @@ func (c *MockEnvironDestroyCall) DoAndReturn(f func(context.Context) error) *Moc
 }
 
 // DestroyController mocks base method.
-func (m *MockEnviron) DestroyController(arg0 context.Context, arg1 string) error {
+func (m *MockEnviron) DestroyController(ctx context.Context, controllerUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyController", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyController", ctx, controllerUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyController indicates an expected call of DestroyController.
-func (mr *MockEnvironMockRecorder) DestroyController(arg0, arg1 any) *MockEnvironDestroyControllerCall {
+func (mr *MockEnvironMockRecorder) DestroyController(ctx, controllerUUID any) *MockEnvironDestroyControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockEnviron)(nil).DestroyController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockEnviron)(nil).DestroyController), ctx, controllerUUID)
 	return &MockEnvironDestroyControllerCall{Call: call}
 }
 
@@ -434,18 +435,18 @@ func (c *MockEnvironInstanceTypesCall) DoAndReturn(f func(context.Context, const
 }
 
 // Instances mocks base method.
-func (m *MockEnviron) Instances(arg0 context.Context, arg1 []instance.Id) ([]instances.Instance, error) {
+func (m *MockEnviron) Instances(ctx context.Context, ids []instance.Id) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Instances", arg0, arg1)
+	ret := m.ctrl.Call(m, "Instances", ctx, ids)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Instances indicates an expected call of Instances.
-func (mr *MockEnvironMockRecorder) Instances(arg0, arg1 any) *MockEnvironInstancesCall {
+func (mr *MockEnvironMockRecorder) Instances(ctx, ids any) *MockEnvironInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnviron)(nil).Instances), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnviron)(nil).Instances), ctx, ids)
 	return &MockEnvironInstancesCall{Call: call}
 }
 
@@ -511,17 +512,17 @@ func (c *MockEnvironPrecheckInstanceCall) DoAndReturn(f func(context.Context, en
 }
 
 // PrepareForBootstrap mocks base method.
-func (m *MockEnviron) PrepareForBootstrap(arg0 environs.BootstrapContext, arg1 string) error {
+func (m *MockEnviron) PrepareForBootstrap(ctx environs.BootstrapContext, controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareForBootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareForBootstrap", ctx, controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PrepareForBootstrap indicates an expected call of PrepareForBootstrap.
-func (mr *MockEnvironMockRecorder) PrepareForBootstrap(arg0, arg1 any) *MockEnvironPrepareForBootstrapCall {
+func (mr *MockEnvironMockRecorder) PrepareForBootstrap(ctx, controllerName any) *MockEnvironPrepareForBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockEnviron)(nil).PrepareForBootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockEnviron)(nil).PrepareForBootstrap), ctx, controllerName)
 	return &MockEnvironPrepareForBootstrapCall{Call: call}
 }
 
@@ -587,17 +588,17 @@ func (c *MockEnvironProviderCall) DoAndReturn(f func() environs.EnvironProvider)
 }
 
 // SetConfig mocks base method.
-func (m *MockEnviron) SetConfig(arg0 context.Context, arg1 *config.Config) error {
+func (m *MockEnviron) SetConfig(ctx context.Context, cfg *config.Config) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockEnvironMockRecorder) SetConfig(arg0, arg1 any) *MockEnvironSetConfigCall {
+func (mr *MockEnvironMockRecorder) SetConfig(ctx, cfg any) *MockEnvironSetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockEnviron)(nil).SetConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockEnviron)(nil).SetConfig), ctx, cfg)
 	return &MockEnvironSetConfigCall{Call: call}
 }
 
@@ -625,18 +626,18 @@ func (c *MockEnvironSetConfigCall) DoAndReturn(f func(context.Context, *config.C
 }
 
 // StartInstance mocks base method.
-func (m *MockEnviron) StartInstance(arg0 context.Context, arg1 environs.StartInstanceParams) (*environs.StartInstanceResult, error) {
+func (m *MockEnviron) StartInstance(ctx context.Context, args environs.StartInstanceParams) (*environs.StartInstanceResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StartInstance", arg0, arg1)
+	ret := m.ctrl.Call(m, "StartInstance", ctx, args)
 	ret0, _ := ret[0].(*environs.StartInstanceResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // StartInstance indicates an expected call of StartInstance.
-func (mr *MockEnvironMockRecorder) StartInstance(arg0, arg1 any) *MockEnvironStartInstanceCall {
+func (mr *MockEnvironMockRecorder) StartInstance(ctx, args any) *MockEnvironStartInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartInstance", reflect.TypeOf((*MockEnviron)(nil).StartInstance), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartInstance", reflect.TypeOf((*MockEnviron)(nil).StartInstance), ctx, args)
 	return &MockEnvironStartInstanceCall{Call: call}
 }
 
@@ -788,6 +789,7 @@ func (c *MockEnvironStorageProviderTypesCall) DoAndReturn(f func() ([]storage.Pr
 type MockCloudDestroyer struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudDestroyerMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudDestroyerMockRecorder is the mock recorder for MockCloudDestroyer.
@@ -808,17 +810,17 @@ func (m *MockCloudDestroyer) EXPECT() *MockCloudDestroyerMockRecorder {
 }
 
 // Destroy mocks base method.
-func (m *MockCloudDestroyer) Destroy(arg0 context.Context) error {
+func (m *MockCloudDestroyer) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockCloudDestroyerMockRecorder) Destroy(arg0 any) *MockCloudDestroyerDestroyCall {
+func (mr *MockCloudDestroyerMockRecorder) Destroy(ctx any) *MockCloudDestroyerDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockCloudDestroyer)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockCloudDestroyer)(nil).Destroy), ctx)
 	return &MockCloudDestroyerDestroyCall{Call: call}
 }
 
@@ -849,6 +851,7 @@ func (c *MockCloudDestroyerDestroyCall) DoAndReturn(f func(context.Context) erro
 type MockCloudSpecSetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudSpecSetterMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudSpecSetterMockRecorder is the mock recorder for MockCloudSpecSetter.
@@ -869,17 +872,17 @@ func (m *MockCloudSpecSetter) EXPECT() *MockCloudSpecSetterMockRecorder {
 }
 
 // SetCloudSpec mocks base method.
-func (m *MockCloudSpecSetter) SetCloudSpec(arg0 context.Context, arg1 cloudspec.CloudSpec) error {
+func (m *MockCloudSpecSetter) SetCloudSpec(ctx context.Context, spec cloudspec.CloudSpec) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCloudSpec", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetCloudSpec", ctx, spec)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetCloudSpec indicates an expected call of SetCloudSpec.
-func (mr *MockCloudSpecSetterMockRecorder) SetCloudSpec(arg0, arg1 any) *MockCloudSpecSetterSetCloudSpecCall {
+func (mr *MockCloudSpecSetterMockRecorder) SetCloudSpec(ctx, spec any) *MockCloudSpecSetterSetCloudSpecCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCloudSpec", reflect.TypeOf((*MockCloudSpecSetter)(nil).SetCloudSpec), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCloudSpec", reflect.TypeOf((*MockCloudSpecSetter)(nil).SetCloudSpec), ctx, spec)
 	return &MockCloudSpecSetterSetCloudSpecCall{Call: call}
 }
 

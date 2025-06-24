@@ -22,6 +22,7 @@ import (
 type MockInstanceLister struct {
 	ctrl     *gomock.Controller
 	recorder *MockInstanceListerMockRecorder
+	isgomock struct{}
 }
 
 // MockInstanceListerMockRecorder is the mock recorder for MockInstanceLister.
@@ -42,18 +43,18 @@ func (m *MockInstanceLister) EXPECT() *MockInstanceListerMockRecorder {
 }
 
 // Instances mocks base method.
-func (m *MockInstanceLister) Instances(arg0 context.Context, arg1 []instance.Id) ([]instances.Instance, error) {
+func (m *MockInstanceLister) Instances(ctx context.Context, ids []instance.Id) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Instances", arg0, arg1)
+	ret := m.ctrl.Call(m, "Instances", ctx, ids)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Instances indicates an expected call of Instances.
-func (mr *MockInstanceListerMockRecorder) Instances(arg0, arg1 any) *MockInstanceListerInstancesCall {
+func (mr *MockInstanceListerMockRecorder) Instances(ctx, ids any) *MockInstanceListerInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockInstanceLister)(nil).Instances), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockInstanceLister)(nil).Instances), ctx, ids)
 	return &MockInstanceListerInstancesCall{Call: call}
 }
 

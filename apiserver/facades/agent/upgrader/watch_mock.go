@@ -25,6 +25,7 @@ import (
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.
@@ -160,18 +161,18 @@ func (c *MockModelAgentServiceSetUnitReportedAgentVersionCall) DoAndReturn(f fun
 }
 
 // WatchMachineTargetAgentVersion mocks base method.
-func (m *MockModelAgentService) WatchMachineTargetAgentVersion(arg0 context.Context, arg1 machine.Name) (watcher.Watcher[struct{}], error) {
+func (m *MockModelAgentService) WatchMachineTargetAgentVersion(ctx context.Context, machineName machine.Name) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchMachineTargetAgentVersion", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchMachineTargetAgentVersion", ctx, machineName)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchMachineTargetAgentVersion indicates an expected call of WatchMachineTargetAgentVersion.
-func (mr *MockModelAgentServiceMockRecorder) WatchMachineTargetAgentVersion(arg0, arg1 any) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
+func (mr *MockModelAgentServiceMockRecorder) WatchMachineTargetAgentVersion(ctx, machineName any) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchMachineTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchMachineTargetAgentVersion), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchMachineTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchMachineTargetAgentVersion), ctx, machineName)
 	return &MockModelAgentServiceWatchMachineTargetAgentVersionCall{Call: call}
 }
 
@@ -181,36 +182,36 @@ type MockModelAgentServiceWatchMachineTargetAgentVersionCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) Do(f func(context.Context, machine.Name) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) Do(f func(context.Context, machine.Name) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchMachineTargetAgentVersionCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchMachineTargetAgentVersionCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchModelTargetAgentVersion mocks base method.
-func (m *MockModelAgentService) WatchModelTargetAgentVersion(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockModelAgentService) WatchModelTargetAgentVersion(ctx context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchModelTargetAgentVersion", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchModelTargetAgentVersion", ctx)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchModelTargetAgentVersion indicates an expected call of WatchModelTargetAgentVersion.
-func (mr *MockModelAgentServiceMockRecorder) WatchModelTargetAgentVersion(arg0 any) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
+func (mr *MockModelAgentServiceMockRecorder) WatchModelTargetAgentVersion(ctx any) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchModelTargetAgentVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchModelTargetAgentVersion), ctx)
 	return &MockModelAgentServiceWatchModelTargetAgentVersionCall{Call: call}
 }
 
@@ -220,36 +221,36 @@ type MockModelAgentServiceWatchModelTargetAgentVersionCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchModelTargetAgentVersionCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchModelTargetAgentVersionCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchUnitTargetAgentVersion mocks base method.
-func (m *MockModelAgentService) WatchUnitTargetAgentVersion(arg0 context.Context, arg1 unit.Name) (watcher.Watcher[struct{}], error) {
+func (m *MockModelAgentService) WatchUnitTargetAgentVersion(ctx context.Context, unitName unit.Name) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchUnitTargetAgentVersion", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchUnitTargetAgentVersion", ctx, unitName)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchUnitTargetAgentVersion indicates an expected call of WatchUnitTargetAgentVersion.
-func (mr *MockModelAgentServiceMockRecorder) WatchUnitTargetAgentVersion(arg0, arg1 any) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
+func (mr *MockModelAgentServiceMockRecorder) WatchUnitTargetAgentVersion(ctx, unitName any) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchUnitTargetAgentVersion), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchUnitTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).WatchUnitTargetAgentVersion), ctx, unitName)
 	return &MockModelAgentServiceWatchUnitTargetAgentVersionCall{Call: call}
 }
 
@@ -259,19 +260,19 @@ type MockModelAgentServiceWatchUnitTargetAgentVersionCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) Do(f func(context.Context, unit.Name) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) Do(f func(context.Context, unit.Name) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) DoAndReturn(f func(context.Context, unit.Name) (watcher.Watcher[struct{}], error)) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
+func (c *MockModelAgentServiceWatchUnitTargetAgentVersionCall) DoAndReturn(f func(context.Context, unit.Name) (watcher.NotifyWatcher, error)) *MockModelAgentServiceWatchUnitTargetAgentVersionCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

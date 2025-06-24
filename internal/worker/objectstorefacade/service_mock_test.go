@@ -22,6 +22,7 @@ import (
 type MockObjectStoreGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreGetterMockRecorder is the mock recorder for MockObjectStoreGetter.
@@ -84,6 +85,7 @@ func (c *MockObjectStoreGetterGetObjectStoreCall) DoAndReturn(f func(context.Con
 type MockObjectStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreMockRecorder is the mock recorder for MockObjectStore.
@@ -224,18 +226,18 @@ func (c *MockObjectStoreGetBySHA256PrefixCall) DoAndReturn(f func(context.Contex
 }
 
 // Put mocks base method.
-func (m *MockObjectStore) Put(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64) (objectstore.UUID, error) {
+func (m *MockObjectStore) Put(ctx context.Context, path string, r io.Reader, size int64) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Put", ctx, path, r, size)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Put indicates an expected call of Put.
-func (mr *MockObjectStoreMockRecorder) Put(arg0, arg1, arg2, arg3 any) *MockObjectStorePutCall {
+func (mr *MockObjectStoreMockRecorder) Put(ctx, path, r, size any) *MockObjectStorePutCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockObjectStore)(nil).Put), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockObjectStore)(nil).Put), ctx, path, r, size)
 	return &MockObjectStorePutCall{Call: call}
 }
 
@@ -263,18 +265,18 @@ func (c *MockObjectStorePutCall) DoAndReturn(f func(context.Context, string, io.
 }
 
 // PutAndCheckHash mocks base method.
-func (m *MockObjectStore) PutAndCheckHash(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64, arg4 string) (objectstore.UUID, error) {
+func (m *MockObjectStore) PutAndCheckHash(ctx context.Context, path string, r io.Reader, size int64, sha384 string) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutAndCheckHash", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutAndCheckHash", ctx, path, r, size, sha384)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutAndCheckHash indicates an expected call of PutAndCheckHash.
-func (mr *MockObjectStoreMockRecorder) PutAndCheckHash(arg0, arg1, arg2, arg3, arg4 any) *MockObjectStorePutAndCheckHashCall {
+func (mr *MockObjectStoreMockRecorder) PutAndCheckHash(ctx, path, r, size, sha384 any) *MockObjectStorePutAndCheckHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockObjectStore)(nil).PutAndCheckHash), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockObjectStore)(nil).PutAndCheckHash), ctx, path, r, size, sha384)
 	return &MockObjectStorePutAndCheckHashCall{Call: call}
 }
 
@@ -302,17 +304,17 @@ func (c *MockObjectStorePutAndCheckHashCall) DoAndReturn(f func(context.Context,
 }
 
 // Remove mocks base method.
-func (m *MockObjectStore) Remove(arg0 context.Context, arg1 string) error {
+func (m *MockObjectStore) Remove(ctx context.Context, path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0, arg1)
+	ret := m.ctrl.Call(m, "Remove", ctx, path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockObjectStoreMockRecorder) Remove(arg0, arg1 any) *MockObjectStoreRemoveCall {
+func (mr *MockObjectStoreMockRecorder) Remove(ctx, path any) *MockObjectStoreRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockObjectStore)(nil).Remove), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockObjectStore)(nil).Remove), ctx, path)
 	return &MockObjectStoreRemoveCall{Call: call}
 }
 

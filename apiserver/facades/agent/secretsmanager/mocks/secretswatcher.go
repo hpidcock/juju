@@ -16,30 +16,31 @@ import (
 )
 
 // MockStringsWatcher is a mock of StringsWatcher interface.
-type MockStringsWatcher struct {
+type MockStringsWatcher[T any] struct {
 	ctrl     *gomock.Controller
-	recorder *MockStringsWatcherMockRecorder
+	recorder *MockStringsWatcherMockRecorder[T]
+	isgomock struct{}
 }
 
 // MockStringsWatcherMockRecorder is the mock recorder for MockStringsWatcher.
-type MockStringsWatcherMockRecorder struct {
-	mock *MockStringsWatcher
+type MockStringsWatcherMockRecorder[T any] struct {
+	mock *MockStringsWatcher[T]
 }
 
 // NewMockStringsWatcher creates a new mock instance.
-func NewMockStringsWatcher(ctrl *gomock.Controller) *MockStringsWatcher {
-	mock := &MockStringsWatcher{ctrl: ctrl}
-	mock.recorder = &MockStringsWatcherMockRecorder{mock}
+func NewMockStringsWatcher[T any](ctrl *gomock.Controller) *MockStringsWatcher[T] {
+	mock := &MockStringsWatcher[T]{ctrl: ctrl}
+	mock.recorder = &MockStringsWatcherMockRecorder[T]{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockStringsWatcher) EXPECT() *MockStringsWatcherMockRecorder {
+func (m *MockStringsWatcher[T]) EXPECT() *MockStringsWatcherMockRecorder[T] {
 	return m.recorder
 }
 
 // Changes mocks base method.
-func (m *MockStringsWatcher) Changes() <-chan []string {
+func (m *MockStringsWatcher[T]) Changes() <-chan []string {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Changes")
 	ret0, _ := ret[0].(<-chan []string)
@@ -47,73 +48,73 @@ func (m *MockStringsWatcher) Changes() <-chan []string {
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockStringsWatcherMockRecorder) Changes() *MockStringsWatcherChangesCall {
+func (mr *MockStringsWatcherMockRecorder[T]) Changes() *MockStringsWatcherChangesCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockStringsWatcher)(nil).Changes))
-	return &MockStringsWatcherChangesCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockStringsWatcher[T])(nil).Changes))
+	return &MockStringsWatcherChangesCall[T]{Call: call}
 }
 
 // MockStringsWatcherChangesCall wrap *gomock.Call
-type MockStringsWatcherChangesCall struct {
+type MockStringsWatcherChangesCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStringsWatcherChangesCall) Return(arg0 <-chan []string) *MockStringsWatcherChangesCall {
+func (c *MockStringsWatcherChangesCall[T]) Return(arg0 <-chan []string) *MockStringsWatcherChangesCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockStringsWatcherChangesCall) Do(f func() <-chan []string) *MockStringsWatcherChangesCall {
+func (c *MockStringsWatcherChangesCall[T]) Do(f func() <-chan []string) *MockStringsWatcherChangesCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockStringsWatcherChangesCall) DoAndReturn(f func() <-chan []string) *MockStringsWatcherChangesCall {
+func (c *MockStringsWatcherChangesCall[T]) DoAndReturn(f func() <-chan []string) *MockStringsWatcherChangesCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Kill mocks base method.
-func (m *MockStringsWatcher) Kill() {
+func (m *MockStringsWatcher[T]) Kill() {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Kill")
 }
 
 // Kill indicates an expected call of Kill.
-func (mr *MockStringsWatcherMockRecorder) Kill() *MockStringsWatcherKillCall {
+func (mr *MockStringsWatcherMockRecorder[T]) Kill() *MockStringsWatcherKillCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockStringsWatcher)(nil).Kill))
-	return &MockStringsWatcherKillCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockStringsWatcher[T])(nil).Kill))
+	return &MockStringsWatcherKillCall[T]{Call: call}
 }
 
 // MockStringsWatcherKillCall wrap *gomock.Call
-type MockStringsWatcherKillCall struct {
+type MockStringsWatcherKillCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStringsWatcherKillCall) Return() *MockStringsWatcherKillCall {
+func (c *MockStringsWatcherKillCall[T]) Return() *MockStringsWatcherKillCall[T] {
 	c.Call = c.Call.Return()
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockStringsWatcherKillCall) Do(f func()) *MockStringsWatcherKillCall {
+func (c *MockStringsWatcherKillCall[T]) Do(f func()) *MockStringsWatcherKillCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockStringsWatcherKillCall) DoAndReturn(f func()) *MockStringsWatcherKillCall {
+func (c *MockStringsWatcherKillCall[T]) DoAndReturn(f func()) *MockStringsWatcherKillCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Wait mocks base method.
-func (m *MockStringsWatcher) Wait() error {
+func (m *MockStringsWatcher[T]) Wait() error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Wait")
 	ret0, _ := ret[0].(error)
@@ -121,31 +122,31 @@ func (m *MockStringsWatcher) Wait() error {
 }
 
 // Wait indicates an expected call of Wait.
-func (mr *MockStringsWatcherMockRecorder) Wait() *MockStringsWatcherWaitCall {
+func (mr *MockStringsWatcherMockRecorder[T]) Wait() *MockStringsWatcherWaitCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockStringsWatcher)(nil).Wait))
-	return &MockStringsWatcherWaitCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockStringsWatcher[T])(nil).Wait))
+	return &MockStringsWatcherWaitCall[T]{Call: call}
 }
 
 // MockStringsWatcherWaitCall wrap *gomock.Call
-type MockStringsWatcherWaitCall struct {
+type MockStringsWatcherWaitCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStringsWatcherWaitCall) Return(arg0 error) *MockStringsWatcherWaitCall {
+func (c *MockStringsWatcherWaitCall[T]) Return(arg0 error) *MockStringsWatcherWaitCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockStringsWatcherWaitCall) Do(f func() error) *MockStringsWatcherWaitCall {
+func (c *MockStringsWatcherWaitCall[T]) Do(f func() error) *MockStringsWatcherWaitCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockStringsWatcherWaitCall) DoAndReturn(f func() error) *MockStringsWatcherWaitCall {
+func (c *MockStringsWatcherWaitCall[T]) DoAndReturn(f func() error) *MockStringsWatcherWaitCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

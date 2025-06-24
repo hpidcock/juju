@@ -25,6 +25,7 @@ import (
 type MockTrackedObjectStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackedObjectStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackedObjectStoreMockRecorder is the mock recorder for MockTrackedObjectStore.
@@ -201,18 +202,18 @@ func (c *MockTrackedObjectStoreKillCall) DoAndReturn(f func()) *MockTrackedObjec
 }
 
 // Put mocks base method.
-func (m *MockTrackedObjectStore) Put(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64) (objectstore.UUID, error) {
+func (m *MockTrackedObjectStore) Put(ctx context.Context, path string, r io.Reader, size int64) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Put", ctx, path, r, size)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Put indicates an expected call of Put.
-func (mr *MockTrackedObjectStoreMockRecorder) Put(arg0, arg1, arg2, arg3 any) *MockTrackedObjectStorePutCall {
+func (mr *MockTrackedObjectStoreMockRecorder) Put(ctx, path, r, size any) *MockTrackedObjectStorePutCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockTrackedObjectStore)(nil).Put), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockTrackedObjectStore)(nil).Put), ctx, path, r, size)
 	return &MockTrackedObjectStorePutCall{Call: call}
 }
 
@@ -240,18 +241,18 @@ func (c *MockTrackedObjectStorePutCall) DoAndReturn(f func(context.Context, stri
 }
 
 // PutAndCheckHash mocks base method.
-func (m *MockTrackedObjectStore) PutAndCheckHash(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64, arg4 string) (objectstore.UUID, error) {
+func (m *MockTrackedObjectStore) PutAndCheckHash(ctx context.Context, path string, r io.Reader, size int64, sha384 string) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutAndCheckHash", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutAndCheckHash", ctx, path, r, size, sha384)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutAndCheckHash indicates an expected call of PutAndCheckHash.
-func (mr *MockTrackedObjectStoreMockRecorder) PutAndCheckHash(arg0, arg1, arg2, arg3, arg4 any) *MockTrackedObjectStorePutAndCheckHashCall {
+func (mr *MockTrackedObjectStoreMockRecorder) PutAndCheckHash(ctx, path, r, size, sha384 any) *MockTrackedObjectStorePutAndCheckHashCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockTrackedObjectStore)(nil).PutAndCheckHash), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutAndCheckHash", reflect.TypeOf((*MockTrackedObjectStore)(nil).PutAndCheckHash), ctx, path, r, size, sha384)
 	return &MockTrackedObjectStorePutAndCheckHashCall{Call: call}
 }
 
@@ -279,17 +280,17 @@ func (c *MockTrackedObjectStorePutAndCheckHashCall) DoAndReturn(f func(context.C
 }
 
 // Remove mocks base method.
-func (m *MockTrackedObjectStore) Remove(arg0 context.Context, arg1 string) error {
+func (m *MockTrackedObjectStore) Remove(ctx context.Context, path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0, arg1)
+	ret := m.ctrl.Call(m, "Remove", ctx, path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockTrackedObjectStoreMockRecorder) Remove(arg0, arg1 any) *MockTrackedObjectStoreRemoveCall {
+func (mr *MockTrackedObjectStoreMockRecorder) Remove(ctx, path any) *MockTrackedObjectStoreRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockTrackedObjectStore)(nil).Remove), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockTrackedObjectStore)(nil).Remove), ctx, path)
 	return &MockTrackedObjectStoreRemoveCall{Call: call}
 }
 
@@ -358,6 +359,7 @@ func (c *MockTrackedObjectStoreWaitCall) DoAndReturn(f func() error) *MockTracke
 type MockMetadataServiceGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetadataServiceGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockMetadataServiceGetterMockRecorder is the mock recorder for MockMetadataServiceGetter.
@@ -419,6 +421,7 @@ func (c *MockMetadataServiceGetterForModelUUIDCall) DoAndReturn(f func(model.UUI
 type MockMetadataService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetadataServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMetadataServiceMockRecorder is the mock recorder for MockMetadataService.
@@ -480,6 +483,7 @@ func (c *MockMetadataServiceObjectStoreCall) DoAndReturn(f func() objectstore.Ob
 type MockModelClaimGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelClaimGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockModelClaimGetterMockRecorder is the mock recorder for MockModelClaimGetter.
@@ -542,6 +546,7 @@ func (c *MockModelClaimGetterForModelUUIDCall) DoAndReturn(f func(model.UUID) (o
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.

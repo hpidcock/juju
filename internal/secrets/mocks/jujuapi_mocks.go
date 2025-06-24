@@ -23,6 +23,7 @@ import (
 type MockJujuAPIClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockJujuAPIClientMockRecorder
+	isgomock struct{}
 }
 
 // MockJujuAPIClientMockRecorder is the mock recorder for MockJujuAPIClient.
@@ -43,9 +44,9 @@ func (m *MockJujuAPIClient) EXPECT() *MockJujuAPIClientMockRecorder {
 }
 
 // GetBackendConfigForDrain mocks base method.
-func (m *MockJujuAPIClient) GetBackendConfigForDrain(arg0 context.Context, arg1 *string) (*provider.ModelBackendConfig, string, error) {
+func (m *MockJujuAPIClient) GetBackendConfigForDrain(ctx context.Context, backendID *string) (*provider.ModelBackendConfig, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBackendConfigForDrain", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBackendConfigForDrain", ctx, backendID)
 	ret0, _ := ret[0].(*provider.ModelBackendConfig)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -53,9 +54,9 @@ func (m *MockJujuAPIClient) GetBackendConfigForDrain(arg0 context.Context, arg1 
 }
 
 // GetBackendConfigForDrain indicates an expected call of GetBackendConfigForDrain.
-func (mr *MockJujuAPIClientMockRecorder) GetBackendConfigForDrain(arg0, arg1 any) *MockJujuAPIClientGetBackendConfigForDrainCall {
+func (mr *MockJujuAPIClientMockRecorder) GetBackendConfigForDrain(ctx, backendID any) *MockJujuAPIClientGetBackendConfigForDrainCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBackendConfigForDrain", reflect.TypeOf((*MockJujuAPIClient)(nil).GetBackendConfigForDrain), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBackendConfigForDrain", reflect.TypeOf((*MockJujuAPIClient)(nil).GetBackendConfigForDrain), ctx, backendID)
 	return &MockJujuAPIClientGetBackendConfigForDrainCall{Call: call}
 }
 
@@ -83,9 +84,9 @@ func (c *MockJujuAPIClientGetBackendConfigForDrainCall) DoAndReturn(f func(conte
 }
 
 // GetContentInfo mocks base method.
-func (m *MockJujuAPIClient) GetContentInfo(arg0 context.Context, arg1 *secrets.URI, arg2 string, arg3, arg4 bool) (*secrets0.ContentParams, *provider.ModelBackendConfig, bool, error) {
+func (m *MockJujuAPIClient) GetContentInfo(ctx context.Context, uri *secrets.URI, label string, refresh, peek bool) (*secrets0.ContentParams, *provider.ModelBackendConfig, bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetContentInfo", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "GetContentInfo", ctx, uri, label, refresh, peek)
 	ret0, _ := ret[0].(*secrets0.ContentParams)
 	ret1, _ := ret[1].(*provider.ModelBackendConfig)
 	ret2, _ := ret[2].(bool)
@@ -94,9 +95,9 @@ func (m *MockJujuAPIClient) GetContentInfo(arg0 context.Context, arg1 *secrets.U
 }
 
 // GetContentInfo indicates an expected call of GetContentInfo.
-func (mr *MockJujuAPIClientMockRecorder) GetContentInfo(arg0, arg1, arg2, arg3, arg4 any) *MockJujuAPIClientGetContentInfoCall {
+func (mr *MockJujuAPIClientMockRecorder) GetContentInfo(ctx, uri, label, refresh, peek any) *MockJujuAPIClientGetContentInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContentInfo", reflect.TypeOf((*MockJujuAPIClient)(nil).GetContentInfo), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContentInfo", reflect.TypeOf((*MockJujuAPIClient)(nil).GetContentInfo), ctx, uri, label, refresh, peek)
 	return &MockJujuAPIClientGetContentInfoCall{Call: call}
 }
 
@@ -124,9 +125,9 @@ func (c *MockJujuAPIClientGetContentInfoCall) DoAndReturn(f func(context.Context
 }
 
 // GetRevisionContentInfo mocks base method.
-func (m *MockJujuAPIClient) GetRevisionContentInfo(arg0 context.Context, arg1 *secrets.URI, arg2 int, arg3 bool) (*secrets0.ContentParams, *provider.ModelBackendConfig, bool, error) {
+func (m *MockJujuAPIClient) GetRevisionContentInfo(ctx context.Context, uri *secrets.URI, revision int, pendingDelete bool) (*secrets0.ContentParams, *provider.ModelBackendConfig, bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetRevisionContentInfo", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "GetRevisionContentInfo", ctx, uri, revision, pendingDelete)
 	ret0, _ := ret[0].(*secrets0.ContentParams)
 	ret1, _ := ret[1].(*provider.ModelBackendConfig)
 	ret2, _ := ret[2].(bool)
@@ -135,9 +136,9 @@ func (m *MockJujuAPIClient) GetRevisionContentInfo(arg0 context.Context, arg1 *s
 }
 
 // GetRevisionContentInfo indicates an expected call of GetRevisionContentInfo.
-func (mr *MockJujuAPIClientMockRecorder) GetRevisionContentInfo(arg0, arg1, arg2, arg3 any) *MockJujuAPIClientGetRevisionContentInfoCall {
+func (mr *MockJujuAPIClientMockRecorder) GetRevisionContentInfo(ctx, uri, revision, pendingDelete any) *MockJujuAPIClientGetRevisionContentInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRevisionContentInfo", reflect.TypeOf((*MockJujuAPIClient)(nil).GetRevisionContentInfo), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRevisionContentInfo", reflect.TypeOf((*MockJujuAPIClient)(nil).GetRevisionContentInfo), ctx, uri, revision, pendingDelete)
 	return &MockJujuAPIClientGetRevisionContentInfoCall{Call: call}
 }
 
@@ -165,18 +166,18 @@ func (c *MockJujuAPIClientGetRevisionContentInfoCall) DoAndReturn(f func(context
 }
 
 // GetSecretBackendConfig mocks base method.
-func (m *MockJujuAPIClient) GetSecretBackendConfig(arg0 context.Context, arg1 *string) (*provider.ModelBackendConfigInfo, error) {
+func (m *MockJujuAPIClient) GetSecretBackendConfig(ctx context.Context, backendID *string) (*provider.ModelBackendConfigInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSecretBackendConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetSecretBackendConfig", ctx, backendID)
 	ret0, _ := ret[0].(*provider.ModelBackendConfigInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSecretBackendConfig indicates an expected call of GetSecretBackendConfig.
-func (mr *MockJujuAPIClientMockRecorder) GetSecretBackendConfig(arg0, arg1 any) *MockJujuAPIClientGetSecretBackendConfigCall {
+func (mr *MockJujuAPIClientMockRecorder) GetSecretBackendConfig(ctx, backendID any) *MockJujuAPIClientGetSecretBackendConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretBackendConfig", reflect.TypeOf((*MockJujuAPIClient)(nil).GetSecretBackendConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretBackendConfig", reflect.TypeOf((*MockJujuAPIClient)(nil).GetSecretBackendConfig), ctx, backendID)
 	return &MockJujuAPIClientGetSecretBackendConfigCall{Call: call}
 }
 
@@ -207,6 +208,7 @@ func (c *MockJujuAPIClientGetSecretBackendConfigCall) DoAndReturn(f func(context
 type MockSecretsState struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsStateMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsStateMockRecorder is the mock recorder for MockSecretsState.

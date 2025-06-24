@@ -42,6 +42,7 @@ import (
 type MockAgentBinaryStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStoreMockRecorder is the mock recorder for MockAgentBinaryStore.
@@ -62,17 +63,17 @@ func (m *MockAgentBinaryStore) EXPECT() *MockAgentBinaryStoreMockRecorder {
 }
 
 // AddAgentBinaryWithSHA256 mocks base method.
-func (m *MockAgentBinaryStore) AddAgentBinaryWithSHA256(arg0 context.Context, arg1 io.Reader, arg2 agentbinary.Version, arg3 int64, arg4 string) error {
+func (m *MockAgentBinaryStore) AddAgentBinaryWithSHA256(arg0 context.Context, data io.Reader, varions agentbinary.Version, size int64, sha256 string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddAgentBinaryWithSHA256", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "AddAgentBinaryWithSHA256", arg0, data, varions, size, sha256)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddAgentBinaryWithSHA256 indicates an expected call of AddAgentBinaryWithSHA256.
-func (mr *MockAgentBinaryStoreMockRecorder) AddAgentBinaryWithSHA256(arg0, arg1, arg2, arg3, arg4 any) *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call {
+func (mr *MockAgentBinaryStoreMockRecorder) AddAgentBinaryWithSHA256(arg0, data, varions, size, sha256 any) *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAgentBinaryWithSHA256", reflect.TypeOf((*MockAgentBinaryStore)(nil).AddAgentBinaryWithSHA256), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAgentBinaryWithSHA256", reflect.TypeOf((*MockAgentBinaryStore)(nil).AddAgentBinaryWithSHA256), arg0, data, varions, size, sha256)
 	return &MockAgentBinaryStoreAddAgentBinaryWithSHA256Call{Call: call}
 }
 
@@ -103,6 +104,7 @@ func (c *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call) DoAndReturn(f func(co
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -165,6 +167,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockFlagService struct {
 	ctrl     *gomock.Controller
 	recorder *MockFlagServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockFlagServiceMockRecorder is the mock recorder for MockFlagService.
@@ -265,6 +268,7 @@ func (c *MockFlagServiceSetFlagCall) DoAndReturn(f func(context.Context, string,
 type MockObjectStoreGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreGetterMockRecorder is the mock recorder for MockObjectStoreGetter.
@@ -327,6 +331,7 @@ func (c *MockObjectStoreGetterGetObjectStoreCall) DoAndReturn(f func(context.Con
 type MockSystemState struct {
 	ctrl     *gomock.Controller
 	recorder *MockSystemStateMockRecorder
+	isgomock struct{}
 }
 
 // MockSystemStateMockRecorder is the mock recorder for MockSystemState.
@@ -386,17 +391,17 @@ func (c *MockSystemStateMachineCall) DoAndReturn(f func(string) (bootstrap.Machi
 }
 
 // SetAPIHostPorts mocks base method.
-func (m *MockSystemState) SetAPIHostPorts(arg0 controller.Config, arg1, arg2 []network.SpaceHostPorts) error {
+func (m *MockSystemState) SetAPIHostPorts(controllerConfig controller.Config, newHostPorts, newHostPortsForAgents []network.SpaceHostPorts) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAPIHostPorts", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetAPIHostPorts", controllerConfig, newHostPorts, newHostPortsForAgents)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetAPIHostPorts indicates an expected call of SetAPIHostPorts.
-func (mr *MockSystemStateMockRecorder) SetAPIHostPorts(arg0, arg1, arg2 any) *MockSystemStateSetAPIHostPortsCall {
+func (mr *MockSystemStateMockRecorder) SetAPIHostPorts(controllerConfig, newHostPorts, newHostPortsForAgents any) *MockSystemStateSetAPIHostPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIHostPorts", reflect.TypeOf((*MockSystemState)(nil).SetAPIHostPorts), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIHostPorts", reflect.TypeOf((*MockSystemState)(nil).SetAPIHostPorts), controllerConfig, newHostPorts, newHostPortsForAgents)
 	return &MockSystemStateSetAPIHostPortsCall{Call: call}
 }
 
@@ -424,18 +429,18 @@ func (c *MockSystemStateSetAPIHostPortsCall) DoAndReturn(f func(controller.Confi
 }
 
 // ToolsStorage mocks base method.
-func (m *MockSystemState) ToolsStorage(arg0 objectstore.ObjectStore) (binarystorage.StorageCloser, error) {
+func (m *MockSystemState) ToolsStorage(store objectstore.ObjectStore) (binarystorage.StorageCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ToolsStorage", arg0)
+	ret := m.ctrl.Call(m, "ToolsStorage", store)
 	ret0, _ := ret[0].(binarystorage.StorageCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ToolsStorage indicates an expected call of ToolsStorage.
-func (mr *MockSystemStateMockRecorder) ToolsStorage(arg0 any) *MockSystemStateToolsStorageCall {
+func (mr *MockSystemStateMockRecorder) ToolsStorage(store any) *MockSystemStateToolsStorageCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ToolsStorage", reflect.TypeOf((*MockSystemState)(nil).ToolsStorage), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ToolsStorage", reflect.TypeOf((*MockSystemState)(nil).ToolsStorage), store)
 	return &MockSystemStateToolsStorageCall{Call: call}
 }
 
@@ -466,6 +471,7 @@ func (c *MockSystemStateToolsStorageCall) DoAndReturn(f func(objectstore.ObjectS
 type MockHTTPClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientMockRecorder is the mock recorder for MockHTTPClient.
@@ -528,6 +534,7 @@ func (c *MockHTTPClientDoCall) DoAndReturn(f func(*http.Request) (*http.Response
 type MockCloudService struct {
 	ctrl     *gomock.Controller
 	recorder *MockCloudServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockCloudServiceMockRecorder is the mock recorder for MockCloudService.
@@ -590,6 +597,7 @@ func (c *MockCloudServiceCloudCall) DoAndReturn(f func(context.Context, string) 
 type MockStorageService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageServiceMockRecorder is the mock recorder for MockStorageService.
@@ -610,17 +618,17 @@ func (m *MockStorageService) EXPECT() *MockStorageServiceMockRecorder {
 }
 
 // CreateStoragePool mocks base method.
-func (m *MockStorageService) CreateStoragePool(arg0 context.Context, arg1 string, arg2 storage.ProviderType, arg3 service1.PoolAttrs) error {
+func (m *MockStorageService) CreateStoragePool(ctx context.Context, name string, providerType storage.ProviderType, attrs service1.PoolAttrs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateStoragePool", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CreateStoragePool", ctx, name, providerType, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateStoragePool indicates an expected call of CreateStoragePool.
-func (mr *MockStorageServiceMockRecorder) CreateStoragePool(arg0, arg1, arg2, arg3 any) *MockStorageServiceCreateStoragePoolCall {
+func (mr *MockStorageServiceMockRecorder) CreateStoragePool(ctx, name, providerType, attrs any) *MockStorageServiceCreateStoragePoolCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockStorageService)(nil).CreateStoragePool), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateStoragePool", reflect.TypeOf((*MockStorageService)(nil).CreateStoragePool), ctx, name, providerType, attrs)
 	return &MockStorageServiceCreateStoragePoolCall{Call: call}
 }
 
@@ -651,6 +659,7 @@ func (c *MockStorageServiceCreateStoragePoolCall) DoAndReturn(f func(context.Con
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -759,18 +768,18 @@ func (c *MockApplicationServiceCreateIAASApplicationCall) DoAndReturn(f func(con
 }
 
 // ResolveControllerCharmDownload mocks base method.
-func (m *MockApplicationService) ResolveControllerCharmDownload(arg0 context.Context, arg1 application0.ResolveControllerCharmDownload) (application0.ResolvedControllerCharmDownload, error) {
+func (m *MockApplicationService) ResolveControllerCharmDownload(ctx context.Context, resolve application0.ResolveControllerCharmDownload) (application0.ResolvedControllerCharmDownload, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveControllerCharmDownload", arg0, arg1)
+	ret := m.ctrl.Call(m, "ResolveControllerCharmDownload", ctx, resolve)
 	ret0, _ := ret[0].(application0.ResolvedControllerCharmDownload)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ResolveControllerCharmDownload indicates an expected call of ResolveControllerCharmDownload.
-func (mr *MockApplicationServiceMockRecorder) ResolveControllerCharmDownload(arg0, arg1 any) *MockApplicationServiceResolveControllerCharmDownloadCall {
+func (mr *MockApplicationServiceMockRecorder) ResolveControllerCharmDownload(ctx, resolve any) *MockApplicationServiceResolveControllerCharmDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveControllerCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveControllerCharmDownload), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveControllerCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveControllerCharmDownload), ctx, resolve)
 	return &MockApplicationServiceResolveControllerCharmDownloadCall{Call: call}
 }
 
@@ -798,17 +807,17 @@ func (c *MockApplicationServiceResolveControllerCharmDownloadCall) DoAndReturn(f
 }
 
 // UpdateCAASUnit mocks base method.
-func (m *MockApplicationService) UpdateCAASUnit(arg0 context.Context, arg1 unit.Name, arg2 service0.UpdateCAASUnitParams) error {
+func (m *MockApplicationService) UpdateCAASUnit(ctx context.Context, unitName unit.Name, params service0.UpdateCAASUnitParams) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCAASUnit", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateCAASUnit", ctx, unitName, params)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCAASUnit indicates an expected call of UpdateCAASUnit.
-func (mr *MockApplicationServiceMockRecorder) UpdateCAASUnit(arg0, arg1, arg2 any) *MockApplicationServiceUpdateCAASUnitCall {
+func (mr *MockApplicationServiceMockRecorder) UpdateCAASUnit(ctx, unitName, params any) *MockApplicationServiceUpdateCAASUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCAASUnit", reflect.TypeOf((*MockApplicationService)(nil).UpdateCAASUnit), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCAASUnit", reflect.TypeOf((*MockApplicationService)(nil).UpdateCAASUnit), ctx, unitName, params)
 	return &MockApplicationServiceUpdateCAASUnitCall{Call: call}
 }
 
@@ -836,17 +845,17 @@ func (c *MockApplicationServiceUpdateCAASUnitCall) DoAndReturn(f func(context.Co
 }
 
 // UpdateCloudService mocks base method.
-func (m *MockApplicationService) UpdateCloudService(arg0 context.Context, arg1, arg2 string, arg3 network.ProviderAddresses) error {
+func (m *MockApplicationService) UpdateCloudService(ctx context.Context, appName, providerID string, sAddrs network.ProviderAddresses) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCloudService", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateCloudService", ctx, appName, providerID, sAddrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCloudService indicates an expected call of UpdateCloudService.
-func (mr *MockApplicationServiceMockRecorder) UpdateCloudService(arg0, arg1, arg2, arg3 any) *MockApplicationServiceUpdateCloudServiceCall {
+func (mr *MockApplicationServiceMockRecorder) UpdateCloudService(ctx, appName, providerID, sAddrs any) *MockApplicationServiceUpdateCloudServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockApplicationService)(nil).UpdateCloudService), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudService", reflect.TypeOf((*MockApplicationService)(nil).UpdateCloudService), ctx, appName, providerID, sAddrs)
 	return &MockApplicationServiceUpdateCloudServiceCall{Call: call}
 }
 
@@ -877,6 +886,7 @@ func (c *MockApplicationServiceUpdateCloudServiceCall) DoAndReturn(f func(contex
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -939,6 +949,7 @@ func (c *MockModelConfigServiceModelConfigCall) DoAndReturn(f func(context.Conte
 type MockNetworkService struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkServiceMockRecorder is the mock recorder for MockNetworkService.
@@ -959,18 +970,18 @@ func (m *MockNetworkService) EXPECT() *MockNetworkServiceMockRecorder {
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockNetworkService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockNetworkService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(arg0 any) *MockNetworkServiceGetAllSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(ctx any) *MockNetworkServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), ctx)
 	return &MockNetworkServiceGetAllSpacesCall{Call: call}
 }
 
@@ -998,17 +1009,17 @@ func (c *MockNetworkServiceGetAllSpacesCall) DoAndReturn(f func(context.Context)
 }
 
 // ReloadSpaces mocks base method.
-func (m *MockNetworkService) ReloadSpaces(arg0 context.Context) error {
+func (m *MockNetworkService) ReloadSpaces(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReloadSpaces", arg0)
+	ret := m.ctrl.Call(m, "ReloadSpaces", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReloadSpaces indicates an expected call of ReloadSpaces.
-func (mr *MockNetworkServiceMockRecorder) ReloadSpaces(arg0 any) *MockNetworkServiceReloadSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) ReloadSpaces(ctx any) *MockNetworkServiceReloadSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReloadSpaces", reflect.TypeOf((*MockNetworkService)(nil).ReloadSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReloadSpaces", reflect.TypeOf((*MockNetworkService)(nil).ReloadSpaces), ctx)
 	return &MockNetworkServiceReloadSpacesCall{Call: call}
 }
 
@@ -1036,18 +1047,18 @@ func (c *MockNetworkServiceReloadSpacesCall) DoAndReturn(f func(context.Context)
 }
 
 // SpaceByName mocks base method.
-func (m *MockNetworkService) SpaceByName(arg0 context.Context, arg1 network.SpaceName) (*network.SpaceInfo, error) {
+func (m *MockNetworkService) SpaceByName(ctx context.Context, name network.SpaceName) (*network.SpaceInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SpaceByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "SpaceByName", ctx, name)
 	ret0, _ := ret[0].(*network.SpaceInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SpaceByName indicates an expected call of SpaceByName.
-func (mr *MockNetworkServiceMockRecorder) SpaceByName(arg0, arg1 any) *MockNetworkServiceSpaceByNameCall {
+func (mr *MockNetworkServiceMockRecorder) SpaceByName(ctx, name any) *MockNetworkServiceSpaceByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceByName", reflect.TypeOf((*MockNetworkService)(nil).SpaceByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SpaceByName", reflect.TypeOf((*MockNetworkService)(nil).SpaceByName), ctx, name)
 	return &MockNetworkServiceSpaceByNameCall{Call: call}
 }
 
@@ -1078,6 +1089,7 @@ func (c *MockNetworkServiceSpaceByNameCall) DoAndReturn(f func(context.Context, 
 type MockUserService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUserServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUserServiceMockRecorder is the mock recorder for MockUserService.
@@ -1098,17 +1110,17 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // AddExternalUser mocks base method.
-func (m *MockUserService) AddExternalUser(arg0 context.Context, arg1 user.Name, arg2 string, arg3 user.UUID) error {
+func (m *MockUserService) AddExternalUser(ctx context.Context, name user.Name, displayName string, creatorUUID user.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddExternalUser", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "AddExternalUser", ctx, name, displayName, creatorUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddExternalUser indicates an expected call of AddExternalUser.
-func (mr *MockUserServiceMockRecorder) AddExternalUser(arg0, arg1, arg2, arg3 any) *MockUserServiceAddExternalUserCall {
+func (mr *MockUserServiceMockRecorder) AddExternalUser(ctx, name, displayName, creatorUUID any) *MockUserServiceAddExternalUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddExternalUser", reflect.TypeOf((*MockUserService)(nil).AddExternalUser), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddExternalUser", reflect.TypeOf((*MockUserService)(nil).AddExternalUser), ctx, name, displayName, creatorUUID)
 	return &MockUserServiceAddExternalUserCall{Call: call}
 }
 
@@ -1136,9 +1148,9 @@ func (c *MockUserServiceAddExternalUserCall) DoAndReturn(f func(context.Context,
 }
 
 // AddUser mocks base method.
-func (m *MockUserService) AddUser(arg0 context.Context, arg1 service.AddUserArg) (user.UUID, []byte, error) {
+func (m *MockUserService) AddUser(ctx context.Context, arg service.AddUserArg) (user.UUID, []byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddUser", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddUser", ctx, arg)
 	ret0, _ := ret[0].(user.UUID)
 	ret1, _ := ret[1].([]byte)
 	ret2, _ := ret[2].(error)
@@ -1146,9 +1158,9 @@ func (m *MockUserService) AddUser(arg0 context.Context, arg1 service.AddUserArg)
 }
 
 // AddUser indicates an expected call of AddUser.
-func (mr *MockUserServiceMockRecorder) AddUser(arg0, arg1 any) *MockUserServiceAddUserCall {
+func (mr *MockUserServiceMockRecorder) AddUser(ctx, arg any) *MockUserServiceAddUserCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockUserService)(nil).AddUser), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddUser", reflect.TypeOf((*MockUserService)(nil).AddUser), ctx, arg)
 	return &MockUserServiceAddUserCall{Call: call}
 }
 
@@ -1176,18 +1188,18 @@ func (c *MockUserServiceAddUserCall) DoAndReturn(f func(context.Context, service
 }
 
 // GetUserByName mocks base method.
-func (m *MockUserService) GetUserByName(arg0 context.Context, arg1 user.Name) (user.User, error) {
+func (m *MockUserService) GetUserByName(ctx context.Context, name user.Name) (user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUserByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByName", ctx, name)
 	ret0, _ := ret[0].(user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUserByName indicates an expected call of GetUserByName.
-func (mr *MockUserServiceMockRecorder) GetUserByName(arg0, arg1 any) *MockUserServiceGetUserByNameCall {
+func (mr *MockUserServiceMockRecorder) GetUserByName(ctx, name any) *MockUserServiceGetUserByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockUserService)(nil).GetUserByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByName", reflect.TypeOf((*MockUserService)(nil).GetUserByName), ctx, name)
 	return &MockUserServiceGetUserByNameCall{Call: call}
 }
 
@@ -1218,6 +1230,7 @@ func (c *MockUserServiceGetUserByNameCall) DoAndReturn(f func(context.Context, u
 type MockBakeryConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBakeryConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBakeryConfigServiceMockRecorder is the mock recorder for MockBakeryConfigService.
@@ -1279,6 +1292,7 @@ func (c *MockBakeryConfigServiceInitialiseBakeryConfigCall) DoAndReturn(f func(c
 type MockKeyManagerService struct {
 	ctrl     *gomock.Controller
 	recorder *MockKeyManagerServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockKeyManagerServiceMockRecorder is the mock recorder for MockKeyManagerService.
@@ -1345,6 +1359,7 @@ func (c *MockKeyManagerServiceAddPublicKeysForUserCall) DoAndReturn(f func(conte
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -1365,9 +1380,9 @@ func (m *MockMachineService) EXPECT() *MockMachineServiceMockRecorder {
 }
 
 // GetInstanceIDAndName mocks base method.
-func (m *MockMachineService) GetInstanceIDAndName(arg0 context.Context, arg1 machine.UUID) (instance.Id, string, error) {
+func (m *MockMachineService) GetInstanceIDAndName(ctx context.Context, machineUUID machine.UUID) (instance.Id, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetInstanceIDAndName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetInstanceIDAndName", ctx, machineUUID)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -1375,9 +1390,9 @@ func (m *MockMachineService) GetInstanceIDAndName(arg0 context.Context, arg1 mac
 }
 
 // GetInstanceIDAndName indicates an expected call of GetInstanceIDAndName.
-func (mr *MockMachineServiceMockRecorder) GetInstanceIDAndName(arg0, arg1 any) *MockMachineServiceGetInstanceIDAndNameCall {
+func (mr *MockMachineServiceMockRecorder) GetInstanceIDAndName(ctx, machineUUID any) *MockMachineServiceGetInstanceIDAndNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceIDAndName", reflect.TypeOf((*MockMachineService)(nil).GetInstanceIDAndName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceIDAndName", reflect.TypeOf((*MockMachineService)(nil).GetInstanceIDAndName), ctx, machineUUID)
 	return &MockMachineServiceGetInstanceIDAndNameCall{Call: call}
 }
 
@@ -1405,18 +1420,18 @@ func (c *MockMachineServiceGetInstanceIDAndNameCall) DoAndReturn(f func(context.
 }
 
 // GetMachineUUID mocks base method.
-func (m *MockMachineService) GetMachineUUID(arg0 context.Context, arg1 machine.Name) (machine.UUID, error) {
+func (m *MockMachineService) GetMachineUUID(ctx context.Context, name machine.Name) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineUUID", ctx, name)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineUUID indicates an expected call of GetMachineUUID.
-func (mr *MockMachineServiceMockRecorder) GetMachineUUID(arg0, arg1 any) *MockMachineServiceGetMachineUUIDCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineUUID(ctx, name any) *MockMachineServiceGetMachineUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), ctx, name)
 	return &MockMachineServiceGetMachineUUIDCall{Call: call}
 }
 
@@ -1444,17 +1459,17 @@ func (c *MockMachineServiceGetMachineUUIDCall) DoAndReturn(f func(context.Contex
 }
 
 // SetMachineCloudInstance mocks base method.
-func (m *MockMachineService) SetMachineCloudInstance(arg0 context.Context, arg1 machine.UUID, arg2 instance.Id, arg3, arg4 string, arg5 *instance.HardwareCharacteristics) error {
+func (m *MockMachineService) SetMachineCloudInstance(ctx context.Context, machineUUID machine.UUID, instanceID instance.Id, displayName, nonce string, hardwareCharacteristics *instance.HardwareCharacteristics) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMachineCloudInstance", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "SetMachineCloudInstance", ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetMachineCloudInstance indicates an expected call of SetMachineCloudInstance.
-func (mr *MockMachineServiceMockRecorder) SetMachineCloudInstance(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockMachineServiceSetMachineCloudInstanceCall {
+func (mr *MockMachineServiceMockRecorder) SetMachineCloudInstance(ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics any) *MockMachineServiceSetMachineCloudInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockMachineService)(nil).SetMachineCloudInstance), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockMachineService)(nil).SetMachineCloudInstance), ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	return &MockMachineServiceSetMachineCloudInstanceCall{Call: call}
 }
 
@@ -1485,6 +1500,7 @@ func (c *MockMachineServiceSetMachineCloudInstanceCall) DoAndReturn(f func(conte
 type MockAgentPasswordService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentPasswordServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentPasswordServiceMockRecorder is the mock recorder for MockAgentPasswordService.
@@ -1505,17 +1521,17 @@ func (m *MockAgentPasswordService) EXPECT() *MockAgentPasswordServiceMockRecorde
 }
 
 // SetMachinePassword mocks base method.
-func (m *MockAgentPasswordService) SetMachinePassword(arg0 context.Context, arg1 machine.Name, arg2 string) error {
+func (m *MockAgentPasswordService) SetMachinePassword(ctx context.Context, machineName machine.Name, password string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMachinePassword", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetMachinePassword", ctx, machineName, password)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetMachinePassword indicates an expected call of SetMachinePassword.
-func (mr *MockAgentPasswordServiceMockRecorder) SetMachinePassword(arg0, arg1, arg2 any) *MockAgentPasswordServiceSetMachinePasswordCall {
+func (mr *MockAgentPasswordServiceMockRecorder) SetMachinePassword(ctx, machineName, password any) *MockAgentPasswordServiceSetMachinePasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachinePassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetMachinePassword), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachinePassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetMachinePassword), ctx, machineName, password)
 	return &MockAgentPasswordServiceSetMachinePasswordCall{Call: call}
 }
 
@@ -1543,17 +1559,17 @@ func (c *MockAgentPasswordServiceSetMachinePasswordCall) DoAndReturn(f func(cont
 }
 
 // SetUnitPassword mocks base method.
-func (m *MockAgentPasswordService) SetUnitPassword(arg0 context.Context, arg1 unit.Name, arg2 string) error {
+func (m *MockAgentPasswordService) SetUnitPassword(ctx context.Context, unitName unit.Name, password string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitPassword", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetUnitPassword", ctx, unitName, password)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitPassword indicates an expected call of SetUnitPassword.
-func (mr *MockAgentPasswordServiceMockRecorder) SetUnitPassword(arg0, arg1, arg2 any) *MockAgentPasswordServiceSetUnitPasswordCall {
+func (mr *MockAgentPasswordServiceMockRecorder) SetUnitPassword(ctx, unitName, password any) *MockAgentPasswordServiceSetUnitPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetUnitPassword), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitPassword", reflect.TypeOf((*MockAgentPasswordService)(nil).SetUnitPassword), ctx, unitName, password)
 	return &MockAgentPasswordServiceSetUnitPasswordCall{Call: call}
 }
 
@@ -1584,6 +1600,7 @@ func (c *MockAgentPasswordServiceSetUnitPasswordCall) DoAndReturn(f func(context
 type MockControllerNodeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerNodeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerNodeServiceMockRecorder is the mock recorder for MockControllerNodeService.
@@ -1604,17 +1621,17 @@ func (m *MockControllerNodeService) EXPECT() *MockControllerNodeServiceMockRecor
 }
 
 // SetAPIAddresses mocks base method.
-func (m *MockControllerNodeService) SetAPIAddresses(arg0 context.Context, arg1 string, arg2 network.SpaceHostPorts, arg3 *network.SpaceInfo) error {
+func (m *MockControllerNodeService) SetAPIAddresses(ctx context.Context, controllerID string, addrs network.SpaceHostPorts, mgmtSpace *network.SpaceInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAPIAddresses", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetAPIAddresses", ctx, controllerID, addrs, mgmtSpace)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetAPIAddresses indicates an expected call of SetAPIAddresses.
-func (mr *MockControllerNodeServiceMockRecorder) SetAPIAddresses(arg0, arg1, arg2, arg3 any) *MockControllerNodeServiceSetAPIAddressesCall {
+func (mr *MockControllerNodeServiceMockRecorder) SetAPIAddresses(ctx, controllerID, addrs, mgmtSpace any) *MockControllerNodeServiceSetAPIAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIAddresses", reflect.TypeOf((*MockControllerNodeService)(nil).SetAPIAddresses), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIAddresses", reflect.TypeOf((*MockControllerNodeService)(nil).SetAPIAddresses), ctx, controllerID, addrs, mgmtSpace)
 	return &MockControllerNodeServiceSetAPIAddressesCall{Call: call}
 }
 

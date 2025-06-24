@@ -21,6 +21,7 @@ import (
 type MockSummary struct {
 	ctrl     *gomock.Controller
 	recorder *MockSummaryMockRecorder
+	isgomock struct{}
 }
 
 // MockSummaryMockRecorder is the mock recorder for MockSummary.

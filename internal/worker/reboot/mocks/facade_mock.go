@@ -22,6 +22,7 @@ import (
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -157,10 +158,10 @@ func (c *MockClientRequestRebootCall) DoAndReturn(f func(context.Context) error)
 }
 
 // WatchForRebootEvent mocks base method.
-func (m *MockClient) WatchForRebootEvent(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockClient) WatchForRebootEvent(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchForRebootEvent", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -178,19 +179,19 @@ type MockClientWatchForRebootEventCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClientWatchForRebootEventCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockClientWatchForRebootEventCall {
+func (c *MockClientWatchForRebootEventCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockClientWatchForRebootEventCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockClientWatchForRebootEventCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockClientWatchForRebootEventCall {
+func (c *MockClientWatchForRebootEventCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockClientWatchForRebootEventCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockClientWatchForRebootEventCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockClientWatchForRebootEventCall {
+func (c *MockClientWatchForRebootEventCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockClientWatchForRebootEventCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

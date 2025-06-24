@@ -23,6 +23,7 @@ import (
 type MockUpgraderClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpgraderClientMockRecorder
+	isgomock struct{}
 }
 
 // MockUpgraderClientMockRecorder is the mock recorder for MockUpgraderClient.
@@ -43,18 +44,18 @@ func (m *MockUpgraderClient) EXPECT() *MockUpgraderClientMockRecorder {
 }
 
 // DesiredVersion mocks base method.
-func (m *MockUpgraderClient) DesiredVersion(arg0 context.Context, arg1 string) (semversion.Number, error) {
+func (m *MockUpgraderClient) DesiredVersion(ctx context.Context, tag string) (semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DesiredVersion", arg0, arg1)
+	ret := m.ctrl.Call(m, "DesiredVersion", ctx, tag)
 	ret0, _ := ret[0].(semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DesiredVersion indicates an expected call of DesiredVersion.
-func (mr *MockUpgraderClientMockRecorder) DesiredVersion(arg0, arg1 any) *MockUpgraderClientDesiredVersionCall {
+func (mr *MockUpgraderClientMockRecorder) DesiredVersion(ctx, tag any) *MockUpgraderClientDesiredVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DesiredVersion", reflect.TypeOf((*MockUpgraderClient)(nil).DesiredVersion), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DesiredVersion", reflect.TypeOf((*MockUpgraderClient)(nil).DesiredVersion), ctx, tag)
 	return &MockUpgraderClientDesiredVersionCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockUpgraderClientDesiredVersionCall) DoAndReturn(f func(context.Contex
 }
 
 // SetVersion mocks base method.
-func (m *MockUpgraderClient) SetVersion(arg0 context.Context, arg1 string, arg2 semversion.Binary) error {
+func (m *MockUpgraderClient) SetVersion(ctx context.Context, tag string, v semversion.Binary) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetVersion", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetVersion", ctx, tag, v)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetVersion indicates an expected call of SetVersion.
-func (mr *MockUpgraderClientMockRecorder) SetVersion(arg0, arg1, arg2 any) *MockUpgraderClientSetVersionCall {
+func (mr *MockUpgraderClientMockRecorder) SetVersion(ctx, tag, v any) *MockUpgraderClientSetVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVersion", reflect.TypeOf((*MockUpgraderClient)(nil).SetVersion), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetVersion", reflect.TypeOf((*MockUpgraderClient)(nil).SetVersion), ctx, tag, v)
 	return &MockUpgraderClientSetVersionCall{Call: call}
 }
 
@@ -120,18 +121,18 @@ func (c *MockUpgraderClientSetVersionCall) DoAndReturn(f func(context.Context, s
 }
 
 // Tools mocks base method.
-func (m *MockUpgraderClient) Tools(arg0 context.Context, arg1 string) (tools.List, error) {
+func (m *MockUpgraderClient) Tools(ctx context.Context, tag string) (tools.List, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Tools", arg0, arg1)
+	ret := m.ctrl.Call(m, "Tools", ctx, tag)
 	ret0, _ := ret[0].(tools.List)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Tools indicates an expected call of Tools.
-func (mr *MockUpgraderClientMockRecorder) Tools(arg0, arg1 any) *MockUpgraderClientToolsCall {
+func (mr *MockUpgraderClientMockRecorder) Tools(ctx, tag any) *MockUpgraderClientToolsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Tools", reflect.TypeOf((*MockUpgraderClient)(nil).Tools), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Tools", reflect.TypeOf((*MockUpgraderClient)(nil).Tools), ctx, tag)
 	return &MockUpgraderClientToolsCall{Call: call}
 }
 
@@ -159,18 +160,18 @@ func (c *MockUpgraderClientToolsCall) DoAndReturn(f func(context.Context, string
 }
 
 // WatchAPIVersion mocks base method.
-func (m *MockUpgraderClient) WatchAPIVersion(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockUpgraderClient) WatchAPIVersion(ctx context.Context, agentTag string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchAPIVersion", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchAPIVersion", ctx, agentTag)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchAPIVersion indicates an expected call of WatchAPIVersion.
-func (mr *MockUpgraderClientMockRecorder) WatchAPIVersion(arg0, arg1 any) *MockUpgraderClientWatchAPIVersionCall {
+func (mr *MockUpgraderClientMockRecorder) WatchAPIVersion(ctx, agentTag any) *MockUpgraderClientWatchAPIVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchAPIVersion", reflect.TypeOf((*MockUpgraderClient)(nil).WatchAPIVersion), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchAPIVersion", reflect.TypeOf((*MockUpgraderClient)(nil).WatchAPIVersion), ctx, agentTag)
 	return &MockUpgraderClientWatchAPIVersionCall{Call: call}
 }
 
@@ -180,19 +181,19 @@ type MockUpgraderClientWatchAPIVersionCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockUpgraderClientWatchAPIVersionCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockUpgraderClientWatchAPIVersionCall {
+func (c *MockUpgraderClientWatchAPIVersionCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockUpgraderClientWatchAPIVersionCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockUpgraderClientWatchAPIVersionCall) Do(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockUpgraderClientWatchAPIVersionCall {
+func (c *MockUpgraderClientWatchAPIVersionCall) Do(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockUpgraderClientWatchAPIVersionCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockUpgraderClientWatchAPIVersionCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockUpgraderClientWatchAPIVersionCall {
+func (c *MockUpgraderClientWatchAPIVersionCall) DoAndReturn(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockUpgraderClientWatchAPIVersionCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

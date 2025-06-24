@@ -26,6 +26,7 @@ import (
 type MockEnviron struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnvironMockRecorder
+	isgomock struct{}
 }
 
 // MockEnvironMockRecorder is the mock recorder for MockEnviron.
@@ -46,18 +47,18 @@ func (m *MockEnviron) EXPECT() *MockEnvironMockRecorder {
 }
 
 // Instances mocks base method.
-func (m *MockEnviron) Instances(arg0 context.Context, arg1 []instance.Id) ([]instances.Instance, error) {
+func (m *MockEnviron) Instances(ctx context.Context, ids []instance.Id) ([]instances.Instance, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Instances", arg0, arg1)
+	ret := m.ctrl.Call(m, "Instances", ctx, ids)
 	ret0, _ := ret[0].([]instances.Instance)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Instances indicates an expected call of Instances.
-func (mr *MockEnvironMockRecorder) Instances(arg0, arg1 any) *MockEnvironInstancesCall {
+func (mr *MockEnvironMockRecorder) Instances(ctx, ids any) *MockEnvironInstancesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnviron)(nil).Instances), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Instances", reflect.TypeOf((*MockEnviron)(nil).Instances), ctx, ids)
 	return &MockEnvironInstancesCall{Call: call}
 }
 
@@ -85,18 +86,18 @@ func (c *MockEnvironInstancesCall) DoAndReturn(f func(context.Context, []instanc
 }
 
 // NetworkInterfaces mocks base method.
-func (m *MockEnviron) NetworkInterfaces(arg0 context.Context, arg1 []instance.Id) ([]network.InterfaceInfos, error) {
+func (m *MockEnviron) NetworkInterfaces(ctx context.Context, ids []instance.Id) ([]network.InterfaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NetworkInterfaces", arg0, arg1)
+	ret := m.ctrl.Call(m, "NetworkInterfaces", ctx, ids)
 	ret0, _ := ret[0].([]network.InterfaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NetworkInterfaces indicates an expected call of NetworkInterfaces.
-func (mr *MockEnvironMockRecorder) NetworkInterfaces(arg0, arg1 any) *MockEnvironNetworkInterfacesCall {
+func (mr *MockEnvironMockRecorder) NetworkInterfaces(ctx, ids any) *MockEnvironNetworkInterfacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInterfaces", reflect.TypeOf((*MockEnviron)(nil).NetworkInterfaces), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInterfaces", reflect.TypeOf((*MockEnviron)(nil).NetworkInterfaces), ctx, ids)
 	return &MockEnvironNetworkInterfacesCall{Call: call}
 }
 
@@ -127,6 +128,7 @@ func (c *MockEnvironNetworkInterfacesCall) DoAndReturn(f func(context.Context, [
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -185,18 +187,18 @@ func (c *MockMachineIdCall) DoAndReturn(f func() string) *MockMachineIdCall {
 }
 
 // InstanceId mocks base method.
-func (m *MockMachine) InstanceId(arg0 context.Context) (instance.Id, error) {
+func (m *MockMachine) InstanceId(ctx context.Context) (instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InstanceId", arg0)
+	ret := m.ctrl.Call(m, "InstanceId", ctx)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // InstanceId indicates an expected call of InstanceId.
-func (mr *MockMachineMockRecorder) InstanceId(arg0 any) *MockMachineInstanceIdCall {
+func (mr *MockMachineMockRecorder) InstanceId(ctx any) *MockMachineInstanceIdCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceId", reflect.TypeOf((*MockMachine)(nil).InstanceId), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceId", reflect.TypeOf((*MockMachine)(nil).InstanceId), ctx)
 	return &MockMachineInstanceIdCall{Call: call}
 }
 
@@ -224,18 +226,18 @@ func (c *MockMachineInstanceIdCall) DoAndReturn(f func(context.Context) (instanc
 }
 
 // InstanceStatus mocks base method.
-func (m *MockMachine) InstanceStatus(arg0 context.Context) (params.StatusResult, error) {
+func (m *MockMachine) InstanceStatus(ctx context.Context) (params.StatusResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "InstanceStatus", arg0)
+	ret := m.ctrl.Call(m, "InstanceStatus", ctx)
 	ret0, _ := ret[0].(params.StatusResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // InstanceStatus indicates an expected call of InstanceStatus.
-func (mr *MockMachineMockRecorder) InstanceStatus(arg0 any) *MockMachineInstanceStatusCall {
+func (mr *MockMachineMockRecorder) InstanceStatus(ctx any) *MockMachineInstanceStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceStatus", reflect.TypeOf((*MockMachine)(nil).InstanceStatus), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "InstanceStatus", reflect.TypeOf((*MockMachine)(nil).InstanceStatus), ctx)
 	return &MockMachineInstanceStatusCall{Call: call}
 }
 
@@ -263,18 +265,18 @@ func (c *MockMachineInstanceStatusCall) DoAndReturn(f func(context.Context) (par
 }
 
 // IsManual mocks base method.
-func (m *MockMachine) IsManual(arg0 context.Context) (bool, error) {
+func (m *MockMachine) IsManual(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsManual", arg0)
+	ret := m.ctrl.Call(m, "IsManual", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsManual indicates an expected call of IsManual.
-func (mr *MockMachineMockRecorder) IsManual(arg0 any) *MockMachineIsManualCall {
+func (mr *MockMachineMockRecorder) IsManual(ctx any) *MockMachineIsManualCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsManual", reflect.TypeOf((*MockMachine)(nil).IsManual), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsManual", reflect.TypeOf((*MockMachine)(nil).IsManual), ctx)
 	return &MockMachineIsManualCall{Call: call}
 }
 
@@ -340,17 +342,17 @@ func (c *MockMachineLifeCall) DoAndReturn(f func() life.Value) *MockMachineLifeC
 }
 
 // Refresh mocks base method.
-func (m *MockMachine) Refresh(arg0 context.Context) error {
+func (m *MockMachine) Refresh(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Refresh", arg0)
+	ret := m.ctrl.Call(m, "Refresh", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Refresh indicates an expected call of Refresh.
-func (mr *MockMachineMockRecorder) Refresh(arg0 any) *MockMachineRefreshCall {
+func (mr *MockMachineMockRecorder) Refresh(ctx any) *MockMachineRefreshCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockMachine)(nil).Refresh), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Refresh", reflect.TypeOf((*MockMachine)(nil).Refresh), ctx)
 	return &MockMachineRefreshCall{Call: call}
 }
 
@@ -456,18 +458,18 @@ func (c *MockMachineSetProviderNetworkConfigCall) DoAndReturn(f func(context.Con
 }
 
 // Status mocks base method.
-func (m *MockMachine) Status(arg0 context.Context) (params.StatusResult, error) {
+func (m *MockMachine) Status(ctx context.Context) (params.StatusResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Status", arg0)
+	ret := m.ctrl.Call(m, "Status", ctx)
 	ret0, _ := ret[0].(params.StatusResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Status indicates an expected call of Status.
-func (mr *MockMachineMockRecorder) Status(arg0 any) *MockMachineStatusCall {
+func (mr *MockMachineMockRecorder) Status(ctx any) *MockMachineStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockMachine)(nil).Status), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Status", reflect.TypeOf((*MockMachine)(nil).Status), ctx)
 	return &MockMachineStatusCall{Call: call}
 }
 

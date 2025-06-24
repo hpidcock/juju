@@ -20,6 +20,7 @@ import (
 type MockHTTPClientWorker struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientWorkerMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientWorkerMockRecorder is the mock recorder for MockHTTPClientWorker.

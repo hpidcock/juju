@@ -23,6 +23,7 @@ import (
 type MockLoginProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoginProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockLoginProviderMockRecorder is the mock recorder for MockLoginProvider.
@@ -82,18 +83,18 @@ func (c *MockLoginProviderAuthHeaderCall) DoAndReturn(f func() (http.Header, err
 }
 
 // Login mocks base method.
-func (m *MockLoginProvider) Login(arg0 context.Context, arg1 base.APICaller) (*api.LoginResultParams, error) {
+func (m *MockLoginProvider) Login(ctx context.Context, caller base.APICaller) (*api.LoginResultParams, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Login", arg0, arg1)
+	ret := m.ctrl.Call(m, "Login", ctx, caller)
 	ret0, _ := ret[0].(*api.LoginResultParams)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Login indicates an expected call of Login.
-func (mr *MockLoginProviderMockRecorder) Login(arg0, arg1 any) *MockLoginProviderLoginCall {
+func (mr *MockLoginProviderMockRecorder) Login(ctx, caller any) *MockLoginProviderLoginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockLoginProvider)(nil).Login), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockLoginProvider)(nil).Login), ctx, caller)
 	return &MockLoginProviderLoginCall{Call: call}
 }
 

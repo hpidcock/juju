@@ -23,6 +23,7 @@ import (
 type MockMachiner struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachinerMockRecorder
+	isgomock struct{}
 }
 
 // MockMachinerMockRecorder is the mock recorder for MockMachiner.
@@ -43,18 +44,18 @@ func (m *MockMachiner) EXPECT() *MockMachinerMockRecorder {
 }
 
 // Machine mocks base method.
-func (m *MockMachiner) Machine(arg0 context.Context, arg1 names.MachineTag) (stateconverter.Machine, error) {
+func (m *MockMachiner) Machine(ctx context.Context, tag names.MachineTag) (stateconverter.Machine, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Machine", arg0, arg1)
+	ret := m.ctrl.Call(m, "Machine", ctx, tag)
 	ret0, _ := ret[0].(stateconverter.Machine)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Machine indicates an expected call of Machine.
-func (mr *MockMachinerMockRecorder) Machine(arg0, arg1 any) *MockMachinerMachineCall {
+func (mr *MockMachinerMockRecorder) Machine(ctx, tag any) *MockMachinerMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Machine", reflect.TypeOf((*MockMachiner)(nil).Machine), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Machine", reflect.TypeOf((*MockMachiner)(nil).Machine), ctx, tag)
 	return &MockMachinerMachineCall{Call: call}
 }
 
@@ -85,6 +86,7 @@ func (c *MockMachinerMachineCall) DoAndReturn(f func(context.Context, names.Mach
 type MockMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineMockRecorder is the mock recorder for MockMachine.
@@ -144,10 +146,10 @@ func (c *MockMachineIsControllerCall) DoAndReturn(f func(context.Context, string
 }
 
 // Watch mocks base method.
-func (m *MockMachine) Watch(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockMachine) Watch(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -165,19 +167,19 @@ type MockMachineWatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineWatchCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockMachineWatchCall {
+func (c *MockMachineWatchCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockMachineWatchCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachineWatchCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMachineWatchCall {
+func (c *MockMachineWatchCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMachineWatchCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachineWatchCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMachineWatchCall {
+func (c *MockMachineWatchCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMachineWatchCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

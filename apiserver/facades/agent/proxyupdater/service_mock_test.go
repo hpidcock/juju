@@ -23,6 +23,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -61,6 +62,7 @@ func (mr *MockControllerConfigServiceMockRecorder) ControllerConfig(arg0 any) *g
 type MockControllerNodeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerNodeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerNodeServiceMockRecorder is the mock recorder for MockControllerNodeService.
@@ -81,10 +83,10 @@ func (m *MockControllerNodeService) EXPECT() *MockControllerNodeServiceMockRecor
 }
 
 // WatchControllerAPIAddresses mocks base method.
-func (m *MockControllerNodeService) WatchControllerAPIAddresses(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockControllerNodeService) WatchControllerAPIAddresses(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerAPIAddresses", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -99,6 +101,7 @@ func (mr *MockControllerNodeServiceMockRecorder) WatchControllerAPIAddresses(arg
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -134,10 +137,10 @@ func (mr *MockModelConfigServiceMockRecorder) ModelConfig(arg0 any) *gomock.Call
 }
 
 // Watch mocks base method.
-func (m *MockModelConfigService) Watch() (watcher.Watcher[[]string], error) {
+func (m *MockModelConfigService) Watch() (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch")
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

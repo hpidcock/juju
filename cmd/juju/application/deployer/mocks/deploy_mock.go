@@ -35,6 +35,7 @@ import (
 type MockDeployerAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockDeployerAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockDeployerAPIMockRecorder is the mock recorder for MockDeployerAPI.
@@ -55,17 +56,17 @@ func (m *MockDeployerAPI) EXPECT() *MockDeployerAPIMockRecorder {
 }
 
 // APICall mocks base method.
-func (m *MockDeployerAPI) APICall(arg0 context.Context, arg1 string, arg2 int, arg3, arg4 string, arg5, arg6 any) error {
+func (m *MockDeployerAPI) APICall(ctx context.Context, objType string, version int, id, request string, arg5, response any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "APICall", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "APICall", ctx, objType, version, id, request, arg5, response)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // APICall indicates an expected call of APICall.
-func (mr *MockDeployerAPIMockRecorder) APICall(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockDeployerAPIAPICallCall {
+func (mr *MockDeployerAPIMockRecorder) APICall(ctx, objType, version, id, request, arg5, response any) *MockDeployerAPIAPICallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockDeployerAPI)(nil).APICall), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockDeployerAPI)(nil).APICall), ctx, objType, version, id, request, arg5, response)
 	return &MockDeployerAPIAPICallCall{Call: call}
 }
 
@@ -171,18 +172,18 @@ func (c *MockDeployerAPIAddLocalCharmCall) DoAndReturn(f func(context.Context, *
 }
 
 // AddMachines mocks base method.
-func (m *MockDeployerAPI) AddMachines(arg0 context.Context, arg1 []params.AddMachineParams) ([]params.AddMachinesResult, error) {
+func (m *MockDeployerAPI) AddMachines(ctx context.Context, machineParams []params.AddMachineParams) ([]params.AddMachinesResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddMachines", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddMachines", ctx, machineParams)
 	ret0, _ := ret[0].([]params.AddMachinesResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddMachines indicates an expected call of AddMachines.
-func (mr *MockDeployerAPIMockRecorder) AddMachines(arg0, arg1 any) *MockDeployerAPIAddMachinesCall {
+func (mr *MockDeployerAPIMockRecorder) AddMachines(ctx, machineParams any) *MockDeployerAPIAddMachinesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachines", reflect.TypeOf((*MockDeployerAPI)(nil).AddMachines), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddMachines", reflect.TypeOf((*MockDeployerAPI)(nil).AddMachines), ctx, machineParams)
 	return &MockDeployerAPIAddMachinesCall{Call: call}
 }
 
@@ -210,18 +211,18 @@ func (c *MockDeployerAPIAddMachinesCall) DoAndReturn(f func(context.Context, []p
 }
 
 // AddRelation mocks base method.
-func (m *MockDeployerAPI) AddRelation(arg0 context.Context, arg1, arg2 []string) (*params.AddRelationResults, error) {
+func (m *MockDeployerAPI) AddRelation(ctx context.Context, endpoints, viaCIDRs []string) (*params.AddRelationResults, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddRelation", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AddRelation", ctx, endpoints, viaCIDRs)
 	ret0, _ := ret[0].(*params.AddRelationResults)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddRelation indicates an expected call of AddRelation.
-func (mr *MockDeployerAPIMockRecorder) AddRelation(arg0, arg1, arg2 any) *MockDeployerAPIAddRelationCall {
+func (mr *MockDeployerAPIMockRecorder) AddRelation(ctx, endpoints, viaCIDRs any) *MockDeployerAPIAddRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRelation", reflect.TypeOf((*MockDeployerAPI)(nil).AddRelation), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRelation", reflect.TypeOf((*MockDeployerAPI)(nil).AddRelation), ctx, endpoints, viaCIDRs)
 	return &MockDeployerAPIAddRelationCall{Call: call}
 }
 
@@ -365,17 +366,17 @@ func (c *MockDeployerAPIBakeryClientCall) DoAndReturn(f func() base.MacaroonDisc
 }
 
 // BestFacadeVersion mocks base method.
-func (m *MockDeployerAPI) BestFacadeVersion(arg0 string) int {
+func (m *MockDeployerAPI) BestFacadeVersion(facade string) int {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BestFacadeVersion", arg0)
+	ret := m.ctrl.Call(m, "BestFacadeVersion", facade)
 	ret0, _ := ret[0].(int)
 	return ret0
 }
 
 // BestFacadeVersion indicates an expected call of BestFacadeVersion.
-func (mr *MockDeployerAPIMockRecorder) BestFacadeVersion(arg0 any) *MockDeployerAPIBestFacadeVersionCall {
+func (mr *MockDeployerAPIMockRecorder) BestFacadeVersion(facade any) *MockDeployerAPIBestFacadeVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockDeployerAPI)(nil).BestFacadeVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockDeployerAPI)(nil).BestFacadeVersion), facade)
 	return &MockDeployerAPIBestFacadeVersionCall{Call: call}
 }
 
@@ -518,18 +519,18 @@ func (c *MockDeployerAPICloseCall) DoAndReturn(f func() error) *MockDeployerAPIC
 }
 
 // ConnectControllerStream mocks base method.
-func (m *MockDeployerAPI) ConnectControllerStream(arg0 context.Context, arg1 string, arg2 url.Values, arg3 http.Header) (base.Stream, error) {
+func (m *MockDeployerAPI) ConnectControllerStream(ctx context.Context, path string, attrs url.Values, headers http.Header) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectControllerStream", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ConnectControllerStream", ctx, path, attrs, headers)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectControllerStream indicates an expected call of ConnectControllerStream.
-func (mr *MockDeployerAPIMockRecorder) ConnectControllerStream(arg0, arg1, arg2, arg3 any) *MockDeployerAPIConnectControllerStreamCall {
+func (mr *MockDeployerAPIMockRecorder) ConnectControllerStream(ctx, path, attrs, headers any) *MockDeployerAPIConnectControllerStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockDeployerAPI)(nil).ConnectControllerStream), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockDeployerAPI)(nil).ConnectControllerStream), ctx, path, attrs, headers)
 	return &MockDeployerAPIConnectControllerStreamCall{Call: call}
 }
 
@@ -557,18 +558,18 @@ func (c *MockDeployerAPIConnectControllerStreamCall) DoAndReturn(f func(context.
 }
 
 // ConnectStream mocks base method.
-func (m *MockDeployerAPI) ConnectStream(arg0 context.Context, arg1 string, arg2 url.Values) (base.Stream, error) {
+func (m *MockDeployerAPI) ConnectStream(ctx context.Context, path string, attrs url.Values) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectStream", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ConnectStream", ctx, path, attrs)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectStream indicates an expected call of ConnectStream.
-func (mr *MockDeployerAPIMockRecorder) ConnectStream(arg0, arg1, arg2 any) *MockDeployerAPIConnectStreamCall {
+func (mr *MockDeployerAPIMockRecorder) ConnectStream(ctx, path, attrs any) *MockDeployerAPIConnectStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockDeployerAPI)(nil).ConnectStream), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockDeployerAPI)(nil).ConnectStream), ctx, path, attrs)
 	return &MockDeployerAPIConnectStreamCall{Call: call}
 }
 
@@ -596,18 +597,18 @@ func (c *MockDeployerAPIConnectStreamCall) DoAndReturn(f func(context.Context, s
 }
 
 // Consume mocks base method.
-func (m *MockDeployerAPI) Consume(arg0 context.Context, arg1 crossmodel.ConsumeApplicationArgs) (string, error) {
+func (m *MockDeployerAPI) Consume(ctx context.Context, arg crossmodel.ConsumeApplicationArgs) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Consume", arg0, arg1)
+	ret := m.ctrl.Call(m, "Consume", ctx, arg)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Consume indicates an expected call of Consume.
-func (mr *MockDeployerAPIMockRecorder) Consume(arg0, arg1 any) *MockDeployerAPIConsumeCall {
+func (mr *MockDeployerAPIMockRecorder) Consume(ctx, arg any) *MockDeployerAPIConsumeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Consume", reflect.TypeOf((*MockDeployerAPI)(nil).Consume), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Consume", reflect.TypeOf((*MockDeployerAPI)(nil).Consume), ctx, arg)
 	return &MockDeployerAPIConsumeCall{Call: call}
 }
 
@@ -673,9 +674,9 @@ func (c *MockDeployerAPIDeployCall) DoAndReturn(f func(context.Context, applicat
 }
 
 // DeployFromRepository mocks base method.
-func (m *MockDeployerAPI) DeployFromRepository(arg0 context.Context, arg1 application.DeployFromRepositoryArg) (application.DeployInfo, []application.PendingResourceUpload, []error) {
+func (m *MockDeployerAPI) DeployFromRepository(ctx context.Context, arg application.DeployFromRepositoryArg) (application.DeployInfo, []application.PendingResourceUpload, []error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeployFromRepository", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeployFromRepository", ctx, arg)
 	ret0, _ := ret[0].(application.DeployInfo)
 	ret1, _ := ret[1].([]application.PendingResourceUpload)
 	ret2, _ := ret[2].([]error)
@@ -683,9 +684,9 @@ func (m *MockDeployerAPI) DeployFromRepository(arg0 context.Context, arg1 applic
 }
 
 // DeployFromRepository indicates an expected call of DeployFromRepository.
-func (mr *MockDeployerAPIMockRecorder) DeployFromRepository(arg0, arg1 any) *MockDeployerAPIDeployFromRepositoryCall {
+func (mr *MockDeployerAPIMockRecorder) DeployFromRepository(ctx, arg any) *MockDeployerAPIDeployFromRepositoryCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeployFromRepository", reflect.TypeOf((*MockDeployerAPI)(nil).DeployFromRepository), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeployFromRepository", reflect.TypeOf((*MockDeployerAPI)(nil).DeployFromRepository), ctx, arg)
 	return &MockDeployerAPIDeployFromRepositoryCall{Call: call}
 }
 
@@ -713,17 +714,17 @@ func (c *MockDeployerAPIDeployFromRepositoryCall) DoAndReturn(f func(context.Con
 }
 
 // Expose mocks base method.
-func (m *MockDeployerAPI) Expose(arg0 context.Context, arg1 string, arg2 map[string]params.ExposedEndpoint) error {
+func (m *MockDeployerAPI) Expose(ctx context.Context, arg1 string, exposedEndpoints map[string]params.ExposedEndpoint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Expose", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Expose", ctx, arg1, exposedEndpoints)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Expose indicates an expected call of Expose.
-func (mr *MockDeployerAPIMockRecorder) Expose(arg0, arg1, arg2 any) *MockDeployerAPIExposeCall {
+func (mr *MockDeployerAPIMockRecorder) Expose(ctx, arg1, exposedEndpoints any) *MockDeployerAPIExposeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Expose", reflect.TypeOf((*MockDeployerAPI)(nil).Expose), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Expose", reflect.TypeOf((*MockDeployerAPI)(nil).Expose), ctx, arg1, exposedEndpoints)
 	return &MockDeployerAPIExposeCall{Call: call}
 }
 
@@ -751,18 +752,18 @@ func (c *MockDeployerAPIExposeCall) DoAndReturn(f func(context.Context, string, 
 }
 
 // GetAnnotations mocks base method.
-func (m *MockDeployerAPI) GetAnnotations(arg0 context.Context, arg1 []string) ([]params.AnnotationsGetResult, error) {
+func (m *MockDeployerAPI) GetAnnotations(ctx context.Context, tags []string) ([]params.AnnotationsGetResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAnnotations", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAnnotations", ctx, tags)
 	ret0, _ := ret[0].([]params.AnnotationsGetResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAnnotations indicates an expected call of GetAnnotations.
-func (mr *MockDeployerAPIMockRecorder) GetAnnotations(arg0, arg1 any) *MockDeployerAPIGetAnnotationsCall {
+func (mr *MockDeployerAPIMockRecorder) GetAnnotations(ctx, tags any) *MockDeployerAPIGetAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockDeployerAPI)(nil).GetAnnotations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockDeployerAPI)(nil).GetAnnotations), ctx, tags)
 	return &MockDeployerAPIGetAnnotationsCall{Call: call}
 }
 
@@ -830,10 +831,10 @@ func (c *MockDeployerAPIGetCharmURLOriginCall) DoAndReturn(f func(context.Contex
 }
 
 // GetConfig mocks base method.
-func (m *MockDeployerAPI) GetConfig(arg0 context.Context, arg1 ...string) ([]map[string]any, error) {
+func (m *MockDeployerAPI) GetConfig(ctx context.Context, appNames ...string) ([]map[string]any, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range appNames {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetConfig", varargs...)
@@ -843,9 +844,9 @@ func (m *MockDeployerAPI) GetConfig(arg0 context.Context, arg1 ...string) ([]map
 }
 
 // GetConfig indicates an expected call of GetConfig.
-func (mr *MockDeployerAPIMockRecorder) GetConfig(arg0 any, arg1 ...any) *MockDeployerAPIGetConfigCall {
+func (mr *MockDeployerAPIMockRecorder) GetConfig(ctx any, appNames ...any) *MockDeployerAPIGetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, appNames...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockDeployerAPI)(nil).GetConfig), varargs...)
 	return &MockDeployerAPIGetConfigCall{Call: call}
 }
@@ -874,10 +875,10 @@ func (c *MockDeployerAPIGetConfigCall) DoAndReturn(f func(context.Context, ...st
 }
 
 // GetConstraints mocks base method.
-func (m *MockDeployerAPI) GetConstraints(arg0 context.Context, arg1 ...string) ([]constraints.Value, error) {
+func (m *MockDeployerAPI) GetConstraints(ctx context.Context, appNames ...string) ([]constraints.Value, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range appNames {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetConstraints", varargs...)
@@ -887,9 +888,9 @@ func (m *MockDeployerAPI) GetConstraints(arg0 context.Context, arg1 ...string) (
 }
 
 // GetConstraints indicates an expected call of GetConstraints.
-func (mr *MockDeployerAPIMockRecorder) GetConstraints(arg0 any, arg1 ...any) *MockDeployerAPIGetConstraintsCall {
+func (mr *MockDeployerAPIMockRecorder) GetConstraints(ctx any, appNames ...any) *MockDeployerAPIGetConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, appNames...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConstraints", reflect.TypeOf((*MockDeployerAPI)(nil).GetConstraints), varargs...)
 	return &MockDeployerAPIGetConstraintsCall{Call: call}
 }
@@ -918,18 +919,18 @@ func (c *MockDeployerAPIGetConstraintsCall) DoAndReturn(f func(context.Context, 
 }
 
 // GetModelConstraints mocks base method.
-func (m *MockDeployerAPI) GetModelConstraints(arg0 context.Context) (constraints.Value, error) {
+func (m *MockDeployerAPI) GetModelConstraints(ctx context.Context) (constraints.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelConstraints", arg0)
+	ret := m.ctrl.Call(m, "GetModelConstraints", ctx)
 	ret0, _ := ret[0].(constraints.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelConstraints indicates an expected call of GetModelConstraints.
-func (mr *MockDeployerAPIMockRecorder) GetModelConstraints(arg0 any) *MockDeployerAPIGetModelConstraintsCall {
+func (mr *MockDeployerAPIMockRecorder) GetModelConstraints(ctx any) *MockDeployerAPIGetModelConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelConstraints", reflect.TypeOf((*MockDeployerAPI)(nil).GetModelConstraints), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelConstraints", reflect.TypeOf((*MockDeployerAPI)(nil).GetModelConstraints), ctx)
 	return &MockDeployerAPIGetModelConstraintsCall{Call: call}
 }
 
@@ -957,10 +958,10 @@ func (c *MockDeployerAPIGetModelConstraintsCall) DoAndReturn(f func(context.Cont
 }
 
 // GrantOffer mocks base method.
-func (m *MockDeployerAPI) GrantOffer(arg0 context.Context, arg1, arg2 string, arg3 ...string) error {
+func (m *MockDeployerAPI) GrantOffer(ctx context.Context, user, access string, offerURLs ...string) error {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2}
-	for _, a := range arg3 {
+	varargs := []any{ctx, user, access}
+	for _, a := range offerURLs {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GrantOffer", varargs...)
@@ -969,9 +970,9 @@ func (m *MockDeployerAPI) GrantOffer(arg0 context.Context, arg1, arg2 string, ar
 }
 
 // GrantOffer indicates an expected call of GrantOffer.
-func (mr *MockDeployerAPIMockRecorder) GrantOffer(arg0, arg1, arg2 any, arg3 ...any) *MockDeployerAPIGrantOfferCall {
+func (mr *MockDeployerAPIMockRecorder) GrantOffer(ctx, user, access any, offerURLs ...any) *MockDeployerAPIGrantOfferCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2}, arg3...)
+	varargs := append([]any{ctx, user, access}, offerURLs...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GrantOffer", reflect.TypeOf((*MockDeployerAPI)(nil).GrantOffer), varargs...)
 	return &MockDeployerAPIGrantOfferCall{Call: call}
 }
@@ -1039,18 +1040,18 @@ func (c *MockDeployerAPIHTTPClientCall) DoAndReturn(f func() (*httprequest.Clien
 }
 
 // ListCharmResources mocks base method.
-func (m *MockDeployerAPI) ListCharmResources(arg0 context.Context, arg1 string, arg2 charm.Origin) ([]resource.Resource, error) {
+func (m *MockDeployerAPI) ListCharmResources(ctx context.Context, curl string, origin charm.Origin) ([]resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListCharmResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListCharmResources", ctx, curl, origin)
 	ret0, _ := ret[0].([]resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListCharmResources indicates an expected call of ListCharmResources.
-func (mr *MockDeployerAPIMockRecorder) ListCharmResources(arg0, arg1, arg2 any) *MockDeployerAPIListCharmResourcesCall {
+func (mr *MockDeployerAPIMockRecorder) ListCharmResources(ctx, curl, origin any) *MockDeployerAPIListCharmResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCharmResources", reflect.TypeOf((*MockDeployerAPI)(nil).ListCharmResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCharmResources", reflect.TypeOf((*MockDeployerAPI)(nil).ListCharmResources), ctx, curl, origin)
 	return &MockDeployerAPIListCharmResourcesCall{Call: call}
 }
 
@@ -1078,18 +1079,18 @@ func (c *MockDeployerAPIListCharmResourcesCall) DoAndReturn(f func(context.Conte
 }
 
 // ListSpaces mocks base method.
-func (m *MockDeployerAPI) ListSpaces(arg0 context.Context) ([]params.Space, error) {
+func (m *MockDeployerAPI) ListSpaces(ctx context.Context) ([]params.Space, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListSpaces", arg0)
+	ret := m.ctrl.Call(m, "ListSpaces", ctx)
 	ret0, _ := ret[0].([]params.Space)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListSpaces indicates an expected call of ListSpaces.
-func (mr *MockDeployerAPIMockRecorder) ListSpaces(arg0 any) *MockDeployerAPIListSpacesCall {
+func (mr *MockDeployerAPIMockRecorder) ListSpaces(ctx any) *MockDeployerAPIListSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSpaces", reflect.TypeOf((*MockDeployerAPI)(nil).ListSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSpaces", reflect.TypeOf((*MockDeployerAPI)(nil).ListSpaces), ctx)
 	return &MockDeployerAPIListSpacesCall{Call: call}
 }
 
@@ -1117,18 +1118,18 @@ func (c *MockDeployerAPIListSpacesCall) DoAndReturn(f func(context.Context) ([]p
 }
 
 // ModelGet mocks base method.
-func (m *MockDeployerAPI) ModelGet(arg0 context.Context) (map[string]any, error) {
+func (m *MockDeployerAPI) ModelGet(ctx context.Context) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelGet", arg0)
+	ret := m.ctrl.Call(m, "ModelGet", ctx)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelGet indicates an expected call of ModelGet.
-func (mr *MockDeployerAPIMockRecorder) ModelGet(arg0 any) *MockDeployerAPIModelGetCall {
+func (mr *MockDeployerAPIMockRecorder) ModelGet(ctx any) *MockDeployerAPIModelGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockDeployerAPI)(nil).ModelGet), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockDeployerAPI)(nil).ModelGet), ctx)
 	return &MockDeployerAPIModelGetCall{Call: call}
 }
 
@@ -1234,18 +1235,18 @@ func (c *MockDeployerAPIModelUUIDCall) DoAndReturn(f func() (string, bool)) *Moc
 }
 
 // Offer mocks base method.
-func (m *MockDeployerAPI) Offer(arg0 context.Context, arg1, arg2 string, arg3 []string, arg4, arg5, arg6 string) ([]params.ErrorResult, error) {
+func (m *MockDeployerAPI) Offer(ctx context.Context, modelUUID, arg2 string, endpoints []string, owner, offerName, descr string) ([]params.ErrorResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Offer", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "Offer", ctx, modelUUID, arg2, endpoints, owner, offerName, descr)
 	ret0, _ := ret[0].([]params.ErrorResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Offer indicates an expected call of Offer.
-func (mr *MockDeployerAPIMockRecorder) Offer(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockDeployerAPIOfferCall {
+func (mr *MockDeployerAPIMockRecorder) Offer(ctx, modelUUID, arg2, endpoints, owner, offerName, descr any) *MockDeployerAPIOfferCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Offer", reflect.TypeOf((*MockDeployerAPI)(nil).Offer), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Offer", reflect.TypeOf((*MockDeployerAPI)(nil).Offer), ctx, modelUUID, arg2, endpoints, owner, offerName, descr)
 	return &MockDeployerAPIOfferCall{Call: call}
 }
 
@@ -1351,18 +1352,18 @@ func (c *MockDeployerAPIScaleApplicationCall) DoAndReturn(f func(context.Context
 }
 
 // Sequences mocks base method.
-func (m *MockDeployerAPI) Sequences(arg0 context.Context) (map[string]int, error) {
+func (m *MockDeployerAPI) Sequences(ctx context.Context) (map[string]int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Sequences", arg0)
+	ret := m.ctrl.Call(m, "Sequences", ctx)
 	ret0, _ := ret[0].(map[string]int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Sequences indicates an expected call of Sequences.
-func (mr *MockDeployerAPIMockRecorder) Sequences(arg0 any) *MockDeployerAPISequencesCall {
+func (mr *MockDeployerAPIMockRecorder) Sequences(ctx any) *MockDeployerAPISequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sequences", reflect.TypeOf((*MockDeployerAPI)(nil).Sequences), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Sequences", reflect.TypeOf((*MockDeployerAPI)(nil).Sequences), ctx)
 	return &MockDeployerAPISequencesCall{Call: call}
 }
 
@@ -1390,18 +1391,18 @@ func (c *MockDeployerAPISequencesCall) DoAndReturn(f func(context.Context) (map[
 }
 
 // SetAnnotation mocks base method.
-func (m *MockDeployerAPI) SetAnnotation(arg0 context.Context, arg1 map[string]map[string]string) ([]params.ErrorResult, error) {
+func (m *MockDeployerAPI) SetAnnotation(ctx context.Context, annotations map[string]map[string]string) ([]params.ErrorResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAnnotation", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetAnnotation", ctx, annotations)
 	ret0, _ := ret[0].([]params.ErrorResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SetAnnotation indicates an expected call of SetAnnotation.
-func (mr *MockDeployerAPIMockRecorder) SetAnnotation(arg0, arg1 any) *MockDeployerAPISetAnnotationCall {
+func (mr *MockDeployerAPIMockRecorder) SetAnnotation(ctx, annotations any) *MockDeployerAPISetAnnotationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAnnotation", reflect.TypeOf((*MockDeployerAPI)(nil).SetAnnotation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAnnotation", reflect.TypeOf((*MockDeployerAPI)(nil).SetAnnotation), ctx, annotations)
 	return &MockDeployerAPISetAnnotationCall{Call: call}
 }
 
@@ -1467,17 +1468,17 @@ func (c *MockDeployerAPISetCharmCall) DoAndReturn(f func(context.Context, applic
 }
 
 // SetConfig mocks base method.
-func (m *MockDeployerAPI) SetConfig(arg0 context.Context, arg1, arg2 string, arg3 map[string]string) error {
+func (m *MockDeployerAPI) SetConfig(ctx context.Context, arg1, configYAML string, config map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, arg1, configYAML, config)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockDeployerAPIMockRecorder) SetConfig(arg0, arg1, arg2, arg3 any) *MockDeployerAPISetConfigCall {
+func (mr *MockDeployerAPIMockRecorder) SetConfig(ctx, arg1, configYAML, config any) *MockDeployerAPISetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockDeployerAPI)(nil).SetConfig), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockDeployerAPI)(nil).SetConfig), ctx, arg1, configYAML, config)
 	return &MockDeployerAPISetConfigCall{Call: call}
 }
 
@@ -1505,17 +1506,17 @@ func (c *MockDeployerAPISetConfigCall) DoAndReturn(f func(context.Context, strin
 }
 
 // SetConstraints mocks base method.
-func (m *MockDeployerAPI) SetConstraints(arg0 context.Context, arg1 string, arg2 constraints.Value) error {
+func (m *MockDeployerAPI) SetConstraints(ctx context.Context, arg1 string, arg2 constraints.Value) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConstraints", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetConstraints", ctx, arg1, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConstraints indicates an expected call of SetConstraints.
-func (mr *MockDeployerAPIMockRecorder) SetConstraints(arg0, arg1, arg2 any) *MockDeployerAPISetConstraintsCall {
+func (mr *MockDeployerAPIMockRecorder) SetConstraints(ctx, arg1, arg2 any) *MockDeployerAPISetConstraintsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConstraints", reflect.TypeOf((*MockDeployerAPI)(nil).SetConstraints), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConstraints", reflect.TypeOf((*MockDeployerAPI)(nil).SetConstraints), ctx, arg1, arg2)
 	return &MockDeployerAPISetConstraintsCall{Call: call}
 }
 
@@ -1585,6 +1586,7 @@ func (c *MockDeployerAPIStatusCall) DoAndReturn(f func(context.Context, *client.
 type MockCharmReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmReaderMockRecorder is the mock recorder for MockCharmReader.
@@ -1648,6 +1650,7 @@ func (c *MockCharmReaderNewCharmAtPathCall) DoAndReturn(f func(string) (charm0.C
 type MockDeployConfigFlag struct {
 	ctrl     *gomock.Controller
 	recorder *MockDeployConfigFlagMockRecorder
+	isgomock struct{}
 }
 
 // MockDeployConfigFlagMockRecorder is the mock recorder for MockDeployConfigFlag.
@@ -1668,18 +1671,18 @@ func (m *MockDeployConfigFlag) EXPECT() *MockDeployConfigFlagMockRecorder {
 }
 
 // AbsoluteFileNames mocks base method.
-func (m *MockDeployConfigFlag) AbsoluteFileNames(arg0 *cmd.Context) ([]string, error) {
+func (m *MockDeployConfigFlag) AbsoluteFileNames(ctx *cmd.Context) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AbsoluteFileNames", arg0)
+	ret := m.ctrl.Call(m, "AbsoluteFileNames", ctx)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AbsoluteFileNames indicates an expected call of AbsoluteFileNames.
-func (mr *MockDeployConfigFlagMockRecorder) AbsoluteFileNames(arg0 any) *MockDeployConfigFlagAbsoluteFileNamesCall {
+func (mr *MockDeployConfigFlagMockRecorder) AbsoluteFileNames(ctx any) *MockDeployConfigFlagAbsoluteFileNamesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AbsoluteFileNames", reflect.TypeOf((*MockDeployConfigFlag)(nil).AbsoluteFileNames), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AbsoluteFileNames", reflect.TypeOf((*MockDeployConfigFlag)(nil).AbsoluteFileNames), ctx)
 	return &MockDeployConfigFlagAbsoluteFileNamesCall{Call: call}
 }
 
@@ -1707,18 +1710,18 @@ func (c *MockDeployConfigFlagAbsoluteFileNamesCall) DoAndReturn(f func(*cmd.Cont
 }
 
 // ReadConfigPairs mocks base method.
-func (m *MockDeployConfigFlag) ReadConfigPairs(arg0 *cmd.Context) (map[string]any, error) {
+func (m *MockDeployConfigFlag) ReadConfigPairs(ctx *cmd.Context) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadConfigPairs", arg0)
+	ret := m.ctrl.Call(m, "ReadConfigPairs", ctx)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadConfigPairs indicates an expected call of ReadConfigPairs.
-func (mr *MockDeployConfigFlagMockRecorder) ReadConfigPairs(arg0 any) *MockDeployConfigFlagReadConfigPairsCall {
+func (mr *MockDeployConfigFlagMockRecorder) ReadConfigPairs(ctx any) *MockDeployConfigFlagReadConfigPairsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadConfigPairs", reflect.TypeOf((*MockDeployConfigFlag)(nil).ReadConfigPairs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadConfigPairs", reflect.TypeOf((*MockDeployConfigFlag)(nil).ReadConfigPairs), ctx)
 	return &MockDeployConfigFlagReadConfigPairsCall{Call: call}
 }
 

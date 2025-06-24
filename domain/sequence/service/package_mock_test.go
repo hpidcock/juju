@@ -20,6 +20,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -40,18 +41,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetSequencesForExport mocks base method.
-func (m *MockState) GetSequencesForExport(arg0 context.Context) (map[string]uint64, error) {
+func (m *MockState) GetSequencesForExport(ctx context.Context) (map[string]uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSequencesForExport", arg0)
+	ret := m.ctrl.Call(m, "GetSequencesForExport", ctx)
 	ret0, _ := ret[0].(map[string]uint64)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSequencesForExport indicates an expected call of GetSequencesForExport.
-func (mr *MockStateMockRecorder) GetSequencesForExport(arg0 any) *MockStateGetSequencesForExportCall {
+func (mr *MockStateMockRecorder) GetSequencesForExport(ctx any) *MockStateGetSequencesForExportCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSequencesForExport", reflect.TypeOf((*MockState)(nil).GetSequencesForExport), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSequencesForExport", reflect.TypeOf((*MockState)(nil).GetSequencesForExport), ctx)
 	return &MockStateGetSequencesForExportCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockStateGetSequencesForExportCall) DoAndReturn(f func(context.Context)
 }
 
 // ImportSequences mocks base method.
-func (m *MockState) ImportSequences(arg0 context.Context, arg1 map[string]uint64) error {
+func (m *MockState) ImportSequences(ctx context.Context, seqs map[string]uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportSequences", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportSequences", ctx, seqs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportSequences indicates an expected call of ImportSequences.
-func (mr *MockStateMockRecorder) ImportSequences(arg0, arg1 any) *MockStateImportSequencesCall {
+func (mr *MockStateMockRecorder) ImportSequences(ctx, seqs any) *MockStateImportSequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportSequences", reflect.TypeOf((*MockState)(nil).ImportSequences), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportSequences", reflect.TypeOf((*MockState)(nil).ImportSequences), ctx, seqs)
 	return &MockStateImportSequencesCall{Call: call}
 }
 
@@ -117,17 +118,17 @@ func (c *MockStateImportSequencesCall) DoAndReturn(f func(context.Context, map[s
 }
 
 // RemoveAllSequences mocks base method.
-func (m *MockState) RemoveAllSequences(arg0 context.Context) error {
+func (m *MockState) RemoveAllSequences(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAllSequences", arg0)
+	ret := m.ctrl.Call(m, "RemoveAllSequences", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAllSequences indicates an expected call of RemoveAllSequences.
-func (mr *MockStateMockRecorder) RemoveAllSequences(arg0 any) *MockStateRemoveAllSequencesCall {
+func (mr *MockStateMockRecorder) RemoveAllSequences(ctx any) *MockStateRemoveAllSequencesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllSequences", reflect.TypeOf((*MockState)(nil).RemoveAllSequences), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAllSequences", reflect.TypeOf((*MockState)(nil).RemoveAllSequences), ctx)
 	return &MockStateRemoveAllSequencesCall{Call: call}
 }
 

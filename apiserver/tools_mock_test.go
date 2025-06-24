@@ -24,6 +24,7 @@ import (
 type MockAgentBinaryStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentBinaryStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentBinaryStoreMockRecorder is the mock recorder for MockAgentBinaryStore.
@@ -44,17 +45,17 @@ func (m *MockAgentBinaryStore) EXPECT() *MockAgentBinaryStoreMockRecorder {
 }
 
 // AddAgentBinaryWithSHA256 mocks base method.
-func (m *MockAgentBinaryStore) AddAgentBinaryWithSHA256(arg0 context.Context, arg1 io.Reader, arg2 agentbinary.Version, arg3 int64, arg4 string) error {
+func (m *MockAgentBinaryStore) AddAgentBinaryWithSHA256(ctx context.Context, data io.Reader, version agentbinary.Version, dataSize int64, dataSHA256Sum string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddAgentBinaryWithSHA256", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "AddAgentBinaryWithSHA256", ctx, data, version, dataSize, dataSHA256Sum)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddAgentBinaryWithSHA256 indicates an expected call of AddAgentBinaryWithSHA256.
-func (mr *MockAgentBinaryStoreMockRecorder) AddAgentBinaryWithSHA256(arg0, arg1, arg2, arg3, arg4 any) *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call {
+func (mr *MockAgentBinaryStoreMockRecorder) AddAgentBinaryWithSHA256(ctx, data, version, dataSize, dataSHA256Sum any) *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAgentBinaryWithSHA256", reflect.TypeOf((*MockAgentBinaryStore)(nil).AddAgentBinaryWithSHA256), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAgentBinaryWithSHA256", reflect.TypeOf((*MockAgentBinaryStore)(nil).AddAgentBinaryWithSHA256), ctx, data, version, dataSize, dataSHA256Sum)
 	return &MockAgentBinaryStoreAddAgentBinaryWithSHA256Call{Call: call}
 }
 
@@ -85,6 +86,7 @@ func (c *MockAgentBinaryStoreAddAgentBinaryWithSHA256Call) DoAndReturn(f func(co
 type MockBlockChecker struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCheckerMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCheckerMockRecorder is the mock recorder for MockBlockChecker.
@@ -146,6 +148,7 @@ func (c *MockBlockCheckerChangeAllowedCall) DoAndReturn(f func(context.Context) 
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -205,10 +208,10 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 }
 
 // WatchControllerConfig mocks base method.
-func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerConfig", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -226,19 +229,19 @@ type MockControllerConfigServiceWatchControllerConfigCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockControllerConfigServiceWatchControllerConfigCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockControllerConfigServiceWatchControllerConfigCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockControllerConfigServiceWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

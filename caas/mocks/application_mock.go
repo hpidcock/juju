@@ -23,6 +23,7 @@ import (
 type MockApplication struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationMockRecorder is the mock recorder for MockApplication.
@@ -43,18 +44,18 @@ func (m *MockApplication) EXPECT() *MockApplicationMockRecorder {
 }
 
 // ApplicationPodSpec mocks base method.
-func (m *MockApplication) ApplicationPodSpec(arg0 caas.ApplicationConfig) (*v1.PodSpec, error) {
+func (m *MockApplication) ApplicationPodSpec(config caas.ApplicationConfig) (*v1.PodSpec, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplicationPodSpec", arg0)
+	ret := m.ctrl.Call(m, "ApplicationPodSpec", config)
 	ret0, _ := ret[0].(*v1.PodSpec)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ApplicationPodSpec indicates an expected call of ApplicationPodSpec.
-func (mr *MockApplicationMockRecorder) ApplicationPodSpec(arg0 any) *MockApplicationApplicationPodSpecCall {
+func (mr *MockApplicationMockRecorder) ApplicationPodSpec(config any) *MockApplicationApplicationPodSpecCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationPodSpec", reflect.TypeOf((*MockApplication)(nil).ApplicationPodSpec), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplicationPodSpec", reflect.TypeOf((*MockApplication)(nil).ApplicationPodSpec), config)
 	return &MockApplicationApplicationPodSpecCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockApplicationDeleteCall) DoAndReturn(f func() error) *MockApplication
 }
 
 // Ensure mocks base method.
-func (m *MockApplication) Ensure(arg0 caas.ApplicationConfig) error {
+func (m *MockApplication) Ensure(config caas.ApplicationConfig) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Ensure", arg0)
+	ret := m.ctrl.Call(m, "Ensure", config)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Ensure indicates an expected call of Ensure.
-func (mr *MockApplicationMockRecorder) Ensure(arg0 any) *MockApplicationEnsureCall {
+func (mr *MockApplicationMockRecorder) Ensure(config any) *MockApplicationEnsureCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ensure", reflect.TypeOf((*MockApplication)(nil).Ensure), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ensure", reflect.TypeOf((*MockApplication)(nil).Ensure), config)
 	return &MockApplicationEnsureCall{Call: call}
 }
 
@@ -429,17 +430,17 @@ func (c *MockApplicationUnitsToRemoveCall) DoAndReturn(f func(context.Context, i
 }
 
 // UpdatePorts mocks base method.
-func (m *MockApplication) UpdatePorts(arg0 []caas.ServicePort, arg1 bool) error {
+func (m *MockApplication) UpdatePorts(ports []caas.ServicePort, updateContainerPorts bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdatePorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdatePorts", ports, updateContainerPorts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdatePorts indicates an expected call of UpdatePorts.
-func (mr *MockApplicationMockRecorder) UpdatePorts(arg0, arg1 any) *MockApplicationUpdatePortsCall {
+func (mr *MockApplicationMockRecorder) UpdatePorts(ports, updateContainerPorts any) *MockApplicationUpdatePortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePorts", reflect.TypeOf((*MockApplication)(nil).UpdatePorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePorts", reflect.TypeOf((*MockApplication)(nil).UpdatePorts), ports, updateContainerPorts)
 	return &MockApplicationUpdatePortsCall{Call: call}
 }
 
@@ -505,10 +506,10 @@ func (c *MockApplicationUpdateServiceCall) DoAndReturn(f func(caas.ServiceParam)
 }
 
 // Watch mocks base method.
-func (m *MockApplication) Watch(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockApplication) Watch(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -526,28 +527,28 @@ type MockApplicationWatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationWatchCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockApplicationWatchCall {
+func (c *MockApplicationWatchCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockApplicationWatchCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationWatchCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockApplicationWatchCall {
+func (c *MockApplicationWatchCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockApplicationWatchCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationWatchCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockApplicationWatchCall {
+func (c *MockApplicationWatchCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockApplicationWatchCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchReplicas mocks base method.
-func (m *MockApplication) WatchReplicas() (watcher.Watcher[struct{}], error) {
+func (m *MockApplication) WatchReplicas() (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchReplicas")
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -565,19 +566,19 @@ type MockApplicationWatchReplicasCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationWatchReplicasCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockApplicationWatchReplicasCall {
+func (c *MockApplicationWatchReplicasCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockApplicationWatchReplicasCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationWatchReplicasCall) Do(f func() (watcher.Watcher[struct{}], error)) *MockApplicationWatchReplicasCall {
+func (c *MockApplicationWatchReplicasCall) Do(f func() (watcher.NotifyWatcher, error)) *MockApplicationWatchReplicasCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationWatchReplicasCall) DoAndReturn(f func() (watcher.Watcher[struct{}], error)) *MockApplicationWatchReplicasCall {
+func (c *MockApplicationWatchReplicasCall) DoAndReturn(f func() (watcher.NotifyWatcher, error)) *MockApplicationWatchReplicasCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

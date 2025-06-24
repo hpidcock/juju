@@ -19,6 +19,7 @@ import (
 type MockMetricsCollector struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetricsCollectorMockRecorder
+	isgomock struct{}
 }
 
 // MockMetricsCollectorMockRecorder is the mock recorder for MockMetricsCollector.
@@ -39,15 +40,15 @@ func (m *MockMetricsCollector) EXPECT() *MockMetricsCollectorMockRecorder {
 }
 
 // DispatchDurationObserve mocks base method.
-func (m *MockMetricsCollector) DispatchDurationObserve(arg0 float64, arg1 bool) {
+func (m *MockMetricsCollector) DispatchDurationObserve(val float64, failed bool) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "DispatchDurationObserve", arg0, arg1)
+	m.ctrl.Call(m, "DispatchDurationObserve", val, failed)
 }
 
 // DispatchDurationObserve indicates an expected call of DispatchDurationObserve.
-func (mr *MockMetricsCollectorMockRecorder) DispatchDurationObserve(arg0, arg1 any) *MockMetricsCollectorDispatchDurationObserveCall {
+func (mr *MockMetricsCollectorMockRecorder) DispatchDurationObserve(val, failed any) *MockMetricsCollectorDispatchDurationObserveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DispatchDurationObserve", reflect.TypeOf((*MockMetricsCollector)(nil).DispatchDurationObserve), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DispatchDurationObserve", reflect.TypeOf((*MockMetricsCollector)(nil).DispatchDurationObserve), val, failed)
 	return &MockMetricsCollectorDispatchDurationObserveCall{Call: call}
 }
 

@@ -22,6 +22,7 @@ import (
 type MockServiceAccountLister struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceAccountListerMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceAccountListerMockRecorder is the mock recorder for MockServiceAccountLister.
@@ -42,18 +43,18 @@ func (m *MockServiceAccountLister) EXPECT() *MockServiceAccountListerMockRecorde
 }
 
 // List mocks base method.
-func (m *MockServiceAccountLister) List(arg0 labels.Selector) ([]*v1.ServiceAccount, error) {
+func (m *MockServiceAccountLister) List(selector labels.Selector) ([]*v1.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0)
+	ret := m.ctrl.Call(m, "List", selector)
 	ret0, _ := ret[0].([]*v1.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockServiceAccountListerMockRecorder) List(arg0 any) *MockServiceAccountListerListCall {
+func (mr *MockServiceAccountListerMockRecorder) List(selector any) *MockServiceAccountListerListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountLister)(nil).List), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountLister)(nil).List), selector)
 	return &MockServiceAccountListerListCall{Call: call}
 }
 
@@ -63,8 +64,8 @@ type MockServiceAccountListerListCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockServiceAccountListerListCall) Return(arg0 []*v1.ServiceAccount, arg1 error) *MockServiceAccountListerListCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockServiceAccountListerListCall) Return(ret []*v1.ServiceAccount, err error) *MockServiceAccountListerListCall {
+	c.Call = c.Call.Return(ret, err)
 	return c
 }
 
@@ -81,17 +82,17 @@ func (c *MockServiceAccountListerListCall) DoAndReturn(f func(labels.Selector) (
 }
 
 // ServiceAccounts mocks base method.
-func (m *MockServiceAccountLister) ServiceAccounts(arg0 string) v10.ServiceAccountNamespaceLister {
+func (m *MockServiceAccountLister) ServiceAccounts(namespace string) v10.ServiceAccountNamespaceLister {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ServiceAccounts", arg0)
+	ret := m.ctrl.Call(m, "ServiceAccounts", namespace)
 	ret0, _ := ret[0].(v10.ServiceAccountNamespaceLister)
 	return ret0
 }
 
 // ServiceAccounts indicates an expected call of ServiceAccounts.
-func (mr *MockServiceAccountListerMockRecorder) ServiceAccounts(arg0 any) *MockServiceAccountListerServiceAccountsCall {
+func (mr *MockServiceAccountListerMockRecorder) ServiceAccounts(namespace any) *MockServiceAccountListerServiceAccountsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServiceAccounts", reflect.TypeOf((*MockServiceAccountLister)(nil).ServiceAccounts), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServiceAccounts", reflect.TypeOf((*MockServiceAccountLister)(nil).ServiceAccounts), namespace)
 	return &MockServiceAccountListerServiceAccountsCall{Call: call}
 }
 
@@ -122,6 +123,7 @@ func (c *MockServiceAccountListerServiceAccountsCall) DoAndReturn(f func(string)
 type MockServiceAccountNamespaceLister struct {
 	ctrl     *gomock.Controller
 	recorder *MockServiceAccountNamespaceListerMockRecorder
+	isgomock struct{}
 }
 
 // MockServiceAccountNamespaceListerMockRecorder is the mock recorder for MockServiceAccountNamespaceLister.
@@ -142,18 +144,18 @@ func (m *MockServiceAccountNamespaceLister) EXPECT() *MockServiceAccountNamespac
 }
 
 // Get mocks base method.
-func (m *MockServiceAccountNamespaceLister) Get(arg0 string) (*v1.ServiceAccount, error) {
+func (m *MockServiceAccountNamespaceLister) Get(name string) (*v1.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0)
+	ret := m.ctrl.Call(m, "Get", name)
 	ret0, _ := ret[0].(*v1.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockServiceAccountNamespaceListerMockRecorder) Get(arg0 any) *MockServiceAccountNamespaceListerGetCall {
+func (mr *MockServiceAccountNamespaceListerMockRecorder) Get(name any) *MockServiceAccountNamespaceListerGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockServiceAccountNamespaceLister)(nil).Get), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockServiceAccountNamespaceLister)(nil).Get), name)
 	return &MockServiceAccountNamespaceListerGetCall{Call: call}
 }
 
@@ -181,18 +183,18 @@ func (c *MockServiceAccountNamespaceListerGetCall) DoAndReturn(f func(string) (*
 }
 
 // List mocks base method.
-func (m *MockServiceAccountNamespaceLister) List(arg0 labels.Selector) ([]*v1.ServiceAccount, error) {
+func (m *MockServiceAccountNamespaceLister) List(selector labels.Selector) ([]*v1.ServiceAccount, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0)
+	ret := m.ctrl.Call(m, "List", selector)
 	ret0, _ := ret[0].([]*v1.ServiceAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockServiceAccountNamespaceListerMockRecorder) List(arg0 any) *MockServiceAccountNamespaceListerListCall {
+func (mr *MockServiceAccountNamespaceListerMockRecorder) List(selector any) *MockServiceAccountNamespaceListerListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountNamespaceLister)(nil).List), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockServiceAccountNamespaceLister)(nil).List), selector)
 	return &MockServiceAccountNamespaceListerListCall{Call: call}
 }
 
@@ -202,8 +204,8 @@ type MockServiceAccountNamespaceListerListCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockServiceAccountNamespaceListerListCall) Return(arg0 []*v1.ServiceAccount, arg1 error) *MockServiceAccountNamespaceListerListCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockServiceAccountNamespaceListerListCall) Return(ret []*v1.ServiceAccount, err error) *MockServiceAccountNamespaceListerListCall {
+	c.Call = c.Call.Return(ret, err)
 	return c
 }
 

@@ -25,6 +25,7 @@ import (
 type MockCharmAdder struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmAdderMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmAdderMockRecorder is the mock recorder for MockCharmAdder.
@@ -164,6 +165,7 @@ func (c *MockCharmAdderCheckCharmPlacementCall) DoAndReturn(f func(context.Conte
 type MockCharmsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmsAPIMockRecorder is the mock recorder for MockCharmsAPI.
@@ -184,18 +186,18 @@ func (m *MockCharmsAPI) EXPECT() *MockCharmsAPIMockRecorder {
 }
 
 // GetDownloadInfo mocks base method.
-func (m *MockCharmsAPI) GetDownloadInfo(arg0 context.Context, arg1 *charm0.URL, arg2 charm.Origin) (charms.DownloadInfo, error) {
+func (m *MockCharmsAPI) GetDownloadInfo(ctx context.Context, curl *charm0.URL, origin charm.Origin) (charms.DownloadInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDownloadInfo", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetDownloadInfo", ctx, curl, origin)
 	ret0, _ := ret[0].(charms.DownloadInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetDownloadInfo indicates an expected call of GetDownloadInfo.
-func (mr *MockCharmsAPIMockRecorder) GetDownloadInfo(arg0, arg1, arg2 any) *MockCharmsAPIGetDownloadInfoCall {
+func (mr *MockCharmsAPIMockRecorder) GetDownloadInfo(ctx, curl, origin any) *MockCharmsAPIGetDownloadInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDownloadInfo", reflect.TypeOf((*MockCharmsAPI)(nil).GetDownloadInfo), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDownloadInfo", reflect.TypeOf((*MockCharmsAPI)(nil).GetDownloadInfo), ctx, curl, origin)
 	return &MockCharmsAPIGetDownloadInfoCall{Call: call}
 }
 
@@ -223,18 +225,18 @@ func (c *MockCharmsAPIGetDownloadInfoCall) DoAndReturn(f func(context.Context, *
 }
 
 // ResolveCharms mocks base method.
-func (m *MockCharmsAPI) ResolveCharms(arg0 context.Context, arg1 []charms.CharmToResolve) ([]charms.ResolvedCharm, error) {
+func (m *MockCharmsAPI) ResolveCharms(ctx context.Context, arg1 []charms.CharmToResolve) ([]charms.ResolvedCharm, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveCharms", arg0, arg1)
+	ret := m.ctrl.Call(m, "ResolveCharms", ctx, arg1)
 	ret0, _ := ret[0].([]charms.ResolvedCharm)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ResolveCharms indicates an expected call of ResolveCharms.
-func (mr *MockCharmsAPIMockRecorder) ResolveCharms(arg0, arg1 any) *MockCharmsAPIResolveCharmsCall {
+func (mr *MockCharmsAPIMockRecorder) ResolveCharms(ctx, arg1 any) *MockCharmsAPIResolveCharmsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharms", reflect.TypeOf((*MockCharmsAPI)(nil).ResolveCharms), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharms", reflect.TypeOf((*MockCharmsAPI)(nil).ResolveCharms), ctx, arg1)
 	return &MockCharmsAPIResolveCharmsCall{Call: call}
 }
 
@@ -265,6 +267,7 @@ func (c *MockCharmsAPIResolveCharmsCall) DoAndReturn(f func(context.Context, []c
 type MockDownloadBundleClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockDownloadBundleClientMockRecorder
+	isgomock struct{}
 }
 
 // MockDownloadBundleClientMockRecorder is the mock recorder for MockDownloadBundleClient.
@@ -332,6 +335,7 @@ func (c *MockDownloadBundleClientDownloadCall) DoAndReturn(f func(context.Contex
 type MockCharmReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmReaderMockRecorder is the mock recorder for MockCharmReader.
@@ -352,18 +356,18 @@ func (m *MockCharmReader) EXPECT() *MockCharmReaderMockRecorder {
 }
 
 // ReadBundleArchive mocks base method.
-func (m *MockCharmReader) ReadBundleArchive(arg0 string) (charm0.Bundle, error) {
+func (m *MockCharmReader) ReadBundleArchive(path string) (charm0.Bundle, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadBundleArchive", arg0)
+	ret := m.ctrl.Call(m, "ReadBundleArchive", path)
 	ret0, _ := ret[0].(charm0.Bundle)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadBundleArchive indicates an expected call of ReadBundleArchive.
-func (mr *MockCharmReaderMockRecorder) ReadBundleArchive(arg0 any) *MockCharmReaderReadBundleArchiveCall {
+func (mr *MockCharmReaderMockRecorder) ReadBundleArchive(path any) *MockCharmReaderReadBundleArchiveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadBundleArchive", reflect.TypeOf((*MockCharmReader)(nil).ReadBundleArchive), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadBundleArchive", reflect.TypeOf((*MockCharmReader)(nil).ReadBundleArchive), path)
 	return &MockCharmReaderReadBundleArchiveCall{Call: call}
 }
 

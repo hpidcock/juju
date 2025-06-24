@@ -26,6 +26,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -124,18 +125,18 @@ func (c *MockStateGetAllOpenedPortsCall) DoAndReturn(f func(context.Context) (po
 }
 
 // GetApplicationOpenedPorts mocks base method.
-func (m *MockState) GetApplicationOpenedPorts(arg0 context.Context, arg1 application.ID) (port.UnitEndpointPortRanges, error) {
+func (m *MockState) GetApplicationOpenedPorts(ctx context.Context, applicationUUID application.ID) (port.UnitEndpointPortRanges, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationOpenedPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationOpenedPorts", ctx, applicationUUID)
 	ret0, _ := ret[0].(port.UnitEndpointPortRanges)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationOpenedPorts indicates an expected call of GetApplicationOpenedPorts.
-func (mr *MockStateMockRecorder) GetApplicationOpenedPorts(arg0, arg1 any) *MockStateGetApplicationOpenedPortsCall {
+func (mr *MockStateMockRecorder) GetApplicationOpenedPorts(ctx, applicationUUID any) *MockStateGetApplicationOpenedPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationOpenedPorts", reflect.TypeOf((*MockState)(nil).GetApplicationOpenedPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationOpenedPorts", reflect.TypeOf((*MockState)(nil).GetApplicationOpenedPorts), ctx, applicationUUID)
 	return &MockStateGetApplicationOpenedPortsCall{Call: call}
 }
 
@@ -202,18 +203,18 @@ func (c *MockStateGetMachineNamesForUnitsCall) DoAndReturn(f func(context.Contex
 }
 
 // GetMachineOpenedPorts mocks base method.
-func (m *MockState) GetMachineOpenedPorts(arg0 context.Context, arg1 string) (map[unit.Name]network.GroupedPortRanges, error) {
+func (m *MockState) GetMachineOpenedPorts(ctx context.Context, machineUUID string) (map[unit.Name]network.GroupedPortRanges, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineOpenedPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineOpenedPorts", ctx, machineUUID)
 	ret0, _ := ret[0].(map[unit.Name]network.GroupedPortRanges)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineOpenedPorts indicates an expected call of GetMachineOpenedPorts.
-func (mr *MockStateMockRecorder) GetMachineOpenedPorts(arg0, arg1 any) *MockStateGetMachineOpenedPortsCall {
+func (mr *MockStateMockRecorder) GetMachineOpenedPorts(ctx, machineUUID any) *MockStateGetMachineOpenedPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineOpenedPorts", reflect.TypeOf((*MockState)(nil).GetMachineOpenedPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineOpenedPorts", reflect.TypeOf((*MockState)(nil).GetMachineOpenedPorts), ctx, machineUUID)
 	return &MockStateGetMachineOpenedPortsCall{Call: call}
 }
 
@@ -280,18 +281,18 @@ func (c *MockStateGetUnitOpenedPortsCall) DoAndReturn(f func(context.Context, un
 }
 
 // GetUnitUUID mocks base method.
-func (m *MockState) GetUnitUUID(arg0 context.Context, arg1 unit.Name) (unit.UUID, error) {
+func (m *MockState) GetUnitUUID(ctx context.Context, unitName unit.Name) (unit.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetUnitUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUnitUUID", ctx, unitName)
 	ret0, _ := ret[0].(unit.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetUnitUUID indicates an expected call of GetUnitUUID.
-func (mr *MockStateMockRecorder) GetUnitUUID(arg0, arg1 any) *MockStateGetUnitUUIDCall {
+func (mr *MockStateMockRecorder) GetUnitUUID(ctx, unitName any) *MockStateGetUnitUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitUUID", reflect.TypeOf((*MockState)(nil).GetUnitUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitUUID", reflect.TypeOf((*MockState)(nil).GetUnitUUID), ctx, unitName)
 	return &MockStateGetUnitUUIDCall{Call: call}
 }
 
@@ -396,17 +397,17 @@ func (c *MockStateNamespaceForWatchOpenedPortCall) DoAndReturn(f func() string) 
 }
 
 // UpdateUnitPorts mocks base method.
-func (m *MockState) UpdateUnitPorts(arg0 context.Context, arg1 unit.UUID, arg2, arg3 network.GroupedPortRanges) error {
+func (m *MockState) UpdateUnitPorts(ctx context.Context, unitUUID unit.UUID, openPorts, closePorts network.GroupedPortRanges) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateUnitPorts", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateUnitPorts", ctx, unitUUID, openPorts, closePorts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateUnitPorts indicates an expected call of UpdateUnitPorts.
-func (mr *MockStateMockRecorder) UpdateUnitPorts(arg0, arg1, arg2, arg3 any) *MockStateUpdateUnitPortsCall {
+func (mr *MockStateMockRecorder) UpdateUnitPorts(ctx, unitUUID, openPorts, closePorts any) *MockStateUpdateUnitPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnitPorts", reflect.TypeOf((*MockState)(nil).UpdateUnitPorts), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnitPorts", reflect.TypeOf((*MockState)(nil).UpdateUnitPorts), ctx, unitUUID, openPorts, closePorts)
 	return &MockStateUpdateUnitPortsCall{Call: call}
 }
 

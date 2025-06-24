@@ -23,6 +23,7 @@ import (
 type MockObjectStoreServices struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreServicesMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreServicesMockRecorder is the mock recorder for MockObjectStoreServices.
@@ -160,6 +161,7 @@ func (c *MockObjectStoreServicesObjectStoreCall) DoAndReturn(f func() *service0.
 type MockObjectStoreServicesGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreServicesGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreServicesGetterMockRecorder is the mock recorder for MockObjectStoreServicesGetter.
@@ -180,17 +182,17 @@ func (m *MockObjectStoreServicesGetter) EXPECT() *MockObjectStoreServicesGetterM
 }
 
 // ServicesForModel mocks base method.
-func (m *MockObjectStoreServicesGetter) ServicesForModel(arg0 model.UUID) services.ObjectStoreServices {
+func (m *MockObjectStoreServicesGetter) ServicesForModel(modelUUID model.UUID) services.ObjectStoreServices {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ServicesForModel", arg0)
+	ret := m.ctrl.Call(m, "ServicesForModel", modelUUID)
 	ret0, _ := ret[0].(services.ObjectStoreServices)
 	return ret0
 }
 
 // ServicesForModel indicates an expected call of ServicesForModel.
-func (mr *MockObjectStoreServicesGetterMockRecorder) ServicesForModel(arg0 any) *MockObjectStoreServicesGetterServicesForModelCall {
+func (mr *MockObjectStoreServicesGetterMockRecorder) ServicesForModel(modelUUID any) *MockObjectStoreServicesGetterServicesForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServicesForModel", reflect.TypeOf((*MockObjectStoreServicesGetter)(nil).ServicesForModel), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServicesForModel", reflect.TypeOf((*MockObjectStoreServicesGetter)(nil).ServicesForModel), modelUUID)
 	return &MockObjectStoreServicesGetterServicesForModelCall{Call: call}
 }
 

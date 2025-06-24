@@ -27,6 +27,7 @@ import (
 type MockNetworkingV1beta1Interface struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkingV1beta1InterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkingV1beta1InterfaceMockRecorder is the mock recorder for MockNetworkingV1beta1Interface.
@@ -85,17 +86,17 @@ func (c *MockNetworkingV1beta1InterfaceIngressClassesCall) DoAndReturn(f func() 
 }
 
 // Ingresses mocks base method.
-func (m *MockNetworkingV1beta1Interface) Ingresses(arg0 string) v1beta11.IngressInterface {
+func (m *MockNetworkingV1beta1Interface) Ingresses(namespace string) v1beta11.IngressInterface {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Ingresses", arg0)
+	ret := m.ctrl.Call(m, "Ingresses", namespace)
 	ret0, _ := ret[0].(v1beta11.IngressInterface)
 	return ret0
 }
 
 // Ingresses indicates an expected call of Ingresses.
-func (mr *MockNetworkingV1beta1InterfaceMockRecorder) Ingresses(arg0 any) *MockNetworkingV1beta1InterfaceIngressesCall {
+func (mr *MockNetworkingV1beta1InterfaceMockRecorder) Ingresses(namespace any) *MockNetworkingV1beta1InterfaceIngressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ingresses", reflect.TypeOf((*MockNetworkingV1beta1Interface)(nil).Ingresses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ingresses", reflect.TypeOf((*MockNetworkingV1beta1Interface)(nil).Ingresses), namespace)
 	return &MockNetworkingV1beta1InterfaceIngressesCall{Call: call}
 }
 
@@ -164,6 +165,7 @@ func (c *MockNetworkingV1beta1InterfaceRESTClientCall) DoAndReturn(f func() rest
 type MockIngressV1Beta1Interface struct {
 	ctrl     *gomock.Controller
 	recorder *MockIngressV1Beta1InterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockIngressV1Beta1InterfaceMockRecorder is the mock recorder for MockIngressV1Beta1Interface.
@@ -184,18 +186,18 @@ func (m *MockIngressV1Beta1Interface) EXPECT() *MockIngressV1Beta1InterfaceMockR
 }
 
 // Apply mocks base method.
-func (m *MockIngressV1Beta1Interface) Apply(arg0 context.Context, arg1 *v1beta10.IngressApplyConfiguration, arg2 v1.ApplyOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) Apply(ctx context.Context, ingress *v1beta10.IngressApplyConfiguration, opts v1.ApplyOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, ingress, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceApplyCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Apply(ctx, ingress, opts any) *MockIngressV1Beta1InterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Apply), ctx, ingress, opts)
 	return &MockIngressV1Beta1InterfaceApplyCall{Call: call}
 }
 
@@ -205,8 +207,8 @@ type MockIngressV1Beta1InterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockIngressV1Beta1InterfaceApplyCall) Return(arg0 *v1beta1.Ingress, arg1 error) *MockIngressV1Beta1InterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockIngressV1Beta1InterfaceApplyCall) Return(result *v1beta1.Ingress, err error) *MockIngressV1Beta1InterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -223,18 +225,18 @@ func (c *MockIngressV1Beta1InterfaceApplyCall) DoAndReturn(f func(context.Contex
 }
 
 // ApplyStatus mocks base method.
-func (m *MockIngressV1Beta1Interface) ApplyStatus(arg0 context.Context, arg1 *v1beta10.IngressApplyConfiguration, arg2 v1.ApplyOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) ApplyStatus(ctx context.Context, ingress *v1beta10.IngressApplyConfiguration, opts v1.ApplyOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ApplyStatus", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ApplyStatus", ctx, ingress, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ApplyStatus indicates an expected call of ApplyStatus.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) ApplyStatus(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceApplyStatusCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) ApplyStatus(ctx, ingress, opts any) *MockIngressV1Beta1InterfaceApplyStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplyStatus", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).ApplyStatus), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ApplyStatus", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).ApplyStatus), ctx, ingress, opts)
 	return &MockIngressV1Beta1InterfaceApplyStatusCall{Call: call}
 }
 
@@ -244,8 +246,8 @@ type MockIngressV1Beta1InterfaceApplyStatusCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockIngressV1Beta1InterfaceApplyStatusCall) Return(arg0 *v1beta1.Ingress, arg1 error) *MockIngressV1Beta1InterfaceApplyStatusCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockIngressV1Beta1InterfaceApplyStatusCall) Return(result *v1beta1.Ingress, err error) *MockIngressV1Beta1InterfaceApplyStatusCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -262,18 +264,18 @@ func (c *MockIngressV1Beta1InterfaceApplyStatusCall) DoAndReturn(f func(context.
 }
 
 // Create mocks base method.
-func (m *MockIngressV1Beta1Interface) Create(arg0 context.Context, arg1 *v1beta1.Ingress, arg2 v1.CreateOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) Create(ctx context.Context, ingress *v1beta1.Ingress, opts v1.CreateOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, ingress, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceCreateCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Create(ctx, ingress, opts any) *MockIngressV1Beta1InterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Create), ctx, ingress, opts)
 	return &MockIngressV1Beta1InterfaceCreateCall{Call: call}
 }
 
@@ -301,17 +303,17 @@ func (c *MockIngressV1Beta1InterfaceCreateCall) DoAndReturn(f func(context.Conte
 }
 
 // Delete mocks base method.
-func (m *MockIngressV1Beta1Interface) Delete(arg0 context.Context, arg1 string, arg2 v1.DeleteOptions) error {
+func (m *MockIngressV1Beta1Interface) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceDeleteCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Delete(ctx, name, opts any) *MockIngressV1Beta1InterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Delete), ctx, name, opts)
 	return &MockIngressV1Beta1InterfaceDeleteCall{Call: call}
 }
 
@@ -339,17 +341,17 @@ func (c *MockIngressV1Beta1InterfaceDeleteCall) DoAndReturn(f func(context.Conte
 }
 
 // DeleteCollection mocks base method.
-func (m *MockIngressV1Beta1Interface) DeleteCollection(arg0 context.Context, arg1 v1.DeleteOptions, arg2 v1.ListOptions) error {
+func (m *MockIngressV1Beta1Interface) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceDeleteCollectionCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockIngressV1Beta1InterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockIngressV1Beta1InterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -377,18 +379,18 @@ func (c *MockIngressV1Beta1InterfaceDeleteCollectionCall) DoAndReturn(f func(con
 }
 
 // Get mocks base method.
-func (m *MockIngressV1Beta1Interface) Get(arg0 context.Context, arg1 string, arg2 v1.GetOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) Get(ctx context.Context, name string, opts v1.GetOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceGetCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Get(ctx, name, opts any) *MockIngressV1Beta1InterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Get), ctx, name, opts)
 	return &MockIngressV1Beta1InterfaceGetCall{Call: call}
 }
 
@@ -416,18 +418,18 @@ func (c *MockIngressV1Beta1InterfaceGetCall) DoAndReturn(f func(context.Context,
 }
 
 // List mocks base method.
-func (m *MockIngressV1Beta1Interface) List(arg0 context.Context, arg1 v1.ListOptions) (*v1beta1.IngressList, error) {
+func (m *MockIngressV1Beta1Interface) List(ctx context.Context, opts v1.ListOptions) (*v1beta1.IngressList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1beta1.IngressList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) List(arg0, arg1 any) *MockIngressV1Beta1InterfaceListCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) List(ctx, opts any) *MockIngressV1Beta1InterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).List), ctx, opts)
 	return &MockIngressV1Beta1InterfaceListCall{Call: call}
 }
 
@@ -455,10 +457,10 @@ func (c *MockIngressV1Beta1InterfaceListCall) DoAndReturn(f func(context.Context
 }
 
 // Patch mocks base method.
-func (m *MockIngressV1Beta1Interface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v1.PatchOptions, arg5 ...string) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -468,9 +470,9 @@ func (m *MockIngressV1Beta1Interface) Patch(arg0 context.Context, arg1 string, a
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockIngressV1Beta1InterfacePatchCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockIngressV1Beta1InterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Patch), varargs...)
 	return &MockIngressV1Beta1InterfacePatchCall{Call: call}
 }
@@ -481,8 +483,8 @@ type MockIngressV1Beta1InterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockIngressV1Beta1InterfacePatchCall) Return(arg0 *v1beta1.Ingress, arg1 error) *MockIngressV1Beta1InterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockIngressV1Beta1InterfacePatchCall) Return(result *v1beta1.Ingress, err error) *MockIngressV1Beta1InterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -499,18 +501,18 @@ func (c *MockIngressV1Beta1InterfacePatchCall) DoAndReturn(f func(context.Contex
 }
 
 // Update mocks base method.
-func (m *MockIngressV1Beta1Interface) Update(arg0 context.Context, arg1 *v1beta1.Ingress, arg2 v1.UpdateOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) Update(ctx context.Context, ingress *v1beta1.Ingress, opts v1.UpdateOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, ingress, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceUpdateCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Update(ctx, ingress, opts any) *MockIngressV1Beta1InterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Update), ctx, ingress, opts)
 	return &MockIngressV1Beta1InterfaceUpdateCall{Call: call}
 }
 
@@ -538,18 +540,18 @@ func (c *MockIngressV1Beta1InterfaceUpdateCall) DoAndReturn(f func(context.Conte
 }
 
 // UpdateStatus mocks base method.
-func (m *MockIngressV1Beta1Interface) UpdateStatus(arg0 context.Context, arg1 *v1beta1.Ingress, arg2 v1.UpdateOptions) (*v1beta1.Ingress, error) {
+func (m *MockIngressV1Beta1Interface) UpdateStatus(ctx context.Context, ingress *v1beta1.Ingress, opts v1.UpdateOptions) (*v1beta1.Ingress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateStatus", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateStatus", ctx, ingress, opts)
 	ret0, _ := ret[0].(*v1beta1.Ingress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateStatus indicates an expected call of UpdateStatus.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) UpdateStatus(arg0, arg1, arg2 any) *MockIngressV1Beta1InterfaceUpdateStatusCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) UpdateStatus(ctx, ingress, opts any) *MockIngressV1Beta1InterfaceUpdateStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).UpdateStatus), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).UpdateStatus), ctx, ingress, opts)
 	return &MockIngressV1Beta1InterfaceUpdateStatusCall{Call: call}
 }
 
@@ -577,18 +579,18 @@ func (c *MockIngressV1Beta1InterfaceUpdateStatusCall) DoAndReturn(f func(context
 }
 
 // Watch mocks base method.
-func (m *MockIngressV1Beta1Interface) Watch(arg0 context.Context, arg1 v1.ListOptions) (watch.Interface, error) {
+func (m *MockIngressV1Beta1Interface) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockIngressV1Beta1InterfaceMockRecorder) Watch(arg0, arg1 any) *MockIngressV1Beta1InterfaceWatchCall {
+func (mr *MockIngressV1Beta1InterfaceMockRecorder) Watch(ctx, opts any) *MockIngressV1Beta1InterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockIngressV1Beta1Interface)(nil).Watch), ctx, opts)
 	return &MockIngressV1Beta1InterfaceWatchCall{Call: call}
 }
 

@@ -25,6 +25,7 @@ import (
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -45,18 +46,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetAsyncCharmDownloadInfo mocks base method.
-func (m *MockApplicationService) GetAsyncCharmDownloadInfo(arg0 context.Context, arg1 application.ID) (application0.CharmDownloadInfo, error) {
+func (m *MockApplicationService) GetAsyncCharmDownloadInfo(ctx context.Context, appID application.ID) (application0.CharmDownloadInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAsyncCharmDownloadInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAsyncCharmDownloadInfo", ctx, appID)
 	ret0, _ := ret[0].(application0.CharmDownloadInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAsyncCharmDownloadInfo indicates an expected call of GetAsyncCharmDownloadInfo.
-func (mr *MockApplicationServiceMockRecorder) GetAsyncCharmDownloadInfo(arg0, arg1 any) *MockApplicationServiceGetAsyncCharmDownloadInfoCall {
+func (mr *MockApplicationServiceMockRecorder) GetAsyncCharmDownloadInfo(ctx, appID any) *MockApplicationServiceGetAsyncCharmDownloadInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAsyncCharmDownloadInfo", reflect.TypeOf((*MockApplicationService)(nil).GetAsyncCharmDownloadInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAsyncCharmDownloadInfo", reflect.TypeOf((*MockApplicationService)(nil).GetAsyncCharmDownloadInfo), ctx, appID)
 	return &MockApplicationServiceGetAsyncCharmDownloadInfoCall{Call: call}
 }
 
@@ -84,17 +85,17 @@ func (c *MockApplicationServiceGetAsyncCharmDownloadInfoCall) DoAndReturn(f func
 }
 
 // ResolveCharmDownload mocks base method.
-func (m *MockApplicationService) ResolveCharmDownload(arg0 context.Context, arg1 application.ID, arg2 application0.ResolveCharmDownload) error {
+func (m *MockApplicationService) ResolveCharmDownload(ctx context.Context, appID application.ID, resolve application0.ResolveCharmDownload) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveCharmDownload", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ResolveCharmDownload", ctx, appID, resolve)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ResolveCharmDownload indicates an expected call of ResolveCharmDownload.
-func (mr *MockApplicationServiceMockRecorder) ResolveCharmDownload(arg0, arg1, arg2 any) *MockApplicationServiceResolveCharmDownloadCall {
+func (mr *MockApplicationServiceMockRecorder) ResolveCharmDownload(ctx, appID, resolve any) *MockApplicationServiceResolveCharmDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveCharmDownload), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharmDownload", reflect.TypeOf((*MockApplicationService)(nil).ResolveCharmDownload), ctx, appID, resolve)
 	return &MockApplicationServiceResolveCharmDownloadCall{Call: call}
 }
 
@@ -122,18 +123,18 @@ func (c *MockApplicationServiceResolveCharmDownloadCall) DoAndReturn(f func(cont
 }
 
 // WatchApplicationsWithPendingCharms mocks base method.
-func (m *MockApplicationService) WatchApplicationsWithPendingCharms(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockApplicationService) WatchApplicationsWithPendingCharms(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchApplicationsWithPendingCharms", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchApplicationsWithPendingCharms", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchApplicationsWithPendingCharms indicates an expected call of WatchApplicationsWithPendingCharms.
-func (mr *MockApplicationServiceMockRecorder) WatchApplicationsWithPendingCharms(arg0 any) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
+func (mr *MockApplicationServiceMockRecorder) WatchApplicationsWithPendingCharms(ctx any) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplicationsWithPendingCharms", reflect.TypeOf((*MockApplicationService)(nil).WatchApplicationsWithPendingCharms), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplicationsWithPendingCharms", reflect.TypeOf((*MockApplicationService)(nil).WatchApplicationsWithPendingCharms), ctx)
 	return &MockApplicationServiceWatchApplicationsWithPendingCharmsCall{Call: call}
 }
 
@@ -143,19 +144,19 @@ type MockApplicationServiceWatchApplicationsWithPendingCharmsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
+func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
+func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
+func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchApplicationsWithPendingCharmsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -164,6 +165,7 @@ func (c *MockApplicationServiceWatchApplicationsWithPendingCharmsCall) DoAndRetu
 type MockDownloader struct {
 	ctrl     *gomock.Controller
 	recorder *MockDownloaderMockRecorder
+	isgomock struct{}
 }
 
 // MockDownloaderMockRecorder is the mock recorder for MockDownloader.
@@ -184,18 +186,18 @@ func (m *MockDownloader) EXPECT() *MockDownloaderMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockDownloader) Download(arg0 context.Context, arg1 *url.URL, arg2 string) (*charmdownloader.DownloadResult, error) {
+func (m *MockDownloader) Download(ctx context.Context, curl *url.URL, hash string) (*charmdownloader.DownloadResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Download", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Download", ctx, curl, hash)
 	ret0, _ := ret[0].(*charmdownloader.DownloadResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockDownloaderMockRecorder) Download(arg0, arg1, arg2 any) *MockDownloaderDownloadCall {
+func (mr *MockDownloaderMockRecorder) Download(ctx, curl, hash any) *MockDownloaderDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockDownloader)(nil).Download), ctx, curl, hash)
 	return &MockDownloaderDownloadCall{Call: call}
 }
 

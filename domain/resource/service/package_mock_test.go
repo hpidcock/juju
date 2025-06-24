@@ -26,6 +26,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -46,18 +47,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // AddResourcesBeforeApplication mocks base method.
-func (m *MockState) AddResourcesBeforeApplication(arg0 context.Context, arg1 resource0.AddResourcesBeforeApplicationArgs) ([]resource.UUID, error) {
+func (m *MockState) AddResourcesBeforeApplication(ctx context.Context, arg resource0.AddResourcesBeforeApplicationArgs) ([]resource.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddResourcesBeforeApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "AddResourcesBeforeApplication", ctx, arg)
 	ret0, _ := ret[0].([]resource.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AddResourcesBeforeApplication indicates an expected call of AddResourcesBeforeApplication.
-func (mr *MockStateMockRecorder) AddResourcesBeforeApplication(arg0, arg1 any) *MockStateAddResourcesBeforeApplicationCall {
+func (mr *MockStateMockRecorder) AddResourcesBeforeApplication(ctx, arg any) *MockStateAddResourcesBeforeApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddResourcesBeforeApplication", reflect.TypeOf((*MockState)(nil).AddResourcesBeforeApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddResourcesBeforeApplication", reflect.TypeOf((*MockState)(nil).AddResourcesBeforeApplication), ctx, arg)
 	return &MockStateAddResourcesBeforeApplicationCall{Call: call}
 }
 
@@ -85,17 +86,17 @@ func (c *MockStateAddResourcesBeforeApplicationCall) DoAndReturn(f func(context.
 }
 
 // DeleteApplicationResources mocks base method.
-func (m *MockState) DeleteApplicationResources(arg0 context.Context, arg1 application.ID) error {
+func (m *MockState) DeleteApplicationResources(ctx context.Context, applicationID application.ID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteApplicationResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteApplicationResources", ctx, applicationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteApplicationResources indicates an expected call of DeleteApplicationResources.
-func (mr *MockStateMockRecorder) DeleteApplicationResources(arg0, arg1 any) *MockStateDeleteApplicationResourcesCall {
+func (mr *MockStateMockRecorder) DeleteApplicationResources(ctx, applicationID any) *MockStateDeleteApplicationResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApplicationResources", reflect.TypeOf((*MockState)(nil).DeleteApplicationResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApplicationResources", reflect.TypeOf((*MockState)(nil).DeleteApplicationResources), ctx, applicationID)
 	return &MockStateDeleteApplicationResourcesCall{Call: call}
 }
 
@@ -123,17 +124,17 @@ func (c *MockStateDeleteApplicationResourcesCall) DoAndReturn(f func(context.Con
 }
 
 // DeleteImportedResources mocks base method.
-func (m *MockState) DeleteImportedResources(arg0 context.Context, arg1 []string) error {
+func (m *MockState) DeleteImportedResources(ctx context.Context, appNames []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportedResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteImportedResources", ctx, appNames)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteImportedResources indicates an expected call of DeleteImportedResources.
-func (mr *MockStateMockRecorder) DeleteImportedResources(arg0, arg1 any) *MockStateDeleteImportedResourcesCall {
+func (mr *MockStateMockRecorder) DeleteImportedResources(ctx, appNames any) *MockStateDeleteImportedResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedResources", reflect.TypeOf((*MockState)(nil).DeleteImportedResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedResources", reflect.TypeOf((*MockState)(nil).DeleteImportedResources), ctx, appNames)
 	return &MockStateDeleteImportedResourcesCall{Call: call}
 }
 
@@ -161,17 +162,17 @@ func (c *MockStateDeleteImportedResourcesCall) DoAndReturn(f func(context.Contex
 }
 
 // DeleteResourcesAddedBeforeApplication mocks base method.
-func (m *MockState) DeleteResourcesAddedBeforeApplication(arg0 context.Context, arg1 []resource.UUID) error {
+func (m *MockState) DeleteResourcesAddedBeforeApplication(ctx context.Context, resUUIDs []resource.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteResourcesAddedBeforeApplication", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteResourcesAddedBeforeApplication", ctx, resUUIDs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteResourcesAddedBeforeApplication indicates an expected call of DeleteResourcesAddedBeforeApplication.
-func (mr *MockStateMockRecorder) DeleteResourcesAddedBeforeApplication(arg0, arg1 any) *MockStateDeleteResourcesAddedBeforeApplicationCall {
+func (mr *MockStateMockRecorder) DeleteResourcesAddedBeforeApplication(ctx, resUUIDs any) *MockStateDeleteResourcesAddedBeforeApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteResourcesAddedBeforeApplication", reflect.TypeOf((*MockState)(nil).DeleteResourcesAddedBeforeApplication), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteResourcesAddedBeforeApplication", reflect.TypeOf((*MockState)(nil).DeleteResourcesAddedBeforeApplication), ctx, resUUIDs)
 	return &MockStateDeleteResourcesAddedBeforeApplicationCall{Call: call}
 }
 
@@ -199,17 +200,17 @@ func (c *MockStateDeleteResourcesAddedBeforeApplicationCall) DoAndReturn(f func(
 }
 
 // DeleteUnitResources mocks base method.
-func (m *MockState) DeleteUnitResources(arg0 context.Context, arg1 unit.UUID) error {
+func (m *MockState) DeleteUnitResources(ctx context.Context, uuid unit.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteUnitResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteUnitResources", ctx, uuid)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteUnitResources indicates an expected call of DeleteUnitResources.
-func (mr *MockStateMockRecorder) DeleteUnitResources(arg0, arg1 any) *MockStateDeleteUnitResourcesCall {
+func (mr *MockStateMockRecorder) DeleteUnitResources(ctx, uuid any) *MockStateDeleteUnitResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnitResources", reflect.TypeOf((*MockState)(nil).DeleteUnitResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUnitResources", reflect.TypeOf((*MockState)(nil).DeleteUnitResources), ctx, uuid)
 	return &MockStateDeleteUnitResourcesCall{Call: call}
 }
 
@@ -237,18 +238,18 @@ func (c *MockStateDeleteUnitResourcesCall) DoAndReturn(f func(context.Context, u
 }
 
 // ExportResources mocks base method.
-func (m *MockState) ExportResources(arg0 context.Context, arg1 string) (resource0.ExportedResources, error) {
+func (m *MockState) ExportResources(ctx context.Context, name string) (resource0.ExportedResources, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ExportResources", ctx, name)
 	ret0, _ := ret[0].(resource0.ExportedResources)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportResources indicates an expected call of ExportResources.
-func (mr *MockStateMockRecorder) ExportResources(arg0, arg1 any) *MockStateExportResourcesCall {
+func (mr *MockStateMockRecorder) ExportResources(ctx, name any) *MockStateExportResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportResources", reflect.TypeOf((*MockState)(nil).ExportResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportResources", reflect.TypeOf((*MockState)(nil).ExportResources), ctx, name)
 	return &MockStateExportResourcesCall{Call: call}
 }
 
@@ -276,18 +277,18 @@ func (c *MockStateExportResourcesCall) DoAndReturn(f func(context.Context, strin
 }
 
 // GetApplicationResourceID mocks base method.
-func (m *MockState) GetApplicationResourceID(arg0 context.Context, arg1 resource0.GetApplicationResourceIDArgs) (resource.UUID, error) {
+func (m *MockState) GetApplicationResourceID(ctx context.Context, args resource0.GetApplicationResourceIDArgs) (resource.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationResourceID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationResourceID", ctx, args)
 	ret0, _ := ret[0].(resource.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationResourceID indicates an expected call of GetApplicationResourceID.
-func (mr *MockStateMockRecorder) GetApplicationResourceID(arg0, arg1 any) *MockStateGetApplicationResourceIDCall {
+func (mr *MockStateMockRecorder) GetApplicationResourceID(ctx, args any) *MockStateGetApplicationResourceIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationResourceID", reflect.TypeOf((*MockState)(nil).GetApplicationResourceID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationResourceID", reflect.TypeOf((*MockState)(nil).GetApplicationResourceID), ctx, args)
 	return &MockStateGetApplicationResourceIDCall{Call: call}
 }
 
@@ -315,18 +316,18 @@ func (c *MockStateGetApplicationResourceIDCall) DoAndReturn(f func(context.Conte
 }
 
 // GetResource mocks base method.
-func (m *MockState) GetResource(arg0 context.Context, arg1 resource.UUID) (resource.Resource, error) {
+func (m *MockState) GetResource(ctx context.Context, resourceUUID resource.UUID) (resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResource", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetResource", ctx, resourceUUID)
 	ret0, _ := ret[0].(resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetResource indicates an expected call of GetResource.
-func (mr *MockStateMockRecorder) GetResource(arg0, arg1 any) *MockStateGetResourceCall {
+func (mr *MockStateMockRecorder) GetResource(ctx, resourceUUID any) *MockStateGetResourceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResource", reflect.TypeOf((*MockState)(nil).GetResource), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResource", reflect.TypeOf((*MockState)(nil).GetResource), ctx, resourceUUID)
 	return &MockStateGetResourceCall{Call: call}
 }
 
@@ -354,18 +355,18 @@ func (c *MockStateGetResourceCall) DoAndReturn(f func(context.Context, resource.
 }
 
 // GetResourceType mocks base method.
-func (m *MockState) GetResourceType(arg0 context.Context, arg1 resource.UUID) (resource1.Type, error) {
+func (m *MockState) GetResourceType(ctx context.Context, resourceUUID resource.UUID) (resource1.Type, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResourceType", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetResourceType", ctx, resourceUUID)
 	ret0, _ := ret[0].(resource1.Type)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetResourceType indicates an expected call of GetResourceType.
-func (mr *MockStateMockRecorder) GetResourceType(arg0, arg1 any) *MockStateGetResourceTypeCall {
+func (mr *MockStateMockRecorder) GetResourceType(ctx, resourceUUID any) *MockStateGetResourceTypeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourceType", reflect.TypeOf((*MockState)(nil).GetResourceType), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourceType", reflect.TypeOf((*MockState)(nil).GetResourceType), ctx, resourceUUID)
 	return &MockStateGetResourceTypeCall{Call: call}
 }
 
@@ -393,18 +394,18 @@ func (c *MockStateGetResourceTypeCall) DoAndReturn(f func(context.Context, resou
 }
 
 // GetResourceUUIDByApplicationAndResourceName mocks base method.
-func (m *MockState) GetResourceUUIDByApplicationAndResourceName(arg0 context.Context, arg1, arg2 string) (resource.UUID, error) {
+func (m *MockState) GetResourceUUIDByApplicationAndResourceName(ctx context.Context, appName, resName string) (resource.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResourceUUIDByApplicationAndResourceName", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetResourceUUIDByApplicationAndResourceName", ctx, appName, resName)
 	ret0, _ := ret[0].(resource.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetResourceUUIDByApplicationAndResourceName indicates an expected call of GetResourceUUIDByApplicationAndResourceName.
-func (mr *MockStateMockRecorder) GetResourceUUIDByApplicationAndResourceName(arg0, arg1, arg2 any) *MockStateGetResourceUUIDByApplicationAndResourceNameCall {
+func (mr *MockStateMockRecorder) GetResourceUUIDByApplicationAndResourceName(ctx, appName, resName any) *MockStateGetResourceUUIDByApplicationAndResourceNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourceUUIDByApplicationAndResourceName", reflect.TypeOf((*MockState)(nil).GetResourceUUIDByApplicationAndResourceName), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourceUUIDByApplicationAndResourceName", reflect.TypeOf((*MockState)(nil).GetResourceUUIDByApplicationAndResourceName), ctx, appName, resName)
 	return &MockStateGetResourceUUIDByApplicationAndResourceNameCall{Call: call}
 }
 
@@ -432,18 +433,18 @@ func (c *MockStateGetResourceUUIDByApplicationAndResourceNameCall) DoAndReturn(f
 }
 
 // GetResourcesByApplicationID mocks base method.
-func (m *MockState) GetResourcesByApplicationID(arg0 context.Context, arg1 application.ID) ([]resource.Resource, error) {
+func (m *MockState) GetResourcesByApplicationID(ctx context.Context, applicationID application.ID) ([]resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetResourcesByApplicationID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetResourcesByApplicationID", ctx, applicationID)
 	ret0, _ := ret[0].([]resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetResourcesByApplicationID indicates an expected call of GetResourcesByApplicationID.
-func (mr *MockStateMockRecorder) GetResourcesByApplicationID(arg0, arg1 any) *MockStateGetResourcesByApplicationIDCall {
+func (mr *MockStateMockRecorder) GetResourcesByApplicationID(ctx, applicationID any) *MockStateGetResourcesByApplicationIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourcesByApplicationID", reflect.TypeOf((*MockState)(nil).GetResourcesByApplicationID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetResourcesByApplicationID", reflect.TypeOf((*MockState)(nil).GetResourcesByApplicationID), ctx, applicationID)
 	return &MockStateGetResourcesByApplicationIDCall{Call: call}
 }
 
@@ -471,17 +472,17 @@ func (c *MockStateGetResourcesByApplicationIDCall) DoAndReturn(f func(context.Co
 }
 
 // ImportResources mocks base method.
-func (m *MockState) ImportResources(arg0 context.Context, arg1 resource0.ImportResourcesArgs) error {
+func (m *MockState) ImportResources(ctx context.Context, args resource0.ImportResourcesArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportResources", ctx, args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportResources indicates an expected call of ImportResources.
-func (mr *MockStateMockRecorder) ImportResources(arg0, arg1 any) *MockStateImportResourcesCall {
+func (mr *MockStateMockRecorder) ImportResources(ctx, args any) *MockStateImportResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportResources", reflect.TypeOf((*MockState)(nil).ImportResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportResources", reflect.TypeOf((*MockState)(nil).ImportResources), ctx, args)
 	return &MockStateImportResourcesCall{Call: call}
 }
 
@@ -509,18 +510,18 @@ func (c *MockStateImportResourcesCall) DoAndReturn(f func(context.Context, resou
 }
 
 // ListResources mocks base method.
-func (m *MockState) ListResources(arg0 context.Context, arg1 application.ID) (resource.ApplicationResources, error) {
+func (m *MockState) ListResources(ctx context.Context, applicationID application.ID) (resource.ApplicationResources, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListResources", ctx, applicationID)
 	ret0, _ := ret[0].(resource.ApplicationResources)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListResources indicates an expected call of ListResources.
-func (mr *MockStateMockRecorder) ListResources(arg0, arg1 any) *MockStateListResourcesCall {
+func (mr *MockStateMockRecorder) ListResources(ctx, applicationID any) *MockStateListResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListResources", reflect.TypeOf((*MockState)(nil).ListResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListResources", reflect.TypeOf((*MockState)(nil).ListResources), ctx, applicationID)
 	return &MockStateListResourcesCall{Call: call}
 }
 
@@ -548,17 +549,17 @@ func (c *MockStateListResourcesCall) DoAndReturn(f func(context.Context, applica
 }
 
 // RecordStoredResource mocks base method.
-func (m *MockState) RecordStoredResource(arg0 context.Context, arg1 resource0.RecordStoredResourceArgs) error {
+func (m *MockState) RecordStoredResource(ctx context.Context, args resource0.RecordStoredResourceArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RecordStoredResource", arg0, arg1)
+	ret := m.ctrl.Call(m, "RecordStoredResource", ctx, args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RecordStoredResource indicates an expected call of RecordStoredResource.
-func (mr *MockStateMockRecorder) RecordStoredResource(arg0, arg1 any) *MockStateRecordStoredResourceCall {
+func (mr *MockStateMockRecorder) RecordStoredResource(ctx, args any) *MockStateRecordStoredResourceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordStoredResource", reflect.TypeOf((*MockState)(nil).RecordStoredResource), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordStoredResource", reflect.TypeOf((*MockState)(nil).RecordStoredResource), ctx, args)
 	return &MockStateRecordStoredResourceCall{Call: call}
 }
 
@@ -586,17 +587,17 @@ func (c *MockStateRecordStoredResourceCall) DoAndReturn(f func(context.Context, 
 }
 
 // SetRepositoryResources mocks base method.
-func (m *MockState) SetRepositoryResources(arg0 context.Context, arg1 resource0.SetRepositoryResourcesArgs) error {
+func (m *MockState) SetRepositoryResources(ctx context.Context, config resource0.SetRepositoryResourcesArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetRepositoryResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetRepositoryResources", ctx, config)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetRepositoryResources indicates an expected call of SetRepositoryResources.
-func (mr *MockStateMockRecorder) SetRepositoryResources(arg0, arg1 any) *MockStateSetRepositoryResourcesCall {
+func (mr *MockStateMockRecorder) SetRepositoryResources(ctx, config any) *MockStateSetRepositoryResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRepositoryResources", reflect.TypeOf((*MockState)(nil).SetRepositoryResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetRepositoryResources", reflect.TypeOf((*MockState)(nil).SetRepositoryResources), ctx, config)
 	return &MockStateSetRepositoryResourcesCall{Call: call}
 }
 
@@ -624,17 +625,17 @@ func (c *MockStateSetRepositoryResourcesCall) DoAndReturn(f func(context.Context
 }
 
 // SetUnitResource mocks base method.
-func (m *MockState) SetUnitResource(arg0 context.Context, arg1 resource.UUID, arg2 unit.UUID) error {
+func (m *MockState) SetUnitResource(ctx context.Context, resourceUUID resource.UUID, unitUUID unit.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitResource", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetUnitResource", ctx, resourceUUID, unitUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitResource indicates an expected call of SetUnitResource.
-func (mr *MockStateMockRecorder) SetUnitResource(arg0, arg1, arg2 any) *MockStateSetUnitResourceCall {
+func (mr *MockStateMockRecorder) SetUnitResource(ctx, resourceUUID, unitUUID any) *MockStateSetUnitResourceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitResource", reflect.TypeOf((*MockState)(nil).SetUnitResource), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitResource", reflect.TypeOf((*MockState)(nil).SetUnitResource), ctx, resourceUUID, unitUUID)
 	return &MockStateSetUnitResourceCall{Call: call}
 }
 
@@ -662,18 +663,18 @@ func (c *MockStateSetUnitResourceCall) DoAndReturn(f func(context.Context, resou
 }
 
 // UpdateResourceRevisionAndDeletePriorVersion mocks base method.
-func (m *MockState) UpdateResourceRevisionAndDeletePriorVersion(arg0 context.Context, arg1 resource0.UpdateResourceRevisionArgs, arg2 resource1.Type) (resource.UUID, error) {
+func (m *MockState) UpdateResourceRevisionAndDeletePriorVersion(ctx context.Context, arg resource0.UpdateResourceRevisionArgs, resType resource1.Type) (resource.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateResourceRevisionAndDeletePriorVersion", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateResourceRevisionAndDeletePriorVersion", ctx, arg, resType)
 	ret0, _ := ret[0].(resource.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateResourceRevisionAndDeletePriorVersion indicates an expected call of UpdateResourceRevisionAndDeletePriorVersion.
-func (mr *MockStateMockRecorder) UpdateResourceRevisionAndDeletePriorVersion(arg0, arg1, arg2 any) *MockStateUpdateResourceRevisionAndDeletePriorVersionCall {
+func (mr *MockStateMockRecorder) UpdateResourceRevisionAndDeletePriorVersion(ctx, arg, resType any) *MockStateUpdateResourceRevisionAndDeletePriorVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateResourceRevisionAndDeletePriorVersion", reflect.TypeOf((*MockState)(nil).UpdateResourceRevisionAndDeletePriorVersion), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateResourceRevisionAndDeletePriorVersion", reflect.TypeOf((*MockState)(nil).UpdateResourceRevisionAndDeletePriorVersion), ctx, arg, resType)
 	return &MockStateUpdateResourceRevisionAndDeletePriorVersionCall{Call: call}
 }
 
@@ -701,18 +702,18 @@ func (c *MockStateUpdateResourceRevisionAndDeletePriorVersionCall) DoAndReturn(f
 }
 
 // UpdateUploadResourceAndDeletePriorVersion mocks base method.
-func (m *MockState) UpdateUploadResourceAndDeletePriorVersion(arg0 context.Context, arg1 resource0.StateUpdateUploadResourceArgs) (resource.UUID, error) {
+func (m *MockState) UpdateUploadResourceAndDeletePriorVersion(ctx context.Context, arg resource0.StateUpdateUploadResourceArgs) (resource.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateUploadResourceAndDeletePriorVersion", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateUploadResourceAndDeletePriorVersion", ctx, arg)
 	ret0, _ := ret[0].(resource.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateUploadResourceAndDeletePriorVersion indicates an expected call of UpdateUploadResourceAndDeletePriorVersion.
-func (mr *MockStateMockRecorder) UpdateUploadResourceAndDeletePriorVersion(arg0, arg1 any) *MockStateUpdateUploadResourceAndDeletePriorVersionCall {
+func (mr *MockStateMockRecorder) UpdateUploadResourceAndDeletePriorVersion(ctx, arg any) *MockStateUpdateUploadResourceAndDeletePriorVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUploadResourceAndDeletePriorVersion", reflect.TypeOf((*MockState)(nil).UpdateUploadResourceAndDeletePriorVersion), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUploadResourceAndDeletePriorVersion", reflect.TypeOf((*MockState)(nil).UpdateUploadResourceAndDeletePriorVersion), ctx, arg)
 	return &MockStateUpdateUploadResourceAndDeletePriorVersionCall{Call: call}
 }
 
@@ -743,6 +744,7 @@ func (c *MockStateUpdateUploadResourceAndDeletePriorVersionCall) DoAndReturn(f f
 type MockResourceStoreGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceStoreGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceStoreGetterMockRecorder is the mock recorder for MockResourceStoreGetter.

@@ -20,6 +20,7 @@ import (
 type MockDoer struct {
 	ctrl     *gomock.Controller
 	recorder *MockDoerMockRecorder
+	isgomock struct{}
 }
 
 // MockDoerMockRecorder is the mock recorder for MockDoer.
@@ -40,18 +41,18 @@ func (m *MockDoer) EXPECT() *MockDoerMockRecorder {
 }
 
 // Do mocks base method.
-func (m *MockDoer) Do(arg0 *http.Request) (*http.Response, error) {
+func (m *MockDoer) Do(req *http.Request) (*http.Response, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Do", arg0)
+	ret := m.ctrl.Call(m, "Do", req)
 	ret0, _ := ret[0].(*http.Response)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Do indicates an expected call of Do.
-func (mr *MockDoerMockRecorder) Do(arg0 any) *MockDoerDoCall {
+func (mr *MockDoerMockRecorder) Do(req any) *MockDoerDoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockDoer)(nil).Do), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Do", reflect.TypeOf((*MockDoer)(nil).Do), req)
 	return &MockDoerDoCall{Call: call}
 }
 

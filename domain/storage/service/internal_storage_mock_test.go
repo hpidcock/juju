@@ -21,6 +21,7 @@ import (
 type MockProviderRegistry struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderRegistryMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderRegistryMockRecorder is the mock recorder for MockProviderRegistry.
@@ -122,6 +123,7 @@ func (c *MockProviderRegistryStorageProviderTypesCall) DoAndReturn(f func() ([]s
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -333,17 +335,17 @@ func (c *MockProviderScopeCall) DoAndReturn(f func() storage.Scope) *MockProvide
 }
 
 // Supports mocks base method.
-func (m *MockProvider) Supports(arg0 storage.StorageKind) bool {
+func (m *MockProvider) Supports(kind storage.StorageKind) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Supports", arg0)
+	ret := m.ctrl.Call(m, "Supports", kind)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // Supports indicates an expected call of Supports.
-func (mr *MockProviderMockRecorder) Supports(arg0 any) *MockProviderSupportsCall {
+func (mr *MockProviderMockRecorder) Supports(kind any) *MockProviderSupportsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Supports", reflect.TypeOf((*MockProvider)(nil).Supports), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Supports", reflect.TypeOf((*MockProvider)(nil).Supports), kind)
 	return &MockProviderSupportsCall{Call: call}
 }
 
@@ -489,6 +491,7 @@ func (c *MockProviderVolumeSourceCall) DoAndReturn(f func(*storage.Config) (stor
 type MockVolumeSource struct {
 	ctrl     *gomock.Controller
 	recorder *MockVolumeSourceMockRecorder
+	isgomock struct{}
 }
 
 // MockVolumeSourceMockRecorder is the mock recorder for MockVolumeSource.
@@ -509,18 +512,18 @@ func (m *MockVolumeSource) EXPECT() *MockVolumeSourceMockRecorder {
 }
 
 // AttachVolumes mocks base method.
-func (m *MockVolumeSource) AttachVolumes(arg0 context.Context, arg1 []storage.VolumeAttachmentParams) ([]storage.AttachVolumesResult, error) {
+func (m *MockVolumeSource) AttachVolumes(ctx context.Context, params []storage.VolumeAttachmentParams) ([]storage.AttachVolumesResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AttachVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "AttachVolumes", ctx, params)
 	ret0, _ := ret[0].([]storage.AttachVolumesResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AttachVolumes indicates an expected call of AttachVolumes.
-func (mr *MockVolumeSourceMockRecorder) AttachVolumes(arg0, arg1 any) *MockVolumeSourceAttachVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) AttachVolumes(ctx, params any) *MockVolumeSourceAttachVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AttachVolumes", reflect.TypeOf((*MockVolumeSource)(nil).AttachVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AttachVolumes", reflect.TypeOf((*MockVolumeSource)(nil).AttachVolumes), ctx, params)
 	return &MockVolumeSourceAttachVolumesCall{Call: call}
 }
 
@@ -548,18 +551,18 @@ func (c *MockVolumeSourceAttachVolumesCall) DoAndReturn(f func(context.Context, 
 }
 
 // CreateVolumes mocks base method.
-func (m *MockVolumeSource) CreateVolumes(arg0 context.Context, arg1 []storage.VolumeParams) ([]storage.CreateVolumesResult, error) {
+func (m *MockVolumeSource) CreateVolumes(ctx context.Context, params []storage.VolumeParams) ([]storage.CreateVolumesResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateVolumes", ctx, params)
 	ret0, _ := ret[0].([]storage.CreateVolumesResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateVolumes indicates an expected call of CreateVolumes.
-func (mr *MockVolumeSourceMockRecorder) CreateVolumes(arg0, arg1 any) *MockVolumeSourceCreateVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) CreateVolumes(ctx, params any) *MockVolumeSourceCreateVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVolumes", reflect.TypeOf((*MockVolumeSource)(nil).CreateVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateVolumes", reflect.TypeOf((*MockVolumeSource)(nil).CreateVolumes), ctx, params)
 	return &MockVolumeSourceCreateVolumesCall{Call: call}
 }
 
@@ -587,18 +590,18 @@ func (c *MockVolumeSourceCreateVolumesCall) DoAndReturn(f func(context.Context, 
 }
 
 // DescribeVolumes mocks base method.
-func (m *MockVolumeSource) DescribeVolumes(arg0 context.Context, arg1 []string) ([]storage.DescribeVolumesResult, error) {
+func (m *MockVolumeSource) DescribeVolumes(ctx context.Context, volIds []string) ([]storage.DescribeVolumesResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescribeVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "DescribeVolumes", ctx, volIds)
 	ret0, _ := ret[0].([]storage.DescribeVolumesResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DescribeVolumes indicates an expected call of DescribeVolumes.
-func (mr *MockVolumeSourceMockRecorder) DescribeVolumes(arg0, arg1 any) *MockVolumeSourceDescribeVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) DescribeVolumes(ctx, volIds any) *MockVolumeSourceDescribeVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DescribeVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DescribeVolumes), ctx, volIds)
 	return &MockVolumeSourceDescribeVolumesCall{Call: call}
 }
 
@@ -626,18 +629,18 @@ func (c *MockVolumeSourceDescribeVolumesCall) DoAndReturn(f func(context.Context
 }
 
 // DestroyVolumes mocks base method.
-func (m *MockVolumeSource) DestroyVolumes(arg0 context.Context, arg1 []string) ([]error, error) {
+func (m *MockVolumeSource) DestroyVolumes(ctx context.Context, volIds []string) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyVolumes", ctx, volIds)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DestroyVolumes indicates an expected call of DestroyVolumes.
-func (mr *MockVolumeSourceMockRecorder) DestroyVolumes(arg0, arg1 any) *MockVolumeSourceDestroyVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) DestroyVolumes(ctx, volIds any) *MockVolumeSourceDestroyVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DestroyVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DestroyVolumes), ctx, volIds)
 	return &MockVolumeSourceDestroyVolumesCall{Call: call}
 }
 
@@ -665,18 +668,18 @@ func (c *MockVolumeSourceDestroyVolumesCall) DoAndReturn(f func(context.Context,
 }
 
 // DetachVolumes mocks base method.
-func (m *MockVolumeSource) DetachVolumes(arg0 context.Context, arg1 []storage.VolumeAttachmentParams) ([]error, error) {
+func (m *MockVolumeSource) DetachVolumes(ctx context.Context, params []storage.VolumeAttachmentParams) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DetachVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "DetachVolumes", ctx, params)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DetachVolumes indicates an expected call of DetachVolumes.
-func (mr *MockVolumeSourceMockRecorder) DetachVolumes(arg0, arg1 any) *MockVolumeSourceDetachVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) DetachVolumes(ctx, params any) *MockVolumeSourceDetachVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetachVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DetachVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetachVolumes", reflect.TypeOf((*MockVolumeSource)(nil).DetachVolumes), ctx, params)
 	return &MockVolumeSourceDetachVolumesCall{Call: call}
 }
 
@@ -704,18 +707,18 @@ func (c *MockVolumeSourceDetachVolumesCall) DoAndReturn(f func(context.Context, 
 }
 
 // ListVolumes mocks base method.
-func (m *MockVolumeSource) ListVolumes(arg0 context.Context) ([]string, error) {
+func (m *MockVolumeSource) ListVolumes(ctx context.Context) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListVolumes", arg0)
+	ret := m.ctrl.Call(m, "ListVolumes", ctx)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListVolumes indicates an expected call of ListVolumes.
-func (mr *MockVolumeSourceMockRecorder) ListVolumes(arg0 any) *MockVolumeSourceListVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) ListVolumes(ctx any) *MockVolumeSourceListVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVolumes", reflect.TypeOf((*MockVolumeSource)(nil).ListVolumes), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVolumes", reflect.TypeOf((*MockVolumeSource)(nil).ListVolumes), ctx)
 	return &MockVolumeSourceListVolumesCall{Call: call}
 }
 
@@ -743,18 +746,18 @@ func (c *MockVolumeSourceListVolumesCall) DoAndReturn(f func(context.Context) ([
 }
 
 // ReleaseVolumes mocks base method.
-func (m *MockVolumeSource) ReleaseVolumes(arg0 context.Context, arg1 []string) ([]error, error) {
+func (m *MockVolumeSource) ReleaseVolumes(ctx context.Context, volIds []string) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReleaseVolumes", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReleaseVolumes", ctx, volIds)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReleaseVolumes indicates an expected call of ReleaseVolumes.
-func (mr *MockVolumeSourceMockRecorder) ReleaseVolumes(arg0, arg1 any) *MockVolumeSourceReleaseVolumesCall {
+func (mr *MockVolumeSourceMockRecorder) ReleaseVolumes(ctx, volIds any) *MockVolumeSourceReleaseVolumesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseVolumes", reflect.TypeOf((*MockVolumeSource)(nil).ReleaseVolumes), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseVolumes", reflect.TypeOf((*MockVolumeSource)(nil).ReleaseVolumes), ctx, volIds)
 	return &MockVolumeSourceReleaseVolumesCall{Call: call}
 }
 
@@ -782,17 +785,17 @@ func (c *MockVolumeSourceReleaseVolumesCall) DoAndReturn(f func(context.Context,
 }
 
 // ValidateVolumeParams mocks base method.
-func (m *MockVolumeSource) ValidateVolumeParams(arg0 storage.VolumeParams) error {
+func (m *MockVolumeSource) ValidateVolumeParams(params storage.VolumeParams) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateVolumeParams", arg0)
+	ret := m.ctrl.Call(m, "ValidateVolumeParams", params)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ValidateVolumeParams indicates an expected call of ValidateVolumeParams.
-func (mr *MockVolumeSourceMockRecorder) ValidateVolumeParams(arg0 any) *MockVolumeSourceValidateVolumeParamsCall {
+func (mr *MockVolumeSourceMockRecorder) ValidateVolumeParams(params any) *MockVolumeSourceValidateVolumeParamsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateVolumeParams", reflect.TypeOf((*MockVolumeSource)(nil).ValidateVolumeParams), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateVolumeParams", reflect.TypeOf((*MockVolumeSource)(nil).ValidateVolumeParams), params)
 	return &MockVolumeSourceValidateVolumeParamsCall{Call: call}
 }
 
@@ -823,6 +826,7 @@ func (c *MockVolumeSourceValidateVolumeParamsCall) DoAndReturn(f func(storage.Vo
 type MockVolumeImporter struct {
 	ctrl     *gomock.Controller
 	recorder *MockVolumeImporterMockRecorder
+	isgomock struct{}
 }
 
 // MockVolumeImporterMockRecorder is the mock recorder for MockVolumeImporter.
@@ -843,18 +847,18 @@ func (m *MockVolumeImporter) EXPECT() *MockVolumeImporterMockRecorder {
 }
 
 // ImportVolume mocks base method.
-func (m *MockVolumeImporter) ImportVolume(arg0 context.Context, arg1 string, arg2 map[string]string) (storage.VolumeInfo, error) {
+func (m *MockVolumeImporter) ImportVolume(ctx context.Context, volumeId string, resourceTags map[string]string) (storage.VolumeInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportVolume", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ImportVolume", ctx, volumeId, resourceTags)
 	ret0, _ := ret[0].(storage.VolumeInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ImportVolume indicates an expected call of ImportVolume.
-func (mr *MockVolumeImporterMockRecorder) ImportVolume(arg0, arg1, arg2 any) *MockVolumeImporterImportVolumeCall {
+func (mr *MockVolumeImporterMockRecorder) ImportVolume(ctx, volumeId, resourceTags any) *MockVolumeImporterImportVolumeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportVolume", reflect.TypeOf((*MockVolumeImporter)(nil).ImportVolume), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportVolume", reflect.TypeOf((*MockVolumeImporter)(nil).ImportVolume), ctx, volumeId, resourceTags)
 	return &MockVolumeImporterImportVolumeCall{Call: call}
 }
 
@@ -885,6 +889,7 @@ func (c *MockVolumeImporterImportVolumeCall) DoAndReturn(f func(context.Context,
 type MockFilesystemSource struct {
 	ctrl     *gomock.Controller
 	recorder *MockFilesystemSourceMockRecorder
+	isgomock struct{}
 }
 
 // MockFilesystemSourceMockRecorder is the mock recorder for MockFilesystemSource.
@@ -905,18 +910,18 @@ func (m *MockFilesystemSource) EXPECT() *MockFilesystemSourceMockRecorder {
 }
 
 // AttachFilesystems mocks base method.
-func (m *MockFilesystemSource) AttachFilesystems(arg0 context.Context, arg1 []storage.FilesystemAttachmentParams) ([]storage.AttachFilesystemsResult, error) {
+func (m *MockFilesystemSource) AttachFilesystems(ctx context.Context, params []storage.FilesystemAttachmentParams) ([]storage.AttachFilesystemsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AttachFilesystems", arg0, arg1)
+	ret := m.ctrl.Call(m, "AttachFilesystems", ctx, params)
 	ret0, _ := ret[0].([]storage.AttachFilesystemsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AttachFilesystems indicates an expected call of AttachFilesystems.
-func (mr *MockFilesystemSourceMockRecorder) AttachFilesystems(arg0, arg1 any) *MockFilesystemSourceAttachFilesystemsCall {
+func (mr *MockFilesystemSourceMockRecorder) AttachFilesystems(ctx, params any) *MockFilesystemSourceAttachFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AttachFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).AttachFilesystems), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AttachFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).AttachFilesystems), ctx, params)
 	return &MockFilesystemSourceAttachFilesystemsCall{Call: call}
 }
 
@@ -944,18 +949,18 @@ func (c *MockFilesystemSourceAttachFilesystemsCall) DoAndReturn(f func(context.C
 }
 
 // CreateFilesystems mocks base method.
-func (m *MockFilesystemSource) CreateFilesystems(arg0 context.Context, arg1 []storage.FilesystemParams) ([]storage.CreateFilesystemsResult, error) {
+func (m *MockFilesystemSource) CreateFilesystems(ctx context.Context, params []storage.FilesystemParams) ([]storage.CreateFilesystemsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateFilesystems", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateFilesystems", ctx, params)
 	ret0, _ := ret[0].([]storage.CreateFilesystemsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateFilesystems indicates an expected call of CreateFilesystems.
-func (mr *MockFilesystemSourceMockRecorder) CreateFilesystems(arg0, arg1 any) *MockFilesystemSourceCreateFilesystemsCall {
+func (mr *MockFilesystemSourceMockRecorder) CreateFilesystems(ctx, params any) *MockFilesystemSourceCreateFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).CreateFilesystems), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).CreateFilesystems), ctx, params)
 	return &MockFilesystemSourceCreateFilesystemsCall{Call: call}
 }
 
@@ -983,18 +988,18 @@ func (c *MockFilesystemSourceCreateFilesystemsCall) DoAndReturn(f func(context.C
 }
 
 // DestroyFilesystems mocks base method.
-func (m *MockFilesystemSource) DestroyFilesystems(arg0 context.Context, arg1 []string) ([]error, error) {
+func (m *MockFilesystemSource) DestroyFilesystems(ctx context.Context, fsIds []string) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyFilesystems", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyFilesystems", ctx, fsIds)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DestroyFilesystems indicates an expected call of DestroyFilesystems.
-func (mr *MockFilesystemSourceMockRecorder) DestroyFilesystems(arg0, arg1 any) *MockFilesystemSourceDestroyFilesystemsCall {
+func (mr *MockFilesystemSourceMockRecorder) DestroyFilesystems(ctx, fsIds any) *MockFilesystemSourceDestroyFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).DestroyFilesystems), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).DestroyFilesystems), ctx, fsIds)
 	return &MockFilesystemSourceDestroyFilesystemsCall{Call: call}
 }
 
@@ -1022,18 +1027,18 @@ func (c *MockFilesystemSourceDestroyFilesystemsCall) DoAndReturn(f func(context.
 }
 
 // DetachFilesystems mocks base method.
-func (m *MockFilesystemSource) DetachFilesystems(arg0 context.Context, arg1 []storage.FilesystemAttachmentParams) ([]error, error) {
+func (m *MockFilesystemSource) DetachFilesystems(ctx context.Context, params []storage.FilesystemAttachmentParams) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DetachFilesystems", arg0, arg1)
+	ret := m.ctrl.Call(m, "DetachFilesystems", ctx, params)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DetachFilesystems indicates an expected call of DetachFilesystems.
-func (mr *MockFilesystemSourceMockRecorder) DetachFilesystems(arg0, arg1 any) *MockFilesystemSourceDetachFilesystemsCall {
+func (mr *MockFilesystemSourceMockRecorder) DetachFilesystems(ctx, params any) *MockFilesystemSourceDetachFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetachFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).DetachFilesystems), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DetachFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).DetachFilesystems), ctx, params)
 	return &MockFilesystemSourceDetachFilesystemsCall{Call: call}
 }
 
@@ -1061,18 +1066,18 @@ func (c *MockFilesystemSourceDetachFilesystemsCall) DoAndReturn(f func(context.C
 }
 
 // ReleaseFilesystems mocks base method.
-func (m *MockFilesystemSource) ReleaseFilesystems(arg0 context.Context, arg1 []string) ([]error, error) {
+func (m *MockFilesystemSource) ReleaseFilesystems(ctx context.Context, volIds []string) ([]error, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReleaseFilesystems", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReleaseFilesystems", ctx, volIds)
 	ret0, _ := ret[0].([]error)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReleaseFilesystems indicates an expected call of ReleaseFilesystems.
-func (mr *MockFilesystemSourceMockRecorder) ReleaseFilesystems(arg0, arg1 any) *MockFilesystemSourceReleaseFilesystemsCall {
+func (mr *MockFilesystemSourceMockRecorder) ReleaseFilesystems(ctx, volIds any) *MockFilesystemSourceReleaseFilesystemsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).ReleaseFilesystems), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseFilesystems", reflect.TypeOf((*MockFilesystemSource)(nil).ReleaseFilesystems), ctx, volIds)
 	return &MockFilesystemSourceReleaseFilesystemsCall{Call: call}
 }
 
@@ -1100,17 +1105,17 @@ func (c *MockFilesystemSourceReleaseFilesystemsCall) DoAndReturn(f func(context.
 }
 
 // ValidateFilesystemParams mocks base method.
-func (m *MockFilesystemSource) ValidateFilesystemParams(arg0 storage.FilesystemParams) error {
+func (m *MockFilesystemSource) ValidateFilesystemParams(params storage.FilesystemParams) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateFilesystemParams", arg0)
+	ret := m.ctrl.Call(m, "ValidateFilesystemParams", params)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ValidateFilesystemParams indicates an expected call of ValidateFilesystemParams.
-func (mr *MockFilesystemSourceMockRecorder) ValidateFilesystemParams(arg0 any) *MockFilesystemSourceValidateFilesystemParamsCall {
+func (mr *MockFilesystemSourceMockRecorder) ValidateFilesystemParams(params any) *MockFilesystemSourceValidateFilesystemParamsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateFilesystemParams", reflect.TypeOf((*MockFilesystemSource)(nil).ValidateFilesystemParams), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateFilesystemParams", reflect.TypeOf((*MockFilesystemSource)(nil).ValidateFilesystemParams), params)
 	return &MockFilesystemSourceValidateFilesystemParamsCall{Call: call}
 }
 
@@ -1141,6 +1146,7 @@ func (c *MockFilesystemSourceValidateFilesystemParamsCall) DoAndReturn(f func(st
 type MockFilesystemImporter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFilesystemImporterMockRecorder
+	isgomock struct{}
 }
 
 // MockFilesystemImporterMockRecorder is the mock recorder for MockFilesystemImporter.
@@ -1161,18 +1167,18 @@ func (m *MockFilesystemImporter) EXPECT() *MockFilesystemImporterMockRecorder {
 }
 
 // ImportFilesystem mocks base method.
-func (m *MockFilesystemImporter) ImportFilesystem(arg0 context.Context, arg1 string, arg2 map[string]string) (storage.FilesystemInfo, error) {
+func (m *MockFilesystemImporter) ImportFilesystem(ctx context.Context, filesystemId string, resourceTags map[string]string) (storage.FilesystemInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportFilesystem", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ImportFilesystem", ctx, filesystemId, resourceTags)
 	ret0, _ := ret[0].(storage.FilesystemInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ImportFilesystem indicates an expected call of ImportFilesystem.
-func (mr *MockFilesystemImporterMockRecorder) ImportFilesystem(arg0, arg1, arg2 any) *MockFilesystemImporterImportFilesystemCall {
+func (mr *MockFilesystemImporterMockRecorder) ImportFilesystem(ctx, filesystemId, resourceTags any) *MockFilesystemImporterImportFilesystemCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportFilesystem", reflect.TypeOf((*MockFilesystemImporter)(nil).ImportFilesystem), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportFilesystem", reflect.TypeOf((*MockFilesystemImporter)(nil).ImportFilesystem), ctx, filesystemId, resourceTags)
 	return &MockFilesystemImporterImportFilesystemCall{Call: call}
 }
 

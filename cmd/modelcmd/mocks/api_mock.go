@@ -29,6 +29,7 @@ import (
 type MockConnection struct {
 	ctrl     *gomock.Controller
 	recorder *MockConnectionMockRecorder
+	isgomock struct{}
 }
 
 // MockConnectionMockRecorder is the mock recorder for MockConnection.
@@ -49,17 +50,17 @@ func (m *MockConnection) EXPECT() *MockConnectionMockRecorder {
 }
 
 // APICall mocks base method.
-func (m *MockConnection) APICall(arg0 context.Context, arg1 string, arg2 int, arg3, arg4 string, arg5, arg6 any) error {
+func (m *MockConnection) APICall(ctx context.Context, objType string, version int, id, request string, params, response any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "APICall", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "APICall", ctx, objType, version, id, request, params, response)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // APICall indicates an expected call of APICall.
-func (mr *MockConnectionMockRecorder) APICall(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockConnectionAPICallCall {
+func (mr *MockConnectionMockRecorder) APICall(ctx, objType, version, id, request, params, response any) *MockConnectionAPICallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockConnection)(nil).APICall), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "APICall", reflect.TypeOf((*MockConnection)(nil).APICall), ctx, objType, version, id, request, params, response)
 	return &MockConnectionAPICallCall{Call: call}
 }
 
@@ -239,17 +240,17 @@ func (c *MockConnectionBakeryClientCall) DoAndReturn(f func() base.MacaroonDisch
 }
 
 // BestFacadeVersion mocks base method.
-func (m *MockConnection) BestFacadeVersion(arg0 string) int {
+func (m *MockConnection) BestFacadeVersion(facade string) int {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BestFacadeVersion", arg0)
+	ret := m.ctrl.Call(m, "BestFacadeVersion", facade)
 	ret0, _ := ret[0].(int)
 	return ret0
 }
 
 // BestFacadeVersion indicates an expected call of BestFacadeVersion.
-func (mr *MockConnectionMockRecorder) BestFacadeVersion(arg0 any) *MockConnectionBestFacadeVersionCall {
+func (mr *MockConnectionMockRecorder) BestFacadeVersion(facade any) *MockConnectionBestFacadeVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockConnection)(nil).BestFacadeVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BestFacadeVersion", reflect.TypeOf((*MockConnection)(nil).BestFacadeVersion), facade)
 	return &MockConnectionBestFacadeVersionCall{Call: call}
 }
 
@@ -353,18 +354,18 @@ func (c *MockConnectionCloseCall) DoAndReturn(f func() error) *MockConnectionClo
 }
 
 // ConnectControllerStream mocks base method.
-func (m *MockConnection) ConnectControllerStream(arg0 context.Context, arg1 string, arg2 url.Values, arg3 http.Header) (base.Stream, error) {
+func (m *MockConnection) ConnectControllerStream(ctx context.Context, path string, attrs url.Values, headers http.Header) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectControllerStream", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ConnectControllerStream", ctx, path, attrs, headers)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectControllerStream indicates an expected call of ConnectControllerStream.
-func (mr *MockConnectionMockRecorder) ConnectControllerStream(arg0, arg1, arg2, arg3 any) *MockConnectionConnectControllerStreamCall {
+func (mr *MockConnectionMockRecorder) ConnectControllerStream(ctx, path, attrs, headers any) *MockConnectionConnectControllerStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockConnection)(nil).ConnectControllerStream), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectControllerStream", reflect.TypeOf((*MockConnection)(nil).ConnectControllerStream), ctx, path, attrs, headers)
 	return &MockConnectionConnectControllerStreamCall{Call: call}
 }
 
@@ -392,18 +393,18 @@ func (c *MockConnectionConnectControllerStreamCall) DoAndReturn(f func(context.C
 }
 
 // ConnectStream mocks base method.
-func (m *MockConnection) ConnectStream(arg0 context.Context, arg1 string, arg2 url.Values) (base.Stream, error) {
+func (m *MockConnection) ConnectStream(ctx context.Context, path string, attrs url.Values) (base.Stream, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectStream", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ConnectStream", ctx, path, attrs)
 	ret0, _ := ret[0].(base.Stream)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectStream indicates an expected call of ConnectStream.
-func (mr *MockConnectionMockRecorder) ConnectStream(arg0, arg1, arg2 any) *MockConnectionConnectStreamCall {
+func (mr *MockConnectionMockRecorder) ConnectStream(ctx, path, attrs any) *MockConnectionConnectStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockConnection)(nil).ConnectStream), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectStream", reflect.TypeOf((*MockConnection)(nil).ConnectStream), ctx, path, attrs)
 	return &MockConnectionConnectStreamCall{Call: call}
 }
 
@@ -622,17 +623,17 @@ func (c *MockConnectionIPAddrCall) DoAndReturn(f func() string) *MockConnectionI
 }
 
 // IsBroken mocks base method.
-func (m *MockConnection) IsBroken(arg0 context.Context) bool {
+func (m *MockConnection) IsBroken(ctx context.Context) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsBroken", arg0)
+	ret := m.ctrl.Call(m, "IsBroken", ctx)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // IsBroken indicates an expected call of IsBroken.
-func (mr *MockConnectionMockRecorder) IsBroken(arg0 any) *MockConnectionIsBrokenCall {
+func (mr *MockConnectionMockRecorder) IsBroken(ctx any) *MockConnectionIsBrokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsBroken", reflect.TypeOf((*MockConnection)(nil).IsBroken), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsBroken", reflect.TypeOf((*MockConnection)(nil).IsBroken), ctx)
 	return &MockConnectionIsBrokenCall{Call: call}
 }
 
@@ -698,17 +699,17 @@ func (c *MockConnectionIsProxiedCall) DoAndReturn(f func() bool) *MockConnection
 }
 
 // Login mocks base method.
-func (m *MockConnection) Login(arg0 context.Context, arg1 names.Tag, arg2, arg3 string, arg4 []macaroon.Slice) error {
+func (m *MockConnection) Login(ctx context.Context, name names.Tag, password, nonce string, ms []macaroon.Slice) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Login", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "Login", ctx, name, password, nonce, ms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Login indicates an expected call of Login.
-func (mr *MockConnectionMockRecorder) Login(arg0, arg1, arg2, arg3, arg4 any) *MockConnectionLoginCall {
+func (mr *MockConnectionMockRecorder) Login(ctx, name, password, nonce, ms any) *MockConnectionLoginCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockConnection)(nil).Login), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockConnection)(nil).Login), ctx, name, password, nonce, ms)
 	return &MockConnectionLoginCall{Call: call}
 }
 

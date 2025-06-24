@@ -19,6 +19,7 @@ import (
 type MockPinner struct {
 	ctrl     *gomock.Controller
 	recorder *MockPinnerMockRecorder
+	isgomock struct{}
 }
 
 // MockPinnerMockRecorder is the mock recorder for MockPinner.
@@ -39,17 +40,17 @@ func (m *MockPinner) EXPECT() *MockPinnerMockRecorder {
 }
 
 // PinLeadership mocks base method.
-func (m *MockPinner) PinLeadership(arg0, arg1 string) error {
+func (m *MockPinner) PinLeadership(applicationId, entity string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PinLeadership", arg0, arg1)
+	ret := m.ctrl.Call(m, "PinLeadership", applicationId, entity)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PinLeadership indicates an expected call of PinLeadership.
-func (mr *MockPinnerMockRecorder) PinLeadership(arg0, arg1 any) *MockPinnerPinLeadershipCall {
+func (mr *MockPinnerMockRecorder) PinLeadership(applicationId, entity any) *MockPinnerPinLeadershipCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PinLeadership", reflect.TypeOf((*MockPinner)(nil).PinLeadership), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PinLeadership", reflect.TypeOf((*MockPinner)(nil).PinLeadership), applicationId, entity)
 	return &MockPinnerPinLeadershipCall{Call: call}
 }
 
@@ -116,17 +117,17 @@ func (c *MockPinnerPinnedLeadershipCall) DoAndReturn(f func() (map[string][]stri
 }
 
 // UnpinLeadership mocks base method.
-func (m *MockPinner) UnpinLeadership(arg0, arg1 string) error {
+func (m *MockPinner) UnpinLeadership(applicationId, entity string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UnpinLeadership", arg0, arg1)
+	ret := m.ctrl.Call(m, "UnpinLeadership", applicationId, entity)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UnpinLeadership indicates an expected call of UnpinLeadership.
-func (mr *MockPinnerMockRecorder) UnpinLeadership(arg0, arg1 any) *MockPinnerUnpinLeadershipCall {
+func (mr *MockPinnerMockRecorder) UnpinLeadership(applicationId, entity any) *MockPinnerUnpinLeadershipCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnpinLeadership", reflect.TypeOf((*MockPinner)(nil).UnpinLeadership), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UnpinLeadership", reflect.TypeOf((*MockPinner)(nil).UnpinLeadership), applicationId, entity)
 	return &MockPinnerUnpinLeadershipCall{Call: call}
 }
 

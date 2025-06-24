@@ -22,6 +22,7 @@ import (
 type MockCAASBroker struct {
 	ctrl     *gomock.Controller
 	recorder *MockCAASBrokerMockRecorder
+	isgomock struct{}
 }
 
 // MockCAASBrokerMockRecorder is the mock recorder for MockCAASBroker.
@@ -42,17 +43,17 @@ func (m *MockCAASBroker) EXPECT() *MockCAASBrokerMockRecorder {
 }
 
 // AnnotateUnit mocks base method.
-func (m *MockCAASBroker) AnnotateUnit(arg0 context.Context, arg1, arg2 string, arg3 names.UnitTag) error {
+func (m *MockCAASBroker) AnnotateUnit(ctx context.Context, appName, podName string, unit names.UnitTag) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AnnotateUnit", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "AnnotateUnit", ctx, appName, podName, unit)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AnnotateUnit indicates an expected call of AnnotateUnit.
-func (mr *MockCAASBrokerMockRecorder) AnnotateUnit(arg0, arg1, arg2, arg3 any) *MockCAASBrokerAnnotateUnitCall {
+func (mr *MockCAASBrokerMockRecorder) AnnotateUnit(ctx, appName, podName, unit any) *MockCAASBrokerAnnotateUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnnotateUnit", reflect.TypeOf((*MockCAASBroker)(nil).AnnotateUnit), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnnotateUnit", reflect.TypeOf((*MockCAASBroker)(nil).AnnotateUnit), ctx, appName, podName, unit)
 	return &MockCAASBrokerAnnotateUnitCall{Call: call}
 }
 
@@ -118,18 +119,18 @@ func (c *MockCAASBrokerApplicationCall) DoAndReturn(f func(string, caas.Deployme
 }
 
 // Units mocks base method.
-func (m *MockCAASBroker) Units(arg0 context.Context, arg1 string) ([]caas.Unit, error) {
+func (m *MockCAASBroker) Units(ctx context.Context, appName string) ([]caas.Unit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Units", arg0, arg1)
+	ret := m.ctrl.Call(m, "Units", ctx, appName)
 	ret0, _ := ret[0].([]caas.Unit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Units indicates an expected call of Units.
-func (mr *MockCAASBrokerMockRecorder) Units(arg0, arg1 any) *MockCAASBrokerUnitsCall {
+func (mr *MockCAASBrokerMockRecorder) Units(ctx, appName any) *MockCAASBrokerUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Units", reflect.TypeOf((*MockCAASBroker)(nil).Units), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Units", reflect.TypeOf((*MockCAASBroker)(nil).Units), ctx, appName)
 	return &MockCAASBrokerUnitsCall{Call: call}
 }
 

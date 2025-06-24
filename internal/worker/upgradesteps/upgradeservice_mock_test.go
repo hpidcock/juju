@@ -23,6 +23,7 @@ import (
 type MockUpgradeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpgradeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUpgradeServiceMockRecorder is the mock recorder for MockUpgradeService.
@@ -43,18 +44,18 @@ func (m *MockUpgradeService) EXPECT() *MockUpgradeServiceMockRecorder {
 }
 
 // ActiveUpgrade mocks base method.
-func (m *MockUpgradeService) ActiveUpgrade(arg0 context.Context) (upgrade0.UUID, error) {
+func (m *MockUpgradeService) ActiveUpgrade(ctx context.Context) (upgrade0.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ActiveUpgrade", arg0)
+	ret := m.ctrl.Call(m, "ActiveUpgrade", ctx)
 	ret0, _ := ret[0].(upgrade0.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ActiveUpgrade indicates an expected call of ActiveUpgrade.
-func (mr *MockUpgradeServiceMockRecorder) ActiveUpgrade(arg0 any) *MockUpgradeServiceActiveUpgradeCall {
+func (mr *MockUpgradeServiceMockRecorder) ActiveUpgrade(ctx any) *MockUpgradeServiceActiveUpgradeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActiveUpgrade", reflect.TypeOf((*MockUpgradeService)(nil).ActiveUpgrade), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActiveUpgrade", reflect.TypeOf((*MockUpgradeService)(nil).ActiveUpgrade), ctx)
 	return &MockUpgradeServiceActiveUpgradeCall{Call: call}
 }
 
@@ -82,17 +83,17 @@ func (c *MockUpgradeServiceActiveUpgradeCall) DoAndReturn(f func(context.Context
 }
 
 // SetControllerDone mocks base method.
-func (m *MockUpgradeService) SetControllerDone(arg0 context.Context, arg1 upgrade0.UUID, arg2 string) error {
+func (m *MockUpgradeService) SetControllerDone(ctx context.Context, upgradeUUID upgrade0.UUID, controllerID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetControllerDone", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetControllerDone", ctx, upgradeUUID, controllerID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetControllerDone indicates an expected call of SetControllerDone.
-func (mr *MockUpgradeServiceMockRecorder) SetControllerDone(arg0, arg1, arg2 any) *MockUpgradeServiceSetControllerDoneCall {
+func (mr *MockUpgradeServiceMockRecorder) SetControllerDone(ctx, upgradeUUID, controllerID any) *MockUpgradeServiceSetControllerDoneCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetControllerDone", reflect.TypeOf((*MockUpgradeService)(nil).SetControllerDone), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetControllerDone", reflect.TypeOf((*MockUpgradeService)(nil).SetControllerDone), ctx, upgradeUUID, controllerID)
 	return &MockUpgradeServiceSetControllerDoneCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockUpgradeServiceSetControllerDoneCall) DoAndReturn(f func(context.Con
 }
 
 // SetDBUpgradeFailed mocks base method.
-func (m *MockUpgradeService) SetDBUpgradeFailed(arg0 context.Context, arg1 upgrade0.UUID) error {
+func (m *MockUpgradeService) SetDBUpgradeFailed(ctx context.Context, upgradeUUID upgrade0.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetDBUpgradeFailed", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetDBUpgradeFailed", ctx, upgradeUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetDBUpgradeFailed indicates an expected call of SetDBUpgradeFailed.
-func (mr *MockUpgradeServiceMockRecorder) SetDBUpgradeFailed(arg0, arg1 any) *MockUpgradeServiceSetDBUpgradeFailedCall {
+func (mr *MockUpgradeServiceMockRecorder) SetDBUpgradeFailed(ctx, upgradeUUID any) *MockUpgradeServiceSetDBUpgradeFailedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDBUpgradeFailed", reflect.TypeOf((*MockUpgradeService)(nil).SetDBUpgradeFailed), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDBUpgradeFailed", reflect.TypeOf((*MockUpgradeService)(nil).SetDBUpgradeFailed), ctx, upgradeUUID)
 	return &MockUpgradeServiceSetDBUpgradeFailedCall{Call: call}
 }
 
@@ -158,18 +159,18 @@ func (c *MockUpgradeServiceSetDBUpgradeFailedCall) DoAndReturn(f func(context.Co
 }
 
 // UpgradeInfo mocks base method.
-func (m *MockUpgradeService) UpgradeInfo(arg0 context.Context, arg1 upgrade0.UUID) (upgrade.Info, error) {
+func (m *MockUpgradeService) UpgradeInfo(ctx context.Context, upgradeUUID upgrade0.UUID) (upgrade.Info, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpgradeInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpgradeInfo", ctx, upgradeUUID)
 	ret0, _ := ret[0].(upgrade.Info)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpgradeInfo indicates an expected call of UpgradeInfo.
-func (mr *MockUpgradeServiceMockRecorder) UpgradeInfo(arg0, arg1 any) *MockUpgradeServiceUpgradeInfoCall {
+func (mr *MockUpgradeServiceMockRecorder) UpgradeInfo(ctx, upgradeUUID any) *MockUpgradeServiceUpgradeInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpgradeInfo", reflect.TypeOf((*MockUpgradeService)(nil).UpgradeInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpgradeInfo", reflect.TypeOf((*MockUpgradeService)(nil).UpgradeInfo), ctx, upgradeUUID)
 	return &MockUpgradeServiceUpgradeInfoCall{Call: call}
 }
 
@@ -197,18 +198,18 @@ func (c *MockUpgradeServiceUpgradeInfoCall) DoAndReturn(f func(context.Context, 
 }
 
 // WatchForUpgradeState mocks base method.
-func (m *MockUpgradeService) WatchForUpgradeState(arg0 context.Context, arg1 upgrade0.UUID, arg2 upgrade.State) (watcher.Watcher[struct{}], error) {
+func (m *MockUpgradeService) WatchForUpgradeState(ctx context.Context, upgradeUUID upgrade0.UUID, state upgrade.State) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchForUpgradeState", arg0, arg1, arg2)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchForUpgradeState", ctx, upgradeUUID, state)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchForUpgradeState indicates an expected call of WatchForUpgradeState.
-func (mr *MockUpgradeServiceMockRecorder) WatchForUpgradeState(arg0, arg1, arg2 any) *MockUpgradeServiceWatchForUpgradeStateCall {
+func (mr *MockUpgradeServiceMockRecorder) WatchForUpgradeState(ctx, upgradeUUID, state any) *MockUpgradeServiceWatchForUpgradeStateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchForUpgradeState", reflect.TypeOf((*MockUpgradeService)(nil).WatchForUpgradeState), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchForUpgradeState", reflect.TypeOf((*MockUpgradeService)(nil).WatchForUpgradeState), ctx, upgradeUUID, state)
 	return &MockUpgradeServiceWatchForUpgradeStateCall{Call: call}
 }
 
@@ -218,19 +219,19 @@ type MockUpgradeServiceWatchForUpgradeStateCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockUpgradeServiceWatchForUpgradeStateCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockUpgradeServiceWatchForUpgradeStateCall {
+func (c *MockUpgradeServiceWatchForUpgradeStateCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockUpgradeServiceWatchForUpgradeStateCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockUpgradeServiceWatchForUpgradeStateCall) Do(f func(context.Context, upgrade0.UUID, upgrade.State) (watcher.Watcher[struct{}], error)) *MockUpgradeServiceWatchForUpgradeStateCall {
+func (c *MockUpgradeServiceWatchForUpgradeStateCall) Do(f func(context.Context, upgrade0.UUID, upgrade.State) (watcher.NotifyWatcher, error)) *MockUpgradeServiceWatchForUpgradeStateCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockUpgradeServiceWatchForUpgradeStateCall) DoAndReturn(f func(context.Context, upgrade0.UUID, upgrade.State) (watcher.Watcher[struct{}], error)) *MockUpgradeServiceWatchForUpgradeStateCall {
+func (c *MockUpgradeServiceWatchForUpgradeStateCall) DoAndReturn(f func(context.Context, upgrade0.UUID, upgrade.State) (watcher.NotifyWatcher, error)) *MockUpgradeServiceWatchForUpgradeStateCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

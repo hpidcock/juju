@@ -23,6 +23,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -317,6 +318,7 @@ func (c *MockStateSetUnitPasswordHashCall) DoAndReturn(f func(context.Context, u
 type MockMigrationState struct {
 	ctrl     *gomock.Controller
 	recorder *MockMigrationStateMockRecorder
+	isgomock struct{}
 }
 
 // MockMigrationStateMockRecorder is the mock recorder for MockMigrationState.

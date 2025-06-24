@@ -21,6 +21,7 @@ import (
 type MockSecretStateTracker struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretStateTrackerMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretStateTrackerMockRecorder is the mock recorder for MockSecretStateTracker.
@@ -41,17 +42,17 @@ func (m *MockSecretStateTracker) EXPECT() *MockSecretStateTrackerMockRecorder {
 }
 
 // CommitHook mocks base method.
-func (m *MockSecretStateTracker) CommitHook(arg0 context.Context, arg1 hook.Info) error {
+func (m *MockSecretStateTracker) CommitHook(arg0 context.Context, info hook.Info) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CommitHook", arg0, arg1)
+	ret := m.ctrl.Call(m, "CommitHook", arg0, info)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CommitHook indicates an expected call of CommitHook.
-func (mr *MockSecretStateTrackerMockRecorder) CommitHook(arg0, arg1 any) *MockSecretStateTrackerCommitHookCall {
+func (mr *MockSecretStateTrackerMockRecorder) CommitHook(arg0, info any) *MockSecretStateTrackerCommitHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockSecretStateTracker)(nil).CommitHook), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockSecretStateTracker)(nil).CommitHook), arg0, info)
 	return &MockSecretStateTrackerCommitHookCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockSecretStateTrackerCommitHookCall) DoAndReturn(f func(context.Contex
 }
 
 // ConsumedSecretRevision mocks base method.
-func (m *MockSecretStateTracker) ConsumedSecretRevision(arg0 string) int {
+func (m *MockSecretStateTracker) ConsumedSecretRevision(uri string) int {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConsumedSecretRevision", arg0)
+	ret := m.ctrl.Call(m, "ConsumedSecretRevision", uri)
 	ret0, _ := ret[0].(int)
 	return ret0
 }
 
 // ConsumedSecretRevision indicates an expected call of ConsumedSecretRevision.
-func (mr *MockSecretStateTrackerMockRecorder) ConsumedSecretRevision(arg0 any) *MockSecretStateTrackerConsumedSecretRevisionCall {
+func (mr *MockSecretStateTrackerMockRecorder) ConsumedSecretRevision(uri any) *MockSecretStateTrackerConsumedSecretRevisionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConsumedSecretRevision", reflect.TypeOf((*MockSecretStateTracker)(nil).ConsumedSecretRevision), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConsumedSecretRevision", reflect.TypeOf((*MockSecretStateTracker)(nil).ConsumedSecretRevision), uri)
 	return &MockSecretStateTrackerConsumedSecretRevisionCall{Call: call}
 }
 
@@ -193,17 +194,17 @@ func (c *MockSecretStateTrackerReportCall) DoAndReturn(f func() map[string]any) 
 }
 
 // SecretObsoleteRevisions mocks base method.
-func (m *MockSecretStateTracker) SecretObsoleteRevisions(arg0 string) []int {
+func (m *MockSecretStateTracker) SecretObsoleteRevisions(uri string) []int {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SecretObsoleteRevisions", arg0)
+	ret := m.ctrl.Call(m, "SecretObsoleteRevisions", uri)
 	ret0, _ := ret[0].([]int)
 	return ret0
 }
 
 // SecretObsoleteRevisions indicates an expected call of SecretObsoleteRevisions.
-func (mr *MockSecretStateTrackerMockRecorder) SecretObsoleteRevisions(arg0 any) *MockSecretStateTrackerSecretObsoleteRevisionsCall {
+func (mr *MockSecretStateTrackerMockRecorder) SecretObsoleteRevisions(uri any) *MockSecretStateTrackerSecretObsoleteRevisionsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretObsoleteRevisions", reflect.TypeOf((*MockSecretStateTracker)(nil).SecretObsoleteRevisions), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretObsoleteRevisions", reflect.TypeOf((*MockSecretStateTracker)(nil).SecretObsoleteRevisions), uri)
 	return &MockSecretStateTrackerSecretObsoleteRevisionsCall{Call: call}
 }
 
@@ -231,17 +232,17 @@ func (c *MockSecretStateTrackerSecretObsoleteRevisionsCall) DoAndReturn(f func(s
 }
 
 // SecretsRemoved mocks base method.
-func (m *MockSecretStateTracker) SecretsRemoved(arg0 context.Context, arg1 []string) error {
+func (m *MockSecretStateTracker) SecretsRemoved(ctx context.Context, uris []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SecretsRemoved", arg0, arg1)
+	ret := m.ctrl.Call(m, "SecretsRemoved", ctx, uris)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SecretsRemoved indicates an expected call of SecretsRemoved.
-func (mr *MockSecretStateTrackerMockRecorder) SecretsRemoved(arg0, arg1 any) *MockSecretStateTrackerSecretsRemovedCall {
+func (mr *MockSecretStateTrackerMockRecorder) SecretsRemoved(ctx, uris any) *MockSecretStateTrackerSecretsRemovedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretsRemoved", reflect.TypeOf((*MockSecretStateTracker)(nil).SecretsRemoved), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretsRemoved", reflect.TypeOf((*MockSecretStateTracker)(nil).SecretsRemoved), ctx, uris)
 	return &MockSecretStateTrackerSecretsRemovedCall{Call: call}
 }
 

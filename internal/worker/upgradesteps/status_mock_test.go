@@ -21,6 +21,7 @@ import (
 type MockStatusSetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusSetterMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusSetterMockRecorder is the mock recorder for MockStatusSetter.
@@ -41,17 +42,17 @@ func (m *MockStatusSetter) EXPECT() *MockStatusSetterMockRecorder {
 }
 
 // SetStatus mocks base method.
-func (m *MockStatusSetter) SetStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockStatusSetter) SetStatus(ctx context.Context, setableStatus status.Status, info string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetStatus", ctx, setableStatus, info, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetStatus indicates an expected call of SetStatus.
-func (mr *MockStatusSetterMockRecorder) SetStatus(arg0, arg1, arg2, arg3 any) *MockStatusSetterSetStatusCall {
+func (mr *MockStatusSetterMockRecorder) SetStatus(ctx, setableStatus, info, data any) *MockStatusSetterSetStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockStatusSetter)(nil).SetStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatus", reflect.TypeOf((*MockStatusSetter)(nil).SetStatus), ctx, setableStatus, info, data)
 	return &MockStatusSetterSetStatusCall{Call: call}
 }
 

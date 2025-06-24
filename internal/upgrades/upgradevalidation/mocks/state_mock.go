@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -81,10 +82,10 @@ func (c *MockStateAllMachinesCountCall) DoAndReturn(f func() (int, error)) *Mock
 }
 
 // MachineCountForBase mocks base method.
-func (m *MockState) MachineCountForBase(arg0 ...state.Base) (map[string]int, error) {
+func (m *MockState) MachineCountForBase(base ...state.Base) (map[string]int, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range base {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MachineCountForBase", varargs...)
@@ -94,9 +95,9 @@ func (m *MockState) MachineCountForBase(arg0 ...state.Base) (map[string]int, err
 }
 
 // MachineCountForBase indicates an expected call of MachineCountForBase.
-func (mr *MockStateMockRecorder) MachineCountForBase(arg0 ...any) *MockStateMachineCountForBaseCall {
+func (mr *MockStateMockRecorder) MachineCountForBase(base ...any) *MockStateMachineCountForBaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockState)(nil).MachineCountForBase), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockState)(nil).MachineCountForBase), base...)
 	return &MockStateMachineCountForBaseCall{Call: call}
 }
 
@@ -127,6 +128,7 @@ func (c *MockStateMachineCountForBaseCall) DoAndReturn(f func(...state.Base) (ma
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.

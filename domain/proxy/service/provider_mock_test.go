@@ -21,6 +21,7 @@ import (
 type MockProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderMockRecorder is the mock recorder for MockProvider.
@@ -41,18 +42,18 @@ func (m *MockProvider) EXPECT() *MockProviderMockRecorder {
 }
 
 // ConnectionProxyInfo mocks base method.
-func (m *MockProvider) ConnectionProxyInfo(arg0 context.Context) (proxy.Proxier, error) {
+func (m *MockProvider) ConnectionProxyInfo(ctx context.Context) (proxy.Proxier, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConnectionProxyInfo", arg0)
+	ret := m.ctrl.Call(m, "ConnectionProxyInfo", ctx)
 	ret0, _ := ret[0].(proxy.Proxier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConnectionProxyInfo indicates an expected call of ConnectionProxyInfo.
-func (mr *MockProviderMockRecorder) ConnectionProxyInfo(arg0 any) *MockProviderConnectionProxyInfoCall {
+func (mr *MockProviderMockRecorder) ConnectionProxyInfo(ctx any) *MockProviderConnectionProxyInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectionProxyInfo", reflect.TypeOf((*MockProvider)(nil).ConnectionProxyInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConnectionProxyInfo", reflect.TypeOf((*MockProvider)(nil).ConnectionProxyInfo), ctx)
 	return &MockProviderConnectionProxyInfoCall{Call: call}
 }
 
@@ -80,18 +81,18 @@ func (c *MockProviderConnectionProxyInfoCall) DoAndReturn(f func(context.Context
 }
 
 // ProxyToApplication mocks base method.
-func (m *MockProvider) ProxyToApplication(arg0 context.Context, arg1, arg2 string) (proxy.Proxier, error) {
+func (m *MockProvider) ProxyToApplication(ctx context.Context, appName, remotePort string) (proxy.Proxier, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProxyToApplication", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ProxyToApplication", ctx, appName, remotePort)
 	ret0, _ := ret[0].(proxy.Proxier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProxyToApplication indicates an expected call of ProxyToApplication.
-func (mr *MockProviderMockRecorder) ProxyToApplication(arg0, arg1, arg2 any) *MockProviderProxyToApplicationCall {
+func (mr *MockProviderMockRecorder) ProxyToApplication(ctx, appName, remotePort any) *MockProviderProxyToApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProxyToApplication", reflect.TypeOf((*MockProvider)(nil).ProxyToApplication), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProxyToApplication", reflect.TypeOf((*MockProvider)(nil).ProxyToApplication), ctx, appName, remotePort)
 	return &MockProviderProxyToApplicationCall{Call: call}
 }
 

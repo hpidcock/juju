@@ -21,6 +21,7 @@ import (
 type MockCredentialInvalidator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCredentialInvalidatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCredentialInvalidatorMockRecorder is the mock recorder for MockCredentialInvalidator.

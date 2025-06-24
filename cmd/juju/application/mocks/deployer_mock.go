@@ -22,6 +22,7 @@ import (
 type MockDeployer struct {
 	ctrl     *gomock.Controller
 	recorder *MockDeployerMockRecorder
+	isgomock struct{}
 }
 
 // MockDeployerMockRecorder is the mock recorder for MockDeployer.
@@ -121,6 +122,7 @@ func (c *MockDeployerStringCall) DoAndReturn(f func() string) *MockDeployerStrin
 type MockDeployerFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockDeployerFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockDeployerFactoryMockRecorder is the mock recorder for MockDeployerFactory.

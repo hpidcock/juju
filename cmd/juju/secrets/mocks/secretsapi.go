@@ -22,6 +22,7 @@ import (
 type MockListSecretsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockListSecretsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockListSecretsAPIMockRecorder is the mock recorder for MockListSecretsAPI.
@@ -122,6 +123,7 @@ func (c *MockListSecretsAPIListSecretsCall) DoAndReturn(f func(context.Context, 
 type MockAddSecretsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockAddSecretsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockAddSecretsAPIMockRecorder is the mock recorder for MockAddSecretsAPI.
@@ -180,18 +182,18 @@ func (c *MockAddSecretsAPICloseCall) DoAndReturn(f func() error) *MockAddSecrets
 }
 
 // CreateSecret mocks base method.
-func (m *MockAddSecretsAPI) CreateSecret(arg0 context.Context, arg1, arg2 string, arg3 map[string]string) (string, error) {
+func (m *MockAddSecretsAPI) CreateSecret(ctx context.Context, name, description string, data map[string]string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateSecret", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CreateSecret", ctx, name, description, data)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateSecret indicates an expected call of CreateSecret.
-func (mr *MockAddSecretsAPIMockRecorder) CreateSecret(arg0, arg1, arg2, arg3 any) *MockAddSecretsAPICreateSecretCall {
+func (mr *MockAddSecretsAPIMockRecorder) CreateSecret(ctx, name, description, data any) *MockAddSecretsAPICreateSecretCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSecret", reflect.TypeOf((*MockAddSecretsAPI)(nil).CreateSecret), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSecret", reflect.TypeOf((*MockAddSecretsAPI)(nil).CreateSecret), ctx, name, description, data)
 	return &MockAddSecretsAPICreateSecretCall{Call: call}
 }
 
@@ -222,6 +224,7 @@ func (c *MockAddSecretsAPICreateSecretCall) DoAndReturn(f func(context.Context, 
 type MockGrantRevokeSecretsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockGrantRevokeSecretsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockGrantRevokeSecretsAPIMockRecorder is the mock recorder for MockGrantRevokeSecretsAPI.
@@ -361,6 +364,7 @@ func (c *MockGrantRevokeSecretsAPIRevokeSecretCall) DoAndReturn(f func(context.C
 type MockUpdateSecretsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpdateSecretsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockUpdateSecretsAPIMockRecorder is the mock recorder for MockUpdateSecretsAPI.
@@ -419,17 +423,17 @@ func (c *MockUpdateSecretsAPICloseCall) DoAndReturn(f func() error) *MockUpdateS
 }
 
 // UpdateSecret mocks base method.
-func (m *MockUpdateSecretsAPI) UpdateSecret(arg0 context.Context, arg1 *secrets0.URI, arg2 string, arg3 *bool, arg4, arg5 string, arg6 map[string]string) error {
+func (m *MockUpdateSecretsAPI) UpdateSecret(ctx context.Context, uri *secrets0.URI, name string, autoPrune *bool, newName, description string, data map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateSecret", arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	ret := m.ctrl.Call(m, "UpdateSecret", ctx, uri, name, autoPrune, newName, description, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateSecret indicates an expected call of UpdateSecret.
-func (mr *MockUpdateSecretsAPIMockRecorder) UpdateSecret(arg0, arg1, arg2, arg3, arg4, arg5, arg6 any) *MockUpdateSecretsAPIUpdateSecretCall {
+func (mr *MockUpdateSecretsAPIMockRecorder) UpdateSecret(ctx, uri, name, autoPrune, newName, description, data any) *MockUpdateSecretsAPIUpdateSecretCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSecret", reflect.TypeOf((*MockUpdateSecretsAPI)(nil).UpdateSecret), arg0, arg1, arg2, arg3, arg4, arg5, arg6)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSecret", reflect.TypeOf((*MockUpdateSecretsAPI)(nil).UpdateSecret), ctx, uri, name, autoPrune, newName, description, data)
 	return &MockUpdateSecretsAPIUpdateSecretCall{Call: call}
 }
 
@@ -460,6 +464,7 @@ func (c *MockUpdateSecretsAPIUpdateSecretCall) DoAndReturn(f func(context.Contex
 type MockRemoveSecretsAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRemoveSecretsAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRemoveSecretsAPIMockRecorder is the mock recorder for MockRemoveSecretsAPI.
@@ -518,17 +523,17 @@ func (c *MockRemoveSecretsAPICloseCall) DoAndReturn(f func() error) *MockRemoveS
 }
 
 // RemoveSecret mocks base method.
-func (m *MockRemoveSecretsAPI) RemoveSecret(arg0 context.Context, arg1 *secrets0.URI, arg2 string, arg3 *int) error {
+func (m *MockRemoveSecretsAPI) RemoveSecret(ctx context.Context, uri *secrets0.URI, name string, revision *int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveSecret", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "RemoveSecret", ctx, uri, name, revision)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveSecret indicates an expected call of RemoveSecret.
-func (mr *MockRemoveSecretsAPIMockRecorder) RemoveSecret(arg0, arg1, arg2, arg3 any) *MockRemoveSecretsAPIRemoveSecretCall {
+func (mr *MockRemoveSecretsAPIMockRecorder) RemoveSecret(ctx, uri, name, revision any) *MockRemoveSecretsAPIRemoveSecretCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSecret", reflect.TypeOf((*MockRemoveSecretsAPI)(nil).RemoveSecret), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSecret", reflect.TypeOf((*MockRemoveSecretsAPI)(nil).RemoveSecret), ctx, uri, name, revision)
 	return &MockRemoveSecretsAPIRemoveSecretCall{Call: call}
 }
 

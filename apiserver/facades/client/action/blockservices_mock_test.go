@@ -21,6 +21,7 @@ import (
 type MockBlockCommandService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockCommandServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockCommandServiceMockRecorder is the mock recorder for MockBlockCommandService.
@@ -41,18 +42,18 @@ func (m *MockBlockCommandService) EXPECT() *MockBlockCommandServiceMockRecorder 
 }
 
 // GetBlockSwitchedOn mocks base method.
-func (m *MockBlockCommandService) GetBlockSwitchedOn(arg0 context.Context, arg1 blockcommand.BlockType) (string, error) {
+func (m *MockBlockCommandService) GetBlockSwitchedOn(ctx context.Context, t blockcommand.BlockType) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBlockSwitchedOn", ctx, t)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlockSwitchedOn indicates an expected call of GetBlockSwitchedOn.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(arg0, arg1 any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlockSwitchedOn(ctx, t any) *MockBlockCommandServiceGetBlockSwitchedOnCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlockSwitchedOn", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlockSwitchedOn), ctx, t)
 	return &MockBlockCommandServiceGetBlockSwitchedOnCall{Call: call}
 }
 
@@ -80,18 +81,18 @@ func (c *MockBlockCommandServiceGetBlockSwitchedOnCall) DoAndReturn(f func(conte
 }
 
 // GetBlocks mocks base method.
-func (m *MockBlockCommandService) GetBlocks(arg0 context.Context) ([]blockcommand.Block, error) {
+func (m *MockBlockCommandService) GetBlocks(ctx context.Context) ([]blockcommand.Block, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlocks", arg0)
+	ret := m.ctrl.Call(m, "GetBlocks", ctx)
 	ret0, _ := ret[0].([]blockcommand.Block)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlocks indicates an expected call of GetBlocks.
-func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(arg0 any) *MockBlockCommandServiceGetBlocksCall {
+func (mr *MockBlockCommandServiceMockRecorder) GetBlocks(ctx any) *MockBlockCommandServiceGetBlocksCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlocks", reflect.TypeOf((*MockBlockCommandService)(nil).GetBlocks), ctx)
 	return &MockBlockCommandServiceGetBlocksCall{Call: call}
 }
 

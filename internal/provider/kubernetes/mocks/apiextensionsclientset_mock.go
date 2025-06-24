@@ -22,6 +22,7 @@ import (
 type MockApiExtensionsClientInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockApiExtensionsClientInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockApiExtensionsClientInterfaceMockRecorder is the mock recorder for MockApiExtensionsClientInterface.

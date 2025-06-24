@@ -22,6 +22,7 @@ import (
 type MockStatusService struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusServiceMockRecorder is the mock recorder for MockStatusService.
@@ -42,17 +43,17 @@ func (m *MockStatusService) EXPECT() *MockStatusServiceMockRecorder {
 }
 
 // SetUnitAgentStatus mocks base method.
-func (m *MockStatusService) SetUnitAgentStatus(arg0 context.Context, arg1 unit.Name, arg2 status.StatusInfo) error {
+func (m *MockStatusService) SetUnitAgentStatus(ctx context.Context, name unit.Name, arg2 status.StatusInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetUnitAgentStatus", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetUnitAgentStatus", ctx, name, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetUnitAgentStatus indicates an expected call of SetUnitAgentStatus.
-func (mr *MockStatusServiceMockRecorder) SetUnitAgentStatus(arg0, arg1, arg2 any) *MockStatusServiceSetUnitAgentStatusCall {
+func (mr *MockStatusServiceMockRecorder) SetUnitAgentStatus(ctx, name, arg2 any) *MockStatusServiceSetUnitAgentStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitAgentStatus", reflect.TypeOf((*MockStatusService)(nil).SetUnitAgentStatus), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUnitAgentStatus", reflect.TypeOf((*MockStatusService)(nil).SetUnitAgentStatus), ctx, name, arg2)
 	return &MockStatusServiceSetUnitAgentStatusCall{Call: call}
 }
 

@@ -21,6 +21,7 @@ import (
 type MockChecker struct {
 	ctrl     *gomock.Controller
 	recorder *MockCheckerMockRecorder
+	isgomock struct{}
 }
 
 // MockCheckerMockRecorder is the mock recorder for MockChecker.
@@ -41,17 +42,17 @@ func (m *MockChecker) EXPECT() *MockCheckerMockRecorder {
 }
 
 // Token mocks base method.
-func (m *MockChecker) Token(arg0, arg1 string) lease.Token {
+func (m *MockChecker) Token(leaseName, holderName string) lease.Token {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Token", arg0, arg1)
+	ret := m.ctrl.Call(m, "Token", leaseName, holderName)
 	ret0, _ := ret[0].(lease.Token)
 	return ret0
 }
 
 // Token indicates an expected call of Token.
-func (mr *MockCheckerMockRecorder) Token(arg0, arg1 any) *MockCheckerTokenCall {
+func (mr *MockCheckerMockRecorder) Token(leaseName, holderName any) *MockCheckerTokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockChecker)(nil).Token), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockChecker)(nil).Token), leaseName, holderName)
 	return &MockCheckerTokenCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockCheckerTokenCall) DoAndReturn(f func(string, string) lease.Token) *
 }
 
 // WaitUntilExpired mocks base method.
-func (m *MockChecker) WaitUntilExpired(arg0 context.Context, arg1 string, arg2 chan<- struct{}) error {
+func (m *MockChecker) WaitUntilExpired(ctx context.Context, leaseName string, started chan<- struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitUntilExpired", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WaitUntilExpired", ctx, leaseName, started)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WaitUntilExpired indicates an expected call of WaitUntilExpired.
-func (mr *MockCheckerMockRecorder) WaitUntilExpired(arg0, arg1, arg2 any) *MockCheckerWaitUntilExpiredCall {
+func (mr *MockCheckerMockRecorder) WaitUntilExpired(ctx, leaseName, started any) *MockCheckerWaitUntilExpiredCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockChecker)(nil).WaitUntilExpired), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockChecker)(nil).WaitUntilExpired), ctx, leaseName, started)
 	return &MockCheckerWaitUntilExpiredCall{Call: call}
 }
 

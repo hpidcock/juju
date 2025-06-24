@@ -48,6 +48,7 @@ import (
 type MockModelDomainServices struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelDomainServicesMockRecorder
+	isgomock struct{}
 }
 
 // MockModelDomainServicesMockRecorder is the mock recorder for MockModelDomainServices.

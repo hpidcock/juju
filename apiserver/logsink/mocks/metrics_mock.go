@@ -21,6 +21,7 @@ import (
 type MockCounter struct {
 	ctrl     *gomock.Controller
 	recorder *MockCounterMockRecorder
+	isgomock struct{}
 }
 
 // MockCounterMockRecorder is the mock recorder for MockCounter.
@@ -264,6 +265,7 @@ func (c *MockCounterWriteCall) DoAndReturn(f func(*io_prometheus_client.Metric) 
 type MockGauge struct {
 	ctrl     *gomock.Controller
 	recorder *MockGaugeMockRecorder
+	isgomock struct{}
 }
 
 // MockGaugeMockRecorder is the mock recorder for MockGauge.

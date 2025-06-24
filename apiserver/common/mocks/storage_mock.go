@@ -22,6 +22,7 @@ import (
 type MockStorageCloser struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageCloserMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageCloserMockRecorder is the mock recorder for MockStorageCloser.
@@ -157,18 +158,18 @@ func (c *MockStorageCloserCloseCall) DoAndReturn(f func() error) *MockStorageClo
 }
 
 // Metadata mocks base method.
-func (m *MockStorageCloser) Metadata(arg0 string) (binarystorage.Metadata, error) {
+func (m *MockStorageCloser) Metadata(version string) (binarystorage.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Metadata", arg0)
+	ret := m.ctrl.Call(m, "Metadata", version)
 	ret0, _ := ret[0].(binarystorage.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Metadata indicates an expected call of Metadata.
-func (mr *MockStorageCloserMockRecorder) Metadata(arg0 any) *MockStorageCloserMetadataCall {
+func (mr *MockStorageCloserMockRecorder) Metadata(version any) *MockStorageCloserMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Metadata", reflect.TypeOf((*MockStorageCloser)(nil).Metadata), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Metadata", reflect.TypeOf((*MockStorageCloser)(nil).Metadata), version)
 	return &MockStorageCloserMetadataCall{Call: call}
 }
 
@@ -196,9 +197,9 @@ func (c *MockStorageCloserMetadataCall) DoAndReturn(f func(string) (binarystorag
 }
 
 // Open mocks base method.
-func (m *MockStorageCloser) Open(arg0 context.Context, arg1 string) (binarystorage.Metadata, io.ReadCloser, error) {
+func (m *MockStorageCloser) Open(ctx context.Context, version string) (binarystorage.Metadata, io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Open", arg0, arg1)
+	ret := m.ctrl.Call(m, "Open", ctx, version)
 	ret0, _ := ret[0].(binarystorage.Metadata)
 	ret1, _ := ret[1].(io.ReadCloser)
 	ret2, _ := ret[2].(error)
@@ -206,9 +207,9 @@ func (m *MockStorageCloser) Open(arg0 context.Context, arg1 string) (binarystora
 }
 
 // Open indicates an expected call of Open.
-func (mr *MockStorageCloserMockRecorder) Open(arg0, arg1 any) *MockStorageCloserOpenCall {
+func (mr *MockStorageCloserMockRecorder) Open(ctx, version any) *MockStorageCloserOpenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockStorageCloser)(nil).Open), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Open", reflect.TypeOf((*MockStorageCloser)(nil).Open), ctx, version)
 	return &MockStorageCloserOpenCall{Call: call}
 }
 

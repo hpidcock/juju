@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -42,18 +43,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // AllCloudImageMetadata mocks base method.
-func (m *MockState) AllCloudImageMetadata(arg0 context.Context) ([]cloudimagemetadata.Metadata, error) {
+func (m *MockState) AllCloudImageMetadata(ctx context.Context) ([]cloudimagemetadata.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllCloudImageMetadata", arg0)
+	ret := m.ctrl.Call(m, "AllCloudImageMetadata", ctx)
 	ret0, _ := ret[0].([]cloudimagemetadata.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllCloudImageMetadata indicates an expected call of AllCloudImageMetadata.
-func (mr *MockStateMockRecorder) AllCloudImageMetadata(arg0 any) *MockStateAllCloudImageMetadataCall {
+func (mr *MockStateMockRecorder) AllCloudImageMetadata(ctx any) *MockStateAllCloudImageMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllCloudImageMetadata", reflect.TypeOf((*MockState)(nil).AllCloudImageMetadata), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllCloudImageMetadata", reflect.TypeOf((*MockState)(nil).AllCloudImageMetadata), ctx)
 	return &MockStateAllCloudImageMetadataCall{Call: call}
 }
 
@@ -81,17 +82,17 @@ func (c *MockStateAllCloudImageMetadataCall) DoAndReturn(f func(context.Context)
 }
 
 // DeleteMetadataWithImageID mocks base method.
-func (m *MockState) DeleteMetadataWithImageID(arg0 context.Context, arg1 string) error {
+func (m *MockState) DeleteMetadataWithImageID(ctx context.Context, imageID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteMetadataWithImageID", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteMetadataWithImageID", ctx, imageID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteMetadataWithImageID indicates an expected call of DeleteMetadataWithImageID.
-func (mr *MockStateMockRecorder) DeleteMetadataWithImageID(arg0, arg1 any) *MockStateDeleteMetadataWithImageIDCall {
+func (mr *MockStateMockRecorder) DeleteMetadataWithImageID(ctx, imageID any) *MockStateDeleteMetadataWithImageIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMetadataWithImageID", reflect.TypeOf((*MockState)(nil).DeleteMetadataWithImageID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMetadataWithImageID", reflect.TypeOf((*MockState)(nil).DeleteMetadataWithImageID), ctx, imageID)
 	return &MockStateDeleteMetadataWithImageIDCall{Call: call}
 }
 
@@ -119,18 +120,18 @@ func (c *MockStateDeleteMetadataWithImageIDCall) DoAndReturn(f func(context.Cont
 }
 
 // FindMetadata mocks base method.
-func (m *MockState) FindMetadata(arg0 context.Context, arg1 cloudimagemetadata.MetadataFilter) ([]cloudimagemetadata.Metadata, error) {
+func (m *MockState) FindMetadata(ctx context.Context, criteria cloudimagemetadata.MetadataFilter) ([]cloudimagemetadata.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "FindMetadata", ctx, criteria)
 	ret0, _ := ret[0].([]cloudimagemetadata.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindMetadata indicates an expected call of FindMetadata.
-func (mr *MockStateMockRecorder) FindMetadata(arg0, arg1 any) *MockStateFindMetadataCall {
+func (mr *MockStateMockRecorder) FindMetadata(ctx, criteria any) *MockStateFindMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMetadata", reflect.TypeOf((*MockState)(nil).FindMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMetadata", reflect.TypeOf((*MockState)(nil).FindMetadata), ctx, criteria)
 	return &MockStateFindMetadataCall{Call: call}
 }
 
@@ -158,17 +159,17 @@ func (c *MockStateFindMetadataCall) DoAndReturn(f func(context.Context, cloudima
 }
 
 // SaveMetadata mocks base method.
-func (m *MockState) SaveMetadata(arg0 context.Context, arg1 []cloudimagemetadata.Metadata) error {
+func (m *MockState) SaveMetadata(ctx context.Context, metadata []cloudimagemetadata.Metadata) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "SaveMetadata", ctx, metadata)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SaveMetadata indicates an expected call of SaveMetadata.
-func (mr *MockStateMockRecorder) SaveMetadata(arg0, arg1 any) *MockStateSaveMetadataCall {
+func (mr *MockStateMockRecorder) SaveMetadata(ctx, metadata any) *MockStateSaveMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockState)(nil).SaveMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockState)(nil).SaveMetadata), ctx, metadata)
 	return &MockStateSaveMetadataCall{Call: call}
 }
 
@@ -196,17 +197,17 @@ func (c *MockStateSaveMetadataCall) DoAndReturn(f func(context.Context, []cloudi
 }
 
 // SupportedArchitectures mocks base method.
-func (m *MockState) SupportedArchitectures(arg0 context.Context) set.Strings {
+func (m *MockState) SupportedArchitectures(ctx context.Context) set.Strings {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportedArchitectures", arg0)
+	ret := m.ctrl.Call(m, "SupportedArchitectures", ctx)
 	ret0, _ := ret[0].(set.Strings)
 	return ret0
 }
 
 // SupportedArchitectures indicates an expected call of SupportedArchitectures.
-func (mr *MockStateMockRecorder) SupportedArchitectures(arg0 any) *MockStateSupportedArchitecturesCall {
+func (mr *MockStateMockRecorder) SupportedArchitectures(ctx any) *MockStateSupportedArchitecturesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportedArchitectures", reflect.TypeOf((*MockState)(nil).SupportedArchitectures), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportedArchitectures", reflect.TypeOf((*MockState)(nil).SupportedArchitectures), ctx)
 	return &MockStateSupportedArchitecturesCall{Call: call}
 }
 

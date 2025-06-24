@@ -22,6 +22,7 @@ import (
 type MockLoggerContextGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoggerContextGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockLoggerContextGetterMockRecorder is the mock recorder for MockLoggerContextGetter.
@@ -42,18 +43,18 @@ func (m *MockLoggerContextGetter) EXPECT() *MockLoggerContextGetterMockRecorder 
 }
 
 // GetLoggerContext mocks base method.
-func (m *MockLoggerContextGetter) GetLoggerContext(arg0 context.Context, arg1 model.UUID) (logger.LoggerContext, error) {
+func (m *MockLoggerContextGetter) GetLoggerContext(ctx context.Context, modelUUID model.UUID) (logger.LoggerContext, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLoggerContext", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetLoggerContext", ctx, modelUUID)
 	ret0, _ := ret[0].(logger.LoggerContext)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetLoggerContext indicates an expected call of GetLoggerContext.
-func (mr *MockLoggerContextGetterMockRecorder) GetLoggerContext(arg0, arg1 any) *MockLoggerContextGetterGetLoggerContextCall {
+func (mr *MockLoggerContextGetterMockRecorder) GetLoggerContext(ctx, modelUUID any) *MockLoggerContextGetterGetLoggerContextCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerContext", reflect.TypeOf((*MockLoggerContextGetter)(nil).GetLoggerContext), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerContext", reflect.TypeOf((*MockLoggerContextGetter)(nil).GetLoggerContext), ctx, modelUUID)
 	return &MockLoggerContextGetterGetLoggerContextCall{Call: call}
 }
 
@@ -84,6 +85,7 @@ func (c *MockLoggerContextGetterGetLoggerContextCall) DoAndReturn(f func(context
 type MockLoggerContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockLoggerContextMockRecorder
+	isgomock struct{}
 }
 
 // MockLoggerContextMockRecorder is the mock recorder for MockLoggerContext.
@@ -142,17 +144,17 @@ func (c *MockLoggerContextConfigCall) DoAndReturn(f func() logger.Config) *MockL
 }
 
 // ConfigureLoggers mocks base method.
-func (m *MockLoggerContext) ConfigureLoggers(arg0 string) error {
+func (m *MockLoggerContext) ConfigureLoggers(specification string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConfigureLoggers", arg0)
+	ret := m.ctrl.Call(m, "ConfigureLoggers", specification)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ConfigureLoggers indicates an expected call of ConfigureLoggers.
-func (mr *MockLoggerContextMockRecorder) ConfigureLoggers(arg0 any) *MockLoggerContextConfigureLoggersCall {
+func (mr *MockLoggerContextMockRecorder) ConfigureLoggers(specification any) *MockLoggerContextConfigureLoggersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConfigureLoggers", reflect.TypeOf((*MockLoggerContext)(nil).ConfigureLoggers), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConfigureLoggers", reflect.TypeOf((*MockLoggerContext)(nil).ConfigureLoggers), specification)
 	return &MockLoggerContextConfigureLoggersCall{Call: call}
 }
 
@@ -180,10 +182,10 @@ func (c *MockLoggerContextConfigureLoggersCall) DoAndReturn(f func(string) error
 }
 
 // GetLogger mocks base method.
-func (m *MockLoggerContext) GetLogger(arg0 string, arg1 ...string) logger.Logger {
+func (m *MockLoggerContext) GetLogger(name string, tags ...string) logger.Logger {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{name}
+	for _, a := range tags {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetLogger", varargs...)
@@ -192,9 +194,9 @@ func (m *MockLoggerContext) GetLogger(arg0 string, arg1 ...string) logger.Logger
 }
 
 // GetLogger indicates an expected call of GetLogger.
-func (mr *MockLoggerContextMockRecorder) GetLogger(arg0 any, arg1 ...any) *MockLoggerContextGetLoggerCall {
+func (mr *MockLoggerContextMockRecorder) GetLogger(name any, tags ...any) *MockLoggerContextGetLoggerCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{name}, tags...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLogger", reflect.TypeOf((*MockLoggerContext)(nil).GetLogger), varargs...)
 	return &MockLoggerContextGetLoggerCall{Call: call}
 }

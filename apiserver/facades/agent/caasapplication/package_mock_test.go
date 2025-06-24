@@ -24,6 +24,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -86,6 +87,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -106,18 +108,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // CAASUnitTerminating mocks base method.
-func (m *MockApplicationService) CAASUnitTerminating(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockApplicationService) CAASUnitTerminating(ctx context.Context, unitName string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CAASUnitTerminating", arg0, arg1)
+	ret := m.ctrl.Call(m, "CAASUnitTerminating", ctx, unitName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CAASUnitTerminating indicates an expected call of CAASUnitTerminating.
-func (mr *MockApplicationServiceMockRecorder) CAASUnitTerminating(arg0, arg1 any) *MockApplicationServiceCAASUnitTerminatingCall {
+func (mr *MockApplicationServiceMockRecorder) CAASUnitTerminating(ctx, unitName any) *MockApplicationServiceCAASUnitTerminatingCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CAASUnitTerminating", reflect.TypeOf((*MockApplicationService)(nil).CAASUnitTerminating), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CAASUnitTerminating", reflect.TypeOf((*MockApplicationService)(nil).CAASUnitTerminating), ctx, unitName)
 	return &MockApplicationServiceCAASUnitTerminatingCall{Call: call}
 }
 
@@ -145,9 +147,9 @@ func (c *MockApplicationServiceCAASUnitTerminatingCall) DoAndReturn(f func(conte
 }
 
 // RegisterCAASUnit mocks base method.
-func (m *MockApplicationService) RegisterCAASUnit(arg0 context.Context, arg1 application.RegisterCAASUnitParams) (unit.Name, string, error) {
+func (m *MockApplicationService) RegisterCAASUnit(ctx context.Context, params application.RegisterCAASUnitParams) (unit.Name, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RegisterCAASUnit", arg0, arg1)
+	ret := m.ctrl.Call(m, "RegisterCAASUnit", ctx, params)
 	ret0, _ := ret[0].(unit.Name)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -155,9 +157,9 @@ func (m *MockApplicationService) RegisterCAASUnit(arg0 context.Context, arg1 app
 }
 
 // RegisterCAASUnit indicates an expected call of RegisterCAASUnit.
-func (mr *MockApplicationServiceMockRecorder) RegisterCAASUnit(arg0, arg1 any) *MockApplicationServiceRegisterCAASUnitCall {
+func (mr *MockApplicationServiceMockRecorder) RegisterCAASUnit(ctx, params any) *MockApplicationServiceRegisterCAASUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterCAASUnit", reflect.TypeOf((*MockApplicationService)(nil).RegisterCAASUnit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterCAASUnit", reflect.TypeOf((*MockApplicationService)(nil).RegisterCAASUnit), ctx, params)
 	return &MockApplicationServiceRegisterCAASUnitCall{Call: call}
 }
 
@@ -188,6 +190,7 @@ func (c *MockApplicationServiceRegisterCAASUnitCall) DoAndReturn(f func(context.
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.
@@ -208,18 +211,18 @@ func (m *MockModelAgentService) EXPECT() *MockModelAgentServiceMockRecorder {
 }
 
 // GetModelTargetAgentVersion mocks base method.
-func (m *MockModelAgentService) GetModelTargetAgentVersion(arg0 context.Context) (semversion.Number, error) {
+func (m *MockModelAgentService) GetModelTargetAgentVersion(ctx context.Context) (semversion.Number, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetModelTargetAgentVersion", arg0)
+	ret := m.ctrl.Call(m, "GetModelTargetAgentVersion", ctx)
 	ret0, _ := ret[0].(semversion.Number)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetModelTargetAgentVersion indicates an expected call of GetModelTargetAgentVersion.
-func (mr *MockModelAgentServiceMockRecorder) GetModelTargetAgentVersion(arg0 any) *MockModelAgentServiceGetModelTargetAgentVersionCall {
+func (mr *MockModelAgentServiceMockRecorder) GetModelTargetAgentVersion(ctx any) *MockModelAgentServiceGetModelTargetAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).GetModelTargetAgentVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetModelTargetAgentVersion", reflect.TypeOf((*MockModelAgentService)(nil).GetModelTargetAgentVersion), ctx)
 	return &MockModelAgentServiceGetModelTargetAgentVersionCall{Call: call}
 }
 

@@ -25,6 +25,7 @@ import (
 type MockControllerConfigGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigGetterMockRecorder is the mock recorder for MockControllerConfigGetter.
@@ -87,6 +88,7 @@ func (c *MockControllerConfigGetterControllerConfigCall) DoAndReturn(f func(cont
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -224,10 +226,10 @@ func (c *MockApplicationServiceGetUnitUUIDCall) DoAndReturn(f func(context.Conte
 }
 
 // WatchUnitAddRemoveOnMachine mocks base method.
-func (m *MockApplicationService) WatchUnitAddRemoveOnMachine(arg0 context.Context, arg1 machine.Name) (watcher.Watcher[[]string], error) {
+func (m *MockApplicationService) WatchUnitAddRemoveOnMachine(arg0 context.Context, arg1 machine.Name) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchUnitAddRemoveOnMachine", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -245,19 +247,19 @@ type MockApplicationServiceWatchUnitAddRemoveOnMachineCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Do(f func(context.Context, machine.Name) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Do(f func(context.Context, machine.Name) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -266,6 +268,7 @@ func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) DoAndReturn(f fu
 type MockAgentPasswordService struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentPasswordServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentPasswordServiceMockRecorder is the mock recorder for MockAgentPasswordService.

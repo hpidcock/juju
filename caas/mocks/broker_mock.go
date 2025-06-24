@@ -31,6 +31,7 @@ import (
 type MockBroker struct {
 	ctrl     *gomock.Controller
 	recorder *MockBrokerMockRecorder
+	isgomock struct{}
 }
 
 // MockBrokerMockRecorder is the mock recorder for MockBroker.
@@ -90,17 +91,17 @@ func (c *MockBrokerAPIVersionCall) DoAndReturn(f func() (string, error)) *MockBr
 }
 
 // AdoptResources mocks base method.
-func (m *MockBroker) AdoptResources(arg0 context.Context, arg1 string, arg2 semversion.Number) error {
+func (m *MockBroker) AdoptResources(ctx context.Context, controllerUUID string, fromVersion semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AdoptResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "AdoptResources", ctx, controllerUUID, fromVersion)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AdoptResources indicates an expected call of AdoptResources.
-func (mr *MockBrokerMockRecorder) AdoptResources(arg0, arg1, arg2 any) *MockBrokerAdoptResourcesCall {
+func (mr *MockBrokerMockRecorder) AdoptResources(ctx, controllerUUID, fromVersion any) *MockBrokerAdoptResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockBroker)(nil).AdoptResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AdoptResources", reflect.TypeOf((*MockBroker)(nil).AdoptResources), ctx, controllerUUID, fromVersion)
 	return &MockBrokerAdoptResourcesCall{Call: call}
 }
 
@@ -128,18 +129,18 @@ func (c *MockBrokerAdoptResourcesCall) DoAndReturn(f func(context.Context, strin
 }
 
 // AllocateContainerAddresses mocks base method.
-func (m *MockBroker) AllocateContainerAddresses(arg0 context.Context, arg1 instance.Id, arg2 names.MachineTag, arg3 network.InterfaceInfos) (network.InterfaceInfos, error) {
+func (m *MockBroker) AllocateContainerAddresses(ctx context.Context, hostInstanceID instance.Id, containerTag names.MachineTag, preparedInfo network.InterfaceInfos) (network.InterfaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllocateContainerAddresses", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "AllocateContainerAddresses", ctx, hostInstanceID, containerTag, preparedInfo)
 	ret0, _ := ret[0].(network.InterfaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllocateContainerAddresses indicates an expected call of AllocateContainerAddresses.
-func (mr *MockBrokerMockRecorder) AllocateContainerAddresses(arg0, arg1, arg2, arg3 any) *MockBrokerAllocateContainerAddressesCall {
+func (mr *MockBrokerMockRecorder) AllocateContainerAddresses(ctx, hostInstanceID, containerTag, preparedInfo any) *MockBrokerAllocateContainerAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllocateContainerAddresses", reflect.TypeOf((*MockBroker)(nil).AllocateContainerAddresses), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllocateContainerAddresses", reflect.TypeOf((*MockBroker)(nil).AllocateContainerAddresses), ctx, hostInstanceID, containerTag, preparedInfo)
 	return &MockBrokerAllocateContainerAddressesCall{Call: call}
 }
 
@@ -167,17 +168,17 @@ func (c *MockBrokerAllocateContainerAddressesCall) DoAndReturn(f func(context.Co
 }
 
 // AnnotateUnit mocks base method.
-func (m *MockBroker) AnnotateUnit(arg0 context.Context, arg1, arg2 string, arg3 names.UnitTag) error {
+func (m *MockBroker) AnnotateUnit(ctx context.Context, appName, podName string, unit names.UnitTag) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AnnotateUnit", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "AnnotateUnit", ctx, appName, podName, unit)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AnnotateUnit indicates an expected call of AnnotateUnit.
-func (mr *MockBrokerMockRecorder) AnnotateUnit(arg0, arg1, arg2, arg3 any) *MockBrokerAnnotateUnitCall {
+func (mr *MockBrokerMockRecorder) AnnotateUnit(ctx, appName, podName, unit any) *MockBrokerAnnotateUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnnotateUnit", reflect.TypeOf((*MockBroker)(nil).AnnotateUnit), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AnnotateUnit", reflect.TypeOf((*MockBroker)(nil).AnnotateUnit), ctx, appName, podName, unit)
 	return &MockBrokerAnnotateUnitCall{Call: call}
 }
 
@@ -243,18 +244,18 @@ func (c *MockBrokerApplicationCall) DoAndReturn(f func(string, caas.DeploymentTy
 }
 
 // Bootstrap mocks base method.
-func (m *MockBroker) Bootstrap(arg0 environs.BootstrapContext, arg1 environs.BootstrapParams) (*environs.BootstrapResult, error) {
+func (m *MockBroker) Bootstrap(ctx environs.BootstrapContext, params environs.BootstrapParams) (*environs.BootstrapResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Bootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "Bootstrap", ctx, params)
 	ret0, _ := ret[0].(*environs.BootstrapResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Bootstrap indicates an expected call of Bootstrap.
-func (mr *MockBrokerMockRecorder) Bootstrap(arg0, arg1 any) *MockBrokerBootstrapCall {
+func (mr *MockBrokerMockRecorder) Bootstrap(ctx, params any) *MockBrokerBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockBroker)(nil).Bootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockBroker)(nil).Bootstrap), ctx, params)
 	return &MockBrokerBootstrapCall{Call: call}
 }
 
@@ -282,17 +283,17 @@ func (c *MockBrokerBootstrapCall) DoAndReturn(f func(environs.BootstrapContext, 
 }
 
 // CheckCloudCredentials mocks base method.
-func (m *MockBroker) CheckCloudCredentials(arg0 context.Context) error {
+func (m *MockBroker) CheckCloudCredentials(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckCloudCredentials", arg0)
+	ret := m.ctrl.Call(m, "CheckCloudCredentials", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CheckCloudCredentials indicates an expected call of CheckCloudCredentials.
-func (mr *MockBrokerMockRecorder) CheckCloudCredentials(arg0 any) *MockBrokerCheckCloudCredentialsCall {
+func (mr *MockBrokerMockRecorder) CheckCloudCredentials(ctx any) *MockBrokerCheckCloudCredentialsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckCloudCredentials", reflect.TypeOf((*MockBroker)(nil).CheckCloudCredentials), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckCloudCredentials", reflect.TypeOf((*MockBroker)(nil).CheckCloudCredentials), ctx)
 	return &MockBrokerCheckCloudCredentialsCall{Call: call}
 }
 
@@ -358,18 +359,18 @@ func (c *MockBrokerConfigCall) DoAndReturn(f func() *config.Config) *MockBrokerC
 }
 
 // ConstraintsValidator mocks base method.
-func (m *MockBroker) ConstraintsValidator(arg0 context.Context) (constraints.Validator, error) {
+func (m *MockBroker) ConstraintsValidator(ctx context.Context) (constraints.Validator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsValidator", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsValidator", ctx)
 	ret0, _ := ret[0].(constraints.Validator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsValidator indicates an expected call of ConstraintsValidator.
-func (mr *MockBrokerMockRecorder) ConstraintsValidator(arg0 any) *MockBrokerConstraintsValidatorCall {
+func (mr *MockBrokerMockRecorder) ConstraintsValidator(ctx any) *MockBrokerConstraintsValidatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockBroker)(nil).ConstraintsValidator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockBroker)(nil).ConstraintsValidator), ctx)
 	return &MockBrokerConstraintsValidatorCall{Call: call}
 }
 
@@ -397,17 +398,17 @@ func (c *MockBrokerConstraintsValidatorCall) DoAndReturn(f func(context.Context)
 }
 
 // Destroy mocks base method.
-func (m *MockBroker) Destroy(arg0 context.Context) error {
+func (m *MockBroker) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockBrokerMockRecorder) Destroy(arg0 any) *MockBrokerDestroyCall {
+func (mr *MockBrokerMockRecorder) Destroy(ctx any) *MockBrokerDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockBroker)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockBroker)(nil).Destroy), ctx)
 	return &MockBrokerDestroyCall{Call: call}
 }
 
@@ -435,17 +436,17 @@ func (c *MockBrokerDestroyCall) DoAndReturn(f func(context.Context) error) *Mock
 }
 
 // DestroyController mocks base method.
-func (m *MockBroker) DestroyController(arg0 context.Context, arg1 string) error {
+func (m *MockBroker) DestroyController(ctx context.Context, controllerUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyController", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyController", ctx, controllerUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyController indicates an expected call of DestroyController.
-func (mr *MockBrokerMockRecorder) DestroyController(arg0, arg1 any) *MockBrokerDestroyControllerCall {
+func (mr *MockBrokerMockRecorder) DestroyController(ctx, controllerUUID any) *MockBrokerDestroyControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockBroker)(nil).DestroyController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockBroker)(nil).DestroyController), ctx, controllerUUID)
 	return &MockBrokerDestroyControllerCall{Call: call}
 }
 
@@ -511,17 +512,17 @@ func (c *MockBrokerEnsureImageRepoSecretCall) DoAndReturn(f func(context.Context
 }
 
 // EnsureModelOperator mocks base method.
-func (m *MockBroker) EnsureModelOperator(arg0 context.Context, arg1, arg2 string, arg3 *caas.ModelOperatorConfig) error {
+func (m *MockBroker) EnsureModelOperator(ctx context.Context, modelUUID, agentPath string, arg3 *caas.ModelOperatorConfig) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureModelOperator", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "EnsureModelOperator", ctx, modelUUID, agentPath, arg3)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureModelOperator indicates an expected call of EnsureModelOperator.
-func (mr *MockBrokerMockRecorder) EnsureModelOperator(arg0, arg1, arg2, arg3 any) *MockBrokerEnsureModelOperatorCall {
+func (mr *MockBrokerMockRecorder) EnsureModelOperator(ctx, modelUUID, agentPath, arg3 any) *MockBrokerEnsureModelOperatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureModelOperator", reflect.TypeOf((*MockBroker)(nil).EnsureModelOperator), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureModelOperator", reflect.TypeOf((*MockBroker)(nil).EnsureModelOperator), ctx, modelUUID, agentPath, arg3)
 	return &MockBrokerEnsureModelOperatorCall{Call: call}
 }
 
@@ -549,18 +550,18 @@ func (c *MockBrokerEnsureModelOperatorCall) DoAndReturn(f func(context.Context, 
 }
 
 // GetSecretToken mocks base method.
-func (m *MockBroker) GetSecretToken(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockBroker) GetSecretToken(ctx context.Context, name string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetSecretToken", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetSecretToken", ctx, name)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetSecretToken indicates an expected call of GetSecretToken.
-func (mr *MockBrokerMockRecorder) GetSecretToken(arg0, arg1 any) *MockBrokerGetSecretTokenCall {
+func (mr *MockBrokerMockRecorder) GetSecretToken(ctx, name any) *MockBrokerGetSecretTokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretToken", reflect.TypeOf((*MockBroker)(nil).GetSecretToken), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSecretToken", reflect.TypeOf((*MockBroker)(nil).GetSecretToken), ctx, name)
 	return &MockBrokerGetSecretTokenCall{Call: call}
 }
 
@@ -588,18 +589,18 @@ func (c *MockBrokerGetSecretTokenCall) DoAndReturn(f func(context.Context, strin
 }
 
 // GetService mocks base method.
-func (m *MockBroker) GetService(arg0 context.Context, arg1 string, arg2 bool) (*caas.Service, error) {
+func (m *MockBroker) GetService(ctx context.Context, appName string, includeClusterIP bool) (*caas.Service, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetService", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetService", ctx, appName, includeClusterIP)
 	ret0, _ := ret[0].(*caas.Service)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetService indicates an expected call of GetService.
-func (mr *MockBrokerMockRecorder) GetService(arg0, arg1, arg2 any) *MockBrokerGetServiceCall {
+func (mr *MockBrokerMockRecorder) GetService(ctx, appName, includeClusterIP any) *MockBrokerGetServiceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockBroker)(nil).GetService), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetService", reflect.TypeOf((*MockBroker)(nil).GetService), ctx, appName, includeClusterIP)
 	return &MockBrokerGetServiceCall{Call: call}
 }
 
@@ -627,18 +628,18 @@ func (c *MockBrokerGetServiceCall) DoAndReturn(f func(context.Context, string, b
 }
 
 // ModelOperator mocks base method.
-func (m *MockBroker) ModelOperator(arg0 context.Context) (*caas.ModelOperatorConfig, error) {
+func (m *MockBroker) ModelOperator(ctx context.Context) (*caas.ModelOperatorConfig, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelOperator", arg0)
+	ret := m.ctrl.Call(m, "ModelOperator", ctx)
 	ret0, _ := ret[0].(*caas.ModelOperatorConfig)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelOperator indicates an expected call of ModelOperator.
-func (mr *MockBrokerMockRecorder) ModelOperator(arg0 any) *MockBrokerModelOperatorCall {
+func (mr *MockBrokerMockRecorder) ModelOperator(ctx any) *MockBrokerModelOperatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelOperator", reflect.TypeOf((*MockBroker)(nil).ModelOperator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelOperator", reflect.TypeOf((*MockBroker)(nil).ModelOperator), ctx)
 	return &MockBrokerModelOperatorCall{Call: call}
 }
 
@@ -666,18 +667,18 @@ func (c *MockBrokerModelOperatorCall) DoAndReturn(f func(context.Context) (*caas
 }
 
 // ModelOperatorExists mocks base method.
-func (m *MockBroker) ModelOperatorExists(arg0 context.Context) (bool, error) {
+func (m *MockBroker) ModelOperatorExists(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelOperatorExists", arg0)
+	ret := m.ctrl.Call(m, "ModelOperatorExists", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelOperatorExists indicates an expected call of ModelOperatorExists.
-func (mr *MockBrokerMockRecorder) ModelOperatorExists(arg0 any) *MockBrokerModelOperatorExistsCall {
+func (mr *MockBrokerMockRecorder) ModelOperatorExists(ctx any) *MockBrokerModelOperatorExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelOperatorExists", reflect.TypeOf((*MockBroker)(nil).ModelOperatorExists), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelOperatorExists", reflect.TypeOf((*MockBroker)(nil).ModelOperatorExists), ctx)
 	return &MockBrokerModelOperatorExistsCall{Call: call}
 }
 
@@ -705,18 +706,18 @@ func (c *MockBrokerModelOperatorExistsCall) DoAndReturn(f func(context.Context) 
 }
 
 // NetworkInterfaces mocks base method.
-func (m *MockBroker) NetworkInterfaces(arg0 context.Context, arg1 []instance.Id) ([]network.InterfaceInfos, error) {
+func (m *MockBroker) NetworkInterfaces(ctx context.Context, ids []instance.Id) ([]network.InterfaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NetworkInterfaces", arg0, arg1)
+	ret := m.ctrl.Call(m, "NetworkInterfaces", ctx, ids)
 	ret0, _ := ret[0].([]network.InterfaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NetworkInterfaces indicates an expected call of NetworkInterfaces.
-func (mr *MockBrokerMockRecorder) NetworkInterfaces(arg0, arg1 any) *MockBrokerNetworkInterfacesCall {
+func (mr *MockBrokerMockRecorder) NetworkInterfaces(ctx, ids any) *MockBrokerNetworkInterfacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInterfaces", reflect.TypeOf((*MockBroker)(nil).NetworkInterfaces), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInterfaces", reflect.TypeOf((*MockBroker)(nil).NetworkInterfaces), ctx, ids)
 	return &MockBrokerNetworkInterfacesCall{Call: call}
 }
 
@@ -782,17 +783,17 @@ func (c *MockBrokerPrecheckInstanceCall) DoAndReturn(f func(context.Context, env
 }
 
 // PrepareForBootstrap mocks base method.
-func (m *MockBroker) PrepareForBootstrap(arg0 environs.BootstrapContext, arg1 string) error {
+func (m *MockBroker) PrepareForBootstrap(ctx environs.BootstrapContext, controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareForBootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareForBootstrap", ctx, controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PrepareForBootstrap indicates an expected call of PrepareForBootstrap.
-func (mr *MockBrokerMockRecorder) PrepareForBootstrap(arg0, arg1 any) *MockBrokerPrepareForBootstrapCall {
+func (mr *MockBrokerMockRecorder) PrepareForBootstrap(ctx, controllerName any) *MockBrokerPrepareForBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockBroker)(nil).PrepareForBootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockBroker)(nil).PrepareForBootstrap), ctx, controllerName)
 	return &MockBrokerPrepareForBootstrapCall{Call: call}
 }
 
@@ -858,18 +859,18 @@ func (c *MockBrokerProviderCall) DoAndReturn(f func() caas.ContainerEnvironProvi
 }
 
 // ProviderSpaceInfo mocks base method.
-func (m *MockBroker) ProviderSpaceInfo(arg0 context.Context, arg1 *network.SpaceInfo) (*environs.ProviderSpaceInfo, error) {
+func (m *MockBroker) ProviderSpaceInfo(ctx context.Context, space *network.SpaceInfo) (*environs.ProviderSpaceInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProviderSpaceInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "ProviderSpaceInfo", ctx, space)
 	ret0, _ := ret[0].(*environs.ProviderSpaceInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProviderSpaceInfo indicates an expected call of ProviderSpaceInfo.
-func (mr *MockBrokerMockRecorder) ProviderSpaceInfo(arg0, arg1 any) *MockBrokerProviderSpaceInfoCall {
+func (mr *MockBrokerMockRecorder) ProviderSpaceInfo(ctx, space any) *MockBrokerProviderSpaceInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderSpaceInfo", reflect.TypeOf((*MockBroker)(nil).ProviderSpaceInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderSpaceInfo", reflect.TypeOf((*MockBroker)(nil).ProviderSpaceInfo), ctx, space)
 	return &MockBrokerProviderSpaceInfoCall{Call: call}
 }
 
@@ -897,18 +898,18 @@ func (c *MockBrokerProviderSpaceInfoCall) DoAndReturn(f func(context.Context, *n
 }
 
 // ProxyToApplication mocks base method.
-func (m *MockBroker) ProxyToApplication(arg0 context.Context, arg1, arg2 string) (proxy.Proxier, error) {
+func (m *MockBroker) ProxyToApplication(ctx context.Context, appName, remotePort string) (proxy.Proxier, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProxyToApplication", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ProxyToApplication", ctx, appName, remotePort)
 	ret0, _ := ret[0].(proxy.Proxier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProxyToApplication indicates an expected call of ProxyToApplication.
-func (mr *MockBrokerMockRecorder) ProxyToApplication(arg0, arg1, arg2 any) *MockBrokerProxyToApplicationCall {
+func (mr *MockBrokerMockRecorder) ProxyToApplication(ctx, appName, remotePort any) *MockBrokerProxyToApplicationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProxyToApplication", reflect.TypeOf((*MockBroker)(nil).ProxyToApplication), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProxyToApplication", reflect.TypeOf((*MockBroker)(nil).ProxyToApplication), ctx, appName, remotePort)
 	return &MockBrokerProxyToApplicationCall{Call: call}
 }
 
@@ -936,17 +937,17 @@ func (c *MockBrokerProxyToApplicationCall) DoAndReturn(f func(context.Context, s
 }
 
 // ReleaseContainerAddresses mocks base method.
-func (m *MockBroker) ReleaseContainerAddresses(arg0 context.Context, arg1 []network.ProviderInterfaceInfo) error {
+func (m *MockBroker) ReleaseContainerAddresses(ctx context.Context, interfaces []network.ProviderInterfaceInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReleaseContainerAddresses", arg0, arg1)
+	ret := m.ctrl.Call(m, "ReleaseContainerAddresses", ctx, interfaces)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReleaseContainerAddresses indicates an expected call of ReleaseContainerAddresses.
-func (mr *MockBrokerMockRecorder) ReleaseContainerAddresses(arg0, arg1 any) *MockBrokerReleaseContainerAddressesCall {
+func (mr *MockBrokerMockRecorder) ReleaseContainerAddresses(ctx, interfaces any) *MockBrokerReleaseContainerAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseContainerAddresses", reflect.TypeOf((*MockBroker)(nil).ReleaseContainerAddresses), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReleaseContainerAddresses", reflect.TypeOf((*MockBroker)(nil).ReleaseContainerAddresses), ctx, interfaces)
 	return &MockBrokerReleaseContainerAddressesCall{Call: call}
 }
 
@@ -974,17 +975,17 @@ func (c *MockBrokerReleaseContainerAddressesCall) DoAndReturn(f func(context.Con
 }
 
 // SetConfig mocks base method.
-func (m *MockBroker) SetConfig(arg0 context.Context, arg1 *config.Config) error {
+func (m *MockBroker) SetConfig(ctx context.Context, cfg *config.Config) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockBrokerMockRecorder) SetConfig(arg0, arg1 any) *MockBrokerSetConfigCall {
+func (mr *MockBrokerMockRecorder) SetConfig(ctx, cfg any) *MockBrokerSetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockBroker)(nil).SetConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockBroker)(nil).SetConfig), ctx, cfg)
 	return &MockBrokerSetConfigCall{Call: call}
 }
 
@@ -1012,18 +1013,18 @@ func (c *MockBrokerSetConfigCall) DoAndReturn(f func(context.Context, *config.Co
 }
 
 // Spaces mocks base method.
-func (m *MockBroker) Spaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockBroker) Spaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Spaces", arg0)
+	ret := m.ctrl.Call(m, "Spaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Spaces indicates an expected call of Spaces.
-func (mr *MockBrokerMockRecorder) Spaces(arg0 any) *MockBrokerSpacesCall {
+func (mr *MockBrokerMockRecorder) Spaces(ctx any) *MockBrokerSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Spaces", reflect.TypeOf((*MockBroker)(nil).Spaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Spaces", reflect.TypeOf((*MockBroker)(nil).Spaces), ctx)
 	return &MockBrokerSpacesCall{Call: call}
 }
 
@@ -1129,18 +1130,18 @@ func (c *MockBrokerStorageProviderTypesCall) DoAndReturn(f func() ([]storage.Pro
 }
 
 // Subnets mocks base method.
-func (m *MockBroker) Subnets(arg0 context.Context, arg1 []network.Id) ([]network.SubnetInfo, error) {
+func (m *MockBroker) Subnets(ctx context.Context, subnetIds []network.Id) ([]network.SubnetInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Subnets", arg0, arg1)
+	ret := m.ctrl.Call(m, "Subnets", ctx, subnetIds)
 	ret0, _ := ret[0].([]network.SubnetInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Subnets indicates an expected call of Subnets.
-func (mr *MockBrokerMockRecorder) Subnets(arg0, arg1 any) *MockBrokerSubnetsCall {
+func (mr *MockBrokerMockRecorder) Subnets(ctx, subnetIds any) *MockBrokerSubnetsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subnets", reflect.TypeOf((*MockBroker)(nil).Subnets), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Subnets", reflect.TypeOf((*MockBroker)(nil).Subnets), ctx, subnetIds)
 	return &MockBrokerSubnetsCall{Call: call}
 }
 
@@ -1168,18 +1169,18 @@ func (c *MockBrokerSubnetsCall) DoAndReturn(f func(context.Context, []network.Id
 }
 
 // SupportsContainerAddresses mocks base method.
-func (m *MockBroker) SupportsContainerAddresses(arg0 context.Context) (bool, error) {
+func (m *MockBroker) SupportsContainerAddresses(ctx context.Context) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SupportsContainerAddresses", arg0)
+	ret := m.ctrl.Call(m, "SupportsContainerAddresses", ctx)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SupportsContainerAddresses indicates an expected call of SupportsContainerAddresses.
-func (mr *MockBrokerMockRecorder) SupportsContainerAddresses(arg0 any) *MockBrokerSupportsContainerAddressesCall {
+func (mr *MockBrokerMockRecorder) SupportsContainerAddresses(ctx any) *MockBrokerSupportsContainerAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsContainerAddresses", reflect.TypeOf((*MockBroker)(nil).SupportsContainerAddresses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SupportsContainerAddresses", reflect.TypeOf((*MockBroker)(nil).SupportsContainerAddresses), ctx)
 	return &MockBrokerSupportsContainerAddressesCall{Call: call}
 }
 
@@ -1285,18 +1286,18 @@ func (c *MockBrokerSupportsSpacesCall) DoAndReturn(f func() (bool, error)) *Mock
 }
 
 // Units mocks base method.
-func (m *MockBroker) Units(arg0 context.Context, arg1 string) ([]caas.Unit, error) {
+func (m *MockBroker) Units(ctx context.Context, appName string) ([]caas.Unit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Units", arg0, arg1)
+	ret := m.ctrl.Call(m, "Units", ctx, appName)
 	ret0, _ := ret[0].([]caas.Unit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Units indicates an expected call of Units.
-func (mr *MockBrokerMockRecorder) Units(arg0, arg1 any) *MockBrokerUnitsCall {
+func (mr *MockBrokerMockRecorder) Units(ctx, appName any) *MockBrokerUnitsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Units", reflect.TypeOf((*MockBroker)(nil).Units), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Units", reflect.TypeOf((*MockBroker)(nil).Units), ctx, appName)
 	return &MockBrokerUnitsCall{Call: call}
 }
 
@@ -1324,17 +1325,17 @@ func (c *MockBrokerUnitsCall) DoAndReturn(f func(context.Context, string) ([]caa
 }
 
 // Upgrade mocks base method.
-func (m *MockBroker) Upgrade(arg0 context.Context, arg1 string, arg2 semversion.Number) error {
+func (m *MockBroker) Upgrade(ctx context.Context, appName string, vers semversion.Number) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Upgrade", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Upgrade", ctx, appName, vers)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Upgrade indicates an expected call of Upgrade.
-func (mr *MockBrokerMockRecorder) Upgrade(arg0, arg1, arg2 any) *MockBrokerUpgradeCall {
+func (mr *MockBrokerMockRecorder) Upgrade(ctx, appName, vers any) *MockBrokerUpgradeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upgrade", reflect.TypeOf((*MockBroker)(nil).Upgrade), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Upgrade", reflect.TypeOf((*MockBroker)(nil).Upgrade), ctx, appName, vers)
 	return &MockBrokerUpgradeCall{Call: call}
 }
 
@@ -1362,17 +1363,17 @@ func (c *MockBrokerUpgradeCall) DoAndReturn(f func(context.Context, string, semv
 }
 
 // ValidateStorageClass mocks base method.
-func (m *MockBroker) ValidateStorageClass(arg0 context.Context, arg1 map[string]any) error {
+func (m *MockBroker) ValidateStorageClass(ctx context.Context, arg1 map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ValidateStorageClass", arg0, arg1)
+	ret := m.ctrl.Call(m, "ValidateStorageClass", ctx, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ValidateStorageClass indicates an expected call of ValidateStorageClass.
-func (mr *MockBrokerMockRecorder) ValidateStorageClass(arg0, arg1 any) *MockBrokerValidateStorageClassCall {
+func (mr *MockBrokerMockRecorder) ValidateStorageClass(ctx, arg1 any) *MockBrokerValidateStorageClassCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateStorageClass", reflect.TypeOf((*MockBroker)(nil).ValidateStorageClass), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateStorageClass", reflect.TypeOf((*MockBroker)(nil).ValidateStorageClass), ctx, arg1)
 	return &MockBrokerValidateStorageClassCall{Call: call}
 }
 

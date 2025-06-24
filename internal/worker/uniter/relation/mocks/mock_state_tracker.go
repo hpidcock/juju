@@ -22,6 +22,7 @@ import (
 type MockStateTrackerClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateTrackerClientMockRecorder
+	isgomock struct{}
 }
 
 // MockStateTrackerClientMockRecorder is the mock recorder for MockStateTrackerClient.
@@ -42,18 +43,18 @@ func (m *MockStateTrackerClient) EXPECT() *MockStateTrackerClientMockRecorder {
 }
 
 // Relation mocks base method.
-func (m *MockStateTrackerClient) Relation(arg0 context.Context, arg1 names.RelationTag) (api.Relation, error) {
+func (m *MockStateTrackerClient) Relation(ctx context.Context, tag names.RelationTag) (api.Relation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Relation", arg0, arg1)
+	ret := m.ctrl.Call(m, "Relation", ctx, tag)
 	ret0, _ := ret[0].(api.Relation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Relation indicates an expected call of Relation.
-func (mr *MockStateTrackerClientMockRecorder) Relation(arg0, arg1 any) *MockStateTrackerClientRelationCall {
+func (mr *MockStateTrackerClientMockRecorder) Relation(ctx, tag any) *MockStateTrackerClientRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockStateTrackerClient)(nil).Relation), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockStateTrackerClient)(nil).Relation), ctx, tag)
 	return &MockStateTrackerClientRelationCall{Call: call}
 }
 
@@ -120,18 +121,18 @@ func (c *MockStateTrackerClientRelationByIdCall) DoAndReturn(f func(context.Cont
 }
 
 // Unit mocks base method.
-func (m *MockStateTrackerClient) Unit(arg0 context.Context, arg1 names.UnitTag) (api.Unit, error) {
+func (m *MockStateTrackerClient) Unit(ctx context.Context, tag names.UnitTag) (api.Unit, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unit", arg0, arg1)
+	ret := m.ctrl.Call(m, "Unit", ctx, tag)
 	ret0, _ := ret[0].(api.Unit)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Unit indicates an expected call of Unit.
-func (mr *MockStateTrackerClientMockRecorder) Unit(arg0, arg1 any) *MockStateTrackerClientUnitCall {
+func (mr *MockStateTrackerClientMockRecorder) Unit(ctx, tag any) *MockStateTrackerClientUnitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockStateTrackerClient)(nil).Unit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unit", reflect.TypeOf((*MockStateTrackerClient)(nil).Unit), ctx, tag)
 	return &MockStateTrackerClientUnitCall{Call: call}
 }
 

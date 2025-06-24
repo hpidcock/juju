@@ -23,6 +23,7 @@ import (
 type MockControllerConfigAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigAPIMockRecorder is the mock recorder for MockControllerConfigAPI.
@@ -43,18 +44,18 @@ func (m *MockControllerConfigAPI) EXPECT() *MockControllerConfigAPIMockRecorder 
 }
 
 // ControllerAPIInfoForModels mocks base method.
-func (m *MockControllerConfigAPI) ControllerAPIInfoForModels(arg0 context.Context, arg1 params.Entities) (params.ControllerAPIInfoResults, error) {
+func (m *MockControllerConfigAPI) ControllerAPIInfoForModels(ctx context.Context, args params.Entities) (params.ControllerAPIInfoResults, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerAPIInfoForModels", arg0, arg1)
+	ret := m.ctrl.Call(m, "ControllerAPIInfoForModels", ctx, args)
 	ret0, _ := ret[0].(params.ControllerAPIInfoResults)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerAPIInfoForModels indicates an expected call of ControllerAPIInfoForModels.
-func (mr *MockControllerConfigAPIMockRecorder) ControllerAPIInfoForModels(arg0, arg1 any) *MockControllerConfigAPIControllerAPIInfoForModelsCall {
+func (mr *MockControllerConfigAPIMockRecorder) ControllerAPIInfoForModels(ctx, args any) *MockControllerConfigAPIControllerAPIInfoForModelsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerAPIInfoForModels", reflect.TypeOf((*MockControllerConfigAPI)(nil).ControllerAPIInfoForModels), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerAPIInfoForModels", reflect.TypeOf((*MockControllerConfigAPI)(nil).ControllerAPIInfoForModels), ctx, args)
 	return &MockControllerConfigAPIControllerAPIInfoForModelsCall{Call: call}
 }
 
@@ -124,6 +125,7 @@ func (c *MockControllerConfigAPIControllerConfigCall) DoAndReturn(f func(context
 type MockExternalControllerService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExternalControllerServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExternalControllerServiceMockRecorder is the mock recorder for MockExternalControllerService.
@@ -144,17 +146,17 @@ func (m *MockExternalControllerService) EXPECT() *MockExternalControllerServiceM
 }
 
 // UpdateExternalController mocks base method.
-func (m *MockExternalControllerService) UpdateExternalController(arg0 context.Context, arg1 crossmodel.ControllerInfo) error {
+func (m *MockExternalControllerService) UpdateExternalController(ctx context.Context, ec crossmodel.ControllerInfo) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateExternalController", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateExternalController", ctx, ec)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateExternalController indicates an expected call of UpdateExternalController.
-func (mr *MockExternalControllerServiceMockRecorder) UpdateExternalController(arg0, arg1 any) *MockExternalControllerServiceUpdateExternalControllerCall {
+func (mr *MockExternalControllerServiceMockRecorder) UpdateExternalController(ctx, ec any) *MockExternalControllerServiceUpdateExternalControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExternalController", reflect.TypeOf((*MockExternalControllerService)(nil).UpdateExternalController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateExternalController", reflect.TypeOf((*MockExternalControllerService)(nil).UpdateExternalController), ctx, ec)
 	return &MockExternalControllerServiceUpdateExternalControllerCall{Call: call}
 }
 
@@ -185,6 +187,7 @@ func (c *MockExternalControllerServiceUpdateExternalControllerCall) DoAndReturn(
 type MockSecretService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretServiceMockRecorder is the mock recorder for MockSecretService.
@@ -205,17 +208,17 @@ func (m *MockSecretService) EXPECT() *MockSecretServiceMockRecorder {
 }
 
 // UpdateRemoteSecretRevision mocks base method.
-func (m *MockSecretService) UpdateRemoteSecretRevision(arg0 context.Context, arg1 *secrets.URI, arg2 int) error {
+func (m *MockSecretService) UpdateRemoteSecretRevision(ctx context.Context, uri *secrets.URI, latestRevision int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateRemoteSecretRevision", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateRemoteSecretRevision", ctx, uri, latestRevision)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateRemoteSecretRevision indicates an expected call of UpdateRemoteSecretRevision.
-func (mr *MockSecretServiceMockRecorder) UpdateRemoteSecretRevision(arg0, arg1, arg2 any) *MockSecretServiceUpdateRemoteSecretRevisionCall {
+func (mr *MockSecretServiceMockRecorder) UpdateRemoteSecretRevision(ctx, uri, latestRevision any) *MockSecretServiceUpdateRemoteSecretRevisionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRemoteSecretRevision", reflect.TypeOf((*MockSecretService)(nil).UpdateRemoteSecretRevision), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRemoteSecretRevision", reflect.TypeOf((*MockSecretService)(nil).UpdateRemoteSecretRevision), ctx, uri, latestRevision)
 	return &MockSecretServiceUpdateRemoteSecretRevisionCall{Call: call}
 }
 

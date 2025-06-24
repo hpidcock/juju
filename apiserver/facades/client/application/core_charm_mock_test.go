@@ -24,6 +24,7 @@ import (
 type MockRepository struct {
 	ctrl     *gomock.Controller
 	recorder *MockRepositoryMockRecorder
+	isgomock struct{}
 }
 
 // MockRepositoryMockRecorder is the mock recorder for MockRepository.
@@ -44,9 +45,9 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // Download mocks base method.
-func (m *MockRepository) Download(arg0 context.Context, arg1 string, arg2 charm.Origin, arg3 string) (charm.Origin, *charmhub.Digest, error) {
+func (m *MockRepository) Download(ctx context.Context, name string, origin charm.Origin, path string) (charm.Origin, *charmhub.Digest, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Download", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Download", ctx, name, origin, path)
 	ret0, _ := ret[0].(charm.Origin)
 	ret1, _ := ret[1].(*charmhub.Digest)
 	ret2, _ := ret[2].(error)
@@ -54,9 +55,9 @@ func (m *MockRepository) Download(arg0 context.Context, arg1 string, arg2 charm.
 }
 
 // Download indicates an expected call of Download.
-func (mr *MockRepositoryMockRecorder) Download(arg0, arg1, arg2, arg3 any) *MockRepositoryDownloadCall {
+func (mr *MockRepositoryMockRecorder) Download(ctx, name, origin, path any) *MockRepositoryDownloadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockRepository)(nil).Download), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Download", reflect.TypeOf((*MockRepository)(nil).Download), ctx, name, origin, path)
 	return &MockRepositoryDownloadCall{Call: call}
 }
 
@@ -202,18 +203,18 @@ func (c *MockRepositoryResolveForDeployCall) DoAndReturn(f func(context.Context,
 }
 
 // ResolveResources mocks base method.
-func (m *MockRepository) ResolveResources(arg0 context.Context, arg1 []resource.Resource, arg2 charm.CharmID) ([]resource.Resource, error) {
+func (m *MockRepository) ResolveResources(ctx context.Context, resources []resource.Resource, id charm.CharmID) ([]resource.Resource, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveResources", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ResolveResources", ctx, resources, id)
 	ret0, _ := ret[0].([]resource.Resource)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ResolveResources indicates an expected call of ResolveResources.
-func (mr *MockRepositoryMockRecorder) ResolveResources(arg0, arg1, arg2 any) *MockRepositoryResolveResourcesCall {
+func (mr *MockRepositoryMockRecorder) ResolveResources(ctx, resources, id any) *MockRepositoryResolveResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveResources", reflect.TypeOf((*MockRepository)(nil).ResolveResources), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveResources", reflect.TypeOf((*MockRepository)(nil).ResolveResources), ctx, resources, id)
 	return &MockRepositoryResolveResourcesCall{Call: call}
 }
 
@@ -283,6 +284,7 @@ func (c *MockRepositoryResolveWithPreferredChannelCall) DoAndReturn(f func(conte
 type MockRepositoryFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockRepositoryFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockRepositoryFactoryMockRecorder is the mock recorder for MockRepositoryFactory.
@@ -303,18 +305,18 @@ func (m *MockRepositoryFactory) EXPECT() *MockRepositoryFactoryMockRecorder {
 }
 
 // GetCharmRepository mocks base method.
-func (m *MockRepositoryFactory) GetCharmRepository(arg0 context.Context, arg1 charm.Source) (charm.Repository, error) {
+func (m *MockRepositoryFactory) GetCharmRepository(ctx context.Context, src charm.Source) (charm.Repository, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmRepository", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmRepository", ctx, src)
 	ret0, _ := ret[0].(charm.Repository)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmRepository indicates an expected call of GetCharmRepository.
-func (mr *MockRepositoryFactoryMockRecorder) GetCharmRepository(arg0, arg1 any) *MockRepositoryFactoryGetCharmRepositoryCall {
+func (mr *MockRepositoryFactoryMockRecorder) GetCharmRepository(ctx, src any) *MockRepositoryFactoryGetCharmRepositoryCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmRepository", reflect.TypeOf((*MockRepositoryFactory)(nil).GetCharmRepository), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmRepository", reflect.TypeOf((*MockRepositoryFactory)(nil).GetCharmRepository), ctx, src)
 	return &MockRepositoryFactoryGetCharmRepositoryCall{Call: call}
 }
 

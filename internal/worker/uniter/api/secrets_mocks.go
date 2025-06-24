@@ -23,6 +23,7 @@ import (
 type MockSecretsClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsClientMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsClientMockRecorder is the mock recorder for MockSecretsClient.
@@ -160,17 +161,17 @@ func (c *MockSecretsClientSecretMetadataCall) DoAndReturn(f func(context.Context
 }
 
 // SecretRotated mocks base method.
-func (m *MockSecretsClient) SecretRotated(arg0 context.Context, arg1 string, arg2 int) error {
+func (m *MockSecretsClient) SecretRotated(ctx context.Context, uri string, oldRevision int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SecretRotated", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SecretRotated", ctx, uri, oldRevision)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SecretRotated indicates an expected call of SecretRotated.
-func (mr *MockSecretsClientMockRecorder) SecretRotated(arg0, arg1, arg2 any) *MockSecretsClientSecretRotatedCall {
+func (mr *MockSecretsClientMockRecorder) SecretRotated(ctx, uri, oldRevision any) *MockSecretsClientSecretRotatedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretRotated", reflect.TypeOf((*MockSecretsClient)(nil).SecretRotated), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretRotated", reflect.TypeOf((*MockSecretsClient)(nil).SecretRotated), ctx, uri, oldRevision)
 	return &MockSecretsClientSecretRotatedCall{Call: call}
 }
 
@@ -198,18 +199,18 @@ func (c *MockSecretsClientSecretRotatedCall) DoAndReturn(f func(context.Context,
 }
 
 // WatchConsumedSecretsChanges mocks base method.
-func (m *MockSecretsClient) WatchConsumedSecretsChanges(arg0 context.Context, arg1 string) (watcher.Watcher[[]string], error) {
+func (m *MockSecretsClient) WatchConsumedSecretsChanges(ctx context.Context, unitName string) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchConsumedSecretsChanges", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchConsumedSecretsChanges", ctx, unitName)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchConsumedSecretsChanges indicates an expected call of WatchConsumedSecretsChanges.
-func (mr *MockSecretsClientMockRecorder) WatchConsumedSecretsChanges(arg0, arg1 any) *MockSecretsClientWatchConsumedSecretsChangesCall {
+func (mr *MockSecretsClientMockRecorder) WatchConsumedSecretsChanges(ctx, unitName any) *MockSecretsClientWatchConsumedSecretsChangesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchConsumedSecretsChanges", reflect.TypeOf((*MockSecretsClient)(nil).WatchConsumedSecretsChanges), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchConsumedSecretsChanges", reflect.TypeOf((*MockSecretsClient)(nil).WatchConsumedSecretsChanges), ctx, unitName)
 	return &MockSecretsClientWatchConsumedSecretsChangesCall{Call: call}
 }
 
@@ -219,40 +220,40 @@ type MockSecretsClientWatchConsumedSecretsChangesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretsClientWatchConsumedSecretsChangesCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockSecretsClientWatchConsumedSecretsChangesCall {
+func (c *MockSecretsClientWatchConsumedSecretsChangesCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockSecretsClientWatchConsumedSecretsChangesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretsClientWatchConsumedSecretsChangesCall) Do(f func(context.Context, string) (watcher.Watcher[[]string], error)) *MockSecretsClientWatchConsumedSecretsChangesCall {
+func (c *MockSecretsClientWatchConsumedSecretsChangesCall) Do(f func(context.Context, string) (watcher.StringsWatcher, error)) *MockSecretsClientWatchConsumedSecretsChangesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretsClientWatchConsumedSecretsChangesCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[[]string], error)) *MockSecretsClientWatchConsumedSecretsChangesCall {
+func (c *MockSecretsClientWatchConsumedSecretsChangesCall) DoAndReturn(f func(context.Context, string) (watcher.StringsWatcher, error)) *MockSecretsClientWatchConsumedSecretsChangesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchObsolete mocks base method.
-func (m *MockSecretsClient) WatchObsolete(arg0 context.Context, arg1 ...names.Tag) (watcher.Watcher[[]string], error) {
+func (m *MockSecretsClient) WatchObsolete(ctx context.Context, ownerTags ...names.Tag) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range ownerTags {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "WatchObsolete", varargs...)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchObsolete indicates an expected call of WatchObsolete.
-func (mr *MockSecretsClientMockRecorder) WatchObsolete(arg0 any, arg1 ...any) *MockSecretsClientWatchObsoleteCall {
+func (mr *MockSecretsClientMockRecorder) WatchObsolete(ctx any, ownerTags ...any) *MockSecretsClientWatchObsoleteCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, ownerTags...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchObsolete", reflect.TypeOf((*MockSecretsClient)(nil).WatchObsolete), varargs...)
 	return &MockSecretsClientWatchObsoleteCall{Call: call}
 }
@@ -263,19 +264,19 @@ type MockSecretsClientWatchObsoleteCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretsClientWatchObsoleteCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockSecretsClientWatchObsoleteCall {
+func (c *MockSecretsClientWatchObsoleteCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockSecretsClientWatchObsoleteCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretsClientWatchObsoleteCall) Do(f func(context.Context, ...names.Tag) (watcher.Watcher[[]string], error)) *MockSecretsClientWatchObsoleteCall {
+func (c *MockSecretsClientWatchObsoleteCall) Do(f func(context.Context, ...names.Tag) (watcher.StringsWatcher, error)) *MockSecretsClientWatchObsoleteCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretsClientWatchObsoleteCall) DoAndReturn(f func(context.Context, ...names.Tag) (watcher.Watcher[[]string], error)) *MockSecretsClientWatchObsoleteCall {
+func (c *MockSecretsClientWatchObsoleteCall) DoAndReturn(f func(context.Context, ...names.Tag) (watcher.StringsWatcher, error)) *MockSecretsClientWatchObsoleteCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -284,6 +285,7 @@ func (c *MockSecretsClientWatchObsoleteCall) DoAndReturn(f func(context.Context,
 type MockSecretsBackend struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretsBackendMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretsBackendMockRecorder is the mock recorder for MockSecretsBackend.
@@ -304,17 +306,17 @@ func (m *MockSecretsBackend) EXPECT() *MockSecretsBackendMockRecorder {
 }
 
 // DeleteContent mocks base method.
-func (m *MockSecretsBackend) DeleteContent(arg0 context.Context, arg1 *secrets.URI, arg2 int) error {
+func (m *MockSecretsBackend) DeleteContent(ctx context.Context, uri *secrets.URI, revision int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteContent", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteContent", ctx, uri, revision)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteContent indicates an expected call of DeleteContent.
-func (mr *MockSecretsBackendMockRecorder) DeleteContent(arg0, arg1, arg2 any) *MockSecretsBackendDeleteContentCall {
+func (mr *MockSecretsBackendMockRecorder) DeleteContent(ctx, uri, revision any) *MockSecretsBackendDeleteContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteContent), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteContent), ctx, uri, revision)
 	return &MockSecretsBackendDeleteContentCall{Call: call}
 }
 
@@ -342,17 +344,17 @@ func (c *MockSecretsBackendDeleteContentCall) DoAndReturn(f func(context.Context
 }
 
 // DeleteExternalContent mocks base method.
-func (m *MockSecretsBackend) DeleteExternalContent(arg0 context.Context, arg1 secrets.ValueRef) error {
+func (m *MockSecretsBackend) DeleteExternalContent(ctx context.Context, ref secrets.ValueRef) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteExternalContent", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteExternalContent", ctx, ref)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteExternalContent indicates an expected call of DeleteExternalContent.
-func (mr *MockSecretsBackendMockRecorder) DeleteExternalContent(arg0, arg1 any) *MockSecretsBackendDeleteExternalContentCall {
+func (mr *MockSecretsBackendMockRecorder) DeleteExternalContent(ctx, ref any) *MockSecretsBackendDeleteExternalContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExternalContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteExternalContent), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteExternalContent", reflect.TypeOf((*MockSecretsBackend)(nil).DeleteExternalContent), ctx, ref)
 	return &MockSecretsBackendDeleteExternalContentCall{Call: call}
 }
 
@@ -380,18 +382,18 @@ func (c *MockSecretsBackendDeleteExternalContentCall) DoAndReturn(f func(context
 }
 
 // GetContent mocks base method.
-func (m *MockSecretsBackend) GetContent(arg0 context.Context, arg1 *secrets.URI, arg2 string, arg3, arg4 bool) (secrets.SecretValue, error) {
+func (m *MockSecretsBackend) GetContent(ctx context.Context, uri *secrets.URI, label string, refresh, peek bool) (secrets.SecretValue, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetContent", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "GetContent", ctx, uri, label, refresh, peek)
 	ret0, _ := ret[0].(secrets.SecretValue)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetContent indicates an expected call of GetContent.
-func (mr *MockSecretsBackendMockRecorder) GetContent(arg0, arg1, arg2, arg3, arg4 any) *MockSecretsBackendGetContentCall {
+func (mr *MockSecretsBackendMockRecorder) GetContent(ctx, uri, label, refresh, peek any) *MockSecretsBackendGetContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContent", reflect.TypeOf((*MockSecretsBackend)(nil).GetContent), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetContent", reflect.TypeOf((*MockSecretsBackend)(nil).GetContent), ctx, uri, label, refresh, peek)
 	return &MockSecretsBackendGetContentCall{Call: call}
 }
 
@@ -419,18 +421,18 @@ func (c *MockSecretsBackendGetContentCall) DoAndReturn(f func(context.Context, *
 }
 
 // SaveContent mocks base method.
-func (m *MockSecretsBackend) SaveContent(arg0 context.Context, arg1 *secrets.URI, arg2 int, arg3 secrets.SecretValue) (secrets.ValueRef, error) {
+func (m *MockSecretsBackend) SaveContent(ctx context.Context, uri *secrets.URI, revision int, value secrets.SecretValue) (secrets.ValueRef, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveContent", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SaveContent", ctx, uri, revision, value)
 	ret0, _ := ret[0].(secrets.ValueRef)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SaveContent indicates an expected call of SaveContent.
-func (mr *MockSecretsBackendMockRecorder) SaveContent(arg0, arg1, arg2, arg3 any) *MockSecretsBackendSaveContentCall {
+func (mr *MockSecretsBackendMockRecorder) SaveContent(ctx, uri, revision, value any) *MockSecretsBackendSaveContentCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveContent", reflect.TypeOf((*MockSecretsBackend)(nil).SaveContent), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveContent", reflect.TypeOf((*MockSecretsBackend)(nil).SaveContent), ctx, uri, revision, value)
 	return &MockSecretsBackendSaveContentCall{Call: call}
 }
 

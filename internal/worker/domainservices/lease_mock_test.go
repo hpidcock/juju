@@ -22,6 +22,7 @@ import (
 type MockChecker struct {
 	ctrl     *gomock.Controller
 	recorder *MockCheckerMockRecorder
+	isgomock struct{}
 }
 
 // MockCheckerMockRecorder is the mock recorder for MockChecker.
@@ -42,17 +43,17 @@ func (m *MockChecker) EXPECT() *MockCheckerMockRecorder {
 }
 
 // Token mocks base method.
-func (m *MockChecker) Token(arg0, arg1 string) lease.Token {
+func (m *MockChecker) Token(leaseName, holderName string) lease.Token {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Token", arg0, arg1)
+	ret := m.ctrl.Call(m, "Token", leaseName, holderName)
 	ret0, _ := ret[0].(lease.Token)
 	return ret0
 }
 
 // Token indicates an expected call of Token.
-func (mr *MockCheckerMockRecorder) Token(arg0, arg1 any) *MockCheckerTokenCall {
+func (mr *MockCheckerMockRecorder) Token(leaseName, holderName any) *MockCheckerTokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockChecker)(nil).Token), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockChecker)(nil).Token), leaseName, holderName)
 	return &MockCheckerTokenCall{Call: call}
 }
 
@@ -80,17 +81,17 @@ func (c *MockCheckerTokenCall) DoAndReturn(f func(string, string) lease.Token) *
 }
 
 // WaitUntilExpired mocks base method.
-func (m *MockChecker) WaitUntilExpired(arg0 context.Context, arg1 string, arg2 chan<- struct{}) error {
+func (m *MockChecker) WaitUntilExpired(ctx context.Context, leaseName string, started chan<- struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitUntilExpired", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WaitUntilExpired", ctx, leaseName, started)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WaitUntilExpired indicates an expected call of WaitUntilExpired.
-func (mr *MockCheckerMockRecorder) WaitUntilExpired(arg0, arg1, arg2 any) *MockCheckerWaitUntilExpiredCall {
+func (mr *MockCheckerMockRecorder) WaitUntilExpired(ctx, leaseName, started any) *MockCheckerWaitUntilExpiredCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockChecker)(nil).WaitUntilExpired), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockChecker)(nil).WaitUntilExpired), ctx, leaseName, started)
 	return &MockCheckerWaitUntilExpiredCall{Call: call}
 }
 
@@ -121,6 +122,7 @@ func (c *MockCheckerWaitUntilExpiredCall) DoAndReturn(f func(context.Context, st
 type MockManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockManagerMockRecorder is the mock recorder for MockManager.
@@ -141,18 +143,18 @@ func (m *MockManager) EXPECT() *MockManagerMockRecorder {
 }
 
 // Checker mocks base method.
-func (m *MockManager) Checker(arg0, arg1 string) (lease.Checker, error) {
+func (m *MockManager) Checker(namespace, modelUUID string) (lease.Checker, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Checker", arg0, arg1)
+	ret := m.ctrl.Call(m, "Checker", namespace, modelUUID)
 	ret0, _ := ret[0].(lease.Checker)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Checker indicates an expected call of Checker.
-func (mr *MockManagerMockRecorder) Checker(arg0, arg1 any) *MockManagerCheckerCall {
+func (mr *MockManagerMockRecorder) Checker(namespace, modelUUID any) *MockManagerCheckerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Checker", reflect.TypeOf((*MockManager)(nil).Checker), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Checker", reflect.TypeOf((*MockManager)(nil).Checker), namespace, modelUUID)
 	return &MockManagerCheckerCall{Call: call}
 }
 
@@ -180,18 +182,18 @@ func (c *MockManagerCheckerCall) DoAndReturn(f func(string, string) (lease.Check
 }
 
 // Claimer mocks base method.
-func (m *MockManager) Claimer(arg0, arg1 string) (lease.Claimer, error) {
+func (m *MockManager) Claimer(namespace, modelUUID string) (lease.Claimer, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Claimer", arg0, arg1)
+	ret := m.ctrl.Call(m, "Claimer", namespace, modelUUID)
 	ret0, _ := ret[0].(lease.Claimer)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Claimer indicates an expected call of Claimer.
-func (mr *MockManagerMockRecorder) Claimer(arg0, arg1 any) *MockManagerClaimerCall {
+func (mr *MockManagerMockRecorder) Claimer(namespace, modelUUID any) *MockManagerClaimerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claimer", reflect.TypeOf((*MockManager)(nil).Claimer), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Claimer", reflect.TypeOf((*MockManager)(nil).Claimer), namespace, modelUUID)
 	return &MockManagerClaimerCall{Call: call}
 }
 
@@ -219,18 +221,18 @@ func (c *MockManagerClaimerCall) DoAndReturn(f func(string, string) (lease.Claim
 }
 
 // Pinner mocks base method.
-func (m *MockManager) Pinner(arg0, arg1 string) (lease.Pinner, error) {
+func (m *MockManager) Pinner(namespace, modelUUID string) (lease.Pinner, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Pinner", arg0, arg1)
+	ret := m.ctrl.Call(m, "Pinner", namespace, modelUUID)
 	ret0, _ := ret[0].(lease.Pinner)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Pinner indicates an expected call of Pinner.
-func (mr *MockManagerMockRecorder) Pinner(arg0, arg1 any) *MockManagerPinnerCall {
+func (mr *MockManagerMockRecorder) Pinner(namespace, modelUUID any) *MockManagerPinnerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Pinner", reflect.TypeOf((*MockManager)(nil).Pinner), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Pinner", reflect.TypeOf((*MockManager)(nil).Pinner), namespace, modelUUID)
 	return &MockManagerPinnerCall{Call: call}
 }
 
@@ -258,18 +260,18 @@ func (c *MockManagerPinnerCall) DoAndReturn(f func(string, string) (lease.Pinner
 }
 
 // Reader mocks base method.
-func (m *MockManager) Reader(arg0, arg1 string) (lease.Reader, error) {
+func (m *MockManager) Reader(namespace, modelUUID string) (lease.Reader, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Reader", arg0, arg1)
+	ret := m.ctrl.Call(m, "Reader", namespace, modelUUID)
 	ret0, _ := ret[0].(lease.Reader)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Reader indicates an expected call of Reader.
-func (mr *MockManagerMockRecorder) Reader(arg0, arg1 any) *MockManagerReaderCall {
+func (mr *MockManagerMockRecorder) Reader(namespace, modelUUID any) *MockManagerReaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reader", reflect.TypeOf((*MockManager)(nil).Reader), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reader", reflect.TypeOf((*MockManager)(nil).Reader), namespace, modelUUID)
 	return &MockManagerReaderCall{Call: call}
 }
 
@@ -297,18 +299,18 @@ func (c *MockManagerReaderCall) DoAndReturn(f func(string, string) (lease.Reader
 }
 
 // Revoker mocks base method.
-func (m *MockManager) Revoker(arg0, arg1 string) (lease.Revoker, error) {
+func (m *MockManager) Revoker(namespace, modelUUID string) (lease.Revoker, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Revoker", arg0, arg1)
+	ret := m.ctrl.Call(m, "Revoker", namespace, modelUUID)
 	ret0, _ := ret[0].(lease.Revoker)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Revoker indicates an expected call of Revoker.
-func (mr *MockManagerMockRecorder) Revoker(arg0, arg1 any) *MockManagerRevokerCall {
+func (mr *MockManagerMockRecorder) Revoker(namespace, modelUUID any) *MockManagerRevokerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Revoker", reflect.TypeOf((*MockManager)(nil).Revoker), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Revoker", reflect.TypeOf((*MockManager)(nil).Revoker), namespace, modelUUID)
 	return &MockManagerRevokerCall{Call: call}
 }
 
@@ -339,6 +341,7 @@ func (c *MockManagerRevokerCall) DoAndReturn(f func(string, string) (lease.Revok
 type MockLeaseManagerGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockLeaseManagerGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockLeaseManagerGetterMockRecorder is the mock recorder for MockLeaseManagerGetter.
@@ -401,6 +404,7 @@ func (c *MockLeaseManagerGetterGetLeaseManagerCall) DoAndReturn(f func(model.UUI
 type MockModelLeaseManagerGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelLeaseManagerGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockModelLeaseManagerGetterMockRecorder is the mock recorder for MockModelLeaseManagerGetter.
@@ -463,6 +467,7 @@ func (c *MockModelLeaseManagerGetterGetLeaseManagerCall) DoAndReturn(f func() (l
 type MockLeaseManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockLeaseManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockLeaseManagerMockRecorder is the mock recorder for MockLeaseManager.
@@ -483,17 +488,17 @@ func (m *MockLeaseManager) EXPECT() *MockLeaseManagerMockRecorder {
 }
 
 // Revoke mocks base method.
-func (m *MockLeaseManager) Revoke(arg0, arg1 string) error {
+func (m *MockLeaseManager) Revoke(leaseName, holderName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Revoke", arg0, arg1)
+	ret := m.ctrl.Call(m, "Revoke", leaseName, holderName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Revoke indicates an expected call of Revoke.
-func (mr *MockLeaseManagerMockRecorder) Revoke(arg0, arg1 any) *MockLeaseManagerRevokeCall {
+func (mr *MockLeaseManagerMockRecorder) Revoke(leaseName, holderName any) *MockLeaseManagerRevokeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Revoke", reflect.TypeOf((*MockLeaseManager)(nil).Revoke), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Revoke", reflect.TypeOf((*MockLeaseManager)(nil).Revoke), leaseName, holderName)
 	return &MockLeaseManagerRevokeCall{Call: call}
 }
 
@@ -521,17 +526,17 @@ func (c *MockLeaseManagerRevokeCall) DoAndReturn(f func(string, string) error) *
 }
 
 // Token mocks base method.
-func (m *MockLeaseManager) Token(arg0, arg1 string) lease.Token {
+func (m *MockLeaseManager) Token(leaseName, holderName string) lease.Token {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Token", arg0, arg1)
+	ret := m.ctrl.Call(m, "Token", leaseName, holderName)
 	ret0, _ := ret[0].(lease.Token)
 	return ret0
 }
 
 // Token indicates an expected call of Token.
-func (mr *MockLeaseManagerMockRecorder) Token(arg0, arg1 any) *MockLeaseManagerTokenCall {
+func (mr *MockLeaseManagerMockRecorder) Token(leaseName, holderName any) *MockLeaseManagerTokenCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockLeaseManager)(nil).Token), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Token", reflect.TypeOf((*MockLeaseManager)(nil).Token), leaseName, holderName)
 	return &MockLeaseManagerTokenCall{Call: call}
 }
 
@@ -559,17 +564,17 @@ func (c *MockLeaseManagerTokenCall) DoAndReturn(f func(string, string) lease.Tok
 }
 
 // WaitUntilExpired mocks base method.
-func (m *MockLeaseManager) WaitUntilExpired(arg0 context.Context, arg1 string, arg2 chan<- struct{}) error {
+func (m *MockLeaseManager) WaitUntilExpired(ctx context.Context, leaseName string, started chan<- struct{}) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitUntilExpired", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WaitUntilExpired", ctx, leaseName, started)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WaitUntilExpired indicates an expected call of WaitUntilExpired.
-func (mr *MockLeaseManagerMockRecorder) WaitUntilExpired(arg0, arg1, arg2 any) *MockLeaseManagerWaitUntilExpiredCall {
+func (mr *MockLeaseManagerMockRecorder) WaitUntilExpired(ctx, leaseName, started any) *MockLeaseManagerWaitUntilExpiredCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockLeaseManager)(nil).WaitUntilExpired), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitUntilExpired", reflect.TypeOf((*MockLeaseManager)(nil).WaitUntilExpired), ctx, leaseName, started)
 	return &MockLeaseManagerWaitUntilExpiredCall{Call: call}
 }
 

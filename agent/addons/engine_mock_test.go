@@ -19,6 +19,7 @@ import (
 type MockMetricSink struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetricSinkMockRecorder
+	isgomock struct{}
 }
 
 // MockMetricSinkMockRecorder is the mock recorder for MockMetricSink.
@@ -39,15 +40,15 @@ func (m *MockMetricSink) EXPECT() *MockMetricSinkMockRecorder {
 }
 
 // RecordStart mocks base method.
-func (m *MockMetricSink) RecordStart(arg0 string) {
+func (m *MockMetricSink) RecordStart(name string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RecordStart", arg0)
+	m.ctrl.Call(m, "RecordStart", name)
 }
 
 // RecordStart indicates an expected call of RecordStart.
-func (mr *MockMetricSinkMockRecorder) RecordStart(arg0 any) *MockMetricSinkRecordStartCall {
+func (mr *MockMetricSinkMockRecorder) RecordStart(name any) *MockMetricSinkRecordStartCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordStart", reflect.TypeOf((*MockMetricSink)(nil).RecordStart), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordStart", reflect.TypeOf((*MockMetricSink)(nil).RecordStart), name)
 	return &MockMetricSinkRecordStartCall{Call: call}
 }
 

@@ -21,6 +21,7 @@ import (
 type MockSession struct {
 	ctrl     *gomock.Controller
 	recorder *MockSessionMockRecorder
+	isgomock struct{}
 }
 
 // MockSessionMockRecorder is the mock recorder for MockSession.
@@ -41,17 +42,17 @@ func (m *MockSession) EXPECT() *MockSessionMockRecorder {
 }
 
 // CreateBucket mocks base method.
-func (m *MockSession) CreateBucket(arg0 context.Context, arg1 string) error {
+func (m *MockSession) CreateBucket(ctx context.Context, bucketName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateBucket", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateBucket", ctx, bucketName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateBucket indicates an expected call of CreateBucket.
-func (mr *MockSessionMockRecorder) CreateBucket(arg0, arg1 any) *MockSessionCreateBucketCall {
+func (mr *MockSessionMockRecorder) CreateBucket(ctx, bucketName any) *MockSessionCreateBucketCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBucket", reflect.TypeOf((*MockSession)(nil).CreateBucket), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBucket", reflect.TypeOf((*MockSession)(nil).CreateBucket), ctx, bucketName)
 	return &MockSessionCreateBucketCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockSessionCreateBucketCall) DoAndReturn(f func(context.Context, string
 }
 
 // DeleteObject mocks base method.
-func (m *MockSession) DeleteObject(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockSession) DeleteObject(ctx context.Context, bucketName, objectName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteObject", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteObject indicates an expected call of DeleteObject.
-func (mr *MockSessionMockRecorder) DeleteObject(arg0, arg1, arg2 any) *MockSessionDeleteObjectCall {
+func (mr *MockSessionMockRecorder) DeleteObject(ctx, bucketName, objectName any) *MockSessionDeleteObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObject", reflect.TypeOf((*MockSession)(nil).DeleteObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObject", reflect.TypeOf((*MockSession)(nil).DeleteObject), ctx, bucketName, objectName)
 	return &MockSessionDeleteObjectCall{Call: call}
 }
 
@@ -117,9 +118,9 @@ func (c *MockSessionDeleteObjectCall) DoAndReturn(f func(context.Context, string
 }
 
 // GetObject mocks base method.
-func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.ReadCloser, int64, string, error) {
+func (m *MockSession) GetObject(ctx context.Context, bucketName, objectName string) (io.ReadCloser, int64, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetObject", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(string)
@@ -128,9 +129,9 @@ func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.Rea
 }
 
 // GetObject indicates an expected call of GetObject.
-func (mr *MockSessionMockRecorder) GetObject(arg0, arg1, arg2 any) *MockSessionGetObjectCall {
+func (mr *MockSessionMockRecorder) GetObject(ctx, bucketName, objectName any) *MockSessionGetObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), ctx, bucketName, objectName)
 	return &MockSessionGetObjectCall{Call: call}
 }
 
@@ -158,18 +159,18 @@ func (c *MockSessionGetObjectCall) DoAndReturn(f func(context.Context, string, s
 }
 
 // ListObjects mocks base method.
-func (m *MockSession) ListObjects(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockSession) ListObjects(ctx context.Context, bucketName string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListObjects", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListObjects", ctx, bucketName)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListObjects indicates an expected call of ListObjects.
-func (mr *MockSessionMockRecorder) ListObjects(arg0, arg1 any) *MockSessionListObjectsCall {
+func (mr *MockSessionMockRecorder) ListObjects(ctx, bucketName any) *MockSessionListObjectsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjects", reflect.TypeOf((*MockSession)(nil).ListObjects), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjects", reflect.TypeOf((*MockSession)(nil).ListObjects), ctx, bucketName)
 	return &MockSessionListObjectsCall{Call: call}
 }
 
@@ -197,17 +198,17 @@ func (c *MockSessionListObjectsCall) DoAndReturn(f func(context.Context, string)
 }
 
 // ObjectExists mocks base method.
-func (m *MockSession) ObjectExists(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockSession) ObjectExists(ctx context.Context, bucketName, objectName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ObjectExists", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ObjectExists", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ObjectExists indicates an expected call of ObjectExists.
-func (mr *MockSessionMockRecorder) ObjectExists(arg0, arg1, arg2 any) *MockSessionObjectExistsCall {
+func (mr *MockSessionMockRecorder) ObjectExists(ctx, bucketName, objectName any) *MockSessionObjectExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ObjectExists", reflect.TypeOf((*MockSession)(nil).ObjectExists), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ObjectExists", reflect.TypeOf((*MockSession)(nil).ObjectExists), ctx, bucketName, objectName)
 	return &MockSessionObjectExistsCall{Call: call}
 }
 
@@ -235,17 +236,17 @@ func (c *MockSessionObjectExistsCall) DoAndReturn(f func(context.Context, string
 }
 
 // PutObject mocks base method.
-func (m *MockSession) PutObject(arg0 context.Context, arg1, arg2 string, arg3 io.Reader, arg4 string) error {
+func (m *MockSession) PutObject(ctx context.Context, bucketName, objectName string, body io.Reader, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutObject", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutObject", ctx, bucketName, objectName, body, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PutObject indicates an expected call of PutObject.
-func (mr *MockSessionMockRecorder) PutObject(arg0, arg1, arg2, arg3, arg4 any) *MockSessionPutObjectCall {
+func (mr *MockSessionMockRecorder) PutObject(ctx, bucketName, objectName, body, hash any) *MockSessionPutObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutObject", reflect.TypeOf((*MockSession)(nil).PutObject), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutObject", reflect.TypeOf((*MockSession)(nil).PutObject), ctx, bucketName, objectName, body, hash)
 	return &MockSessionPutObjectCall{Call: call}
 }
 

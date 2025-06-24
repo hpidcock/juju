@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -42,18 +43,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // CloudAllRegionDefaults mocks base method.
-func (m *MockState) CloudAllRegionDefaults(arg0 context.Context, arg1 cloud.UUID) (map[string]map[string]string, error) {
+func (m *MockState) CloudAllRegionDefaults(ctx context.Context, cloudUUID cloud.UUID) (map[string]map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CloudAllRegionDefaults", arg0, arg1)
+	ret := m.ctrl.Call(m, "CloudAllRegionDefaults", ctx, cloudUUID)
 	ret0, _ := ret[0].(map[string]map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CloudAllRegionDefaults indicates an expected call of CloudAllRegionDefaults.
-func (mr *MockStateMockRecorder) CloudAllRegionDefaults(arg0, arg1 any) *MockStateCloudAllRegionDefaultsCall {
+func (mr *MockStateMockRecorder) CloudAllRegionDefaults(ctx, cloudUUID any) *MockStateCloudAllRegionDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloudAllRegionDefaults", reflect.TypeOf((*MockState)(nil).CloudAllRegionDefaults), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CloudAllRegionDefaults", reflect.TypeOf((*MockState)(nil).CloudAllRegionDefaults), ctx, cloudUUID)
 	return &MockStateCloudAllRegionDefaultsCall{Call: call}
 }
 
@@ -197,17 +198,17 @@ func (c *MockStateConfigDefaultsCall) DoAndReturn(f func(context.Context) map[st
 }
 
 // DeleteCloudDefaults mocks base method.
-func (m *MockState) DeleteCloudDefaults(arg0 context.Context, arg1 cloud.UUID, arg2 []string) error {
+func (m *MockState) DeleteCloudDefaults(ctx context.Context, cloudUID cloud.UUID, attrs []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCloudDefaults", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCloudDefaults", ctx, cloudUID, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCloudDefaults indicates an expected call of DeleteCloudDefaults.
-func (mr *MockStateMockRecorder) DeleteCloudDefaults(arg0, arg1, arg2 any) *MockStateDeleteCloudDefaultsCall {
+func (mr *MockStateMockRecorder) DeleteCloudDefaults(ctx, cloudUID, attrs any) *MockStateDeleteCloudDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCloudDefaults", reflect.TypeOf((*MockState)(nil).DeleteCloudDefaults), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCloudDefaults", reflect.TypeOf((*MockState)(nil).DeleteCloudDefaults), ctx, cloudUID, attrs)
 	return &MockStateDeleteCloudDefaultsCall{Call: call}
 }
 
@@ -235,17 +236,17 @@ func (c *MockStateDeleteCloudDefaultsCall) DoAndReturn(f func(context.Context, c
 }
 
 // DeleteCloudRegionDefaults mocks base method.
-func (m *MockState) DeleteCloudRegionDefaults(arg0 context.Context, arg1 cloud.UUID, arg2 string, arg3 []string) error {
+func (m *MockState) DeleteCloudRegionDefaults(ctx context.Context, cloudUID cloud.UUID, regionName string, attrs []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCloudRegionDefaults", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "DeleteCloudRegionDefaults", ctx, cloudUID, regionName, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCloudRegionDefaults indicates an expected call of DeleteCloudRegionDefaults.
-func (mr *MockStateMockRecorder) DeleteCloudRegionDefaults(arg0, arg1, arg2, arg3 any) *MockStateDeleteCloudRegionDefaultsCall {
+func (mr *MockStateMockRecorder) DeleteCloudRegionDefaults(ctx, cloudUID, regionName, attrs any) *MockStateDeleteCloudRegionDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).DeleteCloudRegionDefaults), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).DeleteCloudRegionDefaults), ctx, cloudUID, regionName, attrs)
 	return &MockStateDeleteCloudRegionDefaultsCall{Call: call}
 }
 
@@ -351,18 +352,18 @@ func (c *MockStateGetModelCloudUUIDCall) DoAndReturn(f func(context.Context, mod
 }
 
 // ModelCloudRegionDefaults mocks base method.
-func (m *MockState) ModelCloudRegionDefaults(arg0 context.Context, arg1 model.UUID) (map[string]string, error) {
+func (m *MockState) ModelCloudRegionDefaults(ctx context.Context, uuid model.UUID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelCloudRegionDefaults", arg0, arg1)
+	ret := m.ctrl.Call(m, "ModelCloudRegionDefaults", ctx, uuid)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelCloudRegionDefaults indicates an expected call of ModelCloudRegionDefaults.
-func (mr *MockStateMockRecorder) ModelCloudRegionDefaults(arg0, arg1 any) *MockStateModelCloudRegionDefaultsCall {
+func (mr *MockStateMockRecorder) ModelCloudRegionDefaults(ctx, uuid any) *MockStateModelCloudRegionDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).ModelCloudRegionDefaults), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).ModelCloudRegionDefaults), ctx, uuid)
 	return &MockStateModelCloudRegionDefaultsCall{Call: call}
 }
 
@@ -429,17 +430,17 @@ func (c *MockStateModelMetadataDefaultsCall) DoAndReturn(f func(context.Context,
 }
 
 // UpdateCloudDefaults mocks base method.
-func (m *MockState) UpdateCloudDefaults(arg0 context.Context, arg1 cloud.UUID, arg2 map[string]string) error {
+func (m *MockState) UpdateCloudDefaults(ctx context.Context, cloudUID cloud.UUID, attrs map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCloudDefaults", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdateCloudDefaults", ctx, cloudUID, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCloudDefaults indicates an expected call of UpdateCloudDefaults.
-func (mr *MockStateMockRecorder) UpdateCloudDefaults(arg0, arg1, arg2 any) *MockStateUpdateCloudDefaultsCall {
+func (mr *MockStateMockRecorder) UpdateCloudDefaults(ctx, cloudUID, attrs any) *MockStateUpdateCloudDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudDefaults", reflect.TypeOf((*MockState)(nil).UpdateCloudDefaults), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudDefaults", reflect.TypeOf((*MockState)(nil).UpdateCloudDefaults), ctx, cloudUID, attrs)
 	return &MockStateUpdateCloudDefaultsCall{Call: call}
 }
 
@@ -467,17 +468,17 @@ func (c *MockStateUpdateCloudDefaultsCall) DoAndReturn(f func(context.Context, c
 }
 
 // UpdateCloudRegionDefaults mocks base method.
-func (m *MockState) UpdateCloudRegionDefaults(arg0 context.Context, arg1 cloud.UUID, arg2 string, arg3 map[string]string) error {
+func (m *MockState) UpdateCloudRegionDefaults(ctx context.Context, cloudUID cloud.UUID, regionName string, attrs map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCloudRegionDefaults", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "UpdateCloudRegionDefaults", ctx, cloudUID, regionName, attrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCloudRegionDefaults indicates an expected call of UpdateCloudRegionDefaults.
-func (mr *MockStateMockRecorder) UpdateCloudRegionDefaults(arg0, arg1, arg2, arg3 any) *MockStateUpdateCloudRegionDefaultsCall {
+func (mr *MockStateMockRecorder) UpdateCloudRegionDefaults(ctx, cloudUID, regionName, attrs any) *MockStateUpdateCloudRegionDefaultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).UpdateCloudRegionDefaults), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCloudRegionDefaults", reflect.TypeOf((*MockState)(nil).UpdateCloudRegionDefaults), ctx, cloudUID, regionName, attrs)
 	return &MockStateUpdateCloudRegionDefaultsCall{Call: call}
 }
 

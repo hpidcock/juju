@@ -22,6 +22,7 @@ import (
 type MockControllerKeyProvider struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerKeyProviderMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerKeyProviderMockRecorder is the mock recorder for MockControllerKeyProvider.
@@ -84,6 +85,7 @@ func (c *MockControllerKeyProviderControllerAuthorisedKeysCall) DoAndReturn(f fu
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -260,6 +262,7 @@ func (c *MockStateNamespaceForWatchUserAuthenticationCall) DoAndReturn(f func() 
 type MockControllerState struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerStateMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerStateMockRecorder is the mock recorder for MockControllerState.

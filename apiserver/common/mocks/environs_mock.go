@@ -24,6 +24,7 @@ import (
 type MockBootstrapEnviron struct {
 	ctrl     *gomock.Controller
 	recorder *MockBootstrapEnvironMockRecorder
+	isgomock struct{}
 }
 
 // MockBootstrapEnvironMockRecorder is the mock recorder for MockBootstrapEnviron.
@@ -44,18 +45,18 @@ func (m *MockBootstrapEnviron) EXPECT() *MockBootstrapEnvironMockRecorder {
 }
 
 // Bootstrap mocks base method.
-func (m *MockBootstrapEnviron) Bootstrap(arg0 environs.BootstrapContext, arg1 environs.BootstrapParams) (*environs.BootstrapResult, error) {
+func (m *MockBootstrapEnviron) Bootstrap(ctx environs.BootstrapContext, params environs.BootstrapParams) (*environs.BootstrapResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Bootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "Bootstrap", ctx, params)
 	ret0, _ := ret[0].(*environs.BootstrapResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Bootstrap indicates an expected call of Bootstrap.
-func (mr *MockBootstrapEnvironMockRecorder) Bootstrap(arg0, arg1 any) *MockBootstrapEnvironBootstrapCall {
+func (mr *MockBootstrapEnvironMockRecorder) Bootstrap(ctx, params any) *MockBootstrapEnvironBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockBootstrapEnviron)(nil).Bootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Bootstrap", reflect.TypeOf((*MockBootstrapEnviron)(nil).Bootstrap), ctx, params)
 	return &MockBootstrapEnvironBootstrapCall{Call: call}
 }
 
@@ -121,18 +122,18 @@ func (c *MockBootstrapEnvironConfigCall) DoAndReturn(f func() *config.Config) *M
 }
 
 // ConstraintsValidator mocks base method.
-func (m *MockBootstrapEnviron) ConstraintsValidator(arg0 context.Context) (constraints.Validator, error) {
+func (m *MockBootstrapEnviron) ConstraintsValidator(ctx context.Context) (constraints.Validator, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConstraintsValidator", arg0)
+	ret := m.ctrl.Call(m, "ConstraintsValidator", ctx)
 	ret0, _ := ret[0].(constraints.Validator)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConstraintsValidator indicates an expected call of ConstraintsValidator.
-func (mr *MockBootstrapEnvironMockRecorder) ConstraintsValidator(arg0 any) *MockBootstrapEnvironConstraintsValidatorCall {
+func (mr *MockBootstrapEnvironMockRecorder) ConstraintsValidator(ctx any) *MockBootstrapEnvironConstraintsValidatorCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockBootstrapEnviron)(nil).ConstraintsValidator), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConstraintsValidator", reflect.TypeOf((*MockBootstrapEnviron)(nil).ConstraintsValidator), ctx)
 	return &MockBootstrapEnvironConstraintsValidatorCall{Call: call}
 }
 
@@ -160,17 +161,17 @@ func (c *MockBootstrapEnvironConstraintsValidatorCall) DoAndReturn(f func(contex
 }
 
 // Destroy mocks base method.
-func (m *MockBootstrapEnviron) Destroy(arg0 context.Context) error {
+func (m *MockBootstrapEnviron) Destroy(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Destroy", arg0)
+	ret := m.ctrl.Call(m, "Destroy", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Destroy indicates an expected call of Destroy.
-func (mr *MockBootstrapEnvironMockRecorder) Destroy(arg0 any) *MockBootstrapEnvironDestroyCall {
+func (mr *MockBootstrapEnvironMockRecorder) Destroy(ctx any) *MockBootstrapEnvironDestroyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockBootstrapEnviron)(nil).Destroy), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockBootstrapEnviron)(nil).Destroy), ctx)
 	return &MockBootstrapEnvironDestroyCall{Call: call}
 }
 
@@ -198,17 +199,17 @@ func (c *MockBootstrapEnvironDestroyCall) DoAndReturn(f func(context.Context) er
 }
 
 // DestroyController mocks base method.
-func (m *MockBootstrapEnviron) DestroyController(arg0 context.Context, arg1 string) error {
+func (m *MockBootstrapEnviron) DestroyController(ctx context.Context, controllerUUID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DestroyController", arg0, arg1)
+	ret := m.ctrl.Call(m, "DestroyController", ctx, controllerUUID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DestroyController indicates an expected call of DestroyController.
-func (mr *MockBootstrapEnvironMockRecorder) DestroyController(arg0, arg1 any) *MockBootstrapEnvironDestroyControllerCall {
+func (mr *MockBootstrapEnvironMockRecorder) DestroyController(ctx, controllerUUID any) *MockBootstrapEnvironDestroyControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockBootstrapEnviron)(nil).DestroyController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyController", reflect.TypeOf((*MockBootstrapEnviron)(nil).DestroyController), ctx, controllerUUID)
 	return &MockBootstrapEnvironDestroyControllerCall{Call: call}
 }
 
@@ -236,17 +237,17 @@ func (c *MockBootstrapEnvironDestroyControllerCall) DoAndReturn(f func(context.C
 }
 
 // PrepareForBootstrap mocks base method.
-func (m *MockBootstrapEnviron) PrepareForBootstrap(arg0 environs.BootstrapContext, arg1 string) error {
+func (m *MockBootstrapEnviron) PrepareForBootstrap(ctx environs.BootstrapContext, controllerName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareForBootstrap", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareForBootstrap", ctx, controllerName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PrepareForBootstrap indicates an expected call of PrepareForBootstrap.
-func (mr *MockBootstrapEnvironMockRecorder) PrepareForBootstrap(arg0, arg1 any) *MockBootstrapEnvironPrepareForBootstrapCall {
+func (mr *MockBootstrapEnvironMockRecorder) PrepareForBootstrap(ctx, controllerName any) *MockBootstrapEnvironPrepareForBootstrapCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockBootstrapEnviron)(nil).PrepareForBootstrap), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareForBootstrap", reflect.TypeOf((*MockBootstrapEnviron)(nil).PrepareForBootstrap), ctx, controllerName)
 	return &MockBootstrapEnvironPrepareForBootstrapCall{Call: call}
 }
 
@@ -274,17 +275,17 @@ func (c *MockBootstrapEnvironPrepareForBootstrapCall) DoAndReturn(f func(environ
 }
 
 // SetConfig mocks base method.
-func (m *MockBootstrapEnviron) SetConfig(arg0 context.Context, arg1 *config.Config) error {
+func (m *MockBootstrapEnviron) SetConfig(ctx context.Context, cfg *config.Config) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetConfig", ctx, cfg)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetConfig indicates an expected call of SetConfig.
-func (mr *MockBootstrapEnvironMockRecorder) SetConfig(arg0, arg1 any) *MockBootstrapEnvironSetConfigCall {
+func (mr *MockBootstrapEnvironMockRecorder) SetConfig(ctx, cfg any) *MockBootstrapEnvironSetConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockBootstrapEnviron)(nil).SetConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetConfig", reflect.TypeOf((*MockBootstrapEnviron)(nil).SetConfig), ctx, cfg)
 	return &MockBootstrapEnvironSetConfigCall{Call: call}
 }
 

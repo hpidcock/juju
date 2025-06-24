@@ -30,6 +30,7 @@ import (
 type MockContext struct {
 	ctrl     *gomock.Controller
 	recorder *MockContextMockRecorder
+	isgomock struct{}
 }
 
 // MockContextMockRecorder is the mock recorder for MockContext.
@@ -244,17 +245,17 @@ func (c *MockContextAvailabilityZoneCall) DoAndReturn(f func() (string, error)) 
 }
 
 // ClosePortRange mocks base method.
-func (m *MockContext) ClosePortRange(arg0 string, arg1 network.PortRange) error {
+func (m *MockContext) ClosePortRange(endpointName string, portRange network.PortRange) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ClosePortRange", arg0, arg1)
+	ret := m.ctrl.Call(m, "ClosePortRange", endpointName, portRange)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ClosePortRange indicates an expected call of ClosePortRange.
-func (mr *MockContextMockRecorder) ClosePortRange(arg0, arg1 any) *MockContextClosePortRangeCall {
+func (mr *MockContextMockRecorder) ClosePortRange(endpointName, portRange any) *MockContextClosePortRangeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePortRange", reflect.TypeOf((*MockContext)(nil).ClosePortRange), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ClosePortRange", reflect.TypeOf((*MockContext)(nil).ClosePortRange), endpointName, portRange)
 	return &MockContextClosePortRangeCall{Call: call}
 }
 
@@ -437,18 +438,18 @@ func (c *MockContextDeleteCharmStateValueCall) DoAndReturn(f func(context.Contex
 }
 
 // DownloadResource mocks base method.
-func (m *MockContext) DownloadResource(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockContext) DownloadResource(ctx context.Context, name string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DownloadResource", arg0, arg1)
+	ret := m.ctrl.Call(m, "DownloadResource", ctx, name)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DownloadResource indicates an expected call of DownloadResource.
-func (mr *MockContextMockRecorder) DownloadResource(arg0, arg1 any) *MockContextDownloadResourceCall {
+func (mr *MockContextMockRecorder) DownloadResource(ctx, name any) *MockContextDownloadResourceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadResource", reflect.TypeOf((*MockContext)(nil).DownloadResource), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DownloadResource", reflect.TypeOf((*MockContext)(nil).DownloadResource), ctx, name)
 	return &MockContextDownloadResourceCall{Call: call}
 }
 
@@ -458,8 +459,8 @@ type MockContextDownloadResourceCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockContextDownloadResourceCall) Return(arg0 string, arg1 error) *MockContextDownloadResourceCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockContextDownloadResourceCall) Return(filePath string, arg1 error) *MockContextDownloadResourceCall {
+	c.Call = c.Call.Return(filePath, arg1)
 	return c
 }
 
@@ -476,17 +477,17 @@ func (c *MockContextDownloadResourceCall) DoAndReturn(f func(context.Context, st
 }
 
 // Flush mocks base method.
-func (m *MockContext) Flush(arg0 context.Context, arg1 string, arg2 error) error {
+func (m *MockContext) Flush(ctx context.Context, badge string, failure error) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Flush", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Flush", ctx, badge, failure)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Flush indicates an expected call of Flush.
-func (mr *MockContextMockRecorder) Flush(arg0, arg1, arg2 any) *MockContextFlushCall {
+func (mr *MockContextMockRecorder) Flush(ctx, badge, failure any) *MockContextFlushCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Flush", reflect.TypeOf((*MockContext)(nil).Flush), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Flush", reflect.TypeOf((*MockContext)(nil).Flush), ctx, badge, failure)
 	return &MockContextFlushCall{Call: call}
 }
 
@@ -592,17 +593,17 @@ func (c *MockContextGetCharmStateValueCall) DoAndReturn(f func(context.Context, 
 }
 
 // GetLoggerByName mocks base method.
-func (m *MockContext) GetLoggerByName(arg0 string) logger.Logger {
+func (m *MockContext) GetLoggerByName(module string) logger.Logger {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetLoggerByName", arg0)
+	ret := m.ctrl.Call(m, "GetLoggerByName", module)
 	ret0, _ := ret[0].(logger.Logger)
 	return ret0
 }
 
 // GetLoggerByName indicates an expected call of GetLoggerByName.
-func (mr *MockContextMockRecorder) GetLoggerByName(arg0 any) *MockContextGetLoggerByNameCall {
+func (mr *MockContextMockRecorder) GetLoggerByName(module any) *MockContextGetLoggerByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerByName", reflect.TypeOf((*MockContext)(nil).GetLoggerByName), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLoggerByName", reflect.TypeOf((*MockContext)(nil).GetLoggerByName), module)
 	return &MockContextGetLoggerByNameCall{Call: call}
 }
 
@@ -862,18 +863,18 @@ func (c *MockContextHookStorageCall) DoAndReturn(f func(context.Context) (jujuc.
 }
 
 // HookVars mocks base method.
-func (m *MockContext) HookVars(arg0 context.Context, arg1 context0.Paths, arg2 context0.Environmenter) ([]string, error) {
+func (m *MockContext) HookVars(ctx context.Context, paths context0.Paths, env context0.Environmenter) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HookVars", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "HookVars", ctx, paths, env)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // HookVars indicates an expected call of HookVars.
-func (mr *MockContextMockRecorder) HookVars(arg0, arg1, arg2 any) *MockContextHookVarsCall {
+func (mr *MockContextMockRecorder) HookVars(ctx, paths, env any) *MockContextHookVarsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HookVars", reflect.TypeOf((*MockContext)(nil).HookVars), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HookVars", reflect.TypeOf((*MockContext)(nil).HookVars), ctx, paths, env)
 	return &MockContextHookVarsCall{Call: call}
 }
 
@@ -1054,18 +1055,18 @@ func (c *MockContextModelTypeCall) DoAndReturn(f func() model.ModelType) *MockCo
 }
 
 // NetworkInfo mocks base method.
-func (m *MockContext) NetworkInfo(arg0 context.Context, arg1 []string, arg2 int) (map[string]params.NetworkInfoResult, error) {
+func (m *MockContext) NetworkInfo(ctx context.Context, bindingNames []string, relationId int) (map[string]params.NetworkInfoResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NetworkInfo", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "NetworkInfo", ctx, bindingNames, relationId)
 	ret0, _ := ret[0].(map[string]params.NetworkInfoResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NetworkInfo indicates an expected call of NetworkInfo.
-func (mr *MockContextMockRecorder) NetworkInfo(arg0, arg1, arg2 any) *MockContextNetworkInfoCall {
+func (mr *MockContextMockRecorder) NetworkInfo(ctx, bindingNames, relationId any) *MockContextNetworkInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInfo", reflect.TypeOf((*MockContext)(nil).NetworkInfo), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NetworkInfo", reflect.TypeOf((*MockContext)(nil).NetworkInfo), ctx, bindingNames, relationId)
 	return &MockContextNetworkInfoCall{Call: call}
 }
 
@@ -1093,17 +1094,17 @@ func (c *MockContextNetworkInfoCall) DoAndReturn(f func(context.Context, []strin
 }
 
 // OpenPortRange mocks base method.
-func (m *MockContext) OpenPortRange(arg0 string, arg1 network.PortRange) error {
+func (m *MockContext) OpenPortRange(endpointName string, portRange network.PortRange) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenPortRange", arg0, arg1)
+	ret := m.ctrl.Call(m, "OpenPortRange", endpointName, portRange)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // OpenPortRange indicates an expected call of OpenPortRange.
-func (mr *MockContextMockRecorder) OpenPortRange(arg0, arg1 any) *MockContextOpenPortRangeCall {
+func (mr *MockContextMockRecorder) OpenPortRange(endpointName, portRange any) *MockContextOpenPortRangeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPortRange", reflect.TypeOf((*MockContext)(nil).OpenPortRange), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenPortRange", reflect.TypeOf((*MockContext)(nil).OpenPortRange), endpointName, portRange)
 	return &MockContextOpenPortRangeCall{Call: call}
 }
 
@@ -1169,17 +1170,17 @@ func (c *MockContextOpenedPortRangesCall) DoAndReturn(f func() network.GroupedPo
 }
 
 // Prepare mocks base method.
-func (m *MockContext) Prepare(arg0 context.Context) error {
+func (m *MockContext) Prepare(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Prepare", arg0)
+	ret := m.ctrl.Call(m, "Prepare", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Prepare indicates an expected call of Prepare.
-func (mr *MockContextMockRecorder) Prepare(arg0 any) *MockContextPrepareCall {
+func (mr *MockContextMockRecorder) Prepare(ctx any) *MockContextPrepareCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Prepare", reflect.TypeOf((*MockContext)(nil).Prepare), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Prepare", reflect.TypeOf((*MockContext)(nil).Prepare), ctx)
 	return &MockContextPrepareCall{Call: call}
 }
 
@@ -1285,18 +1286,18 @@ func (c *MockContextPublicAddressCall) DoAndReturn(f func(context.Context) (stri
 }
 
 // Relation mocks base method.
-func (m *MockContext) Relation(arg0 int) (jujuc.ContextRelation, error) {
+func (m *MockContext) Relation(id int) (jujuc.ContextRelation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Relation", arg0)
+	ret := m.ctrl.Call(m, "Relation", id)
 	ret0, _ := ret[0].(jujuc.ContextRelation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Relation indicates an expected call of Relation.
-func (mr *MockContextMockRecorder) Relation(arg0 any) *MockContextRelationCall {
+func (mr *MockContextMockRecorder) Relation(id any) *MockContextRelationCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockContext)(nil).Relation), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Relation", reflect.TypeOf((*MockContext)(nil).Relation), id)
 	return &MockContextRelationCall{Call: call}
 }
 
@@ -1479,17 +1480,17 @@ func (c *MockContextRemoveSecretCall) DoAndReturn(f func(*secrets.URI, *int) err
 }
 
 // RequestReboot mocks base method.
-func (m *MockContext) RequestReboot(arg0 jujuc.RebootPriority) error {
+func (m *MockContext) RequestReboot(prio jujuc.RebootPriority) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RequestReboot", arg0)
+	ret := m.ctrl.Call(m, "RequestReboot", prio)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RequestReboot indicates an expected call of RequestReboot.
-func (mr *MockContextMockRecorder) RequestReboot(arg0 any) *MockContextRequestRebootCall {
+func (mr *MockContextMockRecorder) RequestReboot(prio any) *MockContextRequestRebootCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestReboot", reflect.TypeOf((*MockContext)(nil).RequestReboot), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RequestReboot", reflect.TypeOf((*MockContext)(nil).RequestReboot), prio)
 	return &MockContextRequestRebootCall{Call: call}
 }
 
@@ -1782,15 +1783,15 @@ func (c *MockContextSetCharmStateValueCall) DoAndReturn(f func(context.Context, 
 }
 
 // SetProcess mocks base method.
-func (m *MockContext) SetProcess(arg0 context0.HookProcess) {
+func (m *MockContext) SetProcess(process context0.HookProcess) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetProcess", arg0)
+	m.ctrl.Call(m, "SetProcess", process)
 }
 
 // SetProcess indicates an expected call of SetProcess.
-func (mr *MockContextMockRecorder) SetProcess(arg0 any) *MockContextSetProcessCall {
+func (mr *MockContextMockRecorder) SetProcess(process any) *MockContextSetProcessCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetProcess", reflect.TypeOf((*MockContext)(nil).SetProcess), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetProcess", reflect.TypeOf((*MockContext)(nil).SetProcess), process)
 	return &MockContextSetProcessCall{Call: call}
 }
 
@@ -2088,17 +2089,17 @@ func (c *MockContextUnitWorkloadVersionCall) DoAndReturn(f func(context.Context)
 }
 
 // UpdateActionResults mocks base method.
-func (m *MockContext) UpdateActionResults(arg0 []string, arg1 any) error {
+func (m *MockContext) UpdateActionResults(keys []string, value any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateActionResults", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateActionResults", keys, value)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateActionResults indicates an expected call of UpdateActionResults.
-func (mr *MockContextMockRecorder) UpdateActionResults(arg0, arg1 any) *MockContextUpdateActionResultsCall {
+func (mr *MockContextMockRecorder) UpdateActionResults(keys, value any) *MockContextUpdateActionResultsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActionResults", reflect.TypeOf((*MockContext)(nil).UpdateActionResults), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActionResults", reflect.TypeOf((*MockContext)(nil).UpdateActionResults), keys, value)
 	return &MockContextUpdateActionResultsCall{Call: call}
 }
 

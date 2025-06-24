@@ -20,6 +20,7 @@ import (
 type MockWatcher[T any] struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherMockRecorder[T]
+	isgomock struct{}
 }
 
 // MockWatcherMockRecorder is the mock recorder for MockWatcher.
@@ -155,6 +156,7 @@ func (c *MockWatcherWaitCall[T]) DoAndReturn(f func() error) *MockWatcherWaitCal
 type MockWatcherRegistry struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherRegistryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherRegistryMockRecorder is the mock recorder for MockWatcherRegistry.

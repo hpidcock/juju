@@ -27,6 +27,7 @@ import (
 type MockStorageV1Interface struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageV1InterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageV1InterfaceMockRecorder is the mock recorder for MockStorageV1Interface.
@@ -123,17 +124,17 @@ func (c *MockStorageV1InterfaceCSINodesCall) DoAndReturn(f func() v12.CSINodeInt
 }
 
 // CSIStorageCapacities mocks base method.
-func (m *MockStorageV1Interface) CSIStorageCapacities(arg0 string) v12.CSIStorageCapacityInterface {
+func (m *MockStorageV1Interface) CSIStorageCapacities(namespace string) v12.CSIStorageCapacityInterface {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CSIStorageCapacities", arg0)
+	ret := m.ctrl.Call(m, "CSIStorageCapacities", namespace)
 	ret0, _ := ret[0].(v12.CSIStorageCapacityInterface)
 	return ret0
 }
 
 // CSIStorageCapacities indicates an expected call of CSIStorageCapacities.
-func (mr *MockStorageV1InterfaceMockRecorder) CSIStorageCapacities(arg0 any) *MockStorageV1InterfaceCSIStorageCapacitiesCall {
+func (mr *MockStorageV1InterfaceMockRecorder) CSIStorageCapacities(namespace any) *MockStorageV1InterfaceCSIStorageCapacitiesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CSIStorageCapacities", reflect.TypeOf((*MockStorageV1Interface)(nil).CSIStorageCapacities), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CSIStorageCapacities", reflect.TypeOf((*MockStorageV1Interface)(nil).CSIStorageCapacities), namespace)
 	return &MockStorageV1InterfaceCSIStorageCapacitiesCall{Call: call}
 }
 
@@ -278,6 +279,7 @@ func (c *MockStorageV1InterfaceVolumeAttachmentsCall) DoAndReturn(f func() v12.V
 type MockStorageClassInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockStorageClassInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockStorageClassInterfaceMockRecorder is the mock recorder for MockStorageClassInterface.
@@ -298,18 +300,18 @@ func (m *MockStorageClassInterface) EXPECT() *MockStorageClassInterfaceMockRecor
 }
 
 // Apply mocks base method.
-func (m *MockStorageClassInterface) Apply(arg0 context.Context, arg1 *v11.StorageClassApplyConfiguration, arg2 v10.ApplyOptions) (*v1.StorageClass, error) {
+func (m *MockStorageClassInterface) Apply(ctx context.Context, storageClass *v11.StorageClassApplyConfiguration, opts v10.ApplyOptions) (*v1.StorageClass, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Apply", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Apply", ctx, storageClass, opts)
 	ret0, _ := ret[0].(*v1.StorageClass)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Apply indicates an expected call of Apply.
-func (mr *MockStorageClassInterfaceMockRecorder) Apply(arg0, arg1, arg2 any) *MockStorageClassInterfaceApplyCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Apply(ctx, storageClass, opts any) *MockStorageClassInterfaceApplyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockStorageClassInterface)(nil).Apply), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Apply", reflect.TypeOf((*MockStorageClassInterface)(nil).Apply), ctx, storageClass, opts)
 	return &MockStorageClassInterfaceApplyCall{Call: call}
 }
 
@@ -319,8 +321,8 @@ type MockStorageClassInterfaceApplyCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStorageClassInterfaceApplyCall) Return(arg0 *v1.StorageClass, arg1 error) *MockStorageClassInterfaceApplyCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockStorageClassInterfaceApplyCall) Return(result *v1.StorageClass, err error) *MockStorageClassInterfaceApplyCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -337,18 +339,18 @@ func (c *MockStorageClassInterfaceApplyCall) DoAndReturn(f func(context.Context,
 }
 
 // Create mocks base method.
-func (m *MockStorageClassInterface) Create(arg0 context.Context, arg1 *v1.StorageClass, arg2 v10.CreateOptions) (*v1.StorageClass, error) {
+func (m *MockStorageClassInterface) Create(ctx context.Context, storageClass *v1.StorageClass, opts v10.CreateOptions) (*v1.StorageClass, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Create", ctx, storageClass, opts)
 	ret0, _ := ret[0].(*v1.StorageClass)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockStorageClassInterfaceMockRecorder) Create(arg0, arg1, arg2 any) *MockStorageClassInterfaceCreateCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Create(ctx, storageClass, opts any) *MockStorageClassInterfaceCreateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStorageClassInterface)(nil).Create), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStorageClassInterface)(nil).Create), ctx, storageClass, opts)
 	return &MockStorageClassInterfaceCreateCall{Call: call}
 }
 
@@ -376,17 +378,17 @@ func (c *MockStorageClassInterfaceCreateCall) DoAndReturn(f func(context.Context
 }
 
 // Delete mocks base method.
-func (m *MockStorageClassInterface) Delete(arg0 context.Context, arg1 string, arg2 v10.DeleteOptions) error {
+func (m *MockStorageClassInterface) Delete(ctx context.Context, name string, opts v10.DeleteOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Delete", ctx, name, opts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Delete indicates an expected call of Delete.
-func (mr *MockStorageClassInterfaceMockRecorder) Delete(arg0, arg1, arg2 any) *MockStorageClassInterfaceDeleteCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Delete(ctx, name, opts any) *MockStorageClassInterfaceDeleteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockStorageClassInterface)(nil).Delete), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockStorageClassInterface)(nil).Delete), ctx, name, opts)
 	return &MockStorageClassInterfaceDeleteCall{Call: call}
 }
 
@@ -414,17 +416,17 @@ func (c *MockStorageClassInterfaceDeleteCall) DoAndReturn(f func(context.Context
 }
 
 // DeleteCollection mocks base method.
-func (m *MockStorageClassInterface) DeleteCollection(arg0 context.Context, arg1 v10.DeleteOptions, arg2 v10.ListOptions) error {
+func (m *MockStorageClassInterface) DeleteCollection(ctx context.Context, opts v10.DeleteOptions, listOpts v10.ListOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCollection", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteCollection", ctx, opts, listOpts)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteCollection indicates an expected call of DeleteCollection.
-func (mr *MockStorageClassInterfaceMockRecorder) DeleteCollection(arg0, arg1, arg2 any) *MockStorageClassInterfaceDeleteCollectionCall {
+func (mr *MockStorageClassInterfaceMockRecorder) DeleteCollection(ctx, opts, listOpts any) *MockStorageClassInterfaceDeleteCollectionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockStorageClassInterface)(nil).DeleteCollection), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCollection", reflect.TypeOf((*MockStorageClassInterface)(nil).DeleteCollection), ctx, opts, listOpts)
 	return &MockStorageClassInterfaceDeleteCollectionCall{Call: call}
 }
 
@@ -452,18 +454,18 @@ func (c *MockStorageClassInterfaceDeleteCollectionCall) DoAndReturn(f func(conte
 }
 
 // Get mocks base method.
-func (m *MockStorageClassInterface) Get(arg0 context.Context, arg1 string, arg2 v10.GetOptions) (*v1.StorageClass, error) {
+func (m *MockStorageClassInterface) Get(ctx context.Context, name string, opts v10.GetOptions) (*v1.StorageClass, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Get", ctx, name, opts)
 	ret0, _ := ret[0].(*v1.StorageClass)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockStorageClassInterfaceMockRecorder) Get(arg0, arg1, arg2 any) *MockStorageClassInterfaceGetCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Get(ctx, name, opts any) *MockStorageClassInterfaceGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockStorageClassInterface)(nil).Get), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockStorageClassInterface)(nil).Get), ctx, name, opts)
 	return &MockStorageClassInterfaceGetCall{Call: call}
 }
 
@@ -491,18 +493,18 @@ func (c *MockStorageClassInterfaceGetCall) DoAndReturn(f func(context.Context, s
 }
 
 // List mocks base method.
-func (m *MockStorageClassInterface) List(arg0 context.Context, arg1 v10.ListOptions) (*v1.StorageClassList, error) {
+func (m *MockStorageClassInterface) List(ctx context.Context, opts v10.ListOptions) (*v1.StorageClassList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0, arg1)
+	ret := m.ctrl.Call(m, "List", ctx, opts)
 	ret0, _ := ret[0].(*v1.StorageClassList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List.
-func (mr *MockStorageClassInterfaceMockRecorder) List(arg0, arg1 any) *MockStorageClassInterfaceListCall {
+func (mr *MockStorageClassInterfaceMockRecorder) List(ctx, opts any) *MockStorageClassInterfaceListCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockStorageClassInterface)(nil).List), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockStorageClassInterface)(nil).List), ctx, opts)
 	return &MockStorageClassInterfaceListCall{Call: call}
 }
 
@@ -530,10 +532,10 @@ func (c *MockStorageClassInterfaceListCall) DoAndReturn(f func(context.Context, 
 }
 
 // Patch mocks base method.
-func (m *MockStorageClassInterface) Patch(arg0 context.Context, arg1 string, arg2 types.PatchType, arg3 []byte, arg4 v10.PatchOptions, arg5 ...string) (*v1.StorageClass, error) {
+func (m *MockStorageClassInterface) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v10.PatchOptions, subresources ...string) (*v1.StorageClass, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1, arg2, arg3, arg4}
-	for _, a := range arg5 {
+	varargs := []any{ctx, name, pt, data, opts}
+	for _, a := range subresources {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Patch", varargs...)
@@ -543,9 +545,9 @@ func (m *MockStorageClassInterface) Patch(arg0 context.Context, arg1 string, arg
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockStorageClassInterfaceMockRecorder) Patch(arg0, arg1, arg2, arg3, arg4 any, arg5 ...any) *MockStorageClassInterfacePatchCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Patch(ctx, name, pt, data, opts any, subresources ...any) *MockStorageClassInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1, arg2, arg3, arg4}, arg5...)
+	varargs := append([]any{ctx, name, pt, data, opts}, subresources...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockStorageClassInterface)(nil).Patch), varargs...)
 	return &MockStorageClassInterfacePatchCall{Call: call}
 }
@@ -556,8 +558,8 @@ type MockStorageClassInterfacePatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockStorageClassInterfacePatchCall) Return(arg0 *v1.StorageClass, arg1 error) *MockStorageClassInterfacePatchCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockStorageClassInterfacePatchCall) Return(result *v1.StorageClass, err error) *MockStorageClassInterfacePatchCall {
+	c.Call = c.Call.Return(result, err)
 	return c
 }
 
@@ -574,18 +576,18 @@ func (c *MockStorageClassInterfacePatchCall) DoAndReturn(f func(context.Context,
 }
 
 // Update mocks base method.
-func (m *MockStorageClassInterface) Update(arg0 context.Context, arg1 *v1.StorageClass, arg2 v10.UpdateOptions) (*v1.StorageClass, error) {
+func (m *MockStorageClassInterface) Update(ctx context.Context, storageClass *v1.StorageClass, opts v10.UpdateOptions) (*v1.StorageClass, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Update", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Update", ctx, storageClass, opts)
 	ret0, _ := ret[0].(*v1.StorageClass)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Update indicates an expected call of Update.
-func (mr *MockStorageClassInterfaceMockRecorder) Update(arg0, arg1, arg2 any) *MockStorageClassInterfaceUpdateCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Update(ctx, storageClass, opts any) *MockStorageClassInterfaceUpdateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStorageClassInterface)(nil).Update), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStorageClassInterface)(nil).Update), ctx, storageClass, opts)
 	return &MockStorageClassInterfaceUpdateCall{Call: call}
 }
 
@@ -613,18 +615,18 @@ func (c *MockStorageClassInterfaceUpdateCall) DoAndReturn(f func(context.Context
 }
 
 // Watch mocks base method.
-func (m *MockStorageClassInterface) Watch(arg0 context.Context, arg1 v10.ListOptions) (watch.Interface, error) {
+func (m *MockStorageClassInterface) Watch(ctx context.Context, opts v10.ListOptions) (watch.Interface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Watch", arg0, arg1)
+	ret := m.ctrl.Call(m, "Watch", ctx, opts)
 	ret0, _ := ret[0].(watch.Interface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Watch indicates an expected call of Watch.
-func (mr *MockStorageClassInterfaceMockRecorder) Watch(arg0, arg1 any) *MockStorageClassInterfaceWatchCall {
+func (mr *MockStorageClassInterfaceMockRecorder) Watch(ctx, opts any) *MockStorageClassInterfaceWatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockStorageClassInterface)(nil).Watch), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Watch", reflect.TypeOf((*MockStorageClassInterface)(nil).Watch), ctx, opts)
 	return &MockStorageClassInterfaceWatchCall{Call: call}
 }
 

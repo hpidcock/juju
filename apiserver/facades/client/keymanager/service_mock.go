@@ -23,6 +23,7 @@ import (
 type MockKeyManagerService struct {
 	ctrl     *gomock.Controller
 	recorder *MockKeyManagerServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockKeyManagerServiceMockRecorder is the mock recorder for MockKeyManagerService.
@@ -209,6 +210,7 @@ func (c *MockKeyManagerServiceListPublicKeysForUserCall) DoAndReturn(f func(cont
 type MockUserService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUserServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUserServiceMockRecorder is the mock recorder for MockUserService.

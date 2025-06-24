@@ -20,6 +20,7 @@ import (
 type MockCharm struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmMockRecorder is the mock recorder for MockCharm.

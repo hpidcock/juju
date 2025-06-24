@@ -24,6 +24,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -83,10 +84,10 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 }
 
 // WatchControllerConfig mocks base method.
-func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockControllerConfigService) WatchControllerConfig(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerConfig", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -104,19 +105,19 @@ type MockControllerConfigServiceWatchControllerConfigCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockControllerConfigServiceWatchControllerConfigCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockControllerConfigServiceWatchControllerConfigCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockControllerConfigServiceWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockControllerConfigServiceWatchControllerConfigCall {
+func (c *MockControllerConfigServiceWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockControllerConfigServiceWatchControllerConfigCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -125,6 +126,7 @@ func (c *MockControllerConfigServiceWatchControllerConfigCall) DoAndReturn(f fun
 type MockSessionHandler struct {
 	ctrl     *gomock.Controller
 	recorder *MockSessionHandlerMockRecorder
+	isgomock struct{}
 }
 
 // MockSessionHandlerMockRecorder is the mock recorder for MockSessionHandler.
@@ -145,15 +147,15 @@ func (m *MockSessionHandler) EXPECT() *MockSessionHandlerMockRecorder {
 }
 
 // Handle mocks base method.
-func (m *MockSessionHandler) Handle(arg0 ssh.Session, arg1 virtualhostname.Info) {
+func (m *MockSessionHandler) Handle(s ssh.Session, destination virtualhostname.Info) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Handle", arg0, arg1)
+	m.ctrl.Call(m, "Handle", s, destination)
 }
 
 // Handle indicates an expected call of Handle.
-func (mr *MockSessionHandlerMockRecorder) Handle(arg0, arg1 any) *MockSessionHandlerHandleCall {
+func (mr *MockSessionHandlerMockRecorder) Handle(s, destination any) *MockSessionHandlerHandleCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockSessionHandler)(nil).Handle), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockSessionHandler)(nil).Handle), s, destination)
 	return &MockSessionHandlerHandleCall{Call: call}
 }
 

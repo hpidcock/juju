@@ -26,6 +26,7 @@ import (
 type MockMutaterMachine struct {
 	ctrl     *gomock.Controller
 	recorder *MockMutaterMachineMockRecorder
+	isgomock struct{}
 }
 
 // MockMutaterMachineMockRecorder is the mock recorder for MockMutaterMachine.
@@ -277,17 +278,17 @@ func (c *MockMutaterMachineSetCharmProfilesCall) DoAndReturn(f func(context.Cont
 }
 
 // SetModificationStatus mocks base method.
-func (m *MockMutaterMachine) SetModificationStatus(arg0 context.Context, arg1 status.Status, arg2 string, arg3 map[string]any) error {
+func (m *MockMutaterMachine) SetModificationStatus(ctx context.Context, arg1 status.Status, info string, data map[string]any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModificationStatus", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetModificationStatus", ctx, arg1, info, data)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModificationStatus indicates an expected call of SetModificationStatus.
-func (mr *MockMutaterMachineMockRecorder) SetModificationStatus(arg0, arg1, arg2, arg3 any) *MockMutaterMachineSetModificationStatusCall {
+func (mr *MockMutaterMachineMockRecorder) SetModificationStatus(ctx, arg1, info, data any) *MockMutaterMachineSetModificationStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModificationStatus", reflect.TypeOf((*MockMutaterMachine)(nil).SetModificationStatus), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModificationStatus", reflect.TypeOf((*MockMutaterMachine)(nil).SetModificationStatus), ctx, arg1, info, data)
 	return &MockMutaterMachineSetModificationStatusCall{Call: call}
 }
 
@@ -353,18 +354,18 @@ func (c *MockMutaterMachineTagCall) DoAndReturn(f func() names.MachineTag) *Mock
 }
 
 // WatchContainers mocks base method.
-func (m *MockMutaterMachine) WatchContainers(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockMutaterMachine) WatchContainers(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchContainers", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchContainers", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchContainers indicates an expected call of WatchContainers.
-func (mr *MockMutaterMachineMockRecorder) WatchContainers(arg0 any) *MockMutaterMachineWatchContainersCall {
+func (mr *MockMutaterMachineMockRecorder) WatchContainers(ctx any) *MockMutaterMachineWatchContainersCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchContainers", reflect.TypeOf((*MockMutaterMachine)(nil).WatchContainers), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchContainers", reflect.TypeOf((*MockMutaterMachine)(nil).WatchContainers), ctx)
 	return &MockMutaterMachineWatchContainersCall{Call: call}
 }
 
@@ -374,28 +375,28 @@ type MockMutaterMachineWatchContainersCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMutaterMachineWatchContainersCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockMutaterMachineWatchContainersCall {
+func (c *MockMutaterMachineWatchContainersCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockMutaterMachineWatchContainersCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMutaterMachineWatchContainersCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMutaterMachineWatchContainersCall {
+func (c *MockMutaterMachineWatchContainersCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockMutaterMachineWatchContainersCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMutaterMachineWatchContainersCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMutaterMachineWatchContainersCall {
+func (c *MockMutaterMachineWatchContainersCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockMutaterMachineWatchContainersCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchLXDProfileVerificationNeeded mocks base method.
-func (m *MockMutaterMachine) WatchLXDProfileVerificationNeeded(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockMutaterMachine) WatchLXDProfileVerificationNeeded(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchLXDProfileVerificationNeeded", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -413,28 +414,28 @@ type MockMutaterMachineWatchLXDProfileVerificationNeededCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
+func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
+func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
+func (c *MockMutaterMachineWatchLXDProfileVerificationNeededCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMutaterMachineWatchLXDProfileVerificationNeededCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchUnits mocks base method.
-func (m *MockMutaterMachine) WatchUnits(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockMutaterMachine) WatchUnits(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchUnits", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -452,19 +453,19 @@ type MockMutaterMachineWatchUnitsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMutaterMachineWatchUnitsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockMutaterMachineWatchUnitsCall {
+func (c *MockMutaterMachineWatchUnitsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockMutaterMachineWatchUnitsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMutaterMachineWatchUnitsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMutaterMachineWatchUnitsCall {
+func (c *MockMutaterMachineWatchUnitsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockMutaterMachineWatchUnitsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMutaterMachineWatchUnitsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMutaterMachineWatchUnitsCall {
+func (c *MockMutaterMachineWatchUnitsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockMutaterMachineWatchUnitsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

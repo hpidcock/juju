@@ -21,6 +21,7 @@ import (
 type MockMetricsCollector struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetricsCollectorMockRecorder
+	isgomock struct{}
 }
 
 // MockMetricsCollectorMockRecorder is the mock recorder for MockMetricsCollector.
@@ -82,6 +83,7 @@ func (c *MockMetricsCollectorAPIRequestDurationCall) DoAndReturn(f func() metric
 type MockSummaryVec struct {
 	ctrl     *gomock.Controller
 	recorder *MockSummaryVecMockRecorder
+	isgomock struct{}
 }
 
 // MockSummaryVecMockRecorder is the mock recorder for MockSummaryVec.

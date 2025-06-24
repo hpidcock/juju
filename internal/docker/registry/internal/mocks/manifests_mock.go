@@ -20,6 +20,7 @@ import (
 type MockArchitectureGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockArchitectureGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockArchitectureGetterMockRecorder is the mock recorder for MockArchitectureGetter.
@@ -40,18 +41,18 @@ func (m *MockArchitectureGetter) EXPECT() *MockArchitectureGetterMockRecorder {
 }
 
 // GetBlobs mocks base method.
-func (m *MockArchitectureGetter) GetBlobs(arg0, arg1 string) (*internal.BlobsResponse, error) {
+func (m *MockArchitectureGetter) GetBlobs(imageName, digest string) (*internal.BlobsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBlobs", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBlobs", imageName, digest)
 	ret0, _ := ret[0].(*internal.BlobsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBlobs indicates an expected call of GetBlobs.
-func (mr *MockArchitectureGetterMockRecorder) GetBlobs(arg0, arg1 any) *MockArchitectureGetterGetBlobsCall {
+func (mr *MockArchitectureGetterMockRecorder) GetBlobs(imageName, digest any) *MockArchitectureGetterGetBlobsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlobs", reflect.TypeOf((*MockArchitectureGetter)(nil).GetBlobs), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBlobs", reflect.TypeOf((*MockArchitectureGetter)(nil).GetBlobs), imageName, digest)
 	return &MockArchitectureGetterGetBlobsCall{Call: call}
 }
 
@@ -79,18 +80,18 @@ func (c *MockArchitectureGetterGetBlobsCall) DoAndReturn(f func(string, string) 
 }
 
 // GetManifests mocks base method.
-func (m *MockArchitectureGetter) GetManifests(arg0, arg1 string) (*internal.ManifestsResult, error) {
+func (m *MockArchitectureGetter) GetManifests(imageName, tag string) (*internal.ManifestsResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetManifests", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetManifests", imageName, tag)
 	ret0, _ := ret[0].(*internal.ManifestsResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetManifests indicates an expected call of GetManifests.
-func (mr *MockArchitectureGetterMockRecorder) GetManifests(arg0, arg1 any) *MockArchitectureGetterGetManifestsCall {
+func (mr *MockArchitectureGetterMockRecorder) GetManifests(imageName, tag any) *MockArchitectureGetterGetManifestsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetManifests", reflect.TypeOf((*MockArchitectureGetter)(nil).GetManifests), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetManifests", reflect.TypeOf((*MockArchitectureGetter)(nil).GetManifests), imageName, tag)
 	return &MockArchitectureGetterGetManifestsCall{Call: call}
 }
 

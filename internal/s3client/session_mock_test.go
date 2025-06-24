@@ -21,6 +21,7 @@ import (
 type MockSession struct {
 	ctrl     *gomock.Controller
 	recorder *MockSessionMockRecorder
+	isgomock struct{}
 }
 
 // MockSessionMockRecorder is the mock recorder for MockSession.
@@ -41,9 +42,9 @@ func (m *MockSession) EXPECT() *MockSessionMockRecorder {
 }
 
 // GetObject mocks base method.
-func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.ReadCloser, int64, string, error) {
+func (m *MockSession) GetObject(ctx context.Context, bucketName, objectName string) (io.ReadCloser, int64, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetObject", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(string)
@@ -52,9 +53,9 @@ func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.Rea
 }
 
 // GetObject indicates an expected call of GetObject.
-func (mr *MockSessionMockRecorder) GetObject(arg0, arg1, arg2 any) *MockSessionGetObjectCall {
+func (mr *MockSessionMockRecorder) GetObject(ctx, bucketName, objectName any) *MockSessionGetObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), ctx, bucketName, objectName)
 	return &MockSessionGetObjectCall{Call: call}
 }
 

@@ -24,6 +24,7 @@ import (
 type MockCharmStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockCharmStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockCharmStoreMockRecorder is the mock recorder for MockCharmStore.
@@ -44,18 +45,18 @@ func (m *MockCharmStore) EXPECT() *MockCharmStoreMockRecorder {
 }
 
 // Get mocks base method.
-func (m *MockCharmStore) Get(arg0 context.Context, arg1 string) (io.ReadCloser, error) {
+func (m *MockCharmStore) Get(ctx context.Context, archivePath string) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Get", ctx, archivePath)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockCharmStoreMockRecorder) Get(arg0, arg1 any) *MockCharmStoreGetCall {
+func (mr *MockCharmStoreMockRecorder) Get(ctx, archivePath any) *MockCharmStoreGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCharmStore)(nil).Get), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockCharmStore)(nil).Get), ctx, archivePath)
 	return &MockCharmStoreGetCall{Call: call}
 }
 
@@ -83,18 +84,18 @@ func (c *MockCharmStoreGetCall) DoAndReturn(f func(context.Context, string) (io.
 }
 
 // GetBySHA256Prefix mocks base method.
-func (m *MockCharmStore) GetBySHA256Prefix(arg0 context.Context, arg1 string) (io.ReadCloser, error) {
+func (m *MockCharmStore) GetBySHA256Prefix(ctx context.Context, sha256Prefix string) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBySHA256Prefix", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBySHA256Prefix", ctx, sha256Prefix)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetBySHA256Prefix indicates an expected call of GetBySHA256Prefix.
-func (mr *MockCharmStoreMockRecorder) GetBySHA256Prefix(arg0, arg1 any) *MockCharmStoreGetBySHA256PrefixCall {
+func (mr *MockCharmStoreMockRecorder) GetBySHA256Prefix(ctx, sha256Prefix any) *MockCharmStoreGetBySHA256PrefixCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBySHA256Prefix", reflect.TypeOf((*MockCharmStore)(nil).GetBySHA256Prefix), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBySHA256Prefix", reflect.TypeOf((*MockCharmStore)(nil).GetBySHA256Prefix), ctx, sha256Prefix)
 	return &MockCharmStoreGetBySHA256PrefixCall{Call: call}
 }
 
@@ -122,18 +123,18 @@ func (c *MockCharmStoreGetBySHA256PrefixCall) DoAndReturn(f func(context.Context
 }
 
 // Store mocks base method.
-func (m *MockCharmStore) Store(arg0 context.Context, arg1 string, arg2 int64, arg3 string) (store.StoreResult, error) {
+func (m *MockCharmStore) Store(ctx context.Context, path string, size int64, hash string) (store.StoreResult, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Store", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "Store", ctx, path, size, hash)
 	ret0, _ := ret[0].(store.StoreResult)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Store indicates an expected call of Store.
-func (mr *MockCharmStoreMockRecorder) Store(arg0, arg1, arg2, arg3 any) *MockCharmStoreStoreCall {
+func (mr *MockCharmStoreMockRecorder) Store(ctx, path, size, hash any) *MockCharmStoreStoreCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockCharmStore)(nil).Store), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockCharmStore)(nil).Store), ctx, path, size, hash)
 	return &MockCharmStoreStoreCall{Call: call}
 }
 
@@ -161,9 +162,9 @@ func (c *MockCharmStoreStoreCall) DoAndReturn(f func(context.Context, string, in
 }
 
 // StoreFromReader mocks base method.
-func (m *MockCharmStore) StoreFromReader(arg0 context.Context, arg1 io.Reader, arg2 string) (store.StoreFromReaderResult, store.Digest, error) {
+func (m *MockCharmStore) StoreFromReader(ctx context.Context, reader io.Reader, sha256Prefix string) (store.StoreFromReaderResult, store.Digest, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StoreFromReader", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "StoreFromReader", ctx, reader, sha256Prefix)
 	ret0, _ := ret[0].(store.StoreFromReaderResult)
 	ret1, _ := ret[1].(store.Digest)
 	ret2, _ := ret[2].(error)
@@ -171,9 +172,9 @@ func (m *MockCharmStore) StoreFromReader(arg0 context.Context, arg1 io.Reader, a
 }
 
 // StoreFromReader indicates an expected call of StoreFromReader.
-func (mr *MockCharmStoreMockRecorder) StoreFromReader(arg0, arg1, arg2 any) *MockCharmStoreStoreFromReaderCall {
+func (mr *MockCharmStoreMockRecorder) StoreFromReader(ctx, reader, sha256Prefix any) *MockCharmStoreStoreFromReaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StoreFromReader", reflect.TypeOf((*MockCharmStore)(nil).StoreFromReader), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StoreFromReader", reflect.TypeOf((*MockCharmStore)(nil).StoreFromReader), ctx, reader, sha256Prefix)
 	return &MockCharmStoreStoreFromReaderCall{Call: call}
 }
 
@@ -204,6 +205,7 @@ func (c *MockCharmStoreStoreFromReaderCall) DoAndReturn(f func(context.Context, 
 type MockStatusHistory struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatusHistoryMockRecorder
+	isgomock struct{}
 }
 
 // MockStatusHistoryMockRecorder is the mock recorder for MockStatusHistory.

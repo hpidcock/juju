@@ -30,6 +30,7 @@ import (
 type MockAgent struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentMockRecorder is the mock recorder for MockAgent.
@@ -129,6 +130,7 @@ func (c *MockAgentCurrentConfigCall) DoAndReturn(f func() agent.Config) *MockAge
 type MockConfig struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigMockRecorder is the mock recorder for MockConfig.
@@ -1370,17 +1372,17 @@ func (c *MockConfigUpgradedToVersionCall) DoAndReturn(f func() semversion.Number
 }
 
 // Value mocks base method.
-func (m *MockConfig) Value(arg0 string) string {
+func (m *MockConfig) Value(key string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Value", arg0)
+	ret := m.ctrl.Call(m, "Value", key)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // Value indicates an expected call of Value.
-func (mr *MockConfigMockRecorder) Value(arg0 any) *MockConfigValueCall {
+func (mr *MockConfigMockRecorder) Value(key any) *MockConfigValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfig)(nil).Value), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfig)(nil).Value), key)
 	return &MockConfigValueCall{Call: call}
 }
 
@@ -1408,18 +1410,18 @@ func (c *MockConfigValueCall) DoAndReturn(f func(string) string) *MockConfigValu
 }
 
 // WriteCommands mocks base method.
-func (m *MockConfig) WriteCommands(arg0 shell.Renderer) ([]string, error) {
+func (m *MockConfig) WriteCommands(renderer shell.Renderer) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteCommands", arg0)
+	ret := m.ctrl.Call(m, "WriteCommands", renderer)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WriteCommands indicates an expected call of WriteCommands.
-func (mr *MockConfigMockRecorder) WriteCommands(arg0 any) *MockConfigWriteCommandsCall {
+func (mr *MockConfigMockRecorder) WriteCommands(renderer any) *MockConfigWriteCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfig)(nil).WriteCommands), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfig)(nil).WriteCommands), renderer)
 	return &MockConfigWriteCommandsCall{Call: call}
 }
 
@@ -1450,6 +1452,7 @@ func (c *MockConfigWriteCommandsCall) DoAndReturn(f func(shell.Renderer) ([]stri
 type MockConfigSetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockConfigSetterMockRecorder
+	isgomock struct{}
 }
 
 // MockConfigSetterMockRecorder is the mock recorder for MockConfigSetter.
@@ -2538,17 +2541,17 @@ func (c *MockConfigSetterQueryTracingThresholdCall) DoAndReturn(f func() time.Du
 }
 
 // SetAPIHostPorts mocks base method.
-func (m *MockConfigSetter) SetAPIHostPorts(arg0 []network.HostPorts) error {
+func (m *MockConfigSetter) SetAPIHostPorts(servers []network.HostPorts) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAPIHostPorts", arg0)
+	ret := m.ctrl.Call(m, "SetAPIHostPorts", servers)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetAPIHostPorts indicates an expected call of SetAPIHostPorts.
-func (mr *MockConfigSetterMockRecorder) SetAPIHostPorts(arg0 any) *MockConfigSetterSetAPIHostPortsCall {
+func (mr *MockConfigSetterMockRecorder) SetAPIHostPorts(servers any) *MockConfigSetterSetAPIHostPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIHostPorts", reflect.TypeOf((*MockConfigSetter)(nil).SetAPIHostPorts), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIHostPorts", reflect.TypeOf((*MockConfigSetter)(nil).SetAPIHostPorts), servers)
 	return &MockConfigSetterSetAPIHostPortsCall{Call: call}
 }
 
@@ -2720,15 +2723,15 @@ func (c *MockConfigSetterSetObjectStoreTypeCall) DoAndReturn(f func(objectstore.
 }
 
 // SetOldPassword mocks base method.
-func (m *MockConfigSetter) SetOldPassword(arg0 string) {
+func (m *MockConfigSetter) SetOldPassword(oldPassword string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetOldPassword", arg0)
+	m.ctrl.Call(m, "SetOldPassword", oldPassword)
 }
 
 // SetOldPassword indicates an expected call of SetOldPassword.
-func (mr *MockConfigSetterMockRecorder) SetOldPassword(arg0 any) *MockConfigSetterSetOldPasswordCall {
+func (mr *MockConfigSetterMockRecorder) SetOldPassword(oldPassword any) *MockConfigSetterSetOldPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOldPassword", reflect.TypeOf((*MockConfigSetter)(nil).SetOldPassword), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetOldPassword", reflect.TypeOf((*MockConfigSetter)(nil).SetOldPassword), oldPassword)
 	return &MockConfigSetterSetOldPasswordCall{Call: call}
 }
 
@@ -2972,15 +2975,15 @@ func (c *MockConfigSetterSetOpenTelemetryTailSamplingThresholdCall) DoAndReturn(
 }
 
 // SetPassword mocks base method.
-func (m *MockConfigSetter) SetPassword(arg0 string) {
+func (m *MockConfigSetter) SetPassword(newPassword string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetPassword", arg0)
+	m.ctrl.Call(m, "SetPassword", newPassword)
 }
 
 // SetPassword indicates an expected call of SetPassword.
-func (mr *MockConfigSetterMockRecorder) SetPassword(arg0 any) *MockConfigSetterSetPasswordCall {
+func (mr *MockConfigSetterMockRecorder) SetPassword(newPassword any) *MockConfigSetterSetPasswordCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockConfigSetter)(nil).SetPassword), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPassword", reflect.TypeOf((*MockConfigSetter)(nil).SetPassword), newPassword)
 	return &MockConfigSetterSetPasswordCall{Call: call}
 }
 
@@ -3080,15 +3083,15 @@ func (c *MockConfigSetterSetQueryTracingThresholdCall) DoAndReturn(f func(time.D
 }
 
 // SetStateServingInfo mocks base method.
-func (m *MockConfigSetter) SetStateServingInfo(arg0 controller.StateServingInfo) {
+func (m *MockConfigSetter) SetStateServingInfo(info controller.StateServingInfo) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetStateServingInfo", arg0)
+	m.ctrl.Call(m, "SetStateServingInfo", info)
 }
 
 // SetStateServingInfo indicates an expected call of SetStateServingInfo.
-func (mr *MockConfigSetterMockRecorder) SetStateServingInfo(arg0 any) *MockConfigSetterSetStateServingInfoCall {
+func (mr *MockConfigSetterMockRecorder) SetStateServingInfo(info any) *MockConfigSetterSetStateServingInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStateServingInfo", reflect.TypeOf((*MockConfigSetter)(nil).SetStateServingInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStateServingInfo", reflect.TypeOf((*MockConfigSetter)(nil).SetStateServingInfo), info)
 	return &MockConfigSetterSetStateServingInfoCall{Call: call}
 }
 
@@ -3116,15 +3119,15 @@ func (c *MockConfigSetterSetStateServingInfoCall) DoAndReturn(f func(controller.
 }
 
 // SetUpgradedToVersion mocks base method.
-func (m *MockConfigSetter) SetUpgradedToVersion(arg0 semversion.Number) {
+func (m *MockConfigSetter) SetUpgradedToVersion(newVersion semversion.Number) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetUpgradedToVersion", arg0)
+	m.ctrl.Call(m, "SetUpgradedToVersion", newVersion)
 }
 
 // SetUpgradedToVersion indicates an expected call of SetUpgradedToVersion.
-func (mr *MockConfigSetterMockRecorder) SetUpgradedToVersion(arg0 any) *MockConfigSetterSetUpgradedToVersionCall {
+func (mr *MockConfigSetterMockRecorder) SetUpgradedToVersion(newVersion any) *MockConfigSetterSetUpgradedToVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUpgradedToVersion", reflect.TypeOf((*MockConfigSetter)(nil).SetUpgradedToVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUpgradedToVersion", reflect.TypeOf((*MockConfigSetter)(nil).SetUpgradedToVersion), newVersion)
 	return &MockConfigSetterSetUpgradedToVersionCall{Call: call}
 }
 
@@ -3152,15 +3155,15 @@ func (c *MockConfigSetterSetUpgradedToVersionCall) DoAndReturn(f func(semversion
 }
 
 // SetValue mocks base method.
-func (m *MockConfigSetter) SetValue(arg0, arg1 string) {
+func (m *MockConfigSetter) SetValue(key, value string) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetValue", arg0, arg1)
+	m.ctrl.Call(m, "SetValue", key, value)
 }
 
 // SetValue indicates an expected call of SetValue.
-func (mr *MockConfigSetterMockRecorder) SetValue(arg0, arg1 any) *MockConfigSetterSetValueCall {
+func (mr *MockConfigSetterMockRecorder) SetValue(key, value any) *MockConfigSetterSetValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetValue", reflect.TypeOf((*MockConfigSetter)(nil).SetValue), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetValue", reflect.TypeOf((*MockConfigSetter)(nil).SetValue), key, value)
 	return &MockConfigSetterSetValueCall{Call: call}
 }
 
@@ -3379,17 +3382,17 @@ func (c *MockConfigSetterUpgradedToVersionCall) DoAndReturn(f func() semversion.
 }
 
 // Value mocks base method.
-func (m *MockConfigSetter) Value(arg0 string) string {
+func (m *MockConfigSetter) Value(key string) string {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Value", arg0)
+	ret := m.ctrl.Call(m, "Value", key)
 	ret0, _ := ret[0].(string)
 	return ret0
 }
 
 // Value indicates an expected call of Value.
-func (mr *MockConfigSetterMockRecorder) Value(arg0 any) *MockConfigSetterValueCall {
+func (mr *MockConfigSetterMockRecorder) Value(key any) *MockConfigSetterValueCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfigSetter)(nil).Value), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Value", reflect.TypeOf((*MockConfigSetter)(nil).Value), key)
 	return &MockConfigSetterValueCall{Call: call}
 }
 
@@ -3417,18 +3420,18 @@ func (c *MockConfigSetterValueCall) DoAndReturn(f func(string) string) *MockConf
 }
 
 // WriteCommands mocks base method.
-func (m *MockConfigSetter) WriteCommands(arg0 shell.Renderer) ([]string, error) {
+func (m *MockConfigSetter) WriteCommands(renderer shell.Renderer) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteCommands", arg0)
+	ret := m.ctrl.Call(m, "WriteCommands", renderer)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WriteCommands indicates an expected call of WriteCommands.
-func (mr *MockConfigSetterMockRecorder) WriteCommands(arg0 any) *MockConfigSetterWriteCommandsCall {
+func (mr *MockConfigSetterMockRecorder) WriteCommands(renderer any) *MockConfigSetterWriteCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfigSetter)(nil).WriteCommands), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteCommands", reflect.TypeOf((*MockConfigSetter)(nil).WriteCommands), renderer)
 	return &MockConfigSetterWriteCommandsCall{Call: call}
 }
 

@@ -22,6 +22,7 @@ import (
 type MockInstance struct {
 	ctrl     *gomock.Controller
 	recorder *MockInstanceMockRecorder
+	isgomock struct{}
 }
 
 // MockInstanceMockRecorder is the mock recorder for MockInstance.
@@ -42,18 +43,18 @@ func (m *MockInstance) EXPECT() *MockInstanceMockRecorder {
 }
 
 // Addresses mocks base method.
-func (m *MockInstance) Addresses(arg0 context.Context) (network.ProviderAddresses, error) {
+func (m *MockInstance) Addresses(ctx context.Context) (network.ProviderAddresses, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Addresses", arg0)
+	ret := m.ctrl.Call(m, "Addresses", ctx)
 	ret0, _ := ret[0].(network.ProviderAddresses)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Addresses indicates an expected call of Addresses.
-func (mr *MockInstanceMockRecorder) Addresses(arg0 any) *MockInstanceAddressesCall {
+func (mr *MockInstanceMockRecorder) Addresses(ctx any) *MockInstanceAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Addresses", reflect.TypeOf((*MockInstance)(nil).Addresses), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Addresses", reflect.TypeOf((*MockInstance)(nil).Addresses), ctx)
 	return &MockInstanceAddressesCall{Call: call}
 }
 

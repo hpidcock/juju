@@ -14,6 +14,7 @@ import (
 	reflect "reflect"
 
 	application "github.com/juju/juju/core/application"
+	arch "github.com/juju/juju/core/arch"
 	charm "github.com/juju/juju/core/charm"
 	constraints "github.com/juju/juju/core/constraints"
 	charm0 "github.com/juju/juju/domain/application/charm"
@@ -25,6 +26,7 @@ import (
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -87,6 +89,7 @@ func (c *MockModelConfigServiceModelConfigCall) DoAndReturn(f func(context.Conte
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -146,18 +149,18 @@ func (c *MockApplicationServiceGetApplicationConstraintsCall) DoAndReturn(f func
 }
 
 // GetApplicationIDByName mocks base method.
-func (m *MockApplicationService) GetApplicationIDByName(arg0 context.Context, arg1 string) (application.ID, error) {
+func (m *MockApplicationService) GetApplicationIDByName(ctx context.Context, name string) (application.ID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationIDByName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationIDByName", ctx, name)
 	ret0, _ := ret[0].(application.ID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationIDByName indicates an expected call of GetApplicationIDByName.
-func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(arg0, arg1 any) *MockApplicationServiceGetApplicationIDByNameCall {
+func (mr *MockApplicationServiceMockRecorder) GetApplicationIDByName(ctx, name any) *MockApplicationServiceGetApplicationIDByNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationIDByName", reflect.TypeOf((*MockApplicationService)(nil).GetApplicationIDByName), ctx, name)
 	return &MockApplicationServiceGetApplicationIDByNameCall{Call: call}
 }
 
@@ -224,10 +227,10 @@ func (c *MockApplicationServiceIsSubordinateApplicationCall) DoAndReturn(f func(
 }
 
 // ListCharmLocators mocks base method.
-func (m *MockApplicationService) ListCharmLocators(arg0 context.Context, arg1 ...string) ([]charm0.CharmLocator, error) {
+func (m *MockApplicationService) ListCharmLocators(ctx context.Context, names ...string) ([]charm0.CharmLocator, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range names {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListCharmLocators", varargs...)
@@ -237,9 +240,9 @@ func (m *MockApplicationService) ListCharmLocators(arg0 context.Context, arg1 ..
 }
 
 // ListCharmLocators indicates an expected call of ListCharmLocators.
-func (mr *MockApplicationServiceMockRecorder) ListCharmLocators(arg0 any, arg1 ...any) *MockApplicationServiceListCharmLocatorsCall {
+func (mr *MockApplicationServiceMockRecorder) ListCharmLocators(ctx any, names ...any) *MockApplicationServiceListCharmLocatorsCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, names...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCharmLocators", reflect.TypeOf((*MockApplicationService)(nil).ListCharmLocators), varargs...)
 	return &MockApplicationServiceListCharmLocatorsCall{Call: call}
 }
@@ -311,6 +314,7 @@ func (c *MockApplicationServiceSetCharmCall) DoAndReturn(f func(context.Context,
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -331,10 +335,10 @@ func (m *MockMachineService) EXPECT() *MockMachineServiceMockRecorder {
 }
 
 // GetMachineArchesForApplication mocks base method.
-func (m *MockMachineService) GetMachineArchesForApplication(arg0 context.Context, arg1 application.ID) ([]string, error) {
+func (m *MockMachineService) GetMachineArchesForApplication(arg0 context.Context, arg1 application.ID) ([]arch.Arch, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetMachineArchesForApplication", arg0, arg1)
-	ret0, _ := ret[0].([]string)
+	ret0, _ := ret[0].([]arch.Arch)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -352,19 +356,19 @@ type MockMachineServiceGetMachineArchesForApplicationCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachineServiceGetMachineArchesForApplicationCall) Return(arg0 []string, arg1 error) *MockMachineServiceGetMachineArchesForApplicationCall {
+func (c *MockMachineServiceGetMachineArchesForApplicationCall) Return(arg0 []arch.Arch, arg1 error) *MockMachineServiceGetMachineArchesForApplicationCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachineServiceGetMachineArchesForApplicationCall) Do(f func(context.Context, application.ID) ([]string, error)) *MockMachineServiceGetMachineArchesForApplicationCall {
+func (c *MockMachineServiceGetMachineArchesForApplicationCall) Do(f func(context.Context, application.ID) ([]arch.Arch, error)) *MockMachineServiceGetMachineArchesForApplicationCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachineServiceGetMachineArchesForApplicationCall) DoAndReturn(f func(context.Context, application.ID) ([]string, error)) *MockMachineServiceGetMachineArchesForApplicationCall {
+func (c *MockMachineServiceGetMachineArchesForApplicationCall) DoAndReturn(f func(context.Context, application.ID) ([]arch.Arch, error)) *MockMachineServiceGetMachineArchesForApplicationCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

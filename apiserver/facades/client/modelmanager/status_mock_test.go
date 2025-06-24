@@ -21,6 +21,7 @@ import (
 type MockModelStatusAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelStatusAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockModelStatusAPIMockRecorder is the mock recorder for MockModelStatusAPI.
@@ -41,18 +42,18 @@ func (m *MockModelStatusAPI) EXPECT() *MockModelStatusAPIMockRecorder {
 }
 
 // ModelStatus mocks base method.
-func (m *MockModelStatusAPI) ModelStatus(arg0 context.Context, arg1 params.Entities) (params.ModelStatusResults, error) {
+func (m *MockModelStatusAPI) ModelStatus(ctx context.Context, req params.Entities) (params.ModelStatusResults, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelStatus", arg0, arg1)
+	ret := m.ctrl.Call(m, "ModelStatus", ctx, req)
 	ret0, _ := ret[0].(params.ModelStatusResults)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelStatus indicates an expected call of ModelStatus.
-func (mr *MockModelStatusAPIMockRecorder) ModelStatus(arg0, arg1 any) *MockModelStatusAPIModelStatusCall {
+func (mr *MockModelStatusAPIMockRecorder) ModelStatus(ctx, req any) *MockModelStatusAPIModelStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelStatus", reflect.TypeOf((*MockModelStatusAPI)(nil).ModelStatus), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelStatus", reflect.TypeOf((*MockModelStatusAPI)(nil).ModelStatus), ctx, req)
 	return &MockModelStatusAPIModelStatusCall{Call: call}
 }
 

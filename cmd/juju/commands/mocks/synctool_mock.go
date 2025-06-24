@@ -23,6 +23,7 @@ import (
 type MockSyncToolAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockSyncToolAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockSyncToolAPIMockRecorder is the mock recorder for MockSyncToolAPI.
@@ -81,18 +82,18 @@ func (c *MockSyncToolAPICloseCall) DoAndReturn(f func() error) *MockSyncToolAPIC
 }
 
 // UploadTools mocks base method.
-func (m *MockSyncToolAPI) UploadTools(arg0 context.Context, arg1 io.Reader, arg2 semversion.Binary) (tools.List, error) {
+func (m *MockSyncToolAPI) UploadTools(ctx context.Context, r io.Reader, v semversion.Binary) (tools.List, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UploadTools", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UploadTools", ctx, r, v)
 	ret0, _ := ret[0].(tools.List)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UploadTools indicates an expected call of UploadTools.
-func (mr *MockSyncToolAPIMockRecorder) UploadTools(arg0, arg1, arg2 any) *MockSyncToolAPIUploadToolsCall {
+func (mr *MockSyncToolAPIMockRecorder) UploadTools(ctx, r, v any) *MockSyncToolAPIUploadToolsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadTools", reflect.TypeOf((*MockSyncToolAPI)(nil).UploadTools), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UploadTools", reflect.TypeOf((*MockSyncToolAPI)(nil).UploadTools), ctx, r, v)
 	return &MockSyncToolAPIUploadToolsCall{Call: call}
 }
 

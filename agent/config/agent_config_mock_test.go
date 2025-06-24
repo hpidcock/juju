@@ -19,6 +19,7 @@ import (
 type MockAgentConfigReader struct {
 	ctrl     *gomock.Controller
 	recorder *MockAgentConfigReaderMockRecorder
+	isgomock struct{}
 }
 
 // MockAgentConfigReaderMockRecorder is the mock recorder for MockAgentConfigReader.
@@ -39,17 +40,17 @@ func (m *MockAgentConfigReader) EXPECT() *MockAgentConfigReaderMockRecorder {
 }
 
 // ReadConfig mocks base method.
-func (m *MockAgentConfigReader) ReadConfig(arg0 string) error {
+func (m *MockAgentConfigReader) ReadConfig(tag string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadConfig", arg0)
+	ret := m.ctrl.Call(m, "ReadConfig", tag)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReadConfig indicates an expected call of ReadConfig.
-func (mr *MockAgentConfigReaderMockRecorder) ReadConfig(arg0 any) *MockAgentConfigReaderReadConfigCall {
+func (mr *MockAgentConfigReaderMockRecorder) ReadConfig(tag any) *MockAgentConfigReaderReadConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadConfig", reflect.TypeOf((*MockAgentConfigReader)(nil).ReadConfig), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadConfig", reflect.TypeOf((*MockAgentConfigReader)(nil).ReadConfig), tag)
 	return &MockAgentConfigReaderReadConfigCall{Call: call}
 }
 

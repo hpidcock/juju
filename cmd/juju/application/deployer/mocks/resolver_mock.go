@@ -23,6 +23,7 @@ import (
 type MockResolver struct {
 	ctrl     *gomock.Controller
 	recorder *MockResolverMockRecorder
+	isgomock struct{}
 }
 
 // MockResolverMockRecorder is the mock recorder for MockResolver.
@@ -122,9 +123,9 @@ func (c *MockResolverResolveBundleURLCall) DoAndReturn(f func(context.Context, *
 }
 
 // ResolveCharm mocks base method.
-func (m *MockResolver) ResolveCharm(arg0 context.Context, arg1 *charm0.URL, arg2 charm.Origin, arg3 bool) (*charm0.URL, charm.Origin, []base.Base, error) {
+func (m *MockResolver) ResolveCharm(ctx context.Context, url *charm0.URL, preferredOrigin charm.Origin, switchCharm bool) (*charm0.URL, charm.Origin, []base.Base, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResolveCharm", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "ResolveCharm", ctx, url, preferredOrigin, switchCharm)
 	ret0, _ := ret[0].(*charm0.URL)
 	ret1, _ := ret[1].(charm.Origin)
 	ret2, _ := ret[2].([]base.Base)
@@ -133,9 +134,9 @@ func (m *MockResolver) ResolveCharm(arg0 context.Context, arg1 *charm0.URL, arg2
 }
 
 // ResolveCharm indicates an expected call of ResolveCharm.
-func (mr *MockResolverMockRecorder) ResolveCharm(arg0, arg1, arg2, arg3 any) *MockResolverResolveCharmCall {
+func (mr *MockResolverMockRecorder) ResolveCharm(ctx, url, preferredOrigin, switchCharm any) *MockResolverResolveCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharm", reflect.TypeOf((*MockResolver)(nil).ResolveCharm), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResolveCharm", reflect.TypeOf((*MockResolver)(nil).ResolveCharm), ctx, url, preferredOrigin, switchCharm)
 	return &MockResolverResolveCharmCall{Call: call}
 }
 

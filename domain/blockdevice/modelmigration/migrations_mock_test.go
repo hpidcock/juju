@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,10 +103,10 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // UpdateBlockDevices mocks base method.
-func (m *MockImportService) UpdateBlockDevices(arg0 context.Context, arg1 string, arg2 ...blockdevice.BlockDevice) error {
+func (m *MockImportService) UpdateBlockDevices(ctx context.Context, machineId string, devices ...blockdevice.BlockDevice) error {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0, arg1}
-	for _, a := range arg2 {
+	varargs := []any{ctx, machineId}
+	for _, a := range devices {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UpdateBlockDevices", varargs...)
@@ -113,9 +115,9 @@ func (m *MockImportService) UpdateBlockDevices(arg0 context.Context, arg1 string
 }
 
 // UpdateBlockDevices indicates an expected call of UpdateBlockDevices.
-func (mr *MockImportServiceMockRecorder) UpdateBlockDevices(arg0, arg1 any, arg2 ...any) *MockImportServiceUpdateBlockDevicesCall {
+func (mr *MockImportServiceMockRecorder) UpdateBlockDevices(ctx, machineId any, devices ...any) *MockImportServiceUpdateBlockDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0, arg1}, arg2...)
+	varargs := append([]any{ctx, machineId}, devices...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateBlockDevices", reflect.TypeOf((*MockImportService)(nil).UpdateBlockDevices), varargs...)
 	return &MockImportServiceUpdateBlockDevicesCall{Call: call}
 }
@@ -147,6 +149,7 @@ func (c *MockImportServiceUpdateBlockDevicesCall) DoAndReturn(f func(context.Con
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -167,18 +170,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // AllBlockDevices mocks base method.
-func (m *MockExportService) AllBlockDevices(arg0 context.Context) (map[string]blockdevice.BlockDevice, error) {
+func (m *MockExportService) AllBlockDevices(ctx context.Context) (map[string]blockdevice.BlockDevice, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllBlockDevices", arg0)
+	ret := m.ctrl.Call(m, "AllBlockDevices", ctx)
 	ret0, _ := ret[0].(map[string]blockdevice.BlockDevice)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllBlockDevices indicates an expected call of AllBlockDevices.
-func (mr *MockExportServiceMockRecorder) AllBlockDevices(arg0 any) *MockExportServiceAllBlockDevicesCall {
+func (mr *MockExportServiceMockRecorder) AllBlockDevices(ctx any) *MockExportServiceAllBlockDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllBlockDevices", reflect.TypeOf((*MockExportService)(nil).AllBlockDevices), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllBlockDevices", reflect.TypeOf((*MockExportService)(nil).AllBlockDevices), ctx)
 	return &MockExportServiceAllBlockDevicesCall{Call: call}
 }
 

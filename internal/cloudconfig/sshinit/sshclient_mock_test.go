@@ -20,6 +20,7 @@ import (
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -40,17 +41,17 @@ func (m *MockClient) EXPECT() *MockClientMockRecorder {
 }
 
 // Command mocks base method.
-func (m *MockClient) Command(arg0 string, arg1 []string, arg2 *ssh.Options) *ssh.Cmd {
+func (m *MockClient) Command(host string, command []string, options *ssh.Options) *ssh.Cmd {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Command", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Command", host, command, options)
 	ret0, _ := ret[0].(*ssh.Cmd)
 	return ret0
 }
 
 // Command indicates an expected call of Command.
-func (mr *MockClientMockRecorder) Command(arg0, arg1, arg2 any) *MockClientCommandCall {
+func (mr *MockClientMockRecorder) Command(host, command, options any) *MockClientCommandCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Command", reflect.TypeOf((*MockClient)(nil).Command), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Command", reflect.TypeOf((*MockClient)(nil).Command), host, command, options)
 	return &MockClientCommandCall{Call: call}
 }
 
@@ -78,17 +79,17 @@ func (c *MockClientCommandCall) DoAndReturn(f func(string, []string, *ssh.Option
 }
 
 // Copy mocks base method.
-func (m *MockClient) Copy(arg0 []string, arg1 *ssh.Options) error {
+func (m *MockClient) Copy(args []string, options *ssh.Options) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Copy", arg0, arg1)
+	ret := m.ctrl.Call(m, "Copy", args, options)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Copy indicates an expected call of Copy.
-func (mr *MockClientMockRecorder) Copy(arg0, arg1 any) *MockClientCopyCall {
+func (mr *MockClientMockRecorder) Copy(args, options any) *MockClientCopyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Copy", reflect.TypeOf((*MockClient)(nil).Copy), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Copy", reflect.TypeOf((*MockClient)(nil).Copy), args, options)
 	return &MockClientCopyCall{Call: call}
 }
 

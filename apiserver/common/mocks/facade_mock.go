@@ -20,6 +20,7 @@ import (
 type MockWatcherRegistry struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherRegistryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherRegistryMockRecorder is the mock recorder for MockWatcherRegistry.
@@ -230,17 +231,17 @@ func (c *MockWatcherRegistryRegisterNamedCall) DoAndReturn(f func(string, worker
 }
 
 // Stop mocks base method.
-func (m *MockWatcherRegistry) Stop(arg0 string) error {
+func (m *MockWatcherRegistry) Stop(id string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stop", arg0)
+	ret := m.ctrl.Call(m, "Stop", id)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Stop indicates an expected call of Stop.
-func (mr *MockWatcherRegistryMockRecorder) Stop(arg0 any) *MockWatcherRegistryStopCall {
+func (mr *MockWatcherRegistryMockRecorder) Stop(id any) *MockWatcherRegistryStopCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockWatcherRegistry)(nil).Stop), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockWatcherRegistry)(nil).Stop), id)
 	return &MockWatcherRegistryStopCall{Call: call}
 }
 

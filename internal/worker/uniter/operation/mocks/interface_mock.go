@@ -25,6 +25,7 @@ import (
 type MockOperation struct {
 	ctrl     *gomock.Controller
 	recorder *MockOperationMockRecorder
+	isgomock struct{}
 }
 
 // MockOperationMockRecorder is the mock recorder for MockOperation.
@@ -45,18 +46,18 @@ func (m *MockOperation) EXPECT() *MockOperationMockRecorder {
 }
 
 // Commit mocks base method.
-func (m *MockOperation) Commit(arg0 context.Context, arg1 operation.State) (*operation.State, error) {
+func (m *MockOperation) Commit(ctx context.Context, state operation.State) (*operation.State, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Commit", arg0, arg1)
+	ret := m.ctrl.Call(m, "Commit", ctx, state)
 	ret0, _ := ret[0].(*operation.State)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Commit indicates an expected call of Commit.
-func (mr *MockOperationMockRecorder) Commit(arg0, arg1 any) *MockOperationCommitCall {
+func (mr *MockOperationMockRecorder) Commit(ctx, state any) *MockOperationCommitCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Commit", reflect.TypeOf((*MockOperation)(nil).Commit), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Commit", reflect.TypeOf((*MockOperation)(nil).Commit), ctx, state)
 	return &MockOperationCommitCall{Call: call}
 }
 
@@ -84,18 +85,18 @@ func (c *MockOperationCommitCall) DoAndReturn(f func(context.Context, operation.
 }
 
 // Execute mocks base method.
-func (m *MockOperation) Execute(arg0 context.Context, arg1 operation.State) (*operation.State, error) {
+func (m *MockOperation) Execute(ctx context.Context, state operation.State) (*operation.State, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Execute", arg0, arg1)
+	ret := m.ctrl.Call(m, "Execute", ctx, state)
 	ret0, _ := ret[0].(*operation.State)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Execute indicates an expected call of Execute.
-func (mr *MockOperationMockRecorder) Execute(arg0, arg1 any) *MockOperationExecuteCall {
+func (mr *MockOperationMockRecorder) Execute(ctx, state any) *MockOperationExecuteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Execute", reflect.TypeOf((*MockOperation)(nil).Execute), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Execute", reflect.TypeOf((*MockOperation)(nil).Execute), ctx, state)
 	return &MockOperationExecuteCall{Call: call}
 }
 
@@ -199,18 +200,18 @@ func (c *MockOperationNeedsGlobalMachineLockCall) DoAndReturn(f func() bool) *Mo
 }
 
 // Prepare mocks base method.
-func (m *MockOperation) Prepare(arg0 context.Context, arg1 operation.State) (*operation.State, error) {
+func (m *MockOperation) Prepare(ctx context.Context, state operation.State) (*operation.State, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Prepare", arg0, arg1)
+	ret := m.ctrl.Call(m, "Prepare", ctx, state)
 	ret0, _ := ret[0].(*operation.State)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Prepare indicates an expected call of Prepare.
-func (mr *MockOperationMockRecorder) Prepare(arg0, arg1 any) *MockOperationPrepareCall {
+func (mr *MockOperationMockRecorder) Prepare(ctx, state any) *MockOperationPrepareCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Prepare", reflect.TypeOf((*MockOperation)(nil).Prepare), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Prepare", reflect.TypeOf((*MockOperation)(nil).Prepare), ctx, state)
 	return &MockOperationPrepareCall{Call: call}
 }
 
@@ -238,15 +239,15 @@ func (c *MockOperationPrepareCall) DoAndReturn(f func(context.Context, operation
 }
 
 // RemoteStateChanged mocks base method.
-func (m *MockOperation) RemoteStateChanged(arg0 remotestate.Snapshot) {
+func (m *MockOperation) RemoteStateChanged(snapshot remotestate.Snapshot) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "RemoteStateChanged", arg0)
+	m.ctrl.Call(m, "RemoteStateChanged", snapshot)
 }
 
 // RemoteStateChanged indicates an expected call of RemoteStateChanged.
-func (mr *MockOperationMockRecorder) RemoteStateChanged(arg0 any) *MockOperationRemoteStateChangedCall {
+func (mr *MockOperationMockRecorder) RemoteStateChanged(snapshot any) *MockOperationRemoteStateChangedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoteStateChanged", reflect.TypeOf((*MockOperation)(nil).RemoteStateChanged), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoteStateChanged", reflect.TypeOf((*MockOperation)(nil).RemoteStateChanged), snapshot)
 	return &MockOperationRemoteStateChangedCall{Call: call}
 }
 
@@ -315,6 +316,7 @@ func (c *MockOperationStringCall) DoAndReturn(f func() string) *MockOperationStr
 type MockFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockFactoryMockRecorder is the mock recorder for MockFactory.
@@ -374,18 +376,18 @@ func (c *MockFactoryNewAcceptLeadershipCall) DoAndReturn(f func() (operation.Ope
 }
 
 // NewAction mocks base method.
-func (m *MockFactory) NewAction(arg0 context.Context, arg1 string) (operation.Operation, error) {
+func (m *MockFactory) NewAction(ctx context.Context, actionId string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewAction", arg0, arg1)
+	ret := m.ctrl.Call(m, "NewAction", ctx, actionId)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewAction indicates an expected call of NewAction.
-func (mr *MockFactoryMockRecorder) NewAction(arg0, arg1 any) *MockFactoryNewActionCall {
+func (mr *MockFactoryMockRecorder) NewAction(ctx, actionId any) *MockFactoryNewActionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAction", reflect.TypeOf((*MockFactory)(nil).NewAction), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewAction", reflect.TypeOf((*MockFactory)(nil).NewAction), ctx, actionId)
 	return &MockFactoryNewActionCall{Call: call}
 }
 
@@ -413,18 +415,18 @@ func (c *MockFactoryNewActionCall) DoAndReturn(f func(context.Context, string) (
 }
 
 // NewCommands mocks base method.
-func (m *MockFactory) NewCommands(arg0 operation.CommandArgs, arg1 operation.CommandResponseFunc) (operation.Operation, error) {
+func (m *MockFactory) NewCommands(args operation.CommandArgs, sendResponse operation.CommandResponseFunc) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewCommands", arg0, arg1)
+	ret := m.ctrl.Call(m, "NewCommands", args, sendResponse)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewCommands indicates an expected call of NewCommands.
-func (mr *MockFactoryMockRecorder) NewCommands(arg0, arg1 any) *MockFactoryNewCommandsCall {
+func (mr *MockFactoryMockRecorder) NewCommands(args, sendResponse any) *MockFactoryNewCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCommands", reflect.TypeOf((*MockFactory)(nil).NewCommands), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewCommands", reflect.TypeOf((*MockFactory)(nil).NewCommands), args, sendResponse)
 	return &MockFactoryNewCommandsCall{Call: call}
 }
 
@@ -452,18 +454,18 @@ func (c *MockFactoryNewCommandsCall) DoAndReturn(f func(operation.CommandArgs, o
 }
 
 // NewFailAction mocks base method.
-func (m *MockFactory) NewFailAction(arg0 string) (operation.Operation, error) {
+func (m *MockFactory) NewFailAction(actionId string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewFailAction", arg0)
+	ret := m.ctrl.Call(m, "NewFailAction", actionId)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewFailAction indicates an expected call of NewFailAction.
-func (mr *MockFactoryMockRecorder) NewFailAction(arg0 any) *MockFactoryNewFailActionCall {
+func (mr *MockFactoryMockRecorder) NewFailAction(actionId any) *MockFactoryNewFailActionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewFailAction", reflect.TypeOf((*MockFactory)(nil).NewFailAction), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewFailAction", reflect.TypeOf((*MockFactory)(nil).NewFailAction), actionId)
 	return &MockFactoryNewFailActionCall{Call: call}
 }
 
@@ -491,18 +493,18 @@ func (c *MockFactoryNewFailActionCall) DoAndReturn(f func(string) (operation.Ope
 }
 
 // NewInstall mocks base method.
-func (m *MockFactory) NewInstall(arg0 string) (operation.Operation, error) {
+func (m *MockFactory) NewInstall(charmURL string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewInstall", arg0)
+	ret := m.ctrl.Call(m, "NewInstall", charmURL)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewInstall indicates an expected call of NewInstall.
-func (mr *MockFactoryMockRecorder) NewInstall(arg0 any) *MockFactoryNewInstallCall {
+func (mr *MockFactoryMockRecorder) NewInstall(charmURL any) *MockFactoryNewInstallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewInstall", reflect.TypeOf((*MockFactory)(nil).NewInstall), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewInstall", reflect.TypeOf((*MockFactory)(nil).NewInstall), charmURL)
 	return &MockFactoryNewInstallCall{Call: call}
 }
 
@@ -530,18 +532,18 @@ func (c *MockFactoryNewInstallCall) DoAndReturn(f func(string) (operation.Operat
 }
 
 // NewNoOpSecretsRemoved mocks base method.
-func (m *MockFactory) NewNoOpSecretsRemoved(arg0 []string) (operation.Operation, error) {
+func (m *MockFactory) NewNoOpSecretsRemoved(uris []string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewNoOpSecretsRemoved", arg0)
+	ret := m.ctrl.Call(m, "NewNoOpSecretsRemoved", uris)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewNoOpSecretsRemoved indicates an expected call of NewNoOpSecretsRemoved.
-func (mr *MockFactoryMockRecorder) NewNoOpSecretsRemoved(arg0 any) *MockFactoryNewNoOpSecretsRemovedCall {
+func (mr *MockFactoryMockRecorder) NewNoOpSecretsRemoved(uris any) *MockFactoryNewNoOpSecretsRemovedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNoOpSecretsRemoved", reflect.TypeOf((*MockFactory)(nil).NewNoOpSecretsRemoved), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNoOpSecretsRemoved", reflect.TypeOf((*MockFactory)(nil).NewNoOpSecretsRemoved), uris)
 	return &MockFactoryNewNoOpSecretsRemovedCall{Call: call}
 }
 
@@ -608,18 +610,18 @@ func (c *MockFactoryNewResignLeadershipCall) DoAndReturn(f func() (operation.Ope
 }
 
 // NewResolvedUpgrade mocks base method.
-func (m *MockFactory) NewResolvedUpgrade(arg0 string) (operation.Operation, error) {
+func (m *MockFactory) NewResolvedUpgrade(charmURL string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewResolvedUpgrade", arg0)
+	ret := m.ctrl.Call(m, "NewResolvedUpgrade", charmURL)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewResolvedUpgrade indicates an expected call of NewResolvedUpgrade.
-func (mr *MockFactoryMockRecorder) NewResolvedUpgrade(arg0 any) *MockFactoryNewResolvedUpgradeCall {
+func (mr *MockFactoryMockRecorder) NewResolvedUpgrade(charmURL any) *MockFactoryNewResolvedUpgradeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewResolvedUpgrade", reflect.TypeOf((*MockFactory)(nil).NewResolvedUpgrade), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewResolvedUpgrade", reflect.TypeOf((*MockFactory)(nil).NewResolvedUpgrade), charmURL)
 	return &MockFactoryNewResolvedUpgradeCall{Call: call}
 }
 
@@ -647,18 +649,18 @@ func (c *MockFactoryNewResolvedUpgradeCall) DoAndReturn(f func(string) (operatio
 }
 
 // NewRevertUpgrade mocks base method.
-func (m *MockFactory) NewRevertUpgrade(arg0 string) (operation.Operation, error) {
+func (m *MockFactory) NewRevertUpgrade(charmURL string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewRevertUpgrade", arg0)
+	ret := m.ctrl.Call(m, "NewRevertUpgrade", charmURL)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewRevertUpgrade indicates an expected call of NewRevertUpgrade.
-func (mr *MockFactoryMockRecorder) NewRevertUpgrade(arg0 any) *MockFactoryNewRevertUpgradeCall {
+func (mr *MockFactoryMockRecorder) NewRevertUpgrade(charmURL any) *MockFactoryNewRevertUpgradeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRevertUpgrade", reflect.TypeOf((*MockFactory)(nil).NewRevertUpgrade), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRevertUpgrade", reflect.TypeOf((*MockFactory)(nil).NewRevertUpgrade), charmURL)
 	return &MockFactoryNewRevertUpgradeCall{Call: call}
 }
 
@@ -686,18 +688,18 @@ func (c *MockFactoryNewRevertUpgradeCall) DoAndReturn(f func(string) (operation.
 }
 
 // NewRunHook mocks base method.
-func (m *MockFactory) NewRunHook(arg0 hook.Info) (operation.Operation, error) {
+func (m *MockFactory) NewRunHook(hookInfo hook.Info) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewRunHook", arg0)
+	ret := m.ctrl.Call(m, "NewRunHook", hookInfo)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewRunHook indicates an expected call of NewRunHook.
-func (mr *MockFactoryMockRecorder) NewRunHook(arg0 any) *MockFactoryNewRunHookCall {
+func (mr *MockFactoryMockRecorder) NewRunHook(hookInfo any) *MockFactoryNewRunHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRunHook", reflect.TypeOf((*MockFactory)(nil).NewRunHook), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewRunHook", reflect.TypeOf((*MockFactory)(nil).NewRunHook), hookInfo)
 	return &MockFactoryNewRunHookCall{Call: call}
 }
 
@@ -725,18 +727,18 @@ func (c *MockFactoryNewRunHookCall) DoAndReturn(f func(hook.Info) (operation.Ope
 }
 
 // NewSkipHook mocks base method.
-func (m *MockFactory) NewSkipHook(arg0 hook.Info) (operation.Operation, error) {
+func (m *MockFactory) NewSkipHook(hookInfo hook.Info) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewSkipHook", arg0)
+	ret := m.ctrl.Call(m, "NewSkipHook", hookInfo)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewSkipHook indicates an expected call of NewSkipHook.
-func (mr *MockFactoryMockRecorder) NewSkipHook(arg0 any) *MockFactoryNewSkipHookCall {
+func (mr *MockFactoryMockRecorder) NewSkipHook(hookInfo any) *MockFactoryNewSkipHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewSkipHook", reflect.TypeOf((*MockFactory)(nil).NewSkipHook), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewSkipHook", reflect.TypeOf((*MockFactory)(nil).NewSkipHook), hookInfo)
 	return &MockFactoryNewSkipHookCall{Call: call}
 }
 
@@ -764,18 +766,18 @@ func (c *MockFactoryNewSkipHookCall) DoAndReturn(f func(hook.Info) (operation.Op
 }
 
 // NewUpgrade mocks base method.
-func (m *MockFactory) NewUpgrade(arg0 string) (operation.Operation, error) {
+func (m *MockFactory) NewUpgrade(charmURL string) (operation.Operation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "NewUpgrade", arg0)
+	ret := m.ctrl.Call(m, "NewUpgrade", charmURL)
 	ret0, _ := ret[0].(operation.Operation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewUpgrade indicates an expected call of NewUpgrade.
-func (mr *MockFactoryMockRecorder) NewUpgrade(arg0 any) *MockFactoryNewUpgradeCall {
+func (mr *MockFactoryMockRecorder) NewUpgrade(charmURL any) *MockFactoryNewUpgradeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewUpgrade", reflect.TypeOf((*MockFactory)(nil).NewUpgrade), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewUpgrade", reflect.TypeOf((*MockFactory)(nil).NewUpgrade), charmURL)
 	return &MockFactoryNewUpgradeCall{Call: call}
 }
 
@@ -806,6 +808,7 @@ func (c *MockFactoryNewUpgradeCall) DoAndReturn(f func(string) (operation.Operat
 type MockCallbacks struct {
 	ctrl     *gomock.Controller
 	recorder *MockCallbacksMockRecorder
+	isgomock struct{}
 }
 
 // MockCallbacksMockRecorder is the mock recorder for MockCallbacks.
@@ -826,18 +829,18 @@ func (m *MockCallbacks) EXPECT() *MockCallbacksMockRecorder {
 }
 
 // ActionStatus mocks base method.
-func (m *MockCallbacks) ActionStatus(arg0 context.Context, arg1 string) (string, error) {
+func (m *MockCallbacks) ActionStatus(ctx context.Context, actionId string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ActionStatus", arg0, arg1)
+	ret := m.ctrl.Call(m, "ActionStatus", ctx, actionId)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ActionStatus indicates an expected call of ActionStatus.
-func (mr *MockCallbacksMockRecorder) ActionStatus(arg0, arg1 any) *MockCallbacksActionStatusCall {
+func (mr *MockCallbacksMockRecorder) ActionStatus(ctx, actionId any) *MockCallbacksActionStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActionStatus", reflect.TypeOf((*MockCallbacks)(nil).ActionStatus), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ActionStatus", reflect.TypeOf((*MockCallbacks)(nil).ActionStatus), ctx, actionId)
 	return &MockCallbacksActionStatusCall{Call: call}
 }
 
@@ -865,17 +868,17 @@ func (c *MockCallbacksActionStatusCall) DoAndReturn(f func(context.Context, stri
 }
 
 // CommitHook mocks base method.
-func (m *MockCallbacks) CommitHook(arg0 context.Context, arg1 hook.Info) error {
+func (m *MockCallbacks) CommitHook(ctx context.Context, info hook.Info) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CommitHook", arg0, arg1)
+	ret := m.ctrl.Call(m, "CommitHook", ctx, info)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CommitHook indicates an expected call of CommitHook.
-func (mr *MockCallbacksMockRecorder) CommitHook(arg0, arg1 any) *MockCallbacksCommitHookCall {
+func (mr *MockCallbacksMockRecorder) CommitHook(ctx, info any) *MockCallbacksCommitHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockCallbacks)(nil).CommitHook), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockCallbacks)(nil).CommitHook), ctx, info)
 	return &MockCallbacksCommitHookCall{Call: call}
 }
 
@@ -903,17 +906,17 @@ func (c *MockCallbacksCommitHookCall) DoAndReturn(f func(context.Context, hook.I
 }
 
 // FailAction mocks base method.
-func (m *MockCallbacks) FailAction(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockCallbacks) FailAction(ctx context.Context, actionId, message string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FailAction", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "FailAction", ctx, actionId, message)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // FailAction indicates an expected call of FailAction.
-func (mr *MockCallbacksMockRecorder) FailAction(arg0, arg1, arg2 any) *MockCallbacksFailActionCall {
+func (mr *MockCallbacksMockRecorder) FailAction(ctx, actionId, message any) *MockCallbacksFailActionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FailAction", reflect.TypeOf((*MockCallbacks)(nil).FailAction), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FailAction", reflect.TypeOf((*MockCallbacks)(nil).FailAction), ctx, actionId, message)
 	return &MockCallbacksFailActionCall{Call: call}
 }
 
@@ -941,18 +944,18 @@ func (c *MockCallbacksFailActionCall) DoAndReturn(f func(context.Context, string
 }
 
 // GetArchiveInfo mocks base method.
-func (m *MockCallbacks) GetArchiveInfo(arg0 string) (charm.BundleInfo, error) {
+func (m *MockCallbacks) GetArchiveInfo(charmURL string) (charm.BundleInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetArchiveInfo", arg0)
+	ret := m.ctrl.Call(m, "GetArchiveInfo", charmURL)
 	ret0, _ := ret[0].(charm.BundleInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetArchiveInfo indicates an expected call of GetArchiveInfo.
-func (mr *MockCallbacksMockRecorder) GetArchiveInfo(arg0 any) *MockCallbacksGetArchiveInfoCall {
+func (mr *MockCallbacksMockRecorder) GetArchiveInfo(charmURL any) *MockCallbacksGetArchiveInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArchiveInfo", reflect.TypeOf((*MockCallbacks)(nil).GetArchiveInfo), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetArchiveInfo", reflect.TypeOf((*MockCallbacks)(nil).GetArchiveInfo), charmURL)
 	return &MockCallbacksGetArchiveInfoCall{Call: call}
 }
 
@@ -1052,18 +1055,18 @@ func (c *MockCallbacksNotifyHookFailedCall) DoAndReturn(f func(string, context0.
 }
 
 // PrepareHook mocks base method.
-func (m *MockCallbacks) PrepareHook(arg0 context.Context, arg1 hook.Info) (string, error) {
+func (m *MockCallbacks) PrepareHook(ctx context.Context, info hook.Info) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareHook", arg0, arg1)
+	ret := m.ctrl.Call(m, "PrepareHook", ctx, info)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PrepareHook indicates an expected call of PrepareHook.
-func (mr *MockCallbacksMockRecorder) PrepareHook(arg0, arg1 any) *MockCallbacksPrepareHookCall {
+func (mr *MockCallbacksMockRecorder) PrepareHook(ctx, info any) *MockCallbacksPrepareHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareHook", reflect.TypeOf((*MockCallbacks)(nil).PrepareHook), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareHook", reflect.TypeOf((*MockCallbacks)(nil).PrepareHook), ctx, info)
 	return &MockCallbacksPrepareHookCall{Call: call}
 }
 
@@ -1073,8 +1076,8 @@ type MockCallbacksPrepareHookCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockCallbacksPrepareHookCall) Return(arg0 string, arg1 error) *MockCallbacksPrepareHookCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockCallbacksPrepareHookCall) Return(name string, err error) *MockCallbacksPrepareHookCall {
+	c.Call = c.Call.Return(name, err)
 	return c
 }
 
@@ -1091,17 +1094,17 @@ func (c *MockCallbacksPrepareHookCall) DoAndReturn(f func(context.Context, hook.
 }
 
 // SecretsRemoved mocks base method.
-func (m *MockCallbacks) SecretsRemoved(arg0 context.Context, arg1 []string) error {
+func (m *MockCallbacks) SecretsRemoved(ctx context.Context, uris []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SecretsRemoved", arg0, arg1)
+	ret := m.ctrl.Call(m, "SecretsRemoved", ctx, uris)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SecretsRemoved indicates an expected call of SecretsRemoved.
-func (mr *MockCallbacksMockRecorder) SecretsRemoved(arg0, arg1 any) *MockCallbacksSecretsRemovedCall {
+func (mr *MockCallbacksMockRecorder) SecretsRemoved(ctx, uris any) *MockCallbacksSecretsRemovedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretsRemoved", reflect.TypeOf((*MockCallbacks)(nil).SecretsRemoved), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SecretsRemoved", reflect.TypeOf((*MockCallbacks)(nil).SecretsRemoved), ctx, uris)
 	return &MockCallbacksSecretsRemovedCall{Call: call}
 }
 
@@ -1129,17 +1132,17 @@ func (c *MockCallbacksSecretsRemovedCall) DoAndReturn(f func(context.Context, []
 }
 
 // SetCurrentCharm mocks base method.
-func (m *MockCallbacks) SetCurrentCharm(arg0 context.Context, arg1 string) error {
+func (m *MockCallbacks) SetCurrentCharm(ctx context.Context, charmURL string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCurrentCharm", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetCurrentCharm", ctx, charmURL)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetCurrentCharm indicates an expected call of SetCurrentCharm.
-func (mr *MockCallbacksMockRecorder) SetCurrentCharm(arg0, arg1 any) *MockCallbacksSetCurrentCharmCall {
+func (mr *MockCallbacksMockRecorder) SetCurrentCharm(ctx, charmURL any) *MockCallbacksSetCurrentCharmCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentCharm", reflect.TypeOf((*MockCallbacks)(nil).SetCurrentCharm), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentCharm", reflect.TypeOf((*MockCallbacks)(nil).SetCurrentCharm), ctx, charmURL)
 	return &MockCallbacksSetCurrentCharmCall{Call: call}
 }
 
@@ -1205,17 +1208,17 @@ func (c *MockCallbacksSetExecutingStatusCall) DoAndReturn(f func(context.Context
 }
 
 // SetSecretRotated mocks base method.
-func (m *MockCallbacks) SetSecretRotated(arg0 context.Context, arg1 string, arg2 int) error {
+func (m *MockCallbacks) SetSecretRotated(ctx context.Context, url string, originalRevision int) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetSecretRotated", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetSecretRotated", ctx, url, originalRevision)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetSecretRotated indicates an expected call of SetSecretRotated.
-func (mr *MockCallbacksMockRecorder) SetSecretRotated(arg0, arg1, arg2 any) *MockCallbacksSetSecretRotatedCall {
+func (mr *MockCallbacksMockRecorder) SetSecretRotated(ctx, url, originalRevision any) *MockCallbacksSetSecretRotatedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSecretRotated", reflect.TypeOf((*MockCallbacks)(nil).SetSecretRotated), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSecretRotated", reflect.TypeOf((*MockCallbacks)(nil).SetSecretRotated), ctx, url, originalRevision)
 	return &MockCallbacksSetSecretRotatedCall{Call: call}
 }
 

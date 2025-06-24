@@ -28,6 +28,7 @@ import (
 type MockControllerAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerAPIMockRecorder is the mock recorder for MockControllerAPI.
@@ -243,10 +244,10 @@ func (c *MockControllerAPIModelUUIDCall) DoAndReturn(f func(context.Context) (st
 }
 
 // WatchForModelConfigChanges mocks base method.
-func (m *MockControllerAPI) WatchForModelConfigChanges(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockControllerAPI) WatchForModelConfigChanges(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchForModelConfigChanges", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -264,19 +265,19 @@ type MockControllerAPIWatchForModelConfigChangesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockControllerAPIWatchForModelConfigChangesCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockControllerAPIWatchForModelConfigChangesCall {
+func (c *MockControllerAPIWatchForModelConfigChangesCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockControllerAPIWatchForModelConfigChangesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockControllerAPIWatchForModelConfigChangesCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockControllerAPIWatchForModelConfigChangesCall {
+func (c *MockControllerAPIWatchForModelConfigChangesCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockControllerAPIWatchForModelConfigChangesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockControllerAPIWatchForModelConfigChangesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockControllerAPIWatchForModelConfigChangesCall {
+func (c *MockControllerAPIWatchForModelConfigChangesCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockControllerAPIWatchForModelConfigChangesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -285,6 +286,7 @@ func (c *MockControllerAPIWatchForModelConfigChangesCall) DoAndReturn(f func(con
 type MockMachinesAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachinesAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockMachinesAPIMockRecorder is the mock recorder for MockMachinesAPI.
@@ -388,18 +390,18 @@ func (c *MockMachinesAPIMachinesWithTransientErrorsCall) DoAndReturn(f func(cont
 }
 
 // ProvisioningInfo mocks base method.
-func (m *MockMachinesAPI) ProvisioningInfo(arg0 context.Context, arg1 []names.MachineTag) (params.ProvisioningInfoResults, error) {
+func (m *MockMachinesAPI) ProvisioningInfo(arg0 context.Context, machineTags []names.MachineTag) (params.ProvisioningInfoResults, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProvisioningInfo", arg0, arg1)
+	ret := m.ctrl.Call(m, "ProvisioningInfo", arg0, machineTags)
 	ret0, _ := ret[0].(params.ProvisioningInfoResults)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProvisioningInfo indicates an expected call of ProvisioningInfo.
-func (mr *MockMachinesAPIMockRecorder) ProvisioningInfo(arg0, arg1 any) *MockMachinesAPIProvisioningInfoCall {
+func (mr *MockMachinesAPIMockRecorder) ProvisioningInfo(arg0, machineTags any) *MockMachinesAPIProvisioningInfoCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProvisioningInfo", reflect.TypeOf((*MockMachinesAPI)(nil).ProvisioningInfo), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProvisioningInfo", reflect.TypeOf((*MockMachinesAPI)(nil).ProvisioningInfo), arg0, machineTags)
 	return &MockMachinesAPIProvisioningInfoCall{Call: call}
 }
 
@@ -427,10 +429,10 @@ func (c *MockMachinesAPIProvisioningInfoCall) DoAndReturn(f func(context.Context
 }
 
 // WatchMachineErrorRetry mocks base method.
-func (m *MockMachinesAPI) WatchMachineErrorRetry(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockMachinesAPI) WatchMachineErrorRetry(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchMachineErrorRetry", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -448,28 +450,28 @@ type MockMachinesAPIWatchMachineErrorRetryCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachinesAPIWatchMachineErrorRetryCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockMachinesAPIWatchMachineErrorRetryCall {
+func (c *MockMachinesAPIWatchMachineErrorRetryCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockMachinesAPIWatchMachineErrorRetryCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachinesAPIWatchMachineErrorRetryCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMachinesAPIWatchMachineErrorRetryCall {
+func (c *MockMachinesAPIWatchMachineErrorRetryCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMachinesAPIWatchMachineErrorRetryCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachinesAPIWatchMachineErrorRetryCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockMachinesAPIWatchMachineErrorRetryCall {
+func (c *MockMachinesAPIWatchMachineErrorRetryCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockMachinesAPIWatchMachineErrorRetryCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchModelMachines mocks base method.
-func (m *MockMachinesAPI) WatchModelMachines(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockMachinesAPI) WatchModelMachines(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchModelMachines", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -487,19 +489,19 @@ type MockMachinesAPIWatchModelMachinesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockMachinesAPIWatchModelMachinesCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockMachinesAPIWatchModelMachinesCall {
+func (c *MockMachinesAPIWatchModelMachinesCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockMachinesAPIWatchModelMachinesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockMachinesAPIWatchModelMachinesCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMachinesAPIWatchModelMachinesCall {
+func (c *MockMachinesAPIWatchModelMachinesCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockMachinesAPIWatchModelMachinesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockMachinesAPIWatchModelMachinesCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockMachinesAPIWatchModelMachinesCall {
+func (c *MockMachinesAPIWatchModelMachinesCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockMachinesAPIWatchModelMachinesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -508,6 +510,7 @@ func (c *MockMachinesAPIWatchModelMachinesCall) DoAndReturn(f func(context.Conte
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -528,18 +531,18 @@ func (m *MockMachineService) EXPECT() *MockMachineServiceMockRecorder {
 }
 
 // GetMachineUUID mocks base method.
-func (m *MockMachineService) GetMachineUUID(arg0 context.Context, arg1 machine.Name) (machine.UUID, error) {
+func (m *MockMachineService) GetMachineUUID(ctx context.Context, name machine.Name) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineUUID", ctx, name)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineUUID indicates an expected call of GetMachineUUID.
-func (mr *MockMachineServiceMockRecorder) GetMachineUUID(arg0, arg1 any) *MockMachineServiceGetMachineUUIDCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineUUID(ctx, name any) *MockMachineServiceGetMachineUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), ctx, name)
 	return &MockMachineServiceGetMachineUUIDCall{Call: call}
 }
 
@@ -567,17 +570,17 @@ func (c *MockMachineServiceGetMachineUUIDCall) DoAndReturn(f func(context.Contex
 }
 
 // SetMachineCloudInstance mocks base method.
-func (m *MockMachineService) SetMachineCloudInstance(arg0 context.Context, arg1 machine.UUID, arg2 instance.Id, arg3, arg4 string, arg5 *instance.HardwareCharacteristics) error {
+func (m *MockMachineService) SetMachineCloudInstance(ctx context.Context, machineUUID machine.UUID, instanceID instance.Id, displayName, nonce string, hardwareCharacteristics *instance.HardwareCharacteristics) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMachineCloudInstance", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "SetMachineCloudInstance", ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetMachineCloudInstance indicates an expected call of SetMachineCloudInstance.
-func (mr *MockMachineServiceMockRecorder) SetMachineCloudInstance(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockMachineServiceSetMachineCloudInstanceCall {
+func (mr *MockMachineServiceMockRecorder) SetMachineCloudInstance(ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics any) *MockMachineServiceSetMachineCloudInstanceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockMachineService)(nil).SetMachineCloudInstance), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMachineCloudInstance", reflect.TypeOf((*MockMachineService)(nil).SetMachineCloudInstance), ctx, machineUUID, instanceID, displayName, nonce, hardwareCharacteristics)
 	return &MockMachineServiceSetMachineCloudInstanceCall{Call: call}
 }
 

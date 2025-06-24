@@ -22,6 +22,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -42,18 +43,18 @@ func (m *MockState) EXPECT() *MockStateMockRecorder {
 }
 
 // GetAnnotations mocks base method.
-func (m *MockState) GetAnnotations(arg0 context.Context, arg1 annotations.ID) (map[string]string, error) {
+func (m *MockState) GetAnnotations(ctx context.Context, ID annotations.ID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAnnotations", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAnnotations", ctx, ID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAnnotations indicates an expected call of GetAnnotations.
-func (mr *MockStateMockRecorder) GetAnnotations(arg0, arg1 any) *MockStateGetAnnotationsCall {
+func (mr *MockStateMockRecorder) GetAnnotations(ctx, ID any) *MockStateGetAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockState)(nil).GetAnnotations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAnnotations", reflect.TypeOf((*MockState)(nil).GetAnnotations), ctx, ID)
 	return &MockStateGetAnnotationsCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockStateGetAnnotationsCall) DoAndReturn(f func(context.Context, annota
 }
 
 // GetCharmAnnotations mocks base method.
-func (m *MockState) GetCharmAnnotations(arg0 context.Context, arg1 annotation.GetCharmArgs) (map[string]string, error) {
+func (m *MockState) GetCharmAnnotations(ctx context.Context, ID annotation.GetCharmArgs) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmAnnotations", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmAnnotations", ctx, ID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmAnnotations indicates an expected call of GetCharmAnnotations.
-func (mr *MockStateMockRecorder) GetCharmAnnotations(arg0, arg1 any) *MockStateGetCharmAnnotationsCall {
+func (mr *MockStateMockRecorder) GetCharmAnnotations(ctx, ID any) *MockStateGetCharmAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmAnnotations", reflect.TypeOf((*MockState)(nil).GetCharmAnnotations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmAnnotations", reflect.TypeOf((*MockState)(nil).GetCharmAnnotations), ctx, ID)
 	return &MockStateGetCharmAnnotationsCall{Call: call}
 }
 
@@ -120,17 +121,17 @@ func (c *MockStateGetCharmAnnotationsCall) DoAndReturn(f func(context.Context, a
 }
 
 // SetAnnotations mocks base method.
-func (m *MockState) SetAnnotations(arg0 context.Context, arg1 annotations.ID, arg2 map[string]string) error {
+func (m *MockState) SetAnnotations(ctx context.Context, ID annotations.ID, arg2 map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAnnotations", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetAnnotations", ctx, ID, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetAnnotations indicates an expected call of SetAnnotations.
-func (mr *MockStateMockRecorder) SetAnnotations(arg0, arg1, arg2 any) *MockStateSetAnnotationsCall {
+func (mr *MockStateMockRecorder) SetAnnotations(ctx, ID, arg2 any) *MockStateSetAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAnnotations", reflect.TypeOf((*MockState)(nil).SetAnnotations), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAnnotations", reflect.TypeOf((*MockState)(nil).SetAnnotations), ctx, ID, arg2)
 	return &MockStateSetAnnotationsCall{Call: call}
 }
 
@@ -158,17 +159,17 @@ func (c *MockStateSetAnnotationsCall) DoAndReturn(f func(context.Context, annota
 }
 
 // SetCharmAnnotations mocks base method.
-func (m *MockState) SetCharmAnnotations(arg0 context.Context, arg1 annotation.GetCharmArgs, arg2 map[string]string) error {
+func (m *MockState) SetCharmAnnotations(ctx context.Context, ID annotation.GetCharmArgs, arg2 map[string]string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCharmAnnotations", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetCharmAnnotations", ctx, ID, arg2)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetCharmAnnotations indicates an expected call of SetCharmAnnotations.
-func (mr *MockStateMockRecorder) SetCharmAnnotations(arg0, arg1, arg2 any) *MockStateSetCharmAnnotationsCall {
+func (mr *MockStateMockRecorder) SetCharmAnnotations(ctx, ID, arg2 any) *MockStateSetCharmAnnotationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCharmAnnotations", reflect.TypeOf((*MockState)(nil).SetCharmAnnotations), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCharmAnnotations", reflect.TypeOf((*MockState)(nil).SetCharmAnnotations), ctx, ID, arg2)
 	return &MockStateSetCharmAnnotationsCall{Call: call}
 }
 

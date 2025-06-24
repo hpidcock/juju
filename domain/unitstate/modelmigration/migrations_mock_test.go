@@ -22,6 +22,7 @@ import (
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -83,6 +84,7 @@ func (c *MockImportServiceSetStateCall) DoAndReturn(f func(context.Context, unit
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -103,18 +105,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetState mocks base method.
-func (m *MockExportService) GetState(arg0 context.Context, arg1 unit.Name) (unitstate.RetrievedUnitState, error) {
+func (m *MockExportService) GetState(ctx context.Context, name unit.Name) (unitstate.RetrievedUnitState, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetState", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetState", ctx, name)
 	ret0, _ := ret[0].(unitstate.RetrievedUnitState)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetState indicates an expected call of GetState.
-func (mr *MockExportServiceMockRecorder) GetState(arg0, arg1 any) *MockExportServiceGetStateCall {
+func (mr *MockExportServiceMockRecorder) GetState(ctx, name any) *MockExportServiceGetStateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetState", reflect.TypeOf((*MockExportService)(nil).GetState), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetState", reflect.TypeOf((*MockExportService)(nil).GetState), ctx, name)
 	return &MockExportServiceGetStateCall{Call: call}
 }
 

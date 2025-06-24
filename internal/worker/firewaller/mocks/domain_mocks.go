@@ -25,6 +25,7 @@ import (
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -45,18 +46,18 @@ func (m *MockMachineService) EXPECT() *MockMachineServiceMockRecorder {
 }
 
 // GetMachineUUID mocks base method.
-func (m *MockMachineService) GetMachineUUID(arg0 context.Context, arg1 machine.Name) (machine.UUID, error) {
+func (m *MockMachineService) GetMachineUUID(ctx context.Context, name machine.Name) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineUUID", ctx, name)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineUUID indicates an expected call of GetMachineUUID.
-func (mr *MockMachineServiceMockRecorder) GetMachineUUID(arg0, arg1 any) *MockMachineServiceGetMachineUUIDCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineUUID(ctx, name any) *MockMachineServiceGetMachineUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), ctx, name)
 	return &MockMachineServiceGetMachineUUIDCall{Call: call}
 }
 
@@ -87,6 +88,7 @@ func (c *MockMachineServiceGetMachineUUIDCall) DoAndReturn(f func(context.Contex
 type MockPortService struct {
 	ctrl     *gomock.Controller
 	recorder *MockPortServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockPortServiceMockRecorder is the mock recorder for MockPortService.
@@ -107,18 +109,18 @@ func (m *MockPortService) EXPECT() *MockPortServiceMockRecorder {
 }
 
 // GetMachineOpenedPorts mocks base method.
-func (m *MockPortService) GetMachineOpenedPorts(arg0 context.Context, arg1 string) (map[unit.Name]network.GroupedPortRanges, error) {
+func (m *MockPortService) GetMachineOpenedPorts(ctx context.Context, machineUUID string) (map[unit.Name]network.GroupedPortRanges, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineOpenedPorts", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineOpenedPorts", ctx, machineUUID)
 	ret0, _ := ret[0].(map[unit.Name]network.GroupedPortRanges)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineOpenedPorts indicates an expected call of GetMachineOpenedPorts.
-func (mr *MockPortServiceMockRecorder) GetMachineOpenedPorts(arg0, arg1 any) *MockPortServiceGetMachineOpenedPortsCall {
+func (mr *MockPortServiceMockRecorder) GetMachineOpenedPorts(ctx, machineUUID any) *MockPortServiceGetMachineOpenedPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineOpenedPorts", reflect.TypeOf((*MockPortService)(nil).GetMachineOpenedPorts), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineOpenedPorts", reflect.TypeOf((*MockPortService)(nil).GetMachineOpenedPorts), ctx, machineUUID)
 	return &MockPortServiceGetMachineOpenedPortsCall{Call: call}
 }
 
@@ -146,18 +148,18 @@ func (c *MockPortServiceGetMachineOpenedPortsCall) DoAndReturn(f func(context.Co
 }
 
 // WatchMachineOpenedPorts mocks base method.
-func (m *MockPortService) WatchMachineOpenedPorts(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockPortService) WatchMachineOpenedPorts(ctx context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchMachineOpenedPorts", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret := m.ctrl.Call(m, "WatchMachineOpenedPorts", ctx)
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchMachineOpenedPorts indicates an expected call of WatchMachineOpenedPorts.
-func (mr *MockPortServiceMockRecorder) WatchMachineOpenedPorts(arg0 any) *MockPortServiceWatchMachineOpenedPortsCall {
+func (mr *MockPortServiceMockRecorder) WatchMachineOpenedPorts(ctx any) *MockPortServiceWatchMachineOpenedPortsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchMachineOpenedPorts", reflect.TypeOf((*MockPortService)(nil).WatchMachineOpenedPorts), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchMachineOpenedPorts", reflect.TypeOf((*MockPortService)(nil).WatchMachineOpenedPorts), ctx)
 	return &MockPortServiceWatchMachineOpenedPortsCall{Call: call}
 }
 
@@ -167,19 +169,19 @@ type MockPortServiceWatchMachineOpenedPortsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockPortServiceWatchMachineOpenedPortsCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockPortServiceWatchMachineOpenedPortsCall {
+func (c *MockPortServiceWatchMachineOpenedPortsCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockPortServiceWatchMachineOpenedPortsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockPortServiceWatchMachineOpenedPortsCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockPortServiceWatchMachineOpenedPortsCall {
+func (c *MockPortServiceWatchMachineOpenedPortsCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockPortServiceWatchMachineOpenedPortsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockPortServiceWatchMachineOpenedPortsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockPortServiceWatchMachineOpenedPortsCall {
+func (c *MockPortServiceWatchMachineOpenedPortsCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockPortServiceWatchMachineOpenedPortsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -188,6 +190,7 @@ func (c *MockPortServiceWatchMachineOpenedPortsCall) DoAndReturn(f func(context.
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -208,18 +211,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetExposedEndpoints mocks base method.
-func (m *MockApplicationService) GetExposedEndpoints(arg0 context.Context, arg1 string) (map[string]application.ExposedEndpoint, error) {
+func (m *MockApplicationService) GetExposedEndpoints(ctx context.Context, appName string) (map[string]application.ExposedEndpoint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetExposedEndpoints", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetExposedEndpoints", ctx, appName)
 	ret0, _ := ret[0].(map[string]application.ExposedEndpoint)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetExposedEndpoints indicates an expected call of GetExposedEndpoints.
-func (mr *MockApplicationServiceMockRecorder) GetExposedEndpoints(arg0, arg1 any) *MockApplicationServiceGetExposedEndpointsCall {
+func (mr *MockApplicationServiceMockRecorder) GetExposedEndpoints(ctx, appName any) *MockApplicationServiceGetExposedEndpointsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExposedEndpoints", reflect.TypeOf((*MockApplicationService)(nil).GetExposedEndpoints), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetExposedEndpoints", reflect.TypeOf((*MockApplicationService)(nil).GetExposedEndpoints), ctx, appName)
 	return &MockApplicationServiceGetExposedEndpointsCall{Call: call}
 }
 
@@ -286,18 +289,18 @@ func (c *MockApplicationServiceGetUnitMachineNameCall) DoAndReturn(f func(contex
 }
 
 // IsApplicationExposed mocks base method.
-func (m *MockApplicationService) IsApplicationExposed(arg0 context.Context, arg1 string) (bool, error) {
+func (m *MockApplicationService) IsApplicationExposed(ctx context.Context, appName string) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsApplicationExposed", arg0, arg1)
+	ret := m.ctrl.Call(m, "IsApplicationExposed", ctx, appName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsApplicationExposed indicates an expected call of IsApplicationExposed.
-func (mr *MockApplicationServiceMockRecorder) IsApplicationExposed(arg0, arg1 any) *MockApplicationServiceIsApplicationExposedCall {
+func (mr *MockApplicationServiceMockRecorder) IsApplicationExposed(ctx, appName any) *MockApplicationServiceIsApplicationExposedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsApplicationExposed", reflect.TypeOf((*MockApplicationService)(nil).IsApplicationExposed), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsApplicationExposed", reflect.TypeOf((*MockApplicationService)(nil).IsApplicationExposed), ctx, appName)
 	return &MockApplicationServiceIsApplicationExposedCall{Call: call}
 }
 
@@ -325,18 +328,18 @@ func (c *MockApplicationServiceIsApplicationExposedCall) DoAndReturn(f func(cont
 }
 
 // WatchApplicationExposed mocks base method.
-func (m *MockApplicationService) WatchApplicationExposed(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockApplicationService) WatchApplicationExposed(ctx context.Context, name string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchApplicationExposed", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchApplicationExposed", ctx, name)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchApplicationExposed indicates an expected call of WatchApplicationExposed.
-func (mr *MockApplicationServiceMockRecorder) WatchApplicationExposed(arg0, arg1 any) *MockApplicationServiceWatchApplicationExposedCall {
+func (mr *MockApplicationServiceMockRecorder) WatchApplicationExposed(ctx, name any) *MockApplicationServiceWatchApplicationExposedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplicationExposed", reflect.TypeOf((*MockApplicationService)(nil).WatchApplicationExposed), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchApplicationExposed", reflect.TypeOf((*MockApplicationService)(nil).WatchApplicationExposed), ctx, name)
 	return &MockApplicationServiceWatchApplicationExposedCall{Call: call}
 }
 
@@ -346,28 +349,28 @@ type MockApplicationServiceWatchApplicationExposedCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationServiceWatchApplicationExposedCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockApplicationServiceWatchApplicationExposedCall {
+func (c *MockApplicationServiceWatchApplicationExposedCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockApplicationServiceWatchApplicationExposedCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationServiceWatchApplicationExposedCall) Do(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockApplicationServiceWatchApplicationExposedCall {
+func (c *MockApplicationServiceWatchApplicationExposedCall) Do(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockApplicationServiceWatchApplicationExposedCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationServiceWatchApplicationExposedCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockApplicationServiceWatchApplicationExposedCall {
+func (c *MockApplicationServiceWatchApplicationExposedCall) DoAndReturn(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockApplicationServiceWatchApplicationExposedCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // WatchUnitAddRemoveOnMachine mocks base method.
-func (m *MockApplicationService) WatchUnitAddRemoveOnMachine(arg0 context.Context, arg1 machine.Name) (watcher.Watcher[[]string], error) {
+func (m *MockApplicationService) WatchUnitAddRemoveOnMachine(arg0 context.Context, arg1 machine.Name) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchUnitAddRemoveOnMachine", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -385,19 +388,19 @@ type MockApplicationServiceWatchUnitAddRemoveOnMachineCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Do(f func(context.Context, machine.Name) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) Do(f func(context.Context, machine.Name) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.Watcher[[]string], error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
+func (c *MockApplicationServiceWatchUnitAddRemoveOnMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.StringsWatcher, error)) *MockApplicationServiceWatchUnitAddRemoveOnMachineCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

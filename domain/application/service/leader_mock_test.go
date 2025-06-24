@@ -21,6 +21,7 @@ import (
 type MockEnsurer struct {
 	ctrl     *gomock.Controller
 	recorder *MockEnsurerMockRecorder
+	isgomock struct{}
 }
 
 // MockEnsurerMockRecorder is the mock recorder for MockEnsurer.
@@ -41,17 +42,17 @@ func (m *MockEnsurer) EXPECT() *MockEnsurerMockRecorder {
 }
 
 // LeadershipCheck mocks base method.
-func (m *MockEnsurer) LeadershipCheck(arg0, arg1 string) leadership.Token {
+func (m *MockEnsurer) LeadershipCheck(applicationId, unitId string) leadership.Token {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LeadershipCheck", arg0, arg1)
+	ret := m.ctrl.Call(m, "LeadershipCheck", applicationId, unitId)
 	ret0, _ := ret[0].(leadership.Token)
 	return ret0
 }
 
 // LeadershipCheck indicates an expected call of LeadershipCheck.
-func (mr *MockEnsurerMockRecorder) LeadershipCheck(arg0, arg1 any) *MockEnsurerLeadershipCheckCall {
+func (mr *MockEnsurerMockRecorder) LeadershipCheck(applicationId, unitId any) *MockEnsurerLeadershipCheckCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeadershipCheck", reflect.TypeOf((*MockEnsurer)(nil).LeadershipCheck), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeadershipCheck", reflect.TypeOf((*MockEnsurer)(nil).LeadershipCheck), applicationId, unitId)
 	return &MockEnsurerLeadershipCheckCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockEnsurerLeadershipCheckCall) DoAndReturn(f func(string, string) lead
 }
 
 // WithLeader mocks base method.
-func (m *MockEnsurer) WithLeader(arg0 context.Context, arg1, arg2 string, arg3 func(context.Context) error) error {
+func (m *MockEnsurer) WithLeader(ctx context.Context, appName, unitName string, fn func(context.Context) error) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WithLeader", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "WithLeader", ctx, appName, unitName, fn)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WithLeader indicates an expected call of WithLeader.
-func (mr *MockEnsurerMockRecorder) WithLeader(arg0, arg1, arg2, arg3 any) *MockEnsurerWithLeaderCall {
+func (mr *MockEnsurerMockRecorder) WithLeader(ctx, appName, unitName, fn any) *MockEnsurerWithLeaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithLeader", reflect.TypeOf((*MockEnsurer)(nil).WithLeader), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithLeader", reflect.TypeOf((*MockEnsurer)(nil).WithLeader), ctx, appName, unitName, fn)
 	return &MockEnsurerWithLeaderCall{Call: call}
 }
 

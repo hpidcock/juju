@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,17 +103,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // DeleteImportedRelations mocks base method.
-func (m *MockImportService) DeleteImportedRelations(arg0 context.Context) error {
+func (m *MockImportService) DeleteImportedRelations(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportedRelations", arg0)
+	ret := m.ctrl.Call(m, "DeleteImportedRelations", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteImportedRelations indicates an expected call of DeleteImportedRelations.
-func (mr *MockImportServiceMockRecorder) DeleteImportedRelations(arg0 any) *MockImportServiceDeleteImportedRelationsCall {
+func (mr *MockImportServiceMockRecorder) DeleteImportedRelations(ctx any) *MockImportServiceDeleteImportedRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedRelations", reflect.TypeOf((*MockImportService)(nil).DeleteImportedRelations), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedRelations", reflect.TypeOf((*MockImportService)(nil).DeleteImportedRelations), ctx)
 	return &MockImportServiceDeleteImportedRelationsCall{Call: call}
 }
 
@@ -139,17 +141,17 @@ func (c *MockImportServiceDeleteImportedRelationsCall) DoAndReturn(f func(contex
 }
 
 // ImportRelations mocks base method.
-func (m *MockImportService) ImportRelations(arg0 context.Context, arg1 relation.ImportRelationsArgs) error {
+func (m *MockImportService) ImportRelations(ctx context.Context, args relation.ImportRelationsArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportRelations", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportRelations", ctx, args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportRelations indicates an expected call of ImportRelations.
-func (mr *MockImportServiceMockRecorder) ImportRelations(arg0, arg1 any) *MockImportServiceImportRelationsCall {
+func (mr *MockImportServiceMockRecorder) ImportRelations(ctx, args any) *MockImportServiceImportRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportRelations", reflect.TypeOf((*MockImportService)(nil).ImportRelations), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportRelations", reflect.TypeOf((*MockImportService)(nil).ImportRelations), ctx, args)
 	return &MockImportServiceImportRelationsCall{Call: call}
 }
 
@@ -180,6 +182,7 @@ func (c *MockImportServiceImportRelationsCall) DoAndReturn(f func(context.Contex
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -200,18 +203,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ExportRelations mocks base method.
-func (m *MockExportService) ExportRelations(arg0 context.Context) ([]relation.ExportRelation, error) {
+func (m *MockExportService) ExportRelations(ctx context.Context) ([]relation.ExportRelation, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportRelations", arg0)
+	ret := m.ctrl.Call(m, "ExportRelations", ctx)
 	ret0, _ := ret[0].([]relation.ExportRelation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportRelations indicates an expected call of ExportRelations.
-func (mr *MockExportServiceMockRecorder) ExportRelations(arg0 any) *MockExportServiceExportRelationsCall {
+func (mr *MockExportServiceMockRecorder) ExportRelations(ctx any) *MockExportServiceExportRelationsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelations", reflect.TypeOf((*MockExportService)(nil).ExportRelations), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportRelations", reflect.TypeOf((*MockExportService)(nil).ExportRelations), ctx)
 	return &MockExportServiceExportRelationsCall{Call: call}
 }
 

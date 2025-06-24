@@ -21,6 +21,7 @@ import (
 type MockSimplestreamsFetcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockSimplestreamsFetcherMockRecorder
+	isgomock struct{}
 }
 
 // MockSimplestreamsFetcherMockRecorder is the mock recorder for MockSimplestreamsFetcher.

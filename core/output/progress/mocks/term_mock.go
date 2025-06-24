@@ -19,6 +19,7 @@ import (
 type MockTerminal struct {
 	ctrl     *gomock.Controller
 	recorder *MockTerminalMockRecorder
+	isgomock struct{}
 }
 
 // MockTerminalMockRecorder is the mock recorder for MockTerminal.

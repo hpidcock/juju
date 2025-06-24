@@ -20,6 +20,7 @@ import (
 type MockModelConfigClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigClientMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigClientMockRecorder is the mock recorder for MockModelConfigClient.
@@ -78,18 +79,18 @@ func (c *MockModelConfigClientCloseCall) DoAndReturn(f func() error) *MockModelC
 }
 
 // ModelGet mocks base method.
-func (m *MockModelConfigClient) ModelGet(arg0 context.Context) (map[string]any, error) {
+func (m *MockModelConfigClient) ModelGet(ctx context.Context) (map[string]any, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelGet", arg0)
+	ret := m.ctrl.Call(m, "ModelGet", ctx)
 	ret0, _ := ret[0].(map[string]any)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelGet indicates an expected call of ModelGet.
-func (mr *MockModelConfigClientMockRecorder) ModelGet(arg0 any) *MockModelConfigClientModelGetCall {
+func (mr *MockModelConfigClientMockRecorder) ModelGet(ctx any) *MockModelConfigClientModelGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockModelConfigClient)(nil).ModelGet), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelGet", reflect.TypeOf((*MockModelConfigClient)(nil).ModelGet), ctx)
 	return &MockModelConfigClientModelGetCall{Call: call}
 }
 

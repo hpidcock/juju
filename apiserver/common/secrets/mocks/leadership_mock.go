@@ -20,6 +20,7 @@ import (
 type MockChecker struct {
 	ctrl     *gomock.Controller
 	recorder *MockCheckerMockRecorder
+	isgomock struct{}
 }
 
 // MockCheckerMockRecorder is the mock recorder for MockChecker.
@@ -40,17 +41,17 @@ func (m *MockChecker) EXPECT() *MockCheckerMockRecorder {
 }
 
 // LeadershipCheck mocks base method.
-func (m *MockChecker) LeadershipCheck(arg0, arg1 string) leadership.Token {
+func (m *MockChecker) LeadershipCheck(applicationId, unitId string) leadership.Token {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LeadershipCheck", arg0, arg1)
+	ret := m.ctrl.Call(m, "LeadershipCheck", applicationId, unitId)
 	ret0, _ := ret[0].(leadership.Token)
 	return ret0
 }
 
 // LeadershipCheck indicates an expected call of LeadershipCheck.
-func (mr *MockCheckerMockRecorder) LeadershipCheck(arg0, arg1 any) *MockCheckerLeadershipCheckCall {
+func (mr *MockCheckerMockRecorder) LeadershipCheck(applicationId, unitId any) *MockCheckerLeadershipCheckCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeadershipCheck", reflect.TypeOf((*MockChecker)(nil).LeadershipCheck), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LeadershipCheck", reflect.TypeOf((*MockChecker)(nil).LeadershipCheck), applicationId, unitId)
 	return &MockCheckerLeadershipCheckCall{Call: call}
 }
 
@@ -81,6 +82,7 @@ func (c *MockCheckerLeadershipCheckCall) DoAndReturn(f func(string, string) lead
 type MockToken struct {
 	ctrl     *gomock.Controller
 	recorder *MockTokenMockRecorder
+	isgomock struct{}
 }
 
 // MockTokenMockRecorder is the mock recorder for MockToken.

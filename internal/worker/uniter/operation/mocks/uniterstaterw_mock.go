@@ -21,6 +21,7 @@ import (
 type MockUnitStateReadWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockUnitStateReadWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockUnitStateReadWriterMockRecorder is the mock recorder for MockUnitStateReadWriter.
@@ -41,17 +42,17 @@ func (m *MockUnitStateReadWriter) EXPECT() *MockUnitStateReadWriterMockRecorder 
 }
 
 // SetState mocks base method.
-func (m *MockUnitStateReadWriter) SetState(arg0 context.Context, arg1 params.SetUnitStateArg) error {
+func (m *MockUnitStateReadWriter) SetState(ctx context.Context, unitState params.SetUnitStateArg) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetState", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetState", ctx, unitState)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetState indicates an expected call of SetState.
-func (mr *MockUnitStateReadWriterMockRecorder) SetState(arg0, arg1 any) *MockUnitStateReadWriterSetStateCall {
+func (mr *MockUnitStateReadWriterMockRecorder) SetState(ctx, unitState any) *MockUnitStateReadWriterSetStateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetState", reflect.TypeOf((*MockUnitStateReadWriter)(nil).SetState), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetState", reflect.TypeOf((*MockUnitStateReadWriter)(nil).SetState), ctx, unitState)
 	return &MockUnitStateReadWriterSetStateCall{Call: call}
 }
 

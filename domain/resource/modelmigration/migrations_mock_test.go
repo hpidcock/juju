@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,17 +103,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // DeleteImportedResources mocks base method.
-func (m *MockImportService) DeleteImportedResources(arg0 context.Context, arg1 []string) error {
+func (m *MockImportService) DeleteImportedResources(ctx context.Context, appNames []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteImportedResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteImportedResources", ctx, appNames)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteImportedResources indicates an expected call of DeleteImportedResources.
-func (mr *MockImportServiceMockRecorder) DeleteImportedResources(arg0, arg1 any) *MockImportServiceDeleteImportedResourcesCall {
+func (mr *MockImportServiceMockRecorder) DeleteImportedResources(ctx, appNames any) *MockImportServiceDeleteImportedResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedResources", reflect.TypeOf((*MockImportService)(nil).DeleteImportedResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteImportedResources", reflect.TypeOf((*MockImportService)(nil).DeleteImportedResources), ctx, appNames)
 	return &MockImportServiceDeleteImportedResourcesCall{Call: call}
 }
 
@@ -139,17 +141,17 @@ func (c *MockImportServiceDeleteImportedResourcesCall) DoAndReturn(f func(contex
 }
 
 // ImportResources mocks base method.
-func (m *MockImportService) ImportResources(arg0 context.Context, arg1 resource.ImportResourcesArgs) error {
+func (m *MockImportService) ImportResources(ctx context.Context, args resource.ImportResourcesArgs) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ImportResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ImportResources", ctx, args)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ImportResources indicates an expected call of ImportResources.
-func (mr *MockImportServiceMockRecorder) ImportResources(arg0, arg1 any) *MockImportServiceImportResourcesCall {
+func (mr *MockImportServiceMockRecorder) ImportResources(ctx, args any) *MockImportServiceImportResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportResources", reflect.TypeOf((*MockImportService)(nil).ImportResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ImportResources", reflect.TypeOf((*MockImportService)(nil).ImportResources), ctx, args)
 	return &MockImportServiceImportResourcesCall{Call: call}
 }
 
@@ -180,6 +182,7 @@ func (c *MockImportServiceImportResourcesCall) DoAndReturn(f func(context.Contex
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -200,18 +203,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ExportResources mocks base method.
-func (m *MockExportService) ExportResources(arg0 context.Context, arg1 string) (resource.ExportedResources, error) {
+func (m *MockExportService) ExportResources(ctx context.Context, name string) (resource.ExportedResources, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExportResources", arg0, arg1)
+	ret := m.ctrl.Call(m, "ExportResources", ctx, name)
 	ret0, _ := ret[0].(resource.ExportedResources)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ExportResources indicates an expected call of ExportResources.
-func (mr *MockExportServiceMockRecorder) ExportResources(arg0, arg1 any) *MockExportServiceExportResourcesCall {
+func (mr *MockExportServiceMockRecorder) ExportResources(ctx, name any) *MockExportServiceExportResourcesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportResources", reflect.TypeOf((*MockExportService)(nil).ExportResources), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExportResources", reflect.TypeOf((*MockExportService)(nil).ExportResources), ctx, name)
 	return &MockExportServiceExportResourcesCall{Call: call}
 }
 

@@ -20,6 +20,7 @@ import (
 type MockCredentialStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockCredentialStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockCredentialStoreMockRecorder is the mock recorder for MockCredentialStore.
@@ -118,17 +119,17 @@ func (c *MockCredentialStoreCredentialForCloudCall) DoAndReturn(f func(string) (
 }
 
 // UpdateCredential mocks base method.
-func (m *MockCredentialStore) UpdateCredential(arg0 string, arg1 cloud.CloudCredential) error {
+func (m *MockCredentialStore) UpdateCredential(cloudName string, details cloud.CloudCredential) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateCredential", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateCredential", cloudName, details)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateCredential indicates an expected call of UpdateCredential.
-func (mr *MockCredentialStoreMockRecorder) UpdateCredential(arg0, arg1 any) *MockCredentialStoreUpdateCredentialCall {
+func (mr *MockCredentialStoreMockRecorder) UpdateCredential(cloudName, details any) *MockCredentialStoreUpdateCredentialCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCredential", reflect.TypeOf((*MockCredentialStore)(nil).UpdateCredential), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCredential", reflect.TypeOf((*MockCredentialStore)(nil).UpdateCredential), cloudName, details)
 	return &MockCredentialStoreUpdateCredentialCall{Call: call}
 }
 

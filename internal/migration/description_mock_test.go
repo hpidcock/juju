@@ -20,6 +20,7 @@ import (
 type MockModel struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelMockRecorder
+	isgomock struct{}
 }
 
 // MockModelMockRecorder is the mock recorder for MockModel.
@@ -724,17 +725,17 @@ func (c *MockModelAddRemoteEntityCall) DoAndReturn(f func(description.RemoteEnti
 }
 
 // AddRemoteSecret mocks base method.
-func (m *MockModel) AddRemoteSecret(arg0 description.RemoteSecretArgs) description.RemoteSecret {
+func (m *MockModel) AddRemoteSecret(args description.RemoteSecretArgs) description.RemoteSecret {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddRemoteSecret", arg0)
+	ret := m.ctrl.Call(m, "AddRemoteSecret", args)
 	ret0, _ := ret[0].(description.RemoteSecret)
 	return ret0
 }
 
 // AddRemoteSecret indicates an expected call of AddRemoteSecret.
-func (mr *MockModelMockRecorder) AddRemoteSecret(arg0 any) *MockModelAddRemoteSecretCall {
+func (mr *MockModelMockRecorder) AddRemoteSecret(args any) *MockModelAddRemoteSecretCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRemoteSecret", reflect.TypeOf((*MockModel)(nil).AddRemoteSecret), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddRemoteSecret", reflect.TypeOf((*MockModel)(nil).AddRemoteSecret), args)
 	return &MockModelAddRemoteSecretCall{Call: call}
 }
 
@@ -800,17 +801,17 @@ func (c *MockModelAddSSHHostKeyCall) DoAndReturn(f func(description.SSHHostKeyAr
 }
 
 // AddSecret mocks base method.
-func (m *MockModel) AddSecret(arg0 description.SecretArgs) description.Secret {
+func (m *MockModel) AddSecret(args description.SecretArgs) description.Secret {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddSecret", arg0)
+	ret := m.ctrl.Call(m, "AddSecret", args)
 	ret0, _ := ret[0].(description.Secret)
 	return ret0
 }
 
 // AddSecret indicates an expected call of AddSecret.
-func (mr *MockModelMockRecorder) AddSecret(arg0 any) *MockModelAddSecretCall {
+func (mr *MockModelMockRecorder) AddSecret(args any) *MockModelAddSecretCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSecret", reflect.TypeOf((*MockModel)(nil).AddSecret), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSecret", reflect.TypeOf((*MockModel)(nil).AddSecret), args)
 	return &MockModelAddSecretCall{Call: call}
 }
 
@@ -1026,17 +1027,17 @@ func (c *MockModelAddUserCall) DoAndReturn(f func(description.UserArgs)) *MockMo
 }
 
 // AddVirtualHostKey mocks base method.
-func (m *MockModel) AddVirtualHostKey(arg0 description.VirtualHostKeyArgs) description.VirtualHostKey {
+func (m *MockModel) AddVirtualHostKey(args description.VirtualHostKeyArgs) description.VirtualHostKey {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddVirtualHostKey", arg0)
+	ret := m.ctrl.Call(m, "AddVirtualHostKey", args)
 	ret0, _ := ret[0].(description.VirtualHostKey)
 	return ret0
 }
 
 // AddVirtualHostKey indicates an expected call of AddVirtualHostKey.
-func (mr *MockModelMockRecorder) AddVirtualHostKey(arg0 any) *MockModelAddVirtualHostKeyCall {
+func (mr *MockModelMockRecorder) AddVirtualHostKey(args any) *MockModelAddVirtualHostKeyCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddVirtualHostKey", reflect.TypeOf((*MockModel)(nil).AddVirtualHostKey), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddVirtualHostKey", reflect.TypeOf((*MockModel)(nil).AddVirtualHostKey), args)
 	return &MockModelAddVirtualHostKeyCall{Call: call}
 }
 
@@ -2538,15 +2539,15 @@ func (c *MockModelSetConstraintsCall) DoAndReturn(f func(description.Constraints
 }
 
 // SetEnvironVersion mocks base method.
-func (m *MockModel) SetEnvironVersion(arg0 int) {
+func (m *MockModel) SetEnvironVersion(environVersion int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetEnvironVersion", arg0)
+	m.ctrl.Call(m, "SetEnvironVersion", environVersion)
 }
 
 // SetEnvironVersion indicates an expected call of SetEnvironVersion.
-func (mr *MockModelMockRecorder) SetEnvironVersion(arg0 any) *MockModelSetEnvironVersionCall {
+func (mr *MockModelMockRecorder) SetEnvironVersion(environVersion any) *MockModelSetEnvironVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetEnvironVersion", reflect.TypeOf((*MockModel)(nil).SetEnvironVersion), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetEnvironVersion", reflect.TypeOf((*MockModel)(nil).SetEnvironVersion), environVersion)
 	return &MockModelSetEnvironVersionCall{Call: call}
 }
 
@@ -2574,17 +2575,17 @@ func (c *MockModelSetEnvironVersionCall) DoAndReturn(f func(int)) *MockModelSetE
 }
 
 // SetMeterStatus mocks base method.
-func (m *MockModel) SetMeterStatus(arg0, arg1 string) description.MeterStatus {
+func (m *MockModel) SetMeterStatus(code, info string) description.MeterStatus {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetMeterStatus", arg0, arg1)
+	ret := m.ctrl.Call(m, "SetMeterStatus", code, info)
 	ret0, _ := ret[0].(description.MeterStatus)
 	return ret0
 }
 
 // SetMeterStatus indicates an expected call of SetMeterStatus.
-func (mr *MockModelMockRecorder) SetMeterStatus(arg0, arg1 any) *MockModelSetMeterStatusCall {
+func (mr *MockModelMockRecorder) SetMeterStatus(code, info any) *MockModelSetMeterStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMeterStatus", reflect.TypeOf((*MockModel)(nil).SetMeterStatus), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetMeterStatus", reflect.TypeOf((*MockModel)(nil).SetMeterStatus), code, info)
 	return &MockModelSetMeterStatusCall{Call: call}
 }
 
@@ -2612,17 +2613,17 @@ func (c *MockModelSetMeterStatusCall) DoAndReturn(f func(string, string) descrip
 }
 
 // SetSLA mocks base method.
-func (m *MockModel) SetSLA(arg0, arg1, arg2 string) description.SLA {
+func (m *MockModel) SetSLA(level, owner, credentials string) description.SLA {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetSLA", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetSLA", level, owner, credentials)
 	ret0, _ := ret[0].(description.SLA)
 	return ret0
 }
 
 // SetSLA indicates an expected call of SetSLA.
-func (mr *MockModelMockRecorder) SetSLA(arg0, arg1, arg2 any) *MockModelSetSLACall {
+func (mr *MockModelMockRecorder) SetSLA(level, owner, credentials any) *MockModelSetSLACall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSLA", reflect.TypeOf((*MockModel)(nil).SetSLA), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSLA", reflect.TypeOf((*MockModel)(nil).SetSLA), level, owner, credentials)
 	return &MockModelSetSLACall{Call: call}
 }
 
@@ -2650,15 +2651,15 @@ func (c *MockModelSetSLACall) DoAndReturn(f func(string, string, string) descrip
 }
 
 // SetSequence mocks base method.
-func (m *MockModel) SetSequence(arg0 string, arg1 int) {
+func (m *MockModel) SetSequence(name string, value int) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "SetSequence", arg0, arg1)
+	m.ctrl.Call(m, "SetSequence", name, value)
 }
 
 // SetSequence indicates an expected call of SetSequence.
-func (mr *MockModelMockRecorder) SetSequence(arg0, arg1 any) *MockModelSetSequenceCall {
+func (mr *MockModelMockRecorder) SetSequence(name, value any) *MockModelSetSequenceCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSequence", reflect.TypeOf((*MockModel)(nil).SetSequence), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetSequence", reflect.TypeOf((*MockModel)(nil).SetSequence), name, value)
 	return &MockModelSetSequenceCall{Call: call}
 }
 

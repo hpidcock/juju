@@ -22,6 +22,7 @@ import (
 type MockBlockDeviceService struct {
 	ctrl     *gomock.Controller
 	recorder *MockBlockDeviceServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockBlockDeviceServiceMockRecorder is the mock recorder for MockBlockDeviceService.
@@ -42,18 +43,18 @@ func (m *MockBlockDeviceService) EXPECT() *MockBlockDeviceServiceMockRecorder {
 }
 
 // BlockDevices mocks base method.
-func (m *MockBlockDeviceService) BlockDevices(arg0 context.Context, arg1 string) ([]blockdevice.BlockDevice, error) {
+func (m *MockBlockDeviceService) BlockDevices(ctx context.Context, machineId string) ([]blockdevice.BlockDevice, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "BlockDevices", arg0, arg1)
+	ret := m.ctrl.Call(m, "BlockDevices", ctx, machineId)
 	ret0, _ := ret[0].([]blockdevice.BlockDevice)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // BlockDevices indicates an expected call of BlockDevices.
-func (mr *MockBlockDeviceServiceMockRecorder) BlockDevices(arg0, arg1 any) *MockBlockDeviceServiceBlockDevicesCall {
+func (mr *MockBlockDeviceServiceMockRecorder) BlockDevices(ctx, machineId any) *MockBlockDeviceServiceBlockDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlockDevices", reflect.TypeOf((*MockBlockDeviceService)(nil).BlockDevices), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "BlockDevices", reflect.TypeOf((*MockBlockDeviceService)(nil).BlockDevices), ctx, machineId)
 	return &MockBlockDeviceServiceBlockDevicesCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockBlockDeviceServiceBlockDevicesCall) DoAndReturn(f func(context.Cont
 }
 
 // WatchBlockDevices mocks base method.
-func (m *MockBlockDeviceService) WatchBlockDevices(arg0 context.Context, arg1 string) (watcher.Watcher[struct{}], error) {
+func (m *MockBlockDeviceService) WatchBlockDevices(ctx context.Context, machineId string) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchBlockDevices", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchBlockDevices", ctx, machineId)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchBlockDevices indicates an expected call of WatchBlockDevices.
-func (mr *MockBlockDeviceServiceMockRecorder) WatchBlockDevices(arg0, arg1 any) *MockBlockDeviceServiceWatchBlockDevicesCall {
+func (mr *MockBlockDeviceServiceMockRecorder) WatchBlockDevices(ctx, machineId any) *MockBlockDeviceServiceWatchBlockDevicesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchBlockDevices", reflect.TypeOf((*MockBlockDeviceService)(nil).WatchBlockDevices), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchBlockDevices", reflect.TypeOf((*MockBlockDeviceService)(nil).WatchBlockDevices), ctx, machineId)
 	return &MockBlockDeviceServiceWatchBlockDevicesCall{Call: call}
 }
 
@@ -102,19 +103,19 @@ type MockBlockDeviceServiceWatchBlockDevicesCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockBlockDeviceServiceWatchBlockDevicesCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockBlockDeviceServiceWatchBlockDevicesCall {
+func (c *MockBlockDeviceServiceWatchBlockDevicesCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockBlockDeviceServiceWatchBlockDevicesCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockBlockDeviceServiceWatchBlockDevicesCall) Do(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockBlockDeviceServiceWatchBlockDevicesCall {
+func (c *MockBlockDeviceServiceWatchBlockDevicesCall) Do(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockBlockDeviceServiceWatchBlockDevicesCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockBlockDeviceServiceWatchBlockDevicesCall) DoAndReturn(f func(context.Context, string) (watcher.Watcher[struct{}], error)) *MockBlockDeviceServiceWatchBlockDevicesCall {
+func (c *MockBlockDeviceServiceWatchBlockDevicesCall) DoAndReturn(f func(context.Context, string) (watcher.NotifyWatcher, error)) *MockBlockDeviceServiceWatchBlockDevicesCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

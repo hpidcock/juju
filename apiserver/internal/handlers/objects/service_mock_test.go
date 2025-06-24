@@ -24,6 +24,7 @@ import (
 type MockApplicationServiceGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceGetterMockRecorder is the mock recorder for MockApplicationServiceGetter.
@@ -86,6 +87,7 @@ func (c *MockApplicationServiceGetterApplicationCall) DoAndReturn(f func(*http.R
 type MockApplicationService struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
@@ -106,18 +108,18 @@ func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 }
 
 // GetCharmArchiveBySHA256Prefix mocks base method.
-func (m *MockApplicationService) GetCharmArchiveBySHA256Prefix(arg0 context.Context, arg1 string) (io.ReadCloser, error) {
+func (m *MockApplicationService) GetCharmArchiveBySHA256Prefix(ctx context.Context, sha256Prefix string) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCharmArchiveBySHA256Prefix", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetCharmArchiveBySHA256Prefix", ctx, sha256Prefix)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCharmArchiveBySHA256Prefix indicates an expected call of GetCharmArchiveBySHA256Prefix.
-func (mr *MockApplicationServiceMockRecorder) GetCharmArchiveBySHA256Prefix(arg0, arg1 any) *MockApplicationServiceGetCharmArchiveBySHA256PrefixCall {
+func (mr *MockApplicationServiceMockRecorder) GetCharmArchiveBySHA256Prefix(ctx, sha256Prefix any) *MockApplicationServiceGetCharmArchiveBySHA256PrefixCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmArchiveBySHA256Prefix", reflect.TypeOf((*MockApplicationService)(nil).GetCharmArchiveBySHA256Prefix), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCharmArchiveBySHA256Prefix", reflect.TypeOf((*MockApplicationService)(nil).GetCharmArchiveBySHA256Prefix), ctx, sha256Prefix)
 	return &MockApplicationServiceGetCharmArchiveBySHA256PrefixCall{Call: call}
 }
 
@@ -187,6 +189,7 @@ func (c *MockApplicationServiceResolveUploadCharmCall) DoAndReturn(f func(contex
 type MockStateGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockStateGetterMockRecorder is the mock recorder for MockStateGetter.
@@ -249,6 +252,7 @@ func (c *MockStateGetterGetStateCall) DoAndReturn(f func(*http.Request) (State, 
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -349,6 +353,7 @@ func (c *MockStateReleaseCall) DoAndReturn(f func() bool) *MockStateReleaseCall 
 type MockObjectStoreServiceGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreServiceGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreServiceGetterMockRecorder is the mock recorder for MockObjectStoreServiceGetter.
@@ -411,6 +416,7 @@ func (c *MockObjectStoreServiceGetterObjectStoreCall) DoAndReturn(f func(*http.R
 type MockObjectStoreService struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreServiceMockRecorder is the mock recorder for MockObjectStoreService.
@@ -431,9 +437,9 @@ func (m *MockObjectStoreService) EXPECT() *MockObjectStoreServiceMockRecorder {
 }
 
 // GetBySHA256 mocks base method.
-func (m *MockObjectStoreService) GetBySHA256(arg0 context.Context, arg1 string) (io.ReadCloser, int64, error) {
+func (m *MockObjectStoreService) GetBySHA256(ctx context.Context, sha256 string) (io.ReadCloser, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBySHA256", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetBySHA256", ctx, sha256)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -441,9 +447,9 @@ func (m *MockObjectStoreService) GetBySHA256(arg0 context.Context, arg1 string) 
 }
 
 // GetBySHA256 indicates an expected call of GetBySHA256.
-func (mr *MockObjectStoreServiceMockRecorder) GetBySHA256(arg0, arg1 any) *MockObjectStoreServiceGetBySHA256Call {
+func (mr *MockObjectStoreServiceMockRecorder) GetBySHA256(ctx, sha256 any) *MockObjectStoreServiceGetBySHA256Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBySHA256", reflect.TypeOf((*MockObjectStoreService)(nil).GetBySHA256), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBySHA256", reflect.TypeOf((*MockObjectStoreService)(nil).GetBySHA256), ctx, sha256)
 	return &MockObjectStoreServiceGetBySHA256Call{Call: call}
 }
 

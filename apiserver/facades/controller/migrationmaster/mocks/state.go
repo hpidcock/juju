@@ -23,6 +23,7 @@ import (
 type MockModelMigration struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelMigrationMockRecorder
+	isgomock struct{}
 }
 
 // MockModelMigrationMockRecorder is the mock recorder for MockModelMigration.
@@ -387,17 +388,17 @@ func (c *MockModelMigrationRefreshCall) DoAndReturn(f func() error) *MockModelMi
 }
 
 // SetPhase mocks base method.
-func (m *MockModelMigration) SetPhase(arg0 migration.Phase) error {
+func (m *MockModelMigration) SetPhase(nextPhase migration.Phase) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetPhase", arg0)
+	ret := m.ctrl.Call(m, "SetPhase", nextPhase)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetPhase indicates an expected call of SetPhase.
-func (mr *MockModelMigrationMockRecorder) SetPhase(arg0 any) *MockModelMigrationSetPhaseCall {
+func (mr *MockModelMigrationMockRecorder) SetPhase(nextPhase any) *MockModelMigrationSetPhaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPhase", reflect.TypeOf((*MockModelMigration)(nil).SetPhase), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetPhase", reflect.TypeOf((*MockModelMigration)(nil).SetPhase), nextPhase)
 	return &MockModelMigrationSetPhaseCall{Call: call}
 }
 
@@ -425,17 +426,17 @@ func (c *MockModelMigrationSetPhaseCall) DoAndReturn(f func(migration.Phase) err
 }
 
 // SetStatusMessage mocks base method.
-func (m *MockModelMigration) SetStatusMessage(arg0 string) error {
+func (m *MockModelMigration) SetStatusMessage(text string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetStatusMessage", arg0)
+	ret := m.ctrl.Call(m, "SetStatusMessage", text)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetStatusMessage indicates an expected call of SetStatusMessage.
-func (mr *MockModelMigrationMockRecorder) SetStatusMessage(arg0 any) *MockModelMigrationSetStatusMessageCall {
+func (mr *MockModelMigrationMockRecorder) SetStatusMessage(text any) *MockModelMigrationSetStatusMessageCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatusMessage", reflect.TypeOf((*MockModelMigration)(nil).SetStatusMessage), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStatusMessage", reflect.TypeOf((*MockModelMigration)(nil).SetStatusMessage), text)
 	return &MockModelMigrationSetStatusMessageCall{Call: call}
 }
 
@@ -539,17 +540,17 @@ func (c *MockModelMigrationStatusMessageCall) DoAndReturn(f func() string) *Mock
 }
 
 // SubmitMinionReport mocks base method.
-func (m *MockModelMigration) SubmitMinionReport(arg0 names.Tag, arg1 migration.Phase, arg2 bool) error {
+func (m *MockModelMigration) SubmitMinionReport(tag names.Tag, phase migration.Phase, success bool) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SubmitMinionReport", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SubmitMinionReport", tag, phase, success)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SubmitMinionReport indicates an expected call of SubmitMinionReport.
-func (mr *MockModelMigrationMockRecorder) SubmitMinionReport(arg0, arg1, arg2 any) *MockModelMigrationSubmitMinionReportCall {
+func (mr *MockModelMigrationMockRecorder) SubmitMinionReport(tag, phase, success any) *MockModelMigrationSubmitMinionReportCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitMinionReport", reflect.TypeOf((*MockModelMigration)(nil).SubmitMinionReport), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SubmitMinionReport", reflect.TypeOf((*MockModelMigration)(nil).SubmitMinionReport), tag, phase, success)
 	return &MockModelMigrationSubmitMinionReportCall{Call: call}
 }
 
@@ -696,6 +697,7 @@ func (c *MockModelMigrationWatchMinionReportsCall) DoAndReturn(f func() (state.N
 type MockNotifyWatcher struct {
 	ctrl     *gomock.Controller
 	recorder *MockNotifyWatcherMockRecorder
+	isgomock struct{}
 }
 
 // MockNotifyWatcherMockRecorder is the mock recorder for MockNotifyWatcher.

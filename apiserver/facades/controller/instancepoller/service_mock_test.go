@@ -25,6 +25,7 @@ import (
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -87,6 +88,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockNetworkService struct {
 	ctrl     *gomock.Controller
 	recorder *MockNetworkServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockNetworkServiceMockRecorder is the mock recorder for MockNetworkService.
@@ -107,18 +109,18 @@ func (m *MockNetworkService) EXPECT() *MockNetworkServiceMockRecorder {
 }
 
 // GetAllSpaces mocks base method.
-func (m *MockNetworkService) GetAllSpaces(arg0 context.Context) (network.SpaceInfos, error) {
+func (m *MockNetworkService) GetAllSpaces(ctx context.Context) (network.SpaceInfos, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllSpaces", arg0)
+	ret := m.ctrl.Call(m, "GetAllSpaces", ctx)
 	ret0, _ := ret[0].(network.SpaceInfos)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllSpaces indicates an expected call of GetAllSpaces.
-func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(arg0 any) *MockNetworkServiceGetAllSpacesCall {
+func (mr *MockNetworkServiceMockRecorder) GetAllSpaces(ctx any) *MockNetworkServiceGetAllSpacesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllSpaces", reflect.TypeOf((*MockNetworkService)(nil).GetAllSpaces), ctx)
 	return &MockNetworkServiceGetAllSpacesCall{Call: call}
 }
 
@@ -149,6 +151,7 @@ func (c *MockNetworkServiceGetAllSpacesCall) DoAndReturn(f func(context.Context)
 type MockMachineService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMachineServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMachineServiceMockRecorder is the mock recorder for MockMachineService.
@@ -169,17 +172,17 @@ func (m *MockMachineService) EXPECT() *MockMachineServiceMockRecorder {
 }
 
 // EnsureDeadMachine mocks base method.
-func (m *MockMachineService) EnsureDeadMachine(arg0 context.Context, arg1 machine.Name) error {
+func (m *MockMachineService) EnsureDeadMachine(ctx context.Context, machineName machine.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureDeadMachine", arg0, arg1)
+	ret := m.ctrl.Call(m, "EnsureDeadMachine", ctx, machineName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureDeadMachine indicates an expected call of EnsureDeadMachine.
-func (mr *MockMachineServiceMockRecorder) EnsureDeadMachine(arg0, arg1 any) *MockMachineServiceEnsureDeadMachineCall {
+func (mr *MockMachineServiceMockRecorder) EnsureDeadMachine(ctx, machineName any) *MockMachineServiceEnsureDeadMachineCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureDeadMachine", reflect.TypeOf((*MockMachineService)(nil).EnsureDeadMachine), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureDeadMachine", reflect.TypeOf((*MockMachineService)(nil).EnsureDeadMachine), ctx, machineName)
 	return &MockMachineServiceEnsureDeadMachineCall{Call: call}
 }
 
@@ -207,18 +210,18 @@ func (c *MockMachineServiceEnsureDeadMachineCall) DoAndReturn(f func(context.Con
 }
 
 // GetHardwareCharacteristics mocks base method.
-func (m *MockMachineService) GetHardwareCharacteristics(arg0 context.Context, arg1 machine.UUID) (*instance.HardwareCharacteristics, error) {
+func (m *MockMachineService) GetHardwareCharacteristics(ctx context.Context, machineUUID machine.UUID) (*instance.HardwareCharacteristics, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetHardwareCharacteristics", ctx, machineUUID)
 	ret0, _ := ret[0].(*instance.HardwareCharacteristics)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetHardwareCharacteristics indicates an expected call of GetHardwareCharacteristics.
-func (mr *MockMachineServiceMockRecorder) GetHardwareCharacteristics(arg0, arg1 any) *MockMachineServiceGetHardwareCharacteristicsCall {
+func (mr *MockMachineServiceMockRecorder) GetHardwareCharacteristics(ctx, machineUUID any) *MockMachineServiceGetHardwareCharacteristicsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockMachineService)(nil).GetHardwareCharacteristics), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetHardwareCharacteristics", reflect.TypeOf((*MockMachineService)(nil).GetHardwareCharacteristics), ctx, machineUUID)
 	return &MockMachineServiceGetHardwareCharacteristicsCall{Call: call}
 }
 
@@ -246,18 +249,18 @@ func (c *MockMachineServiceGetHardwareCharacteristicsCall) DoAndReturn(f func(co
 }
 
 // GetInstanceID mocks base method.
-func (m *MockMachineService) GetInstanceID(arg0 context.Context, arg1 machine.UUID) (instance.Id, error) {
+func (m *MockMachineService) GetInstanceID(ctx context.Context, mUUID machine.UUID) (instance.Id, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetInstanceID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetInstanceID", ctx, mUUID)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetInstanceID indicates an expected call of GetInstanceID.
-func (mr *MockMachineServiceMockRecorder) GetInstanceID(arg0, arg1 any) *MockMachineServiceGetInstanceIDCall {
+func (mr *MockMachineServiceMockRecorder) GetInstanceID(ctx, mUUID any) *MockMachineServiceGetInstanceIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceID", reflect.TypeOf((*MockMachineService)(nil).GetInstanceID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceID", reflect.TypeOf((*MockMachineService)(nil).GetInstanceID), ctx, mUUID)
 	return &MockMachineServiceGetInstanceIDCall{Call: call}
 }
 
@@ -285,9 +288,9 @@ func (c *MockMachineServiceGetInstanceIDCall) DoAndReturn(f func(context.Context
 }
 
 // GetInstanceIDAndName mocks base method.
-func (m *MockMachineService) GetInstanceIDAndName(arg0 context.Context, arg1 machine.UUID) (instance.Id, string, error) {
+func (m *MockMachineService) GetInstanceIDAndName(ctx context.Context, machineUUID machine.UUID) (instance.Id, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetInstanceIDAndName", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetInstanceIDAndName", ctx, machineUUID)
 	ret0, _ := ret[0].(instance.Id)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(error)
@@ -295,9 +298,9 @@ func (m *MockMachineService) GetInstanceIDAndName(arg0 context.Context, arg1 mac
 }
 
 // GetInstanceIDAndName indicates an expected call of GetInstanceIDAndName.
-func (mr *MockMachineServiceMockRecorder) GetInstanceIDAndName(arg0, arg1 any) *MockMachineServiceGetInstanceIDAndNameCall {
+func (mr *MockMachineServiceMockRecorder) GetInstanceIDAndName(ctx, machineUUID any) *MockMachineServiceGetInstanceIDAndNameCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceIDAndName", reflect.TypeOf((*MockMachineService)(nil).GetInstanceIDAndName), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetInstanceIDAndName", reflect.TypeOf((*MockMachineService)(nil).GetInstanceIDAndName), ctx, machineUUID)
 	return &MockMachineServiceGetInstanceIDAndNameCall{Call: call}
 }
 
@@ -325,18 +328,18 @@ func (c *MockMachineServiceGetInstanceIDAndNameCall) DoAndReturn(f func(context.
 }
 
 // GetMachineLife mocks base method.
-func (m *MockMachineService) GetMachineLife(arg0 context.Context, arg1 machine.Name) (life.Value, error) {
+func (m *MockMachineService) GetMachineLife(ctx context.Context, machineUUID machine.Name) (life.Value, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineLife", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineLife", ctx, machineUUID)
 	ret0, _ := ret[0].(life.Value)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineLife indicates an expected call of GetMachineLife.
-func (mr *MockMachineServiceMockRecorder) GetMachineLife(arg0, arg1 any) *MockMachineServiceGetMachineLifeCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineLife(ctx, machineUUID any) *MockMachineServiceGetMachineLifeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineLife", reflect.TypeOf((*MockMachineService)(nil).GetMachineLife), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineLife", reflect.TypeOf((*MockMachineService)(nil).GetMachineLife), ctx, machineUUID)
 	return &MockMachineServiceGetMachineLifeCall{Call: call}
 }
 
@@ -364,18 +367,18 @@ func (c *MockMachineServiceGetMachineLifeCall) DoAndReturn(f func(context.Contex
 }
 
 // GetMachineUUID mocks base method.
-func (m *MockMachineService) GetMachineUUID(arg0 context.Context, arg1 machine.Name) (machine.UUID, error) {
+func (m *MockMachineService) GetMachineUUID(ctx context.Context, name machine.Name) (machine.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMachineUUID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMachineUUID", ctx, name)
 	ret0, _ := ret[0].(machine.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMachineUUID indicates an expected call of GetMachineUUID.
-func (mr *MockMachineServiceMockRecorder) GetMachineUUID(arg0, arg1 any) *MockMachineServiceGetMachineUUIDCall {
+func (mr *MockMachineServiceMockRecorder) GetMachineUUID(ctx, name any) *MockMachineServiceGetMachineUUIDCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMachineUUID", reflect.TypeOf((*MockMachineService)(nil).GetMachineUUID), ctx, name)
 	return &MockMachineServiceGetMachineUUIDCall{Call: call}
 }
 
@@ -403,18 +406,18 @@ func (c *MockMachineServiceGetMachineUUIDCall) DoAndReturn(f func(context.Contex
 }
 
 // IsMachineManuallyProvisioned mocks base method.
-func (m *MockMachineService) IsMachineManuallyProvisioned(arg0 context.Context, arg1 machine.Name) (bool, error) {
+func (m *MockMachineService) IsMachineManuallyProvisioned(ctx context.Context, machineName machine.Name) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "IsMachineManuallyProvisioned", arg0, arg1)
+	ret := m.ctrl.Call(m, "IsMachineManuallyProvisioned", ctx, machineName)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // IsMachineManuallyProvisioned indicates an expected call of IsMachineManuallyProvisioned.
-func (mr *MockMachineServiceMockRecorder) IsMachineManuallyProvisioned(arg0, arg1 any) *MockMachineServiceIsMachineManuallyProvisionedCall {
+func (mr *MockMachineServiceMockRecorder) IsMachineManuallyProvisioned(ctx, machineName any) *MockMachineServiceIsMachineManuallyProvisionedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsMachineManuallyProvisioned", reflect.TypeOf((*MockMachineService)(nil).IsMachineManuallyProvisioned), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "IsMachineManuallyProvisioned", reflect.TypeOf((*MockMachineService)(nil).IsMachineManuallyProvisioned), ctx, machineName)
 	return &MockMachineServiceIsMachineManuallyProvisionedCall{Call: call}
 }
 

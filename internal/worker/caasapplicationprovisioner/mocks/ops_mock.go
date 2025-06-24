@@ -27,6 +27,7 @@ import (
 type MockApplicationOps struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationOpsMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationOpsMockRecorder is the mock recorder for MockApplicationOps.
@@ -47,17 +48,17 @@ func (m *MockApplicationOps) EXPECT() *MockApplicationOpsMockRecorder {
 }
 
 // AppAlive mocks base method.
-func (m *MockApplicationOps) AppAlive(arg0 context.Context, arg1 string, arg2 caas.Application, arg3 string, arg4 *caas.ApplicationConfig, arg5 caasapplicationprovisioner.CAASProvisionerFacade, arg6 caasapplicationprovisioner.StatusService, arg7 clock.Clock, arg8 logger.Logger) error {
+func (m *MockApplicationOps) AppAlive(ctx context.Context, appName string, app caas.Application, password string, lastApplied *caas.ApplicationConfig, facade caasapplicationprovisioner.CAASProvisionerFacade, statusService caasapplicationprovisioner.StatusService, clk clock.Clock, arg8 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AppAlive", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	ret := m.ctrl.Call(m, "AppAlive", ctx, appName, app, password, lastApplied, facade, statusService, clk, arg8)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AppAlive indicates an expected call of AppAlive.
-func (mr *MockApplicationOpsMockRecorder) AppAlive(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 any) *MockApplicationOpsAppAliveCall {
+func (mr *MockApplicationOpsMockRecorder) AppAlive(ctx, appName, app, password, lastApplied, facade, statusService, clk, arg8 any) *MockApplicationOpsAppAliveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppAlive", reflect.TypeOf((*MockApplicationOps)(nil).AppAlive), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppAlive", reflect.TypeOf((*MockApplicationOps)(nil).AppAlive), ctx, appName, app, password, lastApplied, facade, statusService, clk, arg8)
 	return &MockApplicationOpsAppAliveCall{Call: call}
 }
 
@@ -85,17 +86,17 @@ func (c *MockApplicationOpsAppAliveCall) DoAndReturn(f func(context.Context, str
 }
 
 // AppDead mocks base method.
-func (m *MockApplicationOps) AppDead(arg0 context.Context, arg1 string, arg2 caas.Application, arg3 caasapplicationprovisioner.CAASBroker, arg4 caasapplicationprovisioner.CAASProvisionerFacade, arg5 caasapplicationprovisioner.ApplicationService, arg6 clock.Clock, arg7 logger.Logger) error {
+func (m *MockApplicationOps) AppDead(ctx context.Context, appName string, app caas.Application, broker caasapplicationprovisioner.CAASBroker, facade caasapplicationprovisioner.CAASProvisionerFacade, applicationService caasapplicationprovisioner.ApplicationService, clk clock.Clock, arg7 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AppDead", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	ret := m.ctrl.Call(m, "AppDead", ctx, appName, app, broker, facade, applicationService, clk, arg7)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AppDead indicates an expected call of AppDead.
-func (mr *MockApplicationOpsMockRecorder) AppDead(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7 any) *MockApplicationOpsAppDeadCall {
+func (mr *MockApplicationOpsMockRecorder) AppDead(ctx, appName, app, broker, facade, applicationService, clk, arg7 any) *MockApplicationOpsAppDeadCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppDead", reflect.TypeOf((*MockApplicationOps)(nil).AppDead), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppDead", reflect.TypeOf((*MockApplicationOps)(nil).AppDead), ctx, appName, app, broker, facade, applicationService, clk, arg7)
 	return &MockApplicationOpsAppDeadCall{Call: call}
 }
 
@@ -123,17 +124,17 @@ func (c *MockApplicationOpsAppDeadCall) DoAndReturn(f func(context.Context, stri
 }
 
 // AppDying mocks base method.
-func (m *MockApplicationOps) AppDying(arg0 context.Context, arg1 string, arg2 application.ID, arg3 caas.Application, arg4 life.Value, arg5 caasapplicationprovisioner.CAASProvisionerFacade, arg6 caasapplicationprovisioner.ApplicationService, arg7 caasapplicationprovisioner.StatusService, arg8 logger.Logger) error {
+func (m *MockApplicationOps) AppDying(ctx context.Context, appName string, appID application.ID, app caas.Application, appLife life.Value, facade caasapplicationprovisioner.CAASProvisionerFacade, applicationService caasapplicationprovisioner.ApplicationService, statusService caasapplicationprovisioner.StatusService, arg8 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AppDying", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	ret := m.ctrl.Call(m, "AppDying", ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AppDying indicates an expected call of AppDying.
-func (mr *MockApplicationOpsMockRecorder) AppDying(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 any) *MockApplicationOpsAppDyingCall {
+func (mr *MockApplicationOpsMockRecorder) AppDying(ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8 any) *MockApplicationOpsAppDyingCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppDying", reflect.TypeOf((*MockApplicationOps)(nil).AppDying), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AppDying", reflect.TypeOf((*MockApplicationOps)(nil).AppDying), ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8)
 	return &MockApplicationOpsAppDyingCall{Call: call}
 }
 
@@ -161,18 +162,18 @@ func (c *MockApplicationOpsAppDyingCall) DoAndReturn(f func(context.Context, str
 }
 
 // CheckCharmFormat mocks base method.
-func (m *MockApplicationOps) CheckCharmFormat(arg0 context.Context, arg1 string, arg2 caasapplicationprovisioner.CAASProvisionerFacade, arg3 logger.Logger) (bool, error) {
+func (m *MockApplicationOps) CheckCharmFormat(ctx context.Context, appName string, facade caasapplicationprovisioner.CAASProvisionerFacade, arg3 logger.Logger) (bool, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CheckCharmFormat", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "CheckCharmFormat", ctx, appName, facade, arg3)
 	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CheckCharmFormat indicates an expected call of CheckCharmFormat.
-func (mr *MockApplicationOpsMockRecorder) CheckCharmFormat(arg0, arg1, arg2, arg3 any) *MockApplicationOpsCheckCharmFormatCall {
+func (mr *MockApplicationOpsMockRecorder) CheckCharmFormat(ctx, appName, facade, arg3 any) *MockApplicationOpsCheckCharmFormatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckCharmFormat", reflect.TypeOf((*MockApplicationOps)(nil).CheckCharmFormat), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CheckCharmFormat", reflect.TypeOf((*MockApplicationOps)(nil).CheckCharmFormat), ctx, appName, facade, arg3)
 	return &MockApplicationOpsCheckCharmFormatCall{Call: call}
 }
 
@@ -182,8 +183,8 @@ type MockApplicationOpsCheckCharmFormatCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockApplicationOpsCheckCharmFormatCall) Return(arg0 bool, arg1 error) *MockApplicationOpsCheckCharmFormatCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockApplicationOpsCheckCharmFormatCall) Return(isOk bool, err error) *MockApplicationOpsCheckCharmFormatCall {
+	c.Call = c.Call.Return(isOk, err)
 	return c
 }
 
@@ -200,17 +201,17 @@ func (c *MockApplicationOpsCheckCharmFormatCall) DoAndReturn(f func(context.Cont
 }
 
 // EnsureScale mocks base method.
-func (m *MockApplicationOps) EnsureScale(arg0 context.Context, arg1 string, arg2 application.ID, arg3 caas.Application, arg4 life.Value, arg5 caasapplicationprovisioner.CAASProvisionerFacade, arg6 caasapplicationprovisioner.ApplicationService, arg7 caasapplicationprovisioner.StatusService, arg8 logger.Logger) error {
+func (m *MockApplicationOps) EnsureScale(ctx context.Context, appName string, appID application.ID, app caas.Application, appLife life.Value, facade caasapplicationprovisioner.CAASProvisionerFacade, applicationService caasapplicationprovisioner.ApplicationService, statusService caasapplicationprovisioner.StatusService, arg8 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureScale", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	ret := m.ctrl.Call(m, "EnsureScale", ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureScale indicates an expected call of EnsureScale.
-func (mr *MockApplicationOpsMockRecorder) EnsureScale(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 any) *MockApplicationOpsEnsureScaleCall {
+func (mr *MockApplicationOpsMockRecorder) EnsureScale(ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8 any) *MockApplicationOpsEnsureScaleCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureScale", reflect.TypeOf((*MockApplicationOps)(nil).EnsureScale), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureScale", reflect.TypeOf((*MockApplicationOps)(nil).EnsureScale), ctx, appName, appID, app, appLife, facade, applicationService, statusService, arg8)
 	return &MockApplicationOpsEnsureScaleCall{Call: call}
 }
 
@@ -238,17 +239,17 @@ func (c *MockApplicationOpsEnsureScaleCall) DoAndReturn(f func(context.Context, 
 }
 
 // EnsureTrust mocks base method.
-func (m *MockApplicationOps) EnsureTrust(arg0 context.Context, arg1 string, arg2 caas.Application, arg3 caasapplicationprovisioner.ApplicationService, arg4 logger.Logger) error {
+func (m *MockApplicationOps) EnsureTrust(ctx context.Context, appName string, app caas.Application, applicationService caasapplicationprovisioner.ApplicationService, arg4 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EnsureTrust", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "EnsureTrust", ctx, appName, app, applicationService, arg4)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EnsureTrust indicates an expected call of EnsureTrust.
-func (mr *MockApplicationOpsMockRecorder) EnsureTrust(arg0, arg1, arg2, arg3, arg4 any) *MockApplicationOpsEnsureTrustCall {
+func (mr *MockApplicationOpsMockRecorder) EnsureTrust(ctx, appName, app, applicationService, arg4 any) *MockApplicationOpsEnsureTrustCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureTrust", reflect.TypeOf((*MockApplicationOps)(nil).EnsureTrust), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EnsureTrust", reflect.TypeOf((*MockApplicationOps)(nil).EnsureTrust), ctx, appName, app, applicationService, arg4)
 	return &MockApplicationOpsEnsureTrustCall{Call: call}
 }
 
@@ -276,17 +277,17 @@ func (c *MockApplicationOpsEnsureTrustCall) DoAndReturn(f func(context.Context, 
 }
 
 // ReconcileDeadUnitScale mocks base method.
-func (m *MockApplicationOps) ReconcileDeadUnitScale(arg0 context.Context, arg1 string, arg2 application.ID, arg3 caas.Application, arg4 caasapplicationprovisioner.CAASProvisionerFacade, arg5 caasapplicationprovisioner.ApplicationService, arg6 caasapplicationprovisioner.StatusService, arg7 logger.Logger) error {
+func (m *MockApplicationOps) ReconcileDeadUnitScale(ctx context.Context, appName string, appID application.ID, app caas.Application, facade caasapplicationprovisioner.CAASProvisionerFacade, applicationService caasapplicationprovisioner.ApplicationService, statusService caasapplicationprovisioner.StatusService, arg7 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReconcileDeadUnitScale", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	ret := m.ctrl.Call(m, "ReconcileDeadUnitScale", ctx, appName, appID, app, facade, applicationService, statusService, arg7)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ReconcileDeadUnitScale indicates an expected call of ReconcileDeadUnitScale.
-func (mr *MockApplicationOpsMockRecorder) ReconcileDeadUnitScale(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7 any) *MockApplicationOpsReconcileDeadUnitScaleCall {
+func (mr *MockApplicationOpsMockRecorder) ReconcileDeadUnitScale(ctx, appName, appID, app, facade, applicationService, statusService, arg7 any) *MockApplicationOpsReconcileDeadUnitScaleCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileDeadUnitScale", reflect.TypeOf((*MockApplicationOps)(nil).ReconcileDeadUnitScale), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReconcileDeadUnitScale", reflect.TypeOf((*MockApplicationOps)(nil).ReconcileDeadUnitScale), ctx, appName, appID, app, facade, applicationService, statusService, arg7)
 	return &MockApplicationOpsReconcileDeadUnitScaleCall{Call: call}
 }
 
@@ -314,17 +315,17 @@ func (c *MockApplicationOpsReconcileDeadUnitScaleCall) DoAndReturn(f func(contex
 }
 
 // RefreshApplicationStatus mocks base method.
-func (m *MockApplicationOps) RefreshApplicationStatus(arg0 context.Context, arg1 string, arg2 application.ID, arg3 caas.Application, arg4 life.Value, arg5 caasapplicationprovisioner.CAASProvisionerFacade, arg6 caasapplicationprovisioner.StatusService, arg7 clock.Clock, arg8 logger.Logger) error {
+func (m *MockApplicationOps) RefreshApplicationStatus(ctx context.Context, appName string, appID application.ID, app caas.Application, appLife life.Value, facade caasapplicationprovisioner.CAASProvisionerFacade, statusService caasapplicationprovisioner.StatusService, clk clock.Clock, arg8 logger.Logger) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RefreshApplicationStatus", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	ret := m.ctrl.Call(m, "RefreshApplicationStatus", ctx, appName, appID, app, appLife, facade, statusService, clk, arg8)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RefreshApplicationStatus indicates an expected call of RefreshApplicationStatus.
-func (mr *MockApplicationOpsMockRecorder) RefreshApplicationStatus(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 any) *MockApplicationOpsRefreshApplicationStatusCall {
+func (mr *MockApplicationOpsMockRecorder) RefreshApplicationStatus(ctx, appName, appID, app, appLife, facade, statusService, clk, arg8 any) *MockApplicationOpsRefreshApplicationStatusCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RefreshApplicationStatus", reflect.TypeOf((*MockApplicationOps)(nil).RefreshApplicationStatus), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RefreshApplicationStatus", reflect.TypeOf((*MockApplicationOps)(nil).RefreshApplicationStatus), ctx, appName, appID, app, appLife, facade, statusService, clk, arg8)
 	return &MockApplicationOpsRefreshApplicationStatusCall{Call: call}
 }
 
@@ -352,18 +353,18 @@ func (c *MockApplicationOpsRefreshApplicationStatusCall) DoAndReturn(f func(cont
 }
 
 // UpdateState mocks base method.
-func (m *MockApplicationOps) UpdateState(arg0 context.Context, arg1 string, arg2 caas.Application, arg3 map[string]status.StatusInfo, arg4 caasapplicationprovisioner.CAASBroker, arg5 caasapplicationprovisioner.CAASProvisionerFacade, arg6 caasapplicationprovisioner.ApplicationService, arg7 logger.Logger) (map[string]status.StatusInfo, error) {
+func (m *MockApplicationOps) UpdateState(ctx context.Context, appName string, app caas.Application, lastReportedStatus map[string]status.StatusInfo, broker caasapplicationprovisioner.CAASBroker, facade caasapplicationprovisioner.CAASProvisionerFacade, applicationService caasapplicationprovisioner.ApplicationService, arg7 logger.Logger) (map[string]status.StatusInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateState", arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	ret := m.ctrl.Call(m, "UpdateState", ctx, appName, app, lastReportedStatus, broker, facade, applicationService, arg7)
 	ret0, _ := ret[0].(map[string]status.StatusInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // UpdateState indicates an expected call of UpdateState.
-func (mr *MockApplicationOpsMockRecorder) UpdateState(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7 any) *MockApplicationOpsUpdateStateCall {
+func (mr *MockApplicationOpsMockRecorder) UpdateState(ctx, appName, app, lastReportedStatus, broker, facade, applicationService, arg7 any) *MockApplicationOpsUpdateStateCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateState", reflect.TypeOf((*MockApplicationOps)(nil).UpdateState), arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateState", reflect.TypeOf((*MockApplicationOps)(nil).UpdateState), ctx, appName, app, lastReportedStatus, broker, facade, applicationService, arg7)
 	return &MockApplicationOpsUpdateStateCall{Call: call}
 }
 
@@ -391,17 +392,17 @@ func (c *MockApplicationOpsUpdateStateCall) DoAndReturn(f func(context.Context, 
 }
 
 // WaitForTerminated mocks base method.
-func (m *MockApplicationOps) WaitForTerminated(arg0 string, arg1 caas.Application, arg2 clock.Clock) error {
+func (m *MockApplicationOps) WaitForTerminated(appName string, app caas.Application, clk clock.Clock) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WaitForTerminated", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WaitForTerminated", appName, app, clk)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WaitForTerminated indicates an expected call of WaitForTerminated.
-func (mr *MockApplicationOpsMockRecorder) WaitForTerminated(arg0, arg1, arg2 any) *MockApplicationOpsWaitForTerminatedCall {
+func (mr *MockApplicationOpsMockRecorder) WaitForTerminated(appName, app, clk any) *MockApplicationOpsWaitForTerminatedCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForTerminated", reflect.TypeOf((*MockApplicationOps)(nil).WaitForTerminated), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WaitForTerminated", reflect.TypeOf((*MockApplicationOps)(nil).WaitForTerminated), appName, app, clk)
 	return &MockApplicationOpsWaitForTerminatedCall{Call: call}
 }
 

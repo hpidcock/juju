@@ -22,6 +22,7 @@ import (
 type MockAuthorizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthorizerMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthorizerMockRecorder is the mock recorder for MockAuthorizer.
@@ -232,17 +233,17 @@ func (c *MockAuthorizerAuthModelAgentCall) DoAndReturn(f func() bool) *MockAutho
 }
 
 // AuthOwner mocks base method.
-func (m *MockAuthorizer) AuthOwner(arg0 names.Tag) bool {
+func (m *MockAuthorizer) AuthOwner(tag names.Tag) bool {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AuthOwner", arg0)
+	ret := m.ctrl.Call(m, "AuthOwner", tag)
 	ret0, _ := ret[0].(bool)
 	return ret0
 }
 
 // AuthOwner indicates an expected call of AuthOwner.
-func (mr *MockAuthorizerMockRecorder) AuthOwner(arg0 any) *MockAuthorizerAuthOwnerCall {
+func (mr *MockAuthorizerMockRecorder) AuthOwner(tag any) *MockAuthorizerAuthOwnerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthOwner", reflect.TypeOf((*MockAuthorizer)(nil).AuthOwner), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthOwner", reflect.TypeOf((*MockAuthorizer)(nil).AuthOwner), tag)
 	return &MockAuthorizerAuthOwnerCall{Call: call}
 }
 
@@ -308,17 +309,17 @@ func (c *MockAuthorizerAuthUnitAgentCall) DoAndReturn(f func() bool) *MockAuthor
 }
 
 // EntityHasPermission mocks base method.
-func (m *MockAuthorizer) EntityHasPermission(arg0 context.Context, arg1 names.Tag, arg2 permission.Access, arg3 names.Tag) error {
+func (m *MockAuthorizer) EntityHasPermission(ctx context.Context, entity names.Tag, operation permission.Access, target names.Tag) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EntityHasPermission", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "EntityHasPermission", ctx, entity, operation, target)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // EntityHasPermission indicates an expected call of EntityHasPermission.
-func (mr *MockAuthorizerMockRecorder) EntityHasPermission(arg0, arg1, arg2, arg3 any) *MockAuthorizerEntityHasPermissionCall {
+func (mr *MockAuthorizerMockRecorder) EntityHasPermission(ctx, entity, operation, target any) *MockAuthorizerEntityHasPermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EntityHasPermission", reflect.TypeOf((*MockAuthorizer)(nil).EntityHasPermission), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EntityHasPermission", reflect.TypeOf((*MockAuthorizer)(nil).EntityHasPermission), ctx, entity, operation, target)
 	return &MockAuthorizerEntityHasPermissionCall{Call: call}
 }
 
@@ -384,17 +385,17 @@ func (c *MockAuthorizerGetAuthTagCall) DoAndReturn(f func() names.Tag) *MockAuth
 }
 
 // HasPermission mocks base method.
-func (m *MockAuthorizer) HasPermission(arg0 context.Context, arg1 permission.Access, arg2 names.Tag) error {
+func (m *MockAuthorizer) HasPermission(ctx context.Context, operation permission.Access, target names.Tag) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HasPermission", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "HasPermission", ctx, operation, target)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // HasPermission indicates an expected call of HasPermission.
-func (mr *MockAuthorizerMockRecorder) HasPermission(arg0, arg1, arg2 any) *MockAuthorizerHasPermissionCall {
+func (mr *MockAuthorizerMockRecorder) HasPermission(ctx, operation, target any) *MockAuthorizerHasPermissionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasPermission", reflect.TypeOf((*MockAuthorizer)(nil).HasPermission), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HasPermission", reflect.TypeOf((*MockAuthorizer)(nil).HasPermission), ctx, operation, target)
 	return &MockAuthorizerHasPermissionCall{Call: call}
 }
 

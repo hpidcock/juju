@@ -20,6 +20,7 @@ import (
 type MockSubordinateDestroyer struct {
 	ctrl     *gomock.Controller
 	recorder *MockSubordinateDestroyerMockRecorder
+	isgomock struct{}
 }
 
 // MockSubordinateDestroyerMockRecorder is the mock recorder for MockSubordinateDestroyer.

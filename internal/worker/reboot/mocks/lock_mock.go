@@ -20,6 +20,7 @@ import (
 type MockLock struct {
 	ctrl     *gomock.Controller
 	recorder *MockLockMockRecorder
+	isgomock struct{}
 }
 
 // MockLockMockRecorder is the mock recorder for MockLock.
@@ -40,18 +41,18 @@ func (m *MockLock) EXPECT() *MockLockMockRecorder {
 }
 
 // Acquire mocks base method.
-func (m *MockLock) Acquire(arg0 machinelock.Spec) (func(), error) {
+func (m *MockLock) Acquire(spec machinelock.Spec) (func(), error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Acquire", arg0)
+	ret := m.ctrl.Call(m, "Acquire", spec)
 	ret0, _ := ret[0].(func())
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Acquire indicates an expected call of Acquire.
-func (mr *MockLockMockRecorder) Acquire(arg0 any) *MockLockAcquireCall {
+func (mr *MockLockMockRecorder) Acquire(spec any) *MockLockAcquireCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Acquire", reflect.TypeOf((*MockLock)(nil).Acquire), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Acquire", reflect.TypeOf((*MockLock)(nil).Acquire), spec)
 	return &MockLockAcquireCall{Call: call}
 }
 
@@ -79,10 +80,10 @@ func (c *MockLockAcquireCall) DoAndReturn(f func(machinelock.Spec) (func(), erro
 }
 
 // Report mocks base method.
-func (m *MockLock) Report(arg0 ...machinelock.ReportOption) (string, error) {
+func (m *MockLock) Report(opts ...machinelock.ReportOption) (string, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Report", varargs...)
@@ -92,9 +93,9 @@ func (m *MockLock) Report(arg0 ...machinelock.ReportOption) (string, error) {
 }
 
 // Report indicates an expected call of Report.
-func (mr *MockLockMockRecorder) Report(arg0 ...any) *MockLockReportCall {
+func (mr *MockLockMockRecorder) Report(opts ...any) *MockLockReportCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Report", reflect.TypeOf((*MockLock)(nil).Report), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Report", reflect.TypeOf((*MockLock)(nil).Report), opts...)
 	return &MockLockReportCall{Call: call}
 }
 

@@ -22,6 +22,7 @@ import (
 type MockResourceStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockResourceStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockResourceStoreMockRecorder is the mock recorder for MockResourceStore.
@@ -42,9 +43,9 @@ func (m *MockResourceStore) EXPECT() *MockResourceStoreMockRecorder {
 }
 
 // Get mocks base method.
-func (m *MockResourceStore) Get(arg0 context.Context, arg1 string) (io.ReadCloser, int64, error) {
+func (m *MockResourceStore) Get(ctx context.Context, storageKey string) (io.ReadCloser, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Get", ctx, storageKey)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -52,9 +53,9 @@ func (m *MockResourceStore) Get(arg0 context.Context, arg1 string) (io.ReadClose
 }
 
 // Get indicates an expected call of Get.
-func (mr *MockResourceStoreMockRecorder) Get(arg0, arg1 any) *MockResourceStoreGetCall {
+func (mr *MockResourceStoreMockRecorder) Get(ctx, storageKey any) *MockResourceStoreGetCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockResourceStore)(nil).Get), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockResourceStore)(nil).Get), ctx, storageKey)
 	return &MockResourceStoreGetCall{Call: call}
 }
 
@@ -64,8 +65,8 @@ type MockResourceStoreGetCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockResourceStoreGetCall) Return(arg0 io.ReadCloser, arg1 int64, arg2 error) *MockResourceStoreGetCall {
-	c.Call = c.Call.Return(arg0, arg1, arg2)
+func (c *MockResourceStoreGetCall) Return(r io.ReadCloser, size int64, err error) *MockResourceStoreGetCall {
+	c.Call = c.Call.Return(r, size, err)
 	return c
 }
 
@@ -82,9 +83,9 @@ func (c *MockResourceStoreGetCall) DoAndReturn(f func(context.Context, string) (
 }
 
 // Put mocks base method.
-func (m *MockResourceStore) Put(arg0 context.Context, arg1 string, arg2 io.Reader, arg3 int64, arg4 store.Fingerprint) (store.ID, int64, store.Fingerprint, error) {
+func (m *MockResourceStore) Put(ctx context.Context, storageKey string, r io.Reader, size int64, fingerprint store.Fingerprint) (store.ID, int64, store.Fingerprint, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Put", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "Put", ctx, storageKey, r, size, fingerprint)
 	ret0, _ := ret[0].(store.ID)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(store.Fingerprint)
@@ -93,9 +94,9 @@ func (m *MockResourceStore) Put(arg0 context.Context, arg1 string, arg2 io.Reade
 }
 
 // Put indicates an expected call of Put.
-func (mr *MockResourceStoreMockRecorder) Put(arg0, arg1, arg2, arg3, arg4 any) *MockResourceStorePutCall {
+func (mr *MockResourceStoreMockRecorder) Put(ctx, storageKey, r, size, fingerprint any) *MockResourceStorePutCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockResourceStore)(nil).Put), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Put", reflect.TypeOf((*MockResourceStore)(nil).Put), ctx, storageKey, r, size, fingerprint)
 	return &MockResourceStorePutCall{Call: call}
 }
 
@@ -123,17 +124,17 @@ func (c *MockResourceStorePutCall) DoAndReturn(f func(context.Context, string, i
 }
 
 // Remove mocks base method.
-func (m *MockResourceStore) Remove(arg0 context.Context, arg1 string) error {
+func (m *MockResourceStore) Remove(ctx context.Context, storageKey string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Remove", arg0, arg1)
+	ret := m.ctrl.Call(m, "Remove", ctx, storageKey)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Remove indicates an expected call of Remove.
-func (mr *MockResourceStoreMockRecorder) Remove(arg0, arg1 any) *MockResourceStoreRemoveCall {
+func (mr *MockResourceStoreMockRecorder) Remove(ctx, storageKey any) *MockResourceStoreRemoveCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockResourceStore)(nil).Remove), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Remove", reflect.TypeOf((*MockResourceStore)(nil).Remove), ctx, storageKey)
 	return &MockResourceStoreRemoveCall{Call: call}
 }
 

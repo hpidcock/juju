@@ -21,6 +21,7 @@ import (
 type MockFacadeCaller struct {
 	ctrl     *gomock.Controller
 	recorder *MockFacadeCallerMockRecorder
+	isgomock struct{}
 }
 
 // MockFacadeCallerMockRecorder is the mock recorder for MockFacadeCaller.
@@ -79,17 +80,17 @@ func (c *MockFacadeCallerBestAPIVersionCall) DoAndReturn(f func() int) *MockFaca
 }
 
 // FacadeCall mocks base method.
-func (m *MockFacadeCaller) FacadeCall(arg0 context.Context, arg1 string, arg2, arg3 any) error {
+func (m *MockFacadeCaller) FacadeCall(ctx context.Context, request string, params, response any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FacadeCall", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "FacadeCall", ctx, request, params, response)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // FacadeCall indicates an expected call of FacadeCall.
-func (mr *MockFacadeCallerMockRecorder) FacadeCall(arg0, arg1, arg2, arg3 any) *MockFacadeCallerFacadeCallCall {
+func (mr *MockFacadeCallerMockRecorder) FacadeCall(ctx, request, params, response any) *MockFacadeCallerFacadeCallCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FacadeCall", reflect.TypeOf((*MockFacadeCaller)(nil).FacadeCall), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FacadeCall", reflect.TypeOf((*MockFacadeCaller)(nil).FacadeCall), ctx, request, params, response)
 	return &MockFacadeCallerFacadeCallCall{Call: call}
 }
 

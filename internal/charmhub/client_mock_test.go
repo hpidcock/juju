@@ -23,6 +23,7 @@ import (
 type MockHTTPClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientMockRecorder is the mock recorder for MockHTTPClient.
@@ -85,6 +86,7 @@ func (c *MockHTTPClientDoCall) DoAndReturn(f func(*http.Request) (*http.Response
 type MockRESTClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockRESTClientMockRecorder
+	isgomock struct{}
 }
 
 // MockRESTClientMockRecorder is the mock recorder for MockRESTClient.
@@ -186,6 +188,7 @@ func (c *MockRESTClientPostCall) DoAndReturn(f func(context.Context, path.Path, 
 type MockFileSystem struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileSystemMockRecorder
+	isgomock struct{}
 }
 
 // MockFileSystemMockRecorder is the mock recorder for MockFileSystem.
@@ -248,6 +251,7 @@ func (c *MockFileSystemCreateCall) DoAndReturn(f func(string) (*os.File, error))
 type MockProgressBar struct {
 	ctrl     *gomock.Controller
 	recorder *MockProgressBarMockRecorder
+	isgomock struct{}
 }
 
 // MockProgressBarMockRecorder is the mock recorder for MockProgressBar.
@@ -304,15 +308,15 @@ func (c *MockProgressBarFinishedCall) DoAndReturn(f func()) *MockProgressBarFini
 }
 
 // Start mocks base method.
-func (m *MockProgressBar) Start(arg0 string, arg1 float64) {
+func (m *MockProgressBar) Start(label string, total float64) {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Start", arg0, arg1)
+	m.ctrl.Call(m, "Start", label, total)
 }
 
 // Start indicates an expected call of Start.
-func (mr *MockProgressBarMockRecorder) Start(arg0, arg1 any) *MockProgressBarStartCall {
+func (mr *MockProgressBarMockRecorder) Start(label, total any) *MockProgressBarStartCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockProgressBar)(nil).Start), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockProgressBar)(nil).Start), label, total)
 	return &MockProgressBarStartCall{Call: call}
 }
 
@@ -340,18 +344,18 @@ func (c *MockProgressBarStartCall) DoAndReturn(f func(string, float64)) *MockPro
 }
 
 // Write mocks base method.
-func (m *MockProgressBar) Write(arg0 []byte) (int, error) {
+func (m *MockProgressBar) Write(p []byte) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Write", arg0)
+	ret := m.ctrl.Call(m, "Write", p)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Write indicates an expected call of Write.
-func (mr *MockProgressBarMockRecorder) Write(arg0 any) *MockProgressBarWriteCall {
+func (mr *MockProgressBarMockRecorder) Write(p any) *MockProgressBarWriteCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockProgressBar)(nil).Write), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Write", reflect.TypeOf((*MockProgressBar)(nil).Write), p)
 	return &MockProgressBarWriteCall{Call: call}
 }
 
@@ -361,8 +365,8 @@ type MockProgressBarWriteCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockProgressBarWriteCall) Return(arg0 int, arg1 error) *MockProgressBarWriteCall {
-	c.Call = c.Call.Return(arg0, arg1)
+func (c *MockProgressBarWriteCall) Return(n int, err error) *MockProgressBarWriteCall {
+	c.Call = c.Call.Return(n, err)
 	return c
 }
 

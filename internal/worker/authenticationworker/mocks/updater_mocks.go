@@ -22,6 +22,7 @@ import (
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -42,18 +43,18 @@ func (m *MockClient) EXPECT() *MockClientMockRecorder {
 }
 
 // AuthorisedKeys mocks base method.
-func (m *MockClient) AuthorisedKeys(arg0 context.Context, arg1 names.MachineTag) ([]string, error) {
+func (m *MockClient) AuthorisedKeys(ctx context.Context, tag names.MachineTag) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AuthorisedKeys", arg0, arg1)
+	ret := m.ctrl.Call(m, "AuthorisedKeys", ctx, tag)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AuthorisedKeys indicates an expected call of AuthorisedKeys.
-func (mr *MockClientMockRecorder) AuthorisedKeys(arg0, arg1 any) *MockClientAuthorisedKeysCall {
+func (mr *MockClientMockRecorder) AuthorisedKeys(ctx, tag any) *MockClientAuthorisedKeysCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthorisedKeys", reflect.TypeOf((*MockClient)(nil).AuthorisedKeys), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthorisedKeys", reflect.TypeOf((*MockClient)(nil).AuthorisedKeys), ctx, tag)
 	return &MockClientAuthorisedKeysCall{Call: call}
 }
 
@@ -81,18 +82,18 @@ func (c *MockClientAuthorisedKeysCall) DoAndReturn(f func(context.Context, names
 }
 
 // WatchAuthorisedKeys mocks base method.
-func (m *MockClient) WatchAuthorisedKeys(arg0 context.Context, arg1 names.MachineTag) (watcher.Watcher[struct{}], error) {
+func (m *MockClient) WatchAuthorisedKeys(ctx context.Context, tag names.MachineTag) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WatchAuthorisedKeys", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret := m.ctrl.Call(m, "WatchAuthorisedKeys", ctx, tag)
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // WatchAuthorisedKeys indicates an expected call of WatchAuthorisedKeys.
-func (mr *MockClientMockRecorder) WatchAuthorisedKeys(arg0, arg1 any) *MockClientWatchAuthorisedKeysCall {
+func (mr *MockClientMockRecorder) WatchAuthorisedKeys(ctx, tag any) *MockClientWatchAuthorisedKeysCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchAuthorisedKeys", reflect.TypeOf((*MockClient)(nil).WatchAuthorisedKeys), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WatchAuthorisedKeys", reflect.TypeOf((*MockClient)(nil).WatchAuthorisedKeys), ctx, tag)
 	return &MockClientWatchAuthorisedKeysCall{Call: call}
 }
 
@@ -102,19 +103,19 @@ type MockClientWatchAuthorisedKeysCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockClientWatchAuthorisedKeysCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockClientWatchAuthorisedKeysCall {
+func (c *MockClientWatchAuthorisedKeysCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockClientWatchAuthorisedKeysCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockClientWatchAuthorisedKeysCall) Do(f func(context.Context, names.MachineTag) (watcher.Watcher[struct{}], error)) *MockClientWatchAuthorisedKeysCall {
+func (c *MockClientWatchAuthorisedKeysCall) Do(f func(context.Context, names.MachineTag) (watcher.NotifyWatcher, error)) *MockClientWatchAuthorisedKeysCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockClientWatchAuthorisedKeysCall) DoAndReturn(f func(context.Context, names.MachineTag) (watcher.Watcher[struct{}], error)) *MockClientWatchAuthorisedKeysCall {
+func (c *MockClientWatchAuthorisedKeysCall) DoAndReturn(f func(context.Context, names.MachineTag) (watcher.NotifyWatcher, error)) *MockClientWatchAuthorisedKeysCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

@@ -23,6 +23,7 @@ import (
 type MockDBApp struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBAppMockRecorder
+	isgomock struct{}
 }
 
 // MockDBAppMockRecorder is the mock recorder for MockDBApp.
@@ -85,6 +86,7 @@ func (c *MockDBAppOpenCall) DoAndReturn(f func(context.Context, string) (*sql.DB
 type MockNodeManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockNodeManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockNodeManagerMockRecorder is the mock recorder for MockNodeManager.
@@ -105,18 +107,18 @@ func (m *MockNodeManager) EXPECT() *MockNodeManagerMockRecorder {
 }
 
 // DqliteSQLDriver mocks base method.
-func (m *MockNodeManager) DqliteSQLDriver(arg0 context.Context) (driver.Driver, error) {
+func (m *MockNodeManager) DqliteSQLDriver(ctx context.Context) (driver.Driver, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DqliteSQLDriver", arg0)
+	ret := m.ctrl.Call(m, "DqliteSQLDriver", ctx)
 	ret0, _ := ret[0].(driver.Driver)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DqliteSQLDriver indicates an expected call of DqliteSQLDriver.
-func (mr *MockNodeManagerMockRecorder) DqliteSQLDriver(arg0 any) *MockNodeManagerDqliteSQLDriverCall {
+func (mr *MockNodeManagerMockRecorder) DqliteSQLDriver(ctx any) *MockNodeManagerDqliteSQLDriverCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DqliteSQLDriver", reflect.TypeOf((*MockNodeManager)(nil).DqliteSQLDriver), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DqliteSQLDriver", reflect.TypeOf((*MockNodeManager)(nil).DqliteSQLDriver), ctx)
 	return &MockNodeManagerDqliteSQLDriverCall{Call: call}
 }
 
@@ -186,6 +188,7 @@ func (c *MockNodeManagerEnsureDataDirCall) DoAndReturn(f func() (string, error))
 type MockTrackedDB struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackedDBMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackedDBMockRecorder is the mock recorder for MockTrackedDB.

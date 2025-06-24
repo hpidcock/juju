@@ -23,6 +23,7 @@ import (
 type MockObjectStoreMetadata struct {
 	ctrl     *gomock.Controller
 	recorder *MockObjectStoreMetadataMockRecorder
+	isgomock struct{}
 }
 
 // MockObjectStoreMetadataMockRecorder is the mock recorder for MockObjectStoreMetadata.
@@ -43,18 +44,18 @@ func (m *MockObjectStoreMetadata) EXPECT() *MockObjectStoreMetadataMockRecorder 
 }
 
 // GetMetadata mocks base method.
-func (m *MockObjectStoreMetadata) GetMetadata(arg0 context.Context, arg1 string) (objectstore.Metadata, error) {
+func (m *MockObjectStoreMetadata) GetMetadata(ctx context.Context, path string) (objectstore.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMetadata", ctx, path)
 	ret0, _ := ret[0].(objectstore.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMetadata indicates an expected call of GetMetadata.
-func (mr *MockObjectStoreMetadataMockRecorder) GetMetadata(arg0, arg1 any) *MockObjectStoreMetadataGetMetadataCall {
+func (mr *MockObjectStoreMetadataMockRecorder) GetMetadata(ctx, path any) *MockObjectStoreMetadataGetMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadata), ctx, path)
 	return &MockObjectStoreMetadataGetMetadataCall{Call: call}
 }
 
@@ -82,18 +83,18 @@ func (c *MockObjectStoreMetadataGetMetadataCall) DoAndReturn(f func(context.Cont
 }
 
 // GetMetadataBySHA256 mocks base method.
-func (m *MockObjectStoreMetadata) GetMetadataBySHA256(arg0 context.Context, arg1 string) (objectstore.Metadata, error) {
+func (m *MockObjectStoreMetadata) GetMetadataBySHA256(ctx context.Context, sha256 string) (objectstore.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMetadataBySHA256", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMetadataBySHA256", ctx, sha256)
 	ret0, _ := ret[0].(objectstore.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMetadataBySHA256 indicates an expected call of GetMetadataBySHA256.
-func (mr *MockObjectStoreMetadataMockRecorder) GetMetadataBySHA256(arg0, arg1 any) *MockObjectStoreMetadataGetMetadataBySHA256Call {
+func (mr *MockObjectStoreMetadataMockRecorder) GetMetadataBySHA256(ctx, sha256 any) *MockObjectStoreMetadataGetMetadataBySHA256Call {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadataBySHA256", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadataBySHA256), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadataBySHA256", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadataBySHA256), ctx, sha256)
 	return &MockObjectStoreMetadataGetMetadataBySHA256Call{Call: call}
 }
 
@@ -121,18 +122,18 @@ func (c *MockObjectStoreMetadataGetMetadataBySHA256Call) DoAndReturn(f func(cont
 }
 
 // GetMetadataBySHA256Prefix mocks base method.
-func (m *MockObjectStoreMetadata) GetMetadataBySHA256Prefix(arg0 context.Context, arg1 string) (objectstore.Metadata, error) {
+func (m *MockObjectStoreMetadata) GetMetadataBySHA256Prefix(ctx context.Context, sha256Prefix string) (objectstore.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetMetadataBySHA256Prefix", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetMetadataBySHA256Prefix", ctx, sha256Prefix)
 	ret0, _ := ret[0].(objectstore.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetMetadataBySHA256Prefix indicates an expected call of GetMetadataBySHA256Prefix.
-func (mr *MockObjectStoreMetadataMockRecorder) GetMetadataBySHA256Prefix(arg0, arg1 any) *MockObjectStoreMetadataGetMetadataBySHA256PrefixCall {
+func (mr *MockObjectStoreMetadataMockRecorder) GetMetadataBySHA256Prefix(ctx, sha256Prefix any) *MockObjectStoreMetadataGetMetadataBySHA256PrefixCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadataBySHA256Prefix", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadataBySHA256Prefix), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetMetadataBySHA256Prefix", reflect.TypeOf((*MockObjectStoreMetadata)(nil).GetMetadataBySHA256Prefix), ctx, sha256Prefix)
 	return &MockObjectStoreMetadataGetMetadataBySHA256PrefixCall{Call: call}
 }
 
@@ -160,18 +161,18 @@ func (c *MockObjectStoreMetadataGetMetadataBySHA256PrefixCall) DoAndReturn(f fun
 }
 
 // ListMetadata mocks base method.
-func (m *MockObjectStoreMetadata) ListMetadata(arg0 context.Context) ([]objectstore.Metadata, error) {
+func (m *MockObjectStoreMetadata) ListMetadata(ctx context.Context) ([]objectstore.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListMetadata", arg0)
+	ret := m.ctrl.Call(m, "ListMetadata", ctx)
 	ret0, _ := ret[0].([]objectstore.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListMetadata indicates an expected call of ListMetadata.
-func (mr *MockObjectStoreMetadataMockRecorder) ListMetadata(arg0 any) *MockObjectStoreMetadataListMetadataCall {
+func (mr *MockObjectStoreMetadataMockRecorder) ListMetadata(ctx any) *MockObjectStoreMetadataListMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).ListMetadata), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).ListMetadata), ctx)
 	return &MockObjectStoreMetadataListMetadataCall{Call: call}
 }
 
@@ -199,18 +200,18 @@ func (c *MockObjectStoreMetadataListMetadataCall) DoAndReturn(f func(context.Con
 }
 
 // PutMetadata mocks base method.
-func (m *MockObjectStoreMetadata) PutMetadata(arg0 context.Context, arg1 objectstore.Metadata) (objectstore.UUID, error) {
+func (m *MockObjectStoreMetadata) PutMetadata(ctx context.Context, metadata objectstore.Metadata) (objectstore.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "PutMetadata", ctx, metadata)
 	ret0, _ := ret[0].(objectstore.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PutMetadata indicates an expected call of PutMetadata.
-func (mr *MockObjectStoreMetadataMockRecorder) PutMetadata(arg0, arg1 any) *MockObjectStoreMetadataPutMetadataCall {
+func (mr *MockObjectStoreMetadataMockRecorder) PutMetadata(ctx, metadata any) *MockObjectStoreMetadataPutMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).PutMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).PutMetadata), ctx, metadata)
 	return &MockObjectStoreMetadataPutMetadataCall{Call: call}
 }
 
@@ -238,17 +239,17 @@ func (c *MockObjectStoreMetadataPutMetadataCall) DoAndReturn(f func(context.Cont
 }
 
 // RemoveMetadata mocks base method.
-func (m *MockObjectStoreMetadata) RemoveMetadata(arg0 context.Context, arg1 string) error {
+func (m *MockObjectStoreMetadata) RemoveMetadata(ctx context.Context, path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "RemoveMetadata", ctx, path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveMetadata indicates an expected call of RemoveMetadata.
-func (mr *MockObjectStoreMetadataMockRecorder) RemoveMetadata(arg0, arg1 any) *MockObjectStoreMetadataRemoveMetadataCall {
+func (mr *MockObjectStoreMetadataMockRecorder) RemoveMetadata(ctx, path any) *MockObjectStoreMetadataRemoveMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).RemoveMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveMetadata", reflect.TypeOf((*MockObjectStoreMetadata)(nil).RemoveMetadata), ctx, path)
 	return &MockObjectStoreMetadataRemoveMetadataCall{Call: call}
 }
 
@@ -276,10 +277,10 @@ func (c *MockObjectStoreMetadataRemoveMetadataCall) DoAndReturn(f func(context.C
 }
 
 // Watch mocks base method.
-func (m *MockObjectStoreMetadata) Watch() (watcher.Watcher[[]string], error) {
+func (m *MockObjectStoreMetadata) Watch() (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Watch")
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -297,19 +298,19 @@ type MockObjectStoreMetadataWatchCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockObjectStoreMetadataWatchCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockObjectStoreMetadataWatchCall {
+func (c *MockObjectStoreMetadataWatchCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockObjectStoreMetadataWatchCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockObjectStoreMetadataWatchCall) Do(f func() (watcher.Watcher[[]string], error)) *MockObjectStoreMetadataWatchCall {
+func (c *MockObjectStoreMetadataWatchCall) Do(f func() (watcher.StringsWatcher, error)) *MockObjectStoreMetadataWatchCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockObjectStoreMetadataWatchCall) DoAndReturn(f func() (watcher.Watcher[[]string], error)) *MockObjectStoreMetadataWatchCall {
+func (c *MockObjectStoreMetadataWatchCall) DoAndReturn(f func() (watcher.StringsWatcher, error)) *MockObjectStoreMetadataWatchCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
@@ -318,6 +319,7 @@ func (c *MockObjectStoreMetadataWatchCall) DoAndReturn(f func() (watcher.Watcher
 type MockSession struct {
 	ctrl     *gomock.Controller
 	recorder *MockSessionMockRecorder
+	isgomock struct{}
 }
 
 // MockSessionMockRecorder is the mock recorder for MockSession.
@@ -338,17 +340,17 @@ func (m *MockSession) EXPECT() *MockSessionMockRecorder {
 }
 
 // CreateBucket mocks base method.
-func (m *MockSession) CreateBucket(arg0 context.Context, arg1 string) error {
+func (m *MockSession) CreateBucket(ctx context.Context, bucketName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateBucket", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateBucket", ctx, bucketName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateBucket indicates an expected call of CreateBucket.
-func (mr *MockSessionMockRecorder) CreateBucket(arg0, arg1 any) *MockSessionCreateBucketCall {
+func (mr *MockSessionMockRecorder) CreateBucket(ctx, bucketName any) *MockSessionCreateBucketCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBucket", reflect.TypeOf((*MockSession)(nil).CreateBucket), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBucket", reflect.TypeOf((*MockSession)(nil).CreateBucket), ctx, bucketName)
 	return &MockSessionCreateBucketCall{Call: call}
 }
 
@@ -376,17 +378,17 @@ func (c *MockSessionCreateBucketCall) DoAndReturn(f func(context.Context, string
 }
 
 // DeleteObject mocks base method.
-func (m *MockSession) DeleteObject(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockSession) DeleteObject(ctx context.Context, bucketName, objectName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "DeleteObject", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteObject indicates an expected call of DeleteObject.
-func (mr *MockSessionMockRecorder) DeleteObject(arg0, arg1, arg2 any) *MockSessionDeleteObjectCall {
+func (mr *MockSessionMockRecorder) DeleteObject(ctx, bucketName, objectName any) *MockSessionDeleteObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObject", reflect.TypeOf((*MockSession)(nil).DeleteObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteObject", reflect.TypeOf((*MockSession)(nil).DeleteObject), ctx, bucketName, objectName)
 	return &MockSessionDeleteObjectCall{Call: call}
 }
 
@@ -414,9 +416,9 @@ func (c *MockSessionDeleteObjectCall) DoAndReturn(f func(context.Context, string
 }
 
 // GetObject mocks base method.
-func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.ReadCloser, int64, string, error) {
+func (m *MockSession) GetObject(ctx context.Context, bucketName, objectName string) (io.ReadCloser, int64, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetObject", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "GetObject", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(string)
@@ -425,9 +427,9 @@ func (m *MockSession) GetObject(arg0 context.Context, arg1, arg2 string) (io.Rea
 }
 
 // GetObject indicates an expected call of GetObject.
-func (mr *MockSessionMockRecorder) GetObject(arg0, arg1, arg2 any) *MockSessionGetObjectCall {
+func (mr *MockSessionMockRecorder) GetObject(ctx, bucketName, objectName any) *MockSessionGetObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObject", reflect.TypeOf((*MockSession)(nil).GetObject), ctx, bucketName, objectName)
 	return &MockSessionGetObjectCall{Call: call}
 }
 
@@ -455,18 +457,18 @@ func (c *MockSessionGetObjectCall) DoAndReturn(f func(context.Context, string, s
 }
 
 // ListObjects mocks base method.
-func (m *MockSession) ListObjects(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockSession) ListObjects(ctx context.Context, bucketName string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListObjects", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListObjects", ctx, bucketName)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListObjects indicates an expected call of ListObjects.
-func (mr *MockSessionMockRecorder) ListObjects(arg0, arg1 any) *MockSessionListObjectsCall {
+func (mr *MockSessionMockRecorder) ListObjects(ctx, bucketName any) *MockSessionListObjectsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjects", reflect.TypeOf((*MockSession)(nil).ListObjects), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjects", reflect.TypeOf((*MockSession)(nil).ListObjects), ctx, bucketName)
 	return &MockSessionListObjectsCall{Call: call}
 }
 
@@ -494,17 +496,17 @@ func (c *MockSessionListObjectsCall) DoAndReturn(f func(context.Context, string)
 }
 
 // ObjectExists mocks base method.
-func (m *MockSession) ObjectExists(arg0 context.Context, arg1, arg2 string) error {
+func (m *MockSession) ObjectExists(ctx context.Context, bucketName, objectName string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ObjectExists", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ObjectExists", ctx, bucketName, objectName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ObjectExists indicates an expected call of ObjectExists.
-func (mr *MockSessionMockRecorder) ObjectExists(arg0, arg1, arg2 any) *MockSessionObjectExistsCall {
+func (mr *MockSessionMockRecorder) ObjectExists(ctx, bucketName, objectName any) *MockSessionObjectExistsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ObjectExists", reflect.TypeOf((*MockSession)(nil).ObjectExists), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ObjectExists", reflect.TypeOf((*MockSession)(nil).ObjectExists), ctx, bucketName, objectName)
 	return &MockSessionObjectExistsCall{Call: call}
 }
 
@@ -532,17 +534,17 @@ func (c *MockSessionObjectExistsCall) DoAndReturn(f func(context.Context, string
 }
 
 // PutObject mocks base method.
-func (m *MockSession) PutObject(arg0 context.Context, arg1, arg2 string, arg3 io.Reader, arg4 string) error {
+func (m *MockSession) PutObject(ctx context.Context, bucketName, objectName string, body io.Reader, hash string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutObject", arg0, arg1, arg2, arg3, arg4)
+	ret := m.ctrl.Call(m, "PutObject", ctx, bucketName, objectName, body, hash)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // PutObject indicates an expected call of PutObject.
-func (mr *MockSessionMockRecorder) PutObject(arg0, arg1, arg2, arg3, arg4 any) *MockSessionPutObjectCall {
+func (mr *MockSessionMockRecorder) PutObject(ctx, bucketName, objectName, body, hash any) *MockSessionPutObjectCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutObject", reflect.TypeOf((*MockSession)(nil).PutObject), arg0, arg1, arg2, arg3, arg4)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutObject", reflect.TypeOf((*MockSession)(nil).PutObject), ctx, bucketName, objectName, body, hash)
 	return &MockSessionPutObjectCall{Call: call}
 }
 

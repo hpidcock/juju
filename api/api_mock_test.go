@@ -20,6 +20,7 @@ import (
 type MockRootAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockRootAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockRootAPIMockRecorder is the mock recorder for MockRootAPI.
@@ -82,6 +83,7 @@ func (c *MockRootAPIAdminCall) DoAndReturn(f func(string) (AdminAPI, error)) *Mo
 type MockAdminAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockAdminAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockAdminAPIMockRecorder is the mock recorder for MockAdminAPI.

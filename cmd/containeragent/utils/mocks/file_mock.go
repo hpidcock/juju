@@ -11,7 +11,7 @@ package mocks
 
 import (
 	io "io"
-	fs "io/fs"
+	os "os"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
@@ -21,6 +21,7 @@ import (
 type MockFileReaderWriter struct {
 	ctrl     *gomock.Controller
 	recorder *MockFileReaderWriterMockRecorder
+	isgomock struct{}
 }
 
 // MockFileReaderWriterMockRecorder is the mock recorder for MockFileReaderWriter.
@@ -41,17 +42,17 @@ func (m *MockFileReaderWriter) EXPECT() *MockFileReaderWriterMockRecorder {
 }
 
 // MkdirAll mocks base method.
-func (m *MockFileReaderWriter) MkdirAll(arg0 string, arg1 fs.FileMode) error {
+func (m *MockFileReaderWriter) MkdirAll(path string, perm os.FileMode) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "MkdirAll", arg0, arg1)
+	ret := m.ctrl.Call(m, "MkdirAll", path, perm)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // MkdirAll indicates an expected call of MkdirAll.
-func (mr *MockFileReaderWriterMockRecorder) MkdirAll(arg0, arg1 any) *MockFileReaderWriterMkdirAllCall {
+func (mr *MockFileReaderWriterMockRecorder) MkdirAll(path, perm any) *MockFileReaderWriterMkdirAllCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MkdirAll", reflect.TypeOf((*MockFileReaderWriter)(nil).MkdirAll), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MkdirAll", reflect.TypeOf((*MockFileReaderWriter)(nil).MkdirAll), path, perm)
 	return &MockFileReaderWriterMkdirAllCall{Call: call}
 }
 
@@ -67,30 +68,30 @@ func (c *MockFileReaderWriterMkdirAllCall) Return(arg0 error) *MockFileReaderWri
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFileReaderWriterMkdirAllCall) Do(f func(string, fs.FileMode) error) *MockFileReaderWriterMkdirAllCall {
+func (c *MockFileReaderWriterMkdirAllCall) Do(f func(string, os.FileMode) error) *MockFileReaderWriterMkdirAllCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFileReaderWriterMkdirAllCall) DoAndReturn(f func(string, fs.FileMode) error) *MockFileReaderWriterMkdirAllCall {
+func (c *MockFileReaderWriterMkdirAllCall) DoAndReturn(f func(string, os.FileMode) error) *MockFileReaderWriterMkdirAllCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // ReadFile mocks base method.
-func (m *MockFileReaderWriter) ReadFile(arg0 string) ([]byte, error) {
+func (m *MockFileReaderWriter) ReadFile(filename string) ([]byte, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadFile", arg0)
+	ret := m.ctrl.Call(m, "ReadFile", filename)
 	ret0, _ := ret[0].([]byte)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ReadFile indicates an expected call of ReadFile.
-func (mr *MockFileReaderWriterMockRecorder) ReadFile(arg0 any) *MockFileReaderWriterReadFileCall {
+func (mr *MockFileReaderWriterMockRecorder) ReadFile(filename any) *MockFileReaderWriterReadFileCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadFile", reflect.TypeOf((*MockFileReaderWriter)(nil).ReadFile), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadFile", reflect.TypeOf((*MockFileReaderWriter)(nil).ReadFile), filename)
 	return &MockFileReaderWriterReadFileCall{Call: call}
 }
 
@@ -118,18 +119,18 @@ func (c *MockFileReaderWriterReadFileCall) DoAndReturn(f func(string) ([]byte, e
 }
 
 // Reader mocks base method.
-func (m *MockFileReaderWriter) Reader(arg0 string) (io.ReadCloser, error) {
+func (m *MockFileReaderWriter) Reader(filename string) (io.ReadCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Reader", arg0)
+	ret := m.ctrl.Call(m, "Reader", filename)
 	ret0, _ := ret[0].(io.ReadCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Reader indicates an expected call of Reader.
-func (mr *MockFileReaderWriterMockRecorder) Reader(arg0 any) *MockFileReaderWriterReaderCall {
+func (mr *MockFileReaderWriterMockRecorder) Reader(filename any) *MockFileReaderWriterReaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reader", reflect.TypeOf((*MockFileReaderWriter)(nil).Reader), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Reader", reflect.TypeOf((*MockFileReaderWriter)(nil).Reader), filename)
 	return &MockFileReaderWriterReaderCall{Call: call}
 }
 
@@ -157,17 +158,17 @@ func (c *MockFileReaderWriterReaderCall) DoAndReturn(f func(string) (io.ReadClos
 }
 
 // RemoveAll mocks base method.
-func (m *MockFileReaderWriter) RemoveAll(arg0 string) error {
+func (m *MockFileReaderWriter) RemoveAll(path string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveAll", arg0)
+	ret := m.ctrl.Call(m, "RemoveAll", path)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveAll indicates an expected call of RemoveAll.
-func (mr *MockFileReaderWriterMockRecorder) RemoveAll(arg0 any) *MockFileReaderWriterRemoveAllCall {
+func (mr *MockFileReaderWriterMockRecorder) RemoveAll(path any) *MockFileReaderWriterRemoveAllCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFileReaderWriter)(nil).RemoveAll), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveAll", reflect.TypeOf((*MockFileReaderWriter)(nil).RemoveAll), path)
 	return &MockFileReaderWriterRemoveAllCall{Call: call}
 }
 
@@ -195,18 +196,18 @@ func (c *MockFileReaderWriterRemoveAllCall) DoAndReturn(f func(string) error) *M
 }
 
 // Stat mocks base method.
-func (m *MockFileReaderWriter) Stat(arg0 string) (fs.FileInfo, error) {
+func (m *MockFileReaderWriter) Stat(filename string) (os.FileInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stat", arg0)
-	ret0, _ := ret[0].(fs.FileInfo)
+	ret := m.ctrl.Call(m, "Stat", filename)
+	ret0, _ := ret[0].(os.FileInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Stat indicates an expected call of Stat.
-func (mr *MockFileReaderWriterMockRecorder) Stat(arg0 any) *MockFileReaderWriterStatCall {
+func (mr *MockFileReaderWriterMockRecorder) Stat(filename any) *MockFileReaderWriterStatCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stat", reflect.TypeOf((*MockFileReaderWriter)(nil).Stat), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stat", reflect.TypeOf((*MockFileReaderWriter)(nil).Stat), filename)
 	return &MockFileReaderWriterStatCall{Call: call}
 }
 
@@ -216,35 +217,35 @@ type MockFileReaderWriterStatCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFileReaderWriterStatCall) Return(arg0 fs.FileInfo, arg1 error) *MockFileReaderWriterStatCall {
+func (c *MockFileReaderWriterStatCall) Return(arg0 os.FileInfo, arg1 error) *MockFileReaderWriterStatCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFileReaderWriterStatCall) Do(f func(string) (fs.FileInfo, error)) *MockFileReaderWriterStatCall {
+func (c *MockFileReaderWriterStatCall) Do(f func(string) (os.FileInfo, error)) *MockFileReaderWriterStatCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFileReaderWriterStatCall) DoAndReturn(f func(string) (fs.FileInfo, error)) *MockFileReaderWriterStatCall {
+func (c *MockFileReaderWriterStatCall) DoAndReturn(f func(string) (os.FileInfo, error)) *MockFileReaderWriterStatCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Symlink mocks base method.
-func (m *MockFileReaderWriter) Symlink(arg0, arg1 string) error {
+func (m *MockFileReaderWriter) Symlink(oldname, newname string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Symlink", arg0, arg1)
+	ret := m.ctrl.Call(m, "Symlink", oldname, newname)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Symlink indicates an expected call of Symlink.
-func (mr *MockFileReaderWriterMockRecorder) Symlink(arg0, arg1 any) *MockFileReaderWriterSymlinkCall {
+func (mr *MockFileReaderWriterMockRecorder) Symlink(oldname, newname any) *MockFileReaderWriterSymlinkCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Symlink", reflect.TypeOf((*MockFileReaderWriter)(nil).Symlink), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Symlink", reflect.TypeOf((*MockFileReaderWriter)(nil).Symlink), oldname, newname)
 	return &MockFileReaderWriterSymlinkCall{Call: call}
 }
 
@@ -272,17 +273,17 @@ func (c *MockFileReaderWriterSymlinkCall) DoAndReturn(f func(string, string) err
 }
 
 // WriteFile mocks base method.
-func (m *MockFileReaderWriter) WriteFile(arg0 string, arg1 []byte, arg2 fs.FileMode) error {
+func (m *MockFileReaderWriter) WriteFile(filename string, data []byte, perm os.FileMode) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "WriteFile", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "WriteFile", filename, data, perm)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // WriteFile indicates an expected call of WriteFile.
-func (mr *MockFileReaderWriterMockRecorder) WriteFile(arg0, arg1, arg2 any) *MockFileReaderWriterWriteFileCall {
+func (mr *MockFileReaderWriterMockRecorder) WriteFile(filename, data, perm any) *MockFileReaderWriterWriteFileCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFile", reflect.TypeOf((*MockFileReaderWriter)(nil).WriteFile), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFile", reflect.TypeOf((*MockFileReaderWriter)(nil).WriteFile), filename, data, perm)
 	return &MockFileReaderWriterWriteFileCall{Call: call}
 }
 
@@ -298,30 +299,30 @@ func (c *MockFileReaderWriterWriteFileCall) Return(arg0 error) *MockFileReaderWr
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFileReaderWriterWriteFileCall) Do(f func(string, []byte, fs.FileMode) error) *MockFileReaderWriterWriteFileCall {
+func (c *MockFileReaderWriterWriteFileCall) Do(f func(string, []byte, os.FileMode) error) *MockFileReaderWriterWriteFileCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFileReaderWriterWriteFileCall) DoAndReturn(f func(string, []byte, fs.FileMode) error) *MockFileReaderWriterWriteFileCall {
+func (c *MockFileReaderWriterWriteFileCall) DoAndReturn(f func(string, []byte, os.FileMode) error) *MockFileReaderWriterWriteFileCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Writer mocks base method.
-func (m *MockFileReaderWriter) Writer(arg0 string, arg1 fs.FileMode) (io.WriteCloser, error) {
+func (m *MockFileReaderWriter) Writer(filename string, perm os.FileMode) (io.WriteCloser, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Writer", arg0, arg1)
+	ret := m.ctrl.Call(m, "Writer", filename, perm)
 	ret0, _ := ret[0].(io.WriteCloser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Writer indicates an expected call of Writer.
-func (mr *MockFileReaderWriterMockRecorder) Writer(arg0, arg1 any) *MockFileReaderWriterWriterCall {
+func (mr *MockFileReaderWriterMockRecorder) Writer(filename, perm any) *MockFileReaderWriterWriterCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Writer", reflect.TypeOf((*MockFileReaderWriter)(nil).Writer), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Writer", reflect.TypeOf((*MockFileReaderWriter)(nil).Writer), filename, perm)
 	return &MockFileReaderWriterWriterCall{Call: call}
 }
 
@@ -337,13 +338,13 @@ func (c *MockFileReaderWriterWriterCall) Return(arg0 io.WriteCloser, arg1 error)
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFileReaderWriterWriterCall) Do(f func(string, fs.FileMode) (io.WriteCloser, error)) *MockFileReaderWriterWriterCall {
+func (c *MockFileReaderWriterWriterCall) Do(f func(string, os.FileMode) (io.WriteCloser, error)) *MockFileReaderWriterWriterCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFileReaderWriterWriterCall) DoAndReturn(f func(string, fs.FileMode) (io.WriteCloser, error)) *MockFileReaderWriterWriterCall {
+func (c *MockFileReaderWriterWriterCall) DoAndReturn(f func(string, os.FileMode) (io.WriteCloser, error)) *MockFileReaderWriterWriterCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

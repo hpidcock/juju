@@ -23,6 +23,7 @@ import (
 type MockRelationer struct {
 	ctrl     *gomock.Controller
 	recorder *MockRelationerMockRecorder
+	isgomock struct{}
 }
 
 // MockRelationerMockRecorder is the mock recorder for MockRelationer.
@@ -43,17 +44,17 @@ func (m *MockRelationer) EXPECT() *MockRelationerMockRecorder {
 }
 
 // CommitHook mocks base method.
-func (m *MockRelationer) CommitHook(arg0 context.Context, arg1 hook.Info) error {
+func (m *MockRelationer) CommitHook(ctx context.Context, hi hook.Info) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CommitHook", arg0, arg1)
+	ret := m.ctrl.Call(m, "CommitHook", ctx, hi)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CommitHook indicates an expected call of CommitHook.
-func (mr *MockRelationerMockRecorder) CommitHook(arg0, arg1 any) *MockRelationerCommitHookCall {
+func (mr *MockRelationerMockRecorder) CommitHook(ctx, hi any) *MockRelationerCommitHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockRelationer)(nil).CommitHook), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CommitHook", reflect.TypeOf((*MockRelationer)(nil).CommitHook), ctx, hi)
 	return &MockRelationerCommitHookCall{Call: call}
 }
 
@@ -195,17 +196,17 @@ func (c *MockRelationerIsImplicitCall) DoAndReturn(f func() bool) *MockRelatione
 }
 
 // Join mocks base method.
-func (m *MockRelationer) Join(arg0 context.Context) error {
+func (m *MockRelationer) Join(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Join", arg0)
+	ret := m.ctrl.Call(m, "Join", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Join indicates an expected call of Join.
-func (mr *MockRelationerMockRecorder) Join(arg0 any) *MockRelationerJoinCall {
+func (mr *MockRelationerMockRecorder) Join(ctx any) *MockRelationerJoinCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Join", reflect.TypeOf((*MockRelationer)(nil).Join), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Join", reflect.TypeOf((*MockRelationer)(nil).Join), ctx)
 	return &MockRelationerJoinCall{Call: call}
 }
 
@@ -233,18 +234,18 @@ func (c *MockRelationerJoinCall) DoAndReturn(f func(context.Context) error) *Moc
 }
 
 // PrepareHook mocks base method.
-func (m *MockRelationer) PrepareHook(arg0 hook.Info) (string, error) {
+func (m *MockRelationer) PrepareHook(hi hook.Info) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PrepareHook", arg0)
+	ret := m.ctrl.Call(m, "PrepareHook", hi)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PrepareHook indicates an expected call of PrepareHook.
-func (mr *MockRelationerMockRecorder) PrepareHook(arg0 any) *MockRelationerPrepareHookCall {
+func (mr *MockRelationerMockRecorder) PrepareHook(hi any) *MockRelationerPrepareHookCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareHook", reflect.TypeOf((*MockRelationer)(nil).PrepareHook), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PrepareHook", reflect.TypeOf((*MockRelationer)(nil).PrepareHook), hi)
 	return &MockRelationerPrepareHookCall{Call: call}
 }
 
@@ -310,17 +311,17 @@ func (c *MockRelationerRelationUnitCall) DoAndReturn(f func() api.RelationUnit) 
 }
 
 // SetDying mocks base method.
-func (m *MockRelationer) SetDying(arg0 context.Context) error {
+func (m *MockRelationer) SetDying(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetDying", arg0)
+	ret := m.ctrl.Call(m, "SetDying", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetDying indicates an expected call of SetDying.
-func (mr *MockRelationerMockRecorder) SetDying(arg0 any) *MockRelationerSetDyingCall {
+func (mr *MockRelationerMockRecorder) SetDying(ctx any) *MockRelationerSetDyingCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDying", reflect.TypeOf((*MockRelationer)(nil).SetDying), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetDying", reflect.TypeOf((*MockRelationer)(nil).SetDying), ctx)
 	return &MockRelationerSetDyingCall{Call: call}
 }
 

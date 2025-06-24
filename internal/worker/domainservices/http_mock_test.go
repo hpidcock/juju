@@ -22,6 +22,7 @@ import (
 type MockHTTPClientGetter struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientGetterMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientGetterMockRecorder is the mock recorder for MockHTTPClientGetter.
@@ -84,6 +85,7 @@ func (c *MockHTTPClientGetterGetHTTPClientCall) DoAndReturn(f func(context.Conte
 type MockHTTPClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockHTTPClientMockRecorder
+	isgomock struct{}
 }
 
 // MockHTTPClientMockRecorder is the mock recorder for MockHTTPClient.

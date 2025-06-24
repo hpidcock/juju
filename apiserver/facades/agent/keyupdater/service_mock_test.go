@@ -22,6 +22,7 @@ import (
 type MockKeyUpdaterService struct {
 	ctrl     *gomock.Controller
 	recorder *MockKeyUpdaterServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockKeyUpdaterServiceMockRecorder is the mock recorder for MockKeyUpdaterService.
@@ -81,10 +82,10 @@ func (c *MockKeyUpdaterServiceGetAuthorisedKeysForMachineCall) DoAndReturn(f fun
 }
 
 // WatchAuthorisedKeysForMachine mocks base method.
-func (m *MockKeyUpdaterService) WatchAuthorisedKeysForMachine(arg0 context.Context, arg1 machine.Name) (watcher.Watcher[struct{}], error) {
+func (m *MockKeyUpdaterService) WatchAuthorisedKeysForMachine(arg0 context.Context, arg1 machine.Name) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchAuthorisedKeysForMachine", arg0, arg1)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -102,19 +103,19 @@ type MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
+func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) Do(f func(context.Context, machine.Name) (watcher.Watcher[struct{}], error)) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
+func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) Do(f func(context.Context, machine.Name) (watcher.NotifyWatcher, error)) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.Watcher[struct{}], error)) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
+func (c *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall) DoAndReturn(f func(context.Context, machine.Name) (watcher.NotifyWatcher, error)) *MockKeyUpdaterServiceWatchAuthorisedKeysForMachineCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

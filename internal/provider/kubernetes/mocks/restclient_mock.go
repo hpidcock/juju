@@ -23,6 +23,7 @@ import (
 type MockRestClientInterface struct {
 	ctrl     *gomock.Controller
 	recorder *MockRestClientInterfaceMockRecorder
+	isgomock struct{}
 }
 
 // MockRestClientInterfaceMockRecorder is the mock recorder for MockRestClientInterface.
@@ -195,17 +196,17 @@ func (c *MockRestClientInterfaceGetRateLimiterCall) DoAndReturn(f func() flowcon
 }
 
 // Patch mocks base method.
-func (m *MockRestClientInterface) Patch(arg0 types.PatchType) *rest.Request {
+func (m *MockRestClientInterface) Patch(pt types.PatchType) *rest.Request {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Patch", arg0)
+	ret := m.ctrl.Call(m, "Patch", pt)
 	ret0, _ := ret[0].(*rest.Request)
 	return ret0
 }
 
 // Patch indicates an expected call of Patch.
-func (mr *MockRestClientInterfaceMockRecorder) Patch(arg0 any) *MockRestClientInterfacePatchCall {
+func (mr *MockRestClientInterfaceMockRecorder) Patch(pt any) *MockRestClientInterfacePatchCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockRestClientInterface)(nil).Patch), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Patch", reflect.TypeOf((*MockRestClientInterface)(nil).Patch), pt)
 	return &MockRestClientInterfacePatchCall{Call: call}
 }
 
@@ -309,17 +310,17 @@ func (c *MockRestClientInterfacePutCall) DoAndReturn(f func() *rest.Request) *Mo
 }
 
 // Verb mocks base method.
-func (m *MockRestClientInterface) Verb(arg0 string) *rest.Request {
+func (m *MockRestClientInterface) Verb(verb string) *rest.Request {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Verb", arg0)
+	ret := m.ctrl.Call(m, "Verb", verb)
 	ret0, _ := ret[0].(*rest.Request)
 	return ret0
 }
 
 // Verb indicates an expected call of Verb.
-func (mr *MockRestClientInterfaceMockRecorder) Verb(arg0 any) *MockRestClientInterfaceVerbCall {
+func (mr *MockRestClientInterfaceMockRecorder) Verb(verb any) *MockRestClientInterfaceVerbCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Verb", reflect.TypeOf((*MockRestClientInterface)(nil).Verb), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Verb", reflect.TypeOf((*MockRestClientInterface)(nil).Verb), verb)
 	return &MockRestClientInterfaceVerbCall{Call: call}
 }
 

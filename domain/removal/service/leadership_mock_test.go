@@ -20,6 +20,7 @@ import (
 type MockRevoker struct {
 	ctrl     *gomock.Controller
 	recorder *MockRevokerMockRecorder
+	isgomock struct{}
 }
 
 // MockRevokerMockRecorder is the mock recorder for MockRevoker.
@@ -40,17 +41,17 @@ func (m *MockRevoker) EXPECT() *MockRevokerMockRecorder {
 }
 
 // RevokeLeadership mocks base method.
-func (m *MockRevoker) RevokeLeadership(arg0 string, arg1 unit.Name) error {
+func (m *MockRevoker) RevokeLeadership(applicationName string, unitName unit.Name) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RevokeLeadership", arg0, arg1)
+	ret := m.ctrl.Call(m, "RevokeLeadership", applicationName, unitName)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RevokeLeadership indicates an expected call of RevokeLeadership.
-func (mr *MockRevokerMockRecorder) RevokeLeadership(arg0, arg1 any) *MockRevokerRevokeLeadershipCall {
+func (mr *MockRevokerMockRecorder) RevokeLeadership(applicationName, unitName any) *MockRevokerRevokeLeadershipCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RevokeLeadership", reflect.TypeOf((*MockRevoker)(nil).RevokeLeadership), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RevokeLeadership", reflect.TypeOf((*MockRevoker)(nil).RevokeLeadership), applicationName, unitName)
 	return &MockRevokerRevokeLeadershipCall{Call: call}
 }
 

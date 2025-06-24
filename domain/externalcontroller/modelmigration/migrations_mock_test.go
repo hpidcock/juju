@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -142,6 +144,7 @@ func (c *MockImportServiceImportExternalControllersCall) DoAndReturn(f func(cont
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -162,18 +165,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // ControllerForModel mocks base method.
-func (m *MockExportService) ControllerForModel(arg0 context.Context, arg1 string) (*crossmodel.ControllerInfo, error) {
+func (m *MockExportService) ControllerForModel(ctx context.Context, modelUUID string) (*crossmodel.ControllerInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ControllerForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ControllerForModel", ctx, modelUUID)
 	ret0, _ := ret[0].(*crossmodel.ControllerInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ControllerForModel indicates an expected call of ControllerForModel.
-func (mr *MockExportServiceMockRecorder) ControllerForModel(arg0, arg1 any) *MockExportServiceControllerForModelCall {
+func (mr *MockExportServiceMockRecorder) ControllerForModel(ctx, modelUUID any) *MockExportServiceControllerForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerForModel", reflect.TypeOf((*MockExportService)(nil).ControllerForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllerForModel", reflect.TypeOf((*MockExportService)(nil).ControllerForModel), ctx, modelUUID)
 	return &MockExportServiceControllerForModelCall{Call: call}
 }
 
@@ -201,10 +204,10 @@ func (c *MockExportServiceControllerForModelCall) DoAndReturn(f func(context.Con
 }
 
 // ControllersForModels mocks base method.
-func (m *MockExportService) ControllersForModels(arg0 context.Context, arg1 ...string) ([]crossmodel.ControllerInfo, error) {
+func (m *MockExportService) ControllersForModels(ctx context.Context, modelUUIDs ...string) ([]crossmodel.ControllerInfo, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{ctx}
+	for _, a := range modelUUIDs {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ControllersForModels", varargs...)
@@ -214,9 +217,9 @@ func (m *MockExportService) ControllersForModels(arg0 context.Context, arg1 ...s
 }
 
 // ControllersForModels indicates an expected call of ControllersForModels.
-func (mr *MockExportServiceMockRecorder) ControllersForModels(arg0 any, arg1 ...any) *MockExportServiceControllersForModelsCall {
+func (mr *MockExportServiceMockRecorder) ControllersForModels(ctx any, modelUUIDs ...any) *MockExportServiceControllersForModelsCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{ctx}, modelUUIDs...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ControllersForModels", reflect.TypeOf((*MockExportService)(nil).ControllersForModels), varargs...)
 	return &MockExportServiceControllersForModelsCall{Call: call}
 }
@@ -245,18 +248,18 @@ func (c *MockExportServiceControllersForModelsCall) DoAndReturn(f func(context.C
 }
 
 // ModelsForController mocks base method.
-func (m *MockExportService) ModelsForController(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockExportService) ModelsForController(ctx context.Context, controllerUUID string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelsForController", arg0, arg1)
+	ret := m.ctrl.Call(m, "ModelsForController", ctx, controllerUUID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelsForController indicates an expected call of ModelsForController.
-func (mr *MockExportServiceMockRecorder) ModelsForController(arg0, arg1 any) *MockExportServiceModelsForControllerCall {
+func (mr *MockExportServiceMockRecorder) ModelsForController(ctx, controllerUUID any) *MockExportServiceModelsForControllerCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelsForController", reflect.TypeOf((*MockExportService)(nil).ModelsForController), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelsForController", reflect.TypeOf((*MockExportService)(nil).ModelsForController), ctx, controllerUUID)
 	return &MockExportServiceModelsForControllerCall{Call: call}
 }
 

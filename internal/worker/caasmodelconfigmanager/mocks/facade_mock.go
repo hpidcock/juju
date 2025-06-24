@@ -22,6 +22,7 @@ import (
 type MockFacade struct {
 	ctrl     *gomock.Controller
 	recorder *MockFacadeMockRecorder
+	isgomock struct{}
 }
 
 // MockFacadeMockRecorder is the mock recorder for MockFacade.
@@ -81,10 +82,10 @@ func (c *MockFacadeControllerConfigCall) DoAndReturn(f func(context.Context) (co
 }
 
 // WatchControllerConfig mocks base method.
-func (m *MockFacade) WatchControllerConfig(arg0 context.Context) (watcher.Watcher[[]string], error) {
+func (m *MockFacade) WatchControllerConfig(arg0 context.Context) (watcher.StringsWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchControllerConfig", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[[]string])
+	ret0, _ := ret[0].(watcher.StringsWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -102,19 +103,19 @@ type MockFacadeWatchControllerConfigCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockFacadeWatchControllerConfigCall) Return(arg0 watcher.Watcher[[]string], arg1 error) *MockFacadeWatchControllerConfigCall {
+func (c *MockFacadeWatchControllerConfigCall) Return(arg0 watcher.StringsWatcher, arg1 error) *MockFacadeWatchControllerConfigCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockFacadeWatchControllerConfigCall) Do(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFacadeWatchControllerConfigCall {
+func (c *MockFacadeWatchControllerConfigCall) Do(f func(context.Context) (watcher.StringsWatcher, error)) *MockFacadeWatchControllerConfigCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockFacadeWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.Watcher[[]string], error)) *MockFacadeWatchControllerConfigCall {
+func (c *MockFacadeWatchControllerConfigCall) DoAndReturn(f func(context.Context) (watcher.StringsWatcher, error)) *MockFacadeWatchControllerConfigCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

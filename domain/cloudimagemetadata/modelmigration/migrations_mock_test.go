@@ -22,6 +22,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -81,6 +82,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -101,17 +103,17 @@ func (m *MockImportService) EXPECT() *MockImportServiceMockRecorder {
 }
 
 // SaveMetadata mocks base method.
-func (m *MockImportService) SaveMetadata(arg0 context.Context, arg1 []cloudimagemetadata.Metadata) error {
+func (m *MockImportService) SaveMetadata(ctx context.Context, metadata []cloudimagemetadata.Metadata) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "SaveMetadata", ctx, metadata)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SaveMetadata indicates an expected call of SaveMetadata.
-func (mr *MockImportServiceMockRecorder) SaveMetadata(arg0, arg1 any) *MockImportServiceSaveMetadataCall {
+func (mr *MockImportServiceMockRecorder) SaveMetadata(ctx, metadata any) *MockImportServiceSaveMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockImportService)(nil).SaveMetadata), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockImportService)(nil).SaveMetadata), ctx, metadata)
 	return &MockImportServiceSaveMetadataCall{Call: call}
 }
 
@@ -142,6 +144,7 @@ func (c *MockImportServiceSaveMetadataCall) DoAndReturn(f func(context.Context, 
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -162,18 +165,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // AllCloudImageMetadata mocks base method.
-func (m *MockExportService) AllCloudImageMetadata(arg0 context.Context) ([]cloudimagemetadata.Metadata, error) {
+func (m *MockExportService) AllCloudImageMetadata(ctx context.Context) ([]cloudimagemetadata.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AllCloudImageMetadata", arg0)
+	ret := m.ctrl.Call(m, "AllCloudImageMetadata", ctx)
 	ret0, _ := ret[0].([]cloudimagemetadata.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // AllCloudImageMetadata indicates an expected call of AllCloudImageMetadata.
-func (mr *MockExportServiceMockRecorder) AllCloudImageMetadata(arg0 any) *MockExportServiceAllCloudImageMetadataCall {
+func (mr *MockExportServiceMockRecorder) AllCloudImageMetadata(ctx any) *MockExportServiceAllCloudImageMetadataCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllCloudImageMetadata", reflect.TypeOf((*MockExportService)(nil).AllCloudImageMetadata), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AllCloudImageMetadata", reflect.TypeOf((*MockExportService)(nil).AllCloudImageMetadata), ctx)
 	return &MockExportServiceAllCloudImageMetadataCall{Call: call}
 }
 

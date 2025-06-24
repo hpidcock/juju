@@ -23,6 +23,7 @@ import (
 type MockCoordinator struct {
 	ctrl     *gomock.Controller
 	recorder *MockCoordinatorMockRecorder
+	isgomock struct{}
 }
 
 // MockCoordinatorMockRecorder is the mock recorder for MockCoordinator.
@@ -82,6 +83,7 @@ func (c *MockCoordinatorAddCall) DoAndReturn(f func(modelmigration.Operation)) *
 type MockImportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockImportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockImportServiceMockRecorder is the mock recorder for MockImportService.
@@ -143,6 +145,7 @@ func (c *MockImportServiceClaimLeaseCall) DoAndReturn(f func(context.Context, le
 type MockExportService struct {
 	ctrl     *gomock.Controller
 	recorder *MockExportServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockExportServiceMockRecorder is the mock recorder for MockExportService.
@@ -163,18 +166,18 @@ func (m *MockExportService) EXPECT() *MockExportServiceMockRecorder {
 }
 
 // GetApplicationLeadershipForModel mocks base method.
-func (m *MockExportService) GetApplicationLeadershipForModel(arg0 context.Context, arg1 model.UUID) (map[string]string, error) {
+func (m *MockExportService) GetApplicationLeadershipForModel(ctx context.Context, modelUUID model.UUID) (map[string]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetApplicationLeadershipForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetApplicationLeadershipForModel", ctx, modelUUID)
 	ret0, _ := ret[0].(map[string]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetApplicationLeadershipForModel indicates an expected call of GetApplicationLeadershipForModel.
-func (mr *MockExportServiceMockRecorder) GetApplicationLeadershipForModel(arg0, arg1 any) *MockExportServiceGetApplicationLeadershipForModelCall {
+func (mr *MockExportServiceMockRecorder) GetApplicationLeadershipForModel(ctx, modelUUID any) *MockExportServiceGetApplicationLeadershipForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLeadershipForModel", reflect.TypeOf((*MockExportService)(nil).GetApplicationLeadershipForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApplicationLeadershipForModel", reflect.TypeOf((*MockExportService)(nil).GetApplicationLeadershipForModel), ctx, modelUUID)
 	return &MockExportServiceGetApplicationLeadershipForModelCall{Call: call}
 }
 

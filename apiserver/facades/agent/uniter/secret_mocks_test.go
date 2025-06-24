@@ -23,6 +23,7 @@ import (
 type MockSecretService struct {
 	ctrl     *gomock.Controller
 	recorder *MockSecretServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockSecretServiceMockRecorder is the mock recorder for MockSecretService.
@@ -119,18 +120,18 @@ func (c *MockSecretServiceDeleteSecretCall) DoAndReturn(f func(context.Context, 
 }
 
 // GetConsumedRevision mocks base method.
-func (m *MockSecretService) GetConsumedRevision(arg0 context.Context, arg1 *secrets.URI, arg2 unit.Name, arg3, arg4 bool, arg5 *string) (int, error) {
+func (m *MockSecretService) GetConsumedRevision(ctx context.Context, uri *secrets.URI, unitName unit.Name, refresh, peek bool, labelToUpdate *string) (int, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetConsumedRevision", arg0, arg1, arg2, arg3, arg4, arg5)
+	ret := m.ctrl.Call(m, "GetConsumedRevision", ctx, uri, unitName, refresh, peek, labelToUpdate)
 	ret0, _ := ret[0].(int)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetConsumedRevision indicates an expected call of GetConsumedRevision.
-func (mr *MockSecretServiceMockRecorder) GetConsumedRevision(arg0, arg1, arg2, arg3, arg4, arg5 any) *MockSecretServiceGetConsumedRevisionCall {
+func (mr *MockSecretServiceMockRecorder) GetConsumedRevision(ctx, uri, unitName, refresh, peek, labelToUpdate any) *MockSecretServiceGetConsumedRevisionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConsumedRevision", reflect.TypeOf((*MockSecretService)(nil).GetConsumedRevision), arg0, arg1, arg2, arg3, arg4, arg5)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConsumedRevision", reflect.TypeOf((*MockSecretService)(nil).GetConsumedRevision), ctx, uri, unitName, refresh, peek, labelToUpdate)
 	return &MockSecretServiceGetConsumedRevisionCall{Call: call}
 }
 

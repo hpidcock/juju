@@ -24,6 +24,7 @@ import (
 type MockDBApp struct {
 	ctrl     *gomock.Controller
 	recorder *MockDBAppMockRecorder
+	isgomock struct{}
 }
 
 // MockDBAppMockRecorder is the mock recorder for MockDBApp.
@@ -82,18 +83,18 @@ func (c *MockDBAppAddressCall) DoAndReturn(f func() string) *MockDBAppAddressCal
 }
 
 // Client mocks base method.
-func (m *MockDBApp) Client(arg0 context.Context) (Client, error) {
+func (m *MockDBApp) Client(ctx context.Context) (Client, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Client", arg0)
+	ret := m.ctrl.Call(m, "Client", ctx)
 	ret0, _ := ret[0].(Client)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Client indicates an expected call of Client.
-func (mr *MockDBAppMockRecorder) Client(arg0 any) *MockDBAppClientCall {
+func (mr *MockDBAppMockRecorder) Client(ctx any) *MockDBAppClientCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Client", reflect.TypeOf((*MockDBApp)(nil).Client), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Client", reflect.TypeOf((*MockDBApp)(nil).Client), ctx)
 	return &MockDBAppClientCall{Call: call}
 }
 
@@ -315,6 +316,7 @@ func (c *MockDBAppReadyCall) DoAndReturn(f func(context.Context) error) *MockDBA
 type MockNodeManager struct {
 	ctrl     *gomock.Controller
 	recorder *MockNodeManagerMockRecorder
+	isgomock struct{}
 }
 
 // MockNodeManagerMockRecorder is the mock recorder for MockNodeManager.
@@ -567,17 +569,17 @@ func (c *MockNodeManagerSetClusterServersCall) DoAndReturn(f func(context.Contex
 }
 
 // SetClusterToLocalNode mocks base method.
-func (m *MockNodeManager) SetClusterToLocalNode(arg0 context.Context) error {
+func (m *MockNodeManager) SetClusterToLocalNode(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetClusterToLocalNode", arg0)
+	ret := m.ctrl.Call(m, "SetClusterToLocalNode", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetClusterToLocalNode indicates an expected call of SetClusterToLocalNode.
-func (mr *MockNodeManagerMockRecorder) SetClusterToLocalNode(arg0 any) *MockNodeManagerSetClusterToLocalNodeCall {
+func (mr *MockNodeManagerMockRecorder) SetClusterToLocalNode(ctx any) *MockNodeManagerSetClusterToLocalNodeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetClusterToLocalNode", reflect.TypeOf((*MockNodeManager)(nil).SetClusterToLocalNode), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetClusterToLocalNode", reflect.TypeOf((*MockNodeManager)(nil).SetClusterToLocalNode), ctx)
 	return &MockNodeManagerSetClusterToLocalNodeCall{Call: call}
 }
 
@@ -837,6 +839,7 @@ func (c *MockNodeManagerWithTracingOptionCall) DoAndReturn(f func() app.Option) 
 type MockTrackedDB struct {
 	ctrl     *gomock.Controller
 	recorder *MockTrackedDBMockRecorder
+	isgomock struct{}
 }
 
 // MockTrackedDBMockRecorder is the mock recorder for MockTrackedDB.
@@ -1010,6 +1013,7 @@ func (c *MockTrackedDBWaitCall) DoAndReturn(f func() error) *MockTrackedDBWaitCa
 type MockClient struct {
 	ctrl     *gomock.Controller
 	recorder *MockClientMockRecorder
+	isgomock struct{}
 }
 
 // MockClientMockRecorder is the mock recorder for MockClient.
@@ -1069,18 +1073,18 @@ func (c *MockClientClusterCall) DoAndReturn(f func(context.Context) ([]dqlite.No
 }
 
 // Leader mocks base method.
-func (m *MockClient) Leader(arg0 context.Context) (*dqlite.NodeInfo, error) {
+func (m *MockClient) Leader(ctx context.Context) (*dqlite.NodeInfo, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Leader", arg0)
+	ret := m.ctrl.Call(m, "Leader", ctx)
 	ret0, _ := ret[0].(*dqlite.NodeInfo)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Leader indicates an expected call of Leader.
-func (mr *MockClientMockRecorder) Leader(arg0 any) *MockClientLeaderCall {
+func (mr *MockClientMockRecorder) Leader(ctx any) *MockClientLeaderCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Leader", reflect.TypeOf((*MockClient)(nil).Leader), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Leader", reflect.TypeOf((*MockClient)(nil).Leader), ctx)
 	return &MockClientLeaderCall{Call: call}
 }
 
@@ -1111,6 +1115,7 @@ func (c *MockClientLeaderCall) DoAndReturn(f func(context.Context) (*dqlite.Node
 type MockClusterConfig struct {
 	ctrl     *gomock.Controller
 	recorder *MockClusterConfigMockRecorder
+	isgomock struct{}
 }
 
 // MockClusterConfigMockRecorder is the mock recorder for MockClusterConfig.

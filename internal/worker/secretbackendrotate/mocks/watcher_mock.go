@@ -17,30 +17,31 @@ import (
 )
 
 // MockSecretBackendRotateWatcher is a mock of SecretBackendRotateWatcher interface.
-type MockSecretBackendRotateWatcher struct {
+type MockSecretBackendRotateWatcher[T any] struct {
 	ctrl     *gomock.Controller
-	recorder *MockSecretBackendRotateWatcherMockRecorder
+	recorder *MockSecretBackendRotateWatcherMockRecorder[T]
+	isgomock struct{}
 }
 
 // MockSecretBackendRotateWatcherMockRecorder is the mock recorder for MockSecretBackendRotateWatcher.
-type MockSecretBackendRotateWatcherMockRecorder struct {
-	mock *MockSecretBackendRotateWatcher
+type MockSecretBackendRotateWatcherMockRecorder[T any] struct {
+	mock *MockSecretBackendRotateWatcher[T]
 }
 
 // NewMockSecretBackendRotateWatcher creates a new mock instance.
-func NewMockSecretBackendRotateWatcher(ctrl *gomock.Controller) *MockSecretBackendRotateWatcher {
-	mock := &MockSecretBackendRotateWatcher{ctrl: ctrl}
-	mock.recorder = &MockSecretBackendRotateWatcherMockRecorder{mock}
+func NewMockSecretBackendRotateWatcher[T any](ctrl *gomock.Controller) *MockSecretBackendRotateWatcher[T] {
+	mock := &MockSecretBackendRotateWatcher[T]{ctrl: ctrl}
+	mock.recorder = &MockSecretBackendRotateWatcherMockRecorder[T]{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockSecretBackendRotateWatcher) EXPECT() *MockSecretBackendRotateWatcherMockRecorder {
+func (m *MockSecretBackendRotateWatcher[T]) EXPECT() *MockSecretBackendRotateWatcherMockRecorder[T] {
 	return m.recorder
 }
 
 // Changes mocks base method.
-func (m *MockSecretBackendRotateWatcher) Changes() <-chan []watcher.SecretBackendRotateChange {
+func (m *MockSecretBackendRotateWatcher[T]) Changes() <-chan []watcher.SecretBackendRotateChange {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Changes")
 	ret0, _ := ret[0].(<-chan []watcher.SecretBackendRotateChange)
@@ -48,73 +49,73 @@ func (m *MockSecretBackendRotateWatcher) Changes() <-chan []watcher.SecretBacken
 }
 
 // Changes indicates an expected call of Changes.
-func (mr *MockSecretBackendRotateWatcherMockRecorder) Changes() *MockSecretBackendRotateWatcherChangesCall {
+func (mr *MockSecretBackendRotateWatcherMockRecorder[T]) Changes() *MockSecretBackendRotateWatcherChangesCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockSecretBackendRotateWatcher)(nil).Changes))
-	return &MockSecretBackendRotateWatcherChangesCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Changes", reflect.TypeOf((*MockSecretBackendRotateWatcher[T])(nil).Changes))
+	return &MockSecretBackendRotateWatcherChangesCall[T]{Call: call}
 }
 
 // MockSecretBackendRotateWatcherChangesCall wrap *gomock.Call
-type MockSecretBackendRotateWatcherChangesCall struct {
+type MockSecretBackendRotateWatcherChangesCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretBackendRotateWatcherChangesCall) Return(arg0 <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall {
+func (c *MockSecretBackendRotateWatcherChangesCall[T]) Return(arg0 <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretBackendRotateWatcherChangesCall) Do(f func() <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall {
+func (c *MockSecretBackendRotateWatcherChangesCall[T]) Do(f func() <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretBackendRotateWatcherChangesCall) DoAndReturn(f func() <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall {
+func (c *MockSecretBackendRotateWatcherChangesCall[T]) DoAndReturn(f func() <-chan []watcher.SecretBackendRotateChange) *MockSecretBackendRotateWatcherChangesCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Kill mocks base method.
-func (m *MockSecretBackendRotateWatcher) Kill() {
+func (m *MockSecretBackendRotateWatcher[T]) Kill() {
 	m.ctrl.T.Helper()
 	m.ctrl.Call(m, "Kill")
 }
 
 // Kill indicates an expected call of Kill.
-func (mr *MockSecretBackendRotateWatcherMockRecorder) Kill() *MockSecretBackendRotateWatcherKillCall {
+func (mr *MockSecretBackendRotateWatcherMockRecorder[T]) Kill() *MockSecretBackendRotateWatcherKillCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockSecretBackendRotateWatcher)(nil).Kill))
-	return &MockSecretBackendRotateWatcherKillCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Kill", reflect.TypeOf((*MockSecretBackendRotateWatcher[T])(nil).Kill))
+	return &MockSecretBackendRotateWatcherKillCall[T]{Call: call}
 }
 
 // MockSecretBackendRotateWatcherKillCall wrap *gomock.Call
-type MockSecretBackendRotateWatcherKillCall struct {
+type MockSecretBackendRotateWatcherKillCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretBackendRotateWatcherKillCall) Return() *MockSecretBackendRotateWatcherKillCall {
+func (c *MockSecretBackendRotateWatcherKillCall[T]) Return() *MockSecretBackendRotateWatcherKillCall[T] {
 	c.Call = c.Call.Return()
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretBackendRotateWatcherKillCall) Do(f func()) *MockSecretBackendRotateWatcherKillCall {
+func (c *MockSecretBackendRotateWatcherKillCall[T]) Do(f func()) *MockSecretBackendRotateWatcherKillCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretBackendRotateWatcherKillCall) DoAndReturn(f func()) *MockSecretBackendRotateWatcherKillCall {
+func (c *MockSecretBackendRotateWatcherKillCall[T]) DoAndReturn(f func()) *MockSecretBackendRotateWatcherKillCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }
 
 // Wait mocks base method.
-func (m *MockSecretBackendRotateWatcher) Wait() error {
+func (m *MockSecretBackendRotateWatcher[T]) Wait() error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Wait")
 	ret0, _ := ret[0].(error)
@@ -122,31 +123,31 @@ func (m *MockSecretBackendRotateWatcher) Wait() error {
 }
 
 // Wait indicates an expected call of Wait.
-func (mr *MockSecretBackendRotateWatcherMockRecorder) Wait() *MockSecretBackendRotateWatcherWaitCall {
+func (mr *MockSecretBackendRotateWatcherMockRecorder[T]) Wait() *MockSecretBackendRotateWatcherWaitCall[T] {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockSecretBackendRotateWatcher)(nil).Wait))
-	return &MockSecretBackendRotateWatcherWaitCall{Call: call}
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Wait", reflect.TypeOf((*MockSecretBackendRotateWatcher[T])(nil).Wait))
+	return &MockSecretBackendRotateWatcherWaitCall[T]{Call: call}
 }
 
 // MockSecretBackendRotateWatcherWaitCall wrap *gomock.Call
-type MockSecretBackendRotateWatcherWaitCall struct {
+type MockSecretBackendRotateWatcherWaitCall[T any] struct {
 	*gomock.Call
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockSecretBackendRotateWatcherWaitCall) Return(arg0 error) *MockSecretBackendRotateWatcherWaitCall {
+func (c *MockSecretBackendRotateWatcherWaitCall[T]) Return(arg0 error) *MockSecretBackendRotateWatcherWaitCall[T] {
 	c.Call = c.Call.Return(arg0)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockSecretBackendRotateWatcherWaitCall) Do(f func() error) *MockSecretBackendRotateWatcherWaitCall {
+func (c *MockSecretBackendRotateWatcherWaitCall[T]) Do(f func() error) *MockSecretBackendRotateWatcherWaitCall[T] {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockSecretBackendRotateWatcherWaitCall) DoAndReturn(f func() error) *MockSecretBackendRotateWatcherWaitCall {
+func (c *MockSecretBackendRotateWatcherWaitCall[T]) DoAndReturn(f func() error) *MockSecretBackendRotateWatcherWaitCall[T] {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

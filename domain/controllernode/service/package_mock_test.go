@@ -24,6 +24,7 @@ import (
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -82,18 +83,18 @@ func (c *MockStateCurateNodesCall) DoAndReturn(f func(context.Context, []string,
 }
 
 // GetAPIAddresses mocks base method.
-func (m *MockState) GetAPIAddresses(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockState) GetAPIAddresses(ctx context.Context, ctrlID string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAPIAddresses", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAPIAddresses", ctx, ctrlID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAPIAddresses indicates an expected call of GetAPIAddresses.
-func (mr *MockStateMockRecorder) GetAPIAddresses(arg0, arg1 any) *MockStateGetAPIAddressesCall {
+func (mr *MockStateMockRecorder) GetAPIAddresses(ctx, ctrlID any) *MockStateGetAPIAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAPIAddresses", reflect.TypeOf((*MockState)(nil).GetAPIAddresses), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAPIAddresses", reflect.TypeOf((*MockState)(nil).GetAPIAddresses), ctx, ctrlID)
 	return &MockStateGetAPIAddressesCall{Call: call}
 }
 
@@ -121,18 +122,18 @@ func (c *MockStateGetAPIAddressesCall) DoAndReturn(f func(context.Context, strin
 }
 
 // GetAPIAddressesForAgents mocks base method.
-func (m *MockState) GetAPIAddressesForAgents(arg0 context.Context, arg1 string) ([]string, error) {
+func (m *MockState) GetAPIAddressesForAgents(ctx context.Context, ctrlID string) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAPIAddressesForAgents", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetAPIAddressesForAgents", ctx, ctrlID)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAPIAddressesForAgents indicates an expected call of GetAPIAddressesForAgents.
-func (mr *MockStateMockRecorder) GetAPIAddressesForAgents(arg0, arg1 any) *MockStateGetAPIAddressesForAgentsCall {
+func (mr *MockStateMockRecorder) GetAPIAddressesForAgents(ctx, ctrlID any) *MockStateGetAPIAddressesForAgentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAPIAddressesForAgents", reflect.TypeOf((*MockState)(nil).GetAPIAddressesForAgents), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAPIAddressesForAgents", reflect.TypeOf((*MockState)(nil).GetAPIAddressesForAgents), ctx, ctrlID)
 	return &MockStateGetAPIAddressesForAgentsCall{Call: call}
 }
 
@@ -160,18 +161,18 @@ func (c *MockStateGetAPIAddressesForAgentsCall) DoAndReturn(f func(context.Conte
 }
 
 // GetAllAPIAddressesForAgents mocks base method.
-func (m *MockState) GetAllAPIAddressesForAgents(arg0 context.Context) (map[string][]string, error) {
+func (m *MockState) GetAllAPIAddressesForAgents(ctx context.Context) (map[string][]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllAPIAddressesForAgents", arg0)
+	ret := m.ctrl.Call(m, "GetAllAPIAddressesForAgents", ctx)
 	ret0, _ := ret[0].(map[string][]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllAPIAddressesForAgents indicates an expected call of GetAllAPIAddressesForAgents.
-func (mr *MockStateMockRecorder) GetAllAPIAddressesForAgents(arg0 any) *MockStateGetAllAPIAddressesForAgentsCall {
+func (mr *MockStateMockRecorder) GetAllAPIAddressesForAgents(ctx any) *MockStateGetAllAPIAddressesForAgentsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAPIAddressesForAgents", reflect.TypeOf((*MockState)(nil).GetAllAPIAddressesForAgents), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAPIAddressesForAgents", reflect.TypeOf((*MockState)(nil).GetAllAPIAddressesForAgents), ctx)
 	return &MockStateGetAllAPIAddressesForAgentsCall{Call: call}
 }
 
@@ -199,18 +200,18 @@ func (c *MockStateGetAllAPIAddressesForAgentsCall) DoAndReturn(f func(context.Co
 }
 
 // GetControllerIDs mocks base method.
-func (m *MockState) GetControllerIDs(arg0 context.Context) ([]string, error) {
+func (m *MockState) GetControllerIDs(ctx context.Context) ([]string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetControllerIDs", arg0)
+	ret := m.ctrl.Call(m, "GetControllerIDs", ctx)
 	ret0, _ := ret[0].([]string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetControllerIDs indicates an expected call of GetControllerIDs.
-func (mr *MockStateMockRecorder) GetControllerIDs(arg0 any) *MockStateGetControllerIDsCall {
+func (mr *MockStateMockRecorder) GetControllerIDs(ctx any) *MockStateGetControllerIDsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerIDs", reflect.TypeOf((*MockState)(nil).GetControllerIDs), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetControllerIDs", reflect.TypeOf((*MockState)(nil).GetControllerIDs), ctx)
 	return &MockStateGetControllerIDsCall{Call: call}
 }
 
@@ -392,17 +393,17 @@ func (c *MockStateSelectDatabaseNamespaceCall) DoAndReturn(f func(context.Contex
 }
 
 // SetAPIAddresses mocks base method.
-func (m *MockState) SetAPIAddresses(arg0 context.Context, arg1 string, arg2 []controllernode.APIAddress) error {
+func (m *MockState) SetAPIAddresses(ctx context.Context, ctrlID string, addrs []controllernode.APIAddress) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetAPIAddresses", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "SetAPIAddresses", ctx, ctrlID, addrs)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetAPIAddresses indicates an expected call of SetAPIAddresses.
-func (mr *MockStateMockRecorder) SetAPIAddresses(arg0, arg1, arg2 any) *MockStateSetAPIAddressesCall {
+func (mr *MockStateMockRecorder) SetAPIAddresses(ctx, ctrlID, addrs any) *MockStateSetAPIAddressesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIAddresses", reflect.TypeOf((*MockState)(nil).SetAPIAddresses), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetAPIAddresses", reflect.TypeOf((*MockState)(nil).SetAPIAddresses), ctx, ctrlID, addrs)
 	return &MockStateSetAPIAddressesCall{Call: call}
 }
 
@@ -509,6 +510,7 @@ func (c *MockStateUpdateDqliteNodeCall) DoAndReturn(f func(context.Context, stri
 type MockWatcherFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockWatcherFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockWatcherFactoryMockRecorder is the mock recorder for MockWatcherFactory.
@@ -529,22 +531,22 @@ func (m *MockWatcherFactory) EXPECT() *MockWatcherFactoryMockRecorder {
 }
 
 // NewNotifyWatcher mocks base method.
-func (m *MockWatcherFactory) NewNotifyWatcher(arg0 eventsource.FilterOption, arg1 ...eventsource.FilterOption) (watcher.Watcher[struct{}], error) {
+func (m *MockWatcherFactory) NewNotifyWatcher(filterOption eventsource.FilterOption, filterOptions ...eventsource.FilterOption) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
-	varargs := []any{arg0}
-	for _, a := range arg1 {
+	varargs := []any{filterOption}
+	for _, a := range filterOptions {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "NewNotifyWatcher", varargs...)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // NewNotifyWatcher indicates an expected call of NewNotifyWatcher.
-func (mr *MockWatcherFactoryMockRecorder) NewNotifyWatcher(arg0 any, arg1 ...any) *MockWatcherFactoryNewNotifyWatcherCall {
+func (mr *MockWatcherFactoryMockRecorder) NewNotifyWatcher(filterOption any, filterOptions ...any) *MockWatcherFactoryNewNotifyWatcherCall {
 	mr.mock.ctrl.T.Helper()
-	varargs := append([]any{arg0}, arg1...)
+	varargs := append([]any{filterOption}, filterOptions...)
 	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "NewNotifyWatcher", reflect.TypeOf((*MockWatcherFactory)(nil).NewNotifyWatcher), varargs...)
 	return &MockWatcherFactoryNewNotifyWatcherCall{Call: call}
 }
@@ -555,19 +557,19 @@ type MockWatcherFactoryNewNotifyWatcherCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockWatcherFactoryNewNotifyWatcherCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockWatcherFactoryNewNotifyWatcherCall) Do(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[struct{}], error)) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) Do(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.NotifyWatcher, error)) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockWatcherFactoryNewNotifyWatcherCall) DoAndReturn(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.Watcher[struct{}], error)) *MockWatcherFactoryNewNotifyWatcherCall {
+func (c *MockWatcherFactoryNewNotifyWatcherCall) DoAndReturn(f func(eventsource.FilterOption, ...eventsource.FilterOption) (watcher.NotifyWatcher, error)) *MockWatcherFactoryNewNotifyWatcherCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

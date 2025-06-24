@@ -25,6 +25,7 @@ import (
 type MockStatePool struct {
 	ctrl     *gomock.Controller
 	recorder *MockStatePoolMockRecorder
+	isgomock struct{}
 }
 
 // MockStatePoolMockRecorder is the mock recorder for MockStatePool.
@@ -87,6 +88,7 @@ func (c *MockStatePoolGetCall) DoAndReturn(f func(string) (modelupgrader.State, 
 type MockState struct {
 	ctrl     *gomock.Controller
 	recorder *MockStateMockRecorder
+	isgomock struct{}
 }
 
 // MockStateMockRecorder is the mock recorder for MockState.
@@ -185,10 +187,10 @@ func (c *MockStateAllModelUUIDsCall) DoAndReturn(f func() ([]string, error)) *Mo
 }
 
 // MachineCountForBase mocks base method.
-func (m *MockState) MachineCountForBase(arg0 ...state.Base) (map[string]int, error) {
+func (m *MockState) MachineCountForBase(base ...state.Base) (map[string]int, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{}
-	for _, a := range arg0 {
+	for _, a := range base {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "MachineCountForBase", varargs...)
@@ -198,9 +200,9 @@ func (m *MockState) MachineCountForBase(arg0 ...state.Base) (map[string]int, err
 }
 
 // MachineCountForBase indicates an expected call of MachineCountForBase.
-func (mr *MockStateMockRecorder) MachineCountForBase(arg0 ...any) *MockStateMachineCountForBaseCall {
+func (mr *MockStateMockRecorder) MachineCountForBase(base ...any) *MockStateMachineCountForBaseCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockState)(nil).MachineCountForBase), arg0...)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "MachineCountForBase", reflect.TypeOf((*MockState)(nil).MachineCountForBase), base...)
 	return &MockStateMachineCountForBaseCall{Call: call}
 }
 
@@ -305,17 +307,17 @@ func (c *MockStateReleaseCall) DoAndReturn(f func() bool) *MockStateReleaseCall 
 }
 
 // SetModelAgentVersion mocks base method.
-func (m *MockState) SetModelAgentVersion(arg0 semversion.Number, arg1 *string, arg2 bool, arg3 state.Upgrader) error {
+func (m *MockState) SetModelAgentVersion(newVersion semversion.Number, stream *string, ignoreAgentVersions bool, upgrader state.Upgrader) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetModelAgentVersion", arg0, arg1, arg2, arg3)
+	ret := m.ctrl.Call(m, "SetModelAgentVersion", newVersion, stream, ignoreAgentVersions, upgrader)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SetModelAgentVersion indicates an expected call of SetModelAgentVersion.
-func (mr *MockStateMockRecorder) SetModelAgentVersion(arg0, arg1, arg2, arg3 any) *MockStateSetModelAgentVersionCall {
+func (mr *MockStateMockRecorder) SetModelAgentVersion(newVersion, stream, ignoreAgentVersions, upgrader any) *MockStateSetModelAgentVersionCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelAgentVersion", reflect.TypeOf((*MockState)(nil).SetModelAgentVersion), arg0, arg1, arg2, arg3)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetModelAgentVersion", reflect.TypeOf((*MockState)(nil).SetModelAgentVersion), newVersion, stream, ignoreAgentVersions, upgrader)
 	return &MockStateSetModelAgentVersionCall{Call: call}
 }
 
@@ -346,6 +348,7 @@ func (c *MockStateSetModelAgentVersionCall) DoAndReturn(f func(semversion.Number
 type MockModel struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelMockRecorder
+	isgomock struct{}
 }
 
 // MockModelMockRecorder is the mock recorder for MockModel.
@@ -559,6 +562,7 @@ func (c *MockModelTypeCall) DoAndReturn(f func() state.ModelType) *MockModelType
 type MockUpgradeService struct {
 	ctrl     *gomock.Controller
 	recorder *MockUpgradeServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockUpgradeServiceMockRecorder is the mock recorder for MockUpgradeService.
@@ -621,6 +625,7 @@ func (c *MockUpgradeServiceIsUpgradingCall) DoAndReturn(f func(context.Context) 
 type MockControllerConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockControllerConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockControllerConfigServiceMockRecorder is the mock recorder for MockControllerConfigService.
@@ -683,6 +688,7 @@ func (c *MockControllerConfigServiceControllerConfigCall) DoAndReturn(f func(con
 type MockModelAgentService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelAgentServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelAgentServiceMockRecorder is the mock recorder for MockModelAgentService.

@@ -20,6 +20,7 @@ import (
 type MockShimExec struct {
 	ctrl     *gomock.Controller
 	recorder *MockShimExecMockRecorder
+	isgomock struct{}
 }
 
 // MockShimExecMockRecorder is the mock recorder for MockShimExec.
@@ -40,18 +41,18 @@ func (m *MockShimExec) EXPECT() *MockShimExecMockRecorder {
 }
 
 // RunCommands mocks base method.
-func (m *MockShimExec) RunCommands(arg0 exec.RunParams) (*exec.ExecResponse, error) {
+func (m *MockShimExec) RunCommands(args exec.RunParams) (*exec.ExecResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RunCommands", arg0)
+	ret := m.ctrl.Call(m, "RunCommands", args)
 	ret0, _ := ret[0].(*exec.ExecResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // RunCommands indicates an expected call of RunCommands.
-func (mr *MockShimExecMockRecorder) RunCommands(arg0 any) *MockShimExecRunCommandsCall {
+func (mr *MockShimExecMockRecorder) RunCommands(args any) *MockShimExecRunCommandsCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockShimExec)(nil).RunCommands), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RunCommands", reflect.TypeOf((*MockShimExec)(nil).RunCommands), args)
 	return &MockShimExecRunCommandsCall{Call: call}
 }
 

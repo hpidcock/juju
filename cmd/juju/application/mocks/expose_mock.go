@@ -21,6 +21,7 @@ import (
 type MockApplicationExposeAPI struct {
 	ctrl     *gomock.Controller
 	recorder *MockApplicationExposeAPIMockRecorder
+	isgomock struct{}
 }
 
 // MockApplicationExposeAPIMockRecorder is the mock recorder for MockApplicationExposeAPI.
@@ -79,17 +80,17 @@ func (c *MockApplicationExposeAPICloseCall) DoAndReturn(f func() error) *MockApp
 }
 
 // Expose mocks base method.
-func (m *MockApplicationExposeAPI) Expose(arg0 context.Context, arg1 string, arg2 map[string]params.ExposedEndpoint) error {
+func (m *MockApplicationExposeAPI) Expose(ctx context.Context, applicationName string, exposedEndpoints map[string]params.ExposedEndpoint) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Expose", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Expose", ctx, applicationName, exposedEndpoints)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Expose indicates an expected call of Expose.
-func (mr *MockApplicationExposeAPIMockRecorder) Expose(arg0, arg1, arg2 any) *MockApplicationExposeAPIExposeCall {
+func (mr *MockApplicationExposeAPIMockRecorder) Expose(ctx, applicationName, exposedEndpoints any) *MockApplicationExposeAPIExposeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Expose", reflect.TypeOf((*MockApplicationExposeAPI)(nil).Expose), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Expose", reflect.TypeOf((*MockApplicationExposeAPI)(nil).Expose), ctx, applicationName, exposedEndpoints)
 	return &MockApplicationExposeAPIExposeCall{Call: call}
 }
 
@@ -117,17 +118,17 @@ func (c *MockApplicationExposeAPIExposeCall) DoAndReturn(f func(context.Context,
 }
 
 // Unexpose mocks base method.
-func (m *MockApplicationExposeAPI) Unexpose(arg0 context.Context, arg1 string, arg2 []string) error {
+func (m *MockApplicationExposeAPI) Unexpose(ctx context.Context, applicationName string, exposedEndpoints []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Unexpose", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "Unexpose", ctx, applicationName, exposedEndpoints)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Unexpose indicates an expected call of Unexpose.
-func (mr *MockApplicationExposeAPIMockRecorder) Unexpose(arg0, arg1, arg2 any) *MockApplicationExposeAPIUnexposeCall {
+func (mr *MockApplicationExposeAPIMockRecorder) Unexpose(ctx, applicationName, exposedEndpoints any) *MockApplicationExposeAPIUnexposeCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unexpose", reflect.TypeOf((*MockApplicationExposeAPI)(nil).Unexpose), arg0, arg1, arg2)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unexpose", reflect.TypeOf((*MockApplicationExposeAPI)(nil).Unexpose), ctx, applicationName, exposedEndpoints)
 	return &MockApplicationExposeAPIUnexposeCall{Call: call}
 }
 

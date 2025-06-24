@@ -22,6 +22,7 @@ import (
 type MockAPIAddresser struct {
 	ctrl     *gomock.Controller
 	recorder *MockAPIAddresserMockRecorder
+	isgomock struct{}
 }
 
 // MockAPIAddresserMockRecorder is the mock recorder for MockAPIAddresser.
@@ -81,10 +82,10 @@ func (c *MockAPIAddresserAPIHostPortsCall) DoAndReturn(f func(context.Context) (
 }
 
 // WatchAPIHostPorts mocks base method.
-func (m *MockAPIAddresser) WatchAPIHostPorts(arg0 context.Context) (watcher.Watcher[struct{}], error) {
+func (m *MockAPIAddresser) WatchAPIHostPorts(arg0 context.Context) (watcher.NotifyWatcher, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "WatchAPIHostPorts", arg0)
-	ret0, _ := ret[0].(watcher.Watcher[struct{}])
+	ret0, _ := ret[0].(watcher.NotifyWatcher)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -102,19 +103,19 @@ type MockAPIAddresserWatchAPIHostPortsCall struct {
 }
 
 // Return rewrite *gomock.Call.Return
-func (c *MockAPIAddresserWatchAPIHostPortsCall) Return(arg0 watcher.Watcher[struct{}], arg1 error) *MockAPIAddresserWatchAPIHostPortsCall {
+func (c *MockAPIAddresserWatchAPIHostPortsCall) Return(arg0 watcher.NotifyWatcher, arg1 error) *MockAPIAddresserWatchAPIHostPortsCall {
 	c.Call = c.Call.Return(arg0, arg1)
 	return c
 }
 
 // Do rewrite *gomock.Call.Do
-func (c *MockAPIAddresserWatchAPIHostPortsCall) Do(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockAPIAddresserWatchAPIHostPortsCall {
+func (c *MockAPIAddresserWatchAPIHostPortsCall) Do(f func(context.Context) (watcher.NotifyWatcher, error)) *MockAPIAddresserWatchAPIHostPortsCall {
 	c.Call = c.Call.Do(f)
 	return c
 }
 
 // DoAndReturn rewrite *gomock.Call.DoAndReturn
-func (c *MockAPIAddresserWatchAPIHostPortsCall) DoAndReturn(f func(context.Context) (watcher.Watcher[struct{}], error)) *MockAPIAddresserWatchAPIHostPortsCall {
+func (c *MockAPIAddresserWatchAPIHostPortsCall) DoAndReturn(f func(context.Context) (watcher.NotifyWatcher, error)) *MockAPIAddresserWatchAPIHostPortsCall {
 	c.Call = c.Call.DoAndReturn(f)
 	return c
 }

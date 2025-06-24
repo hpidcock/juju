@@ -21,6 +21,7 @@ import (
 type MockExecutor struct {
 	ctrl     *gomock.Controller
 	recorder *MockExecutorMockRecorder
+	isgomock struct{}
 }
 
 // MockExecutorMockRecorder is the mock recorder for MockExecutor.
@@ -41,17 +42,17 @@ func (m *MockExecutor) EXPECT() *MockExecutorMockRecorder {
 }
 
 // Stream mocks base method.
-func (m *MockExecutor) Stream(arg0 remotecommand.StreamOptions) error {
+func (m *MockExecutor) Stream(options remotecommand.StreamOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Stream", arg0)
+	ret := m.ctrl.Call(m, "Stream", options)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Stream indicates an expected call of Stream.
-func (mr *MockExecutorMockRecorder) Stream(arg0 any) *MockExecutorStreamCall {
+func (mr *MockExecutorMockRecorder) Stream(options any) *MockExecutorStreamCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stream", reflect.TypeOf((*MockExecutor)(nil).Stream), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stream", reflect.TypeOf((*MockExecutor)(nil).Stream), options)
 	return &MockExecutorStreamCall{Call: call}
 }
 
@@ -79,17 +80,17 @@ func (c *MockExecutorStreamCall) DoAndReturn(f func(remotecommand.StreamOptions)
 }
 
 // StreamWithContext mocks base method.
-func (m *MockExecutor) StreamWithContext(arg0 context.Context, arg1 remotecommand.StreamOptions) error {
+func (m *MockExecutor) StreamWithContext(ctx context.Context, options remotecommand.StreamOptions) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "StreamWithContext", arg0, arg1)
+	ret := m.ctrl.Call(m, "StreamWithContext", ctx, options)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // StreamWithContext indicates an expected call of StreamWithContext.
-func (mr *MockExecutorMockRecorder) StreamWithContext(arg0, arg1 any) *MockExecutorStreamWithContextCall {
+func (mr *MockExecutorMockRecorder) StreamWithContext(ctx, options any) *MockExecutorStreamWithContextCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StreamWithContext", reflect.TypeOf((*MockExecutor)(nil).StreamWithContext), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StreamWithContext", reflect.TypeOf((*MockExecutor)(nil).StreamWithContext), ctx, options)
 	return &MockExecutorStreamWithContextCall{Call: call}
 }
 

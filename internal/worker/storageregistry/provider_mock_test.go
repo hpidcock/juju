@@ -21,6 +21,7 @@ import (
 type MockProviderFactory struct {
 	ctrl     *gomock.Controller
 	recorder *MockProviderFactoryMockRecorder
+	isgomock struct{}
 }
 
 // MockProviderFactoryMockRecorder is the mock recorder for MockProviderFactory.
@@ -41,18 +42,18 @@ func (m *MockProviderFactory) EXPECT() *MockProviderFactoryMockRecorder {
 }
 
 // EphemeralProviderFromConfig mocks base method.
-func (m *MockProviderFactory) EphemeralProviderFromConfig(arg0 context.Context, arg1 providertracker.EphemeralProviderConfig) (providertracker.Provider, error) {
+func (m *MockProviderFactory) EphemeralProviderFromConfig(ctx context.Context, config providertracker.EphemeralProviderConfig) (providertracker.Provider, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "EphemeralProviderFromConfig", arg0, arg1)
+	ret := m.ctrl.Call(m, "EphemeralProviderFromConfig", ctx, config)
 	ret0, _ := ret[0].(providertracker.Provider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // EphemeralProviderFromConfig indicates an expected call of EphemeralProviderFromConfig.
-func (mr *MockProviderFactoryMockRecorder) EphemeralProviderFromConfig(arg0, arg1 any) *MockProviderFactoryEphemeralProviderFromConfigCall {
+func (mr *MockProviderFactoryMockRecorder) EphemeralProviderFromConfig(ctx, config any) *MockProviderFactoryEphemeralProviderFromConfigCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EphemeralProviderFromConfig", reflect.TypeOf((*MockProviderFactory)(nil).EphemeralProviderFromConfig), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "EphemeralProviderFromConfig", reflect.TypeOf((*MockProviderFactory)(nil).EphemeralProviderFromConfig), ctx, config)
 	return &MockProviderFactoryEphemeralProviderFromConfigCall{Call: call}
 }
 
@@ -80,18 +81,18 @@ func (c *MockProviderFactoryEphemeralProviderFromConfigCall) DoAndReturn(f func(
 }
 
 // ProviderForModel mocks base method.
-func (m *MockProviderFactory) ProviderForModel(arg0 context.Context, arg1 string) (providertracker.Provider, error) {
+func (m *MockProviderFactory) ProviderForModel(ctx context.Context, namespace string) (providertracker.Provider, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ProviderForModel", arg0, arg1)
+	ret := m.ctrl.Call(m, "ProviderForModel", ctx, namespace)
 	ret0, _ := ret[0].(providertracker.Provider)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ProviderForModel indicates an expected call of ProviderForModel.
-func (mr *MockProviderFactoryMockRecorder) ProviderForModel(arg0, arg1 any) *MockProviderFactoryProviderForModelCall {
+func (mr *MockProviderFactoryMockRecorder) ProviderForModel(ctx, namespace any) *MockProviderFactoryProviderForModelCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderForModel", reflect.TypeOf((*MockProviderFactory)(nil).ProviderForModel), arg0, arg1)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ProviderForModel", reflect.TypeOf((*MockProviderFactory)(nil).ProviderForModel), ctx, namespace)
 	return &MockProviderFactoryProviderForModelCall{Call: call}
 }
 

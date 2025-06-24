@@ -20,6 +20,7 @@ import (
 type MockExpiryStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockExpiryStoreMockRecorder
+	isgomock struct{}
 }
 
 // MockExpiryStoreMockRecorder is the mock recorder for MockExpiryStore.
@@ -40,17 +41,17 @@ func (m *MockExpiryStore) EXPECT() *MockExpiryStoreMockRecorder {
 }
 
 // ExpireLeases mocks base method.
-func (m *MockExpiryStore) ExpireLeases(arg0 context.Context) error {
+func (m *MockExpiryStore) ExpireLeases(ctx context.Context) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ExpireLeases", arg0)
+	ret := m.ctrl.Call(m, "ExpireLeases", ctx)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // ExpireLeases indicates an expected call of ExpireLeases.
-func (mr *MockExpiryStoreMockRecorder) ExpireLeases(arg0 any) *MockExpiryStoreExpireLeasesCall {
+func (mr *MockExpiryStoreMockRecorder) ExpireLeases(ctx any) *MockExpiryStoreExpireLeasesCall {
 	mr.mock.ctrl.T.Helper()
-	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpireLeases", reflect.TypeOf((*MockExpiryStore)(nil).ExpireLeases), arg0)
+	call := mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ExpireLeases", reflect.TypeOf((*MockExpiryStore)(nil).ExpireLeases), ctx)
 	return &MockExpiryStoreExpireLeasesCall{Call: call}
 }
 

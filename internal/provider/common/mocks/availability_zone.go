@@ -19,6 +19,7 @@ import (
 type MockAvailabilityZone struct {
 	ctrl     *gomock.Controller
 	recorder *MockAvailabilityZoneMockRecorder
+	isgomock struct{}
 }
 
 // MockAvailabilityZoneMockRecorder is the mock recorder for MockAvailabilityZone.

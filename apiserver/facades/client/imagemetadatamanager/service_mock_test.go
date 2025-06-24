@@ -23,6 +23,7 @@ import (
 type MockModelConfigService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelConfigServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelConfigServiceMockRecorder is the mock recorder for MockModelConfigService.
@@ -43,24 +44,25 @@ func (m *MockModelConfigService) EXPECT() *MockModelConfigServiceMockRecorder {
 }
 
 // ModelConfig mocks base method.
-func (m *MockModelConfigService) ModelConfig(arg0 context.Context) (*config.Config, error) {
+func (m *MockModelConfigService) ModelConfig(ctx context.Context) (*config.Config, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ModelConfig", arg0)
+	ret := m.ctrl.Call(m, "ModelConfig", ctx)
 	ret0, _ := ret[0].(*config.Config)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ModelConfig indicates an expected call of ModelConfig.
-func (mr *MockModelConfigServiceMockRecorder) ModelConfig(arg0 any) *gomock.Call {
+func (mr *MockModelConfigServiceMockRecorder) ModelConfig(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockModelConfigService)(nil).ModelConfig), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ModelConfig", reflect.TypeOf((*MockModelConfigService)(nil).ModelConfig), ctx)
 }
 
 // MockModelInfoService is a mock of ModelInfoService interface.
 type MockModelInfoService struct {
 	ctrl     *gomock.Controller
 	recorder *MockModelInfoServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockModelInfoServiceMockRecorder is the mock recorder for MockModelInfoService.
@@ -99,6 +101,7 @@ func (mr *MockModelInfoServiceMockRecorder) GetModelInfo(arg0 any) *gomock.Call 
 type MockMetadataService struct {
 	ctrl     *gomock.Controller
 	recorder *MockMetadataServiceMockRecorder
+	isgomock struct{}
 }
 
 // MockMetadataServiceMockRecorder is the mock recorder for MockMetadataService.
@@ -119,44 +122,44 @@ func (m *MockMetadataService) EXPECT() *MockMetadataServiceMockRecorder {
 }
 
 // DeleteMetadataWithImageID mocks base method.
-func (m *MockMetadataService) DeleteMetadataWithImageID(arg0 context.Context, arg1 string) error {
+func (m *MockMetadataService) DeleteMetadataWithImageID(ctx context.Context, imageID string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteMetadataWithImageID", arg0, arg1)
+	ret := m.ctrl.Call(m, "DeleteMetadataWithImageID", ctx, imageID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // DeleteMetadataWithImageID indicates an expected call of DeleteMetadataWithImageID.
-func (mr *MockMetadataServiceMockRecorder) DeleteMetadataWithImageID(arg0, arg1 any) *gomock.Call {
+func (mr *MockMetadataServiceMockRecorder) DeleteMetadataWithImageID(ctx, imageID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMetadataWithImageID", reflect.TypeOf((*MockMetadataService)(nil).DeleteMetadataWithImageID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteMetadataWithImageID", reflect.TypeOf((*MockMetadataService)(nil).DeleteMetadataWithImageID), ctx, imageID)
 }
 
 // FindMetadata mocks base method.
-func (m *MockMetadataService) FindMetadata(arg0 context.Context, arg1 cloudimagemetadata.MetadataFilter) (map[string][]cloudimagemetadata.Metadata, error) {
+func (m *MockMetadataService) FindMetadata(ctx context.Context, criteria cloudimagemetadata.MetadataFilter) (map[string][]cloudimagemetadata.Metadata, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "FindMetadata", ctx, criteria)
 	ret0, _ := ret[0].(map[string][]cloudimagemetadata.Metadata)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindMetadata indicates an expected call of FindMetadata.
-func (mr *MockMetadataServiceMockRecorder) FindMetadata(arg0, arg1 any) *gomock.Call {
+func (mr *MockMetadataServiceMockRecorder) FindMetadata(ctx, criteria any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMetadata", reflect.TypeOf((*MockMetadataService)(nil).FindMetadata), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMetadata", reflect.TypeOf((*MockMetadataService)(nil).FindMetadata), ctx, criteria)
 }
 
 // SaveMetadata mocks base method.
-func (m *MockMetadataService) SaveMetadata(arg0 context.Context, arg1 []cloudimagemetadata.Metadata) error {
+func (m *MockMetadataService) SaveMetadata(ctx context.Context, metadata []cloudimagemetadata.Metadata) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveMetadata", arg0, arg1)
+	ret := m.ctrl.Call(m, "SaveMetadata", ctx, metadata)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // SaveMetadata indicates an expected call of SaveMetadata.
-func (mr *MockMetadataServiceMockRecorder) SaveMetadata(arg0, arg1 any) *gomock.Call {
+func (mr *MockMetadataServiceMockRecorder) SaveMetadata(ctx, metadata any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockMetadataService)(nil).SaveMetadata), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveMetadata", reflect.TypeOf((*MockMetadataService)(nil).SaveMetadata), ctx, metadata)
 }

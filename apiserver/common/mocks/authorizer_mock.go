@@ -20,6 +20,7 @@ import (
 type MockAuthorizer struct {
 	ctrl     *gomock.Controller
 	recorder *MockAuthorizerMockRecorder
+	isgomock struct{}
 }
 
 // MockAuthorizerMockRecorder is the mock recorder for MockAuthorizer.
