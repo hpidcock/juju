@@ -108,7 +108,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.32.0
 	go.opentelemetry.io/otel/trace v1.34.0
 	go.uber.org/goleak v1.3.0
-	go.uber.org/mock v0.5.0
+	go.uber.org/mock v0.5.2
 	golang.org/x/crypto v0.39.0
 	golang.org/x/net v0.41.0
 	golang.org/x/oauth2 v0.28.0
@@ -308,9 +308,6 @@ require (
 
 replace gopkg.in/yaml.v2 => github.com/juju/yaml/v2 v2.0.0
 
-// go.uber.org/mock v0.5.0 is a broken release. It adds named arguments to mocked
-// methods, which sometimes clash with package names. Fix the package to v0.4.0
-// until the issue is resolved.
-replace go.uber.org/mock => go.uber.org/mock v0.4.0
-
 replace gopkg.in/check.v1 => github.com/hpidcock/gc-compat-tc v0.0.0-20250523041742-c3a83c867edf
+
+tool go.uber.org/mock/mockgen
