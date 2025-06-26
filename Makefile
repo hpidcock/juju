@@ -6,8 +6,6 @@ help:
 # Export this first, incase we want to change it in the included makefiles.
 export CGO_ENABLED=0
 
-include scripts/dqlite/Makefile
-
 #
 # Makefile for juju-core.
 #
@@ -21,18 +19,22 @@ GOHOSTARCH=$(shell go env GOHOSTARCH)
 GO_MOD_VERSION=$(shell grep "^go" go.mod | awk '{print $$2}')
 GO_INSTALLED_VERSION=$(shell go version | awk '{print $$3}' | sed -e /.*go/s///)
 
-# Build number passed in must be a monotonic int representing
-# the build.
-JUJU_BUILD_NUMBER ?=
-
-# JUJU_VERSION is the JUJU version currently being represented in this
-# repository.
-JUJU_VERSION=$(shell go run -ldflags "-X $(PROJECT)/version.build=$(JUJU_BUILD_NUMBER)" version/helper/main.go)
-
 # BUILD_DIR is the directory relative to this project where we place build
 # artifacts created by this Makefile.
 BUILD_DIR ?= $(PROJECT_DIR)/_build
 BIN_DIR ?= ${BUILD_DIR}/${GOOS}_${GOARCH}/bin
+
+# Build number passed in must be a monotonic int representing
+# the build.
+JUJU_BUILD_NUMBER ?= $(shell cat $(BUILD_DIR)/build.number || (printf 1 | tee $(BUILD_DIR)/build.number))
+
+# JUJU_VERSION is the JUJU version currently being represented in this
+# repository.
+JUJU_VERSION=$(shell GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) CGO_ENABLED=0 go run -ldflags "-X $(PROJECT)/version.build=$(JUJU_BUILD_NUMBER)" version/helper/main.go)
+
+# JUJU_VERSION_CLEAN is the JUJU version currently being represented in this
+# repository.
+JUJU_VERSION_CLEAN=$(shell GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) CGO_ENABLED=0 go run -ldflags "-X $(PROJECT)/version.build=0" version/helper/main.go)
 
 # JUJU_METADATA_SOURCE is the directory where we place simple streams archives
 # for built juju binaries.
@@ -103,6 +105,7 @@ GIT_TREE_STATE = $(if $(shell git -C $(PROJECT_DIR) rev-parse --is-inside-work-t
 # - We filter pebble here for only linux builds as that is only what it will
 #   compile for at the moment.
 define BUILD_AGENT_TARGETS
+	$(call tool_platform_paths,jujud,$(filter-out windows%,${AGENT_PACKAGE_PLATFORMS})) \
 	$(call tool_platform_paths,jujuc,$(filter-out windows%,${AGENT_PACKAGE_PLATFORMS})) \
 	$(call tool_platform_paths,containeragent,$(filter-out windows%,${AGENT_PACKAGE_PLATFORMS})) \
 	$(call tool_platform_paths,pebble,$(filter linux%,${AGENT_PACKAGE_PLATFORMS}))
@@ -112,7 +115,7 @@ endef
 # under the category of Juju agents, that are CGO. These targets are also the
 # ones we are more then likely wanting to cross compile.
 define BUILD_CGO_AGENT_TARGETS
-	$(call tool_platform_paths,jujud,$(filter linux%,${AGENT_PACKAGE_PLATFORMS}))
+	$(call tool_platform_paths,jujud-controller,$(filter linux%,${AGENT_PACKAGE_PLATFORMS}))
 endef
 
 # BUILD_CLIENT_TARGETS is a list of make targets that get built that fall under
@@ -135,22 +138,8 @@ endef
 # install is run.
 define INSTALL_TARGETS
 	juju \
-	jujuc \
-	jujud \
-	containeragent \
 	juju-metadata
 endef
-
-# Windows doesn't support the agent binaries
-ifeq ($(GOOS), windows)
-	INSTALL_TARGETS = juju \
-                      juju-metadata
-endif
-
-# We only add pebble to the list of install targets if we are building for linux
-ifeq ($(GOOS), linux)
-	INSTALL_TARGETS += pebble
-endif
 
 # Allow the tests to take longer on restricted platforms.
 ifeq ($(shell echo "${GOARCH}" | sed -E 's/.*(arm|arm64|ppc64le|ppc64|s390x).*/golang/'), golang)
@@ -187,10 +176,10 @@ endef
 ifeq ($(DEBUG_JUJU), 1)
     COMPILE_FLAGS = -gcflags "all=-N -l"
     LINK_FLAGS =  "$(link_flags_version)"
-	CGO_LINK_FLAGS = "-linkmode 'external' -extldflags '-static' $(link_flags_version)"
+	CGO_LINK_FLAGS = "$(link_flags_version)"
 else
     LINK_FLAGS = "-s -w -extldflags '-static' $(link_flags_version)"
-	CGO_LINK_FLAGS = "-s -w -linkmode 'external' -extldflags '-static' $(link_flags_version)"
+	CGO_LINK_FLAGS = "-s -w $(link_flags_version)"
 endif
 
 define DEPENDENCIES
@@ -215,11 +204,10 @@ define run_go_build
 	$(eval OS = $(word 1,$(subst _, ,$*)))
 	$(eval ARCH = $(word 2,$(subst _, ,$*)))
 	$(eval BBIN_DIR = ${BUILD_DIR}/${OS}_${ARCH}/bin)
-	$(eval BUILD_ARCH = $(subst ppc64el,ppc64le,${ARCH}))
 	@@mkdir -p ${BBIN_DIR}
 	@echo "Building ${PACKAGE} for ${OS}/${ARCH}"
 	@env GOOS=${OS} \
-		GOARCH=${BUILD_ARCH} \
+		GOARCH=${ARCH} \
 		go build \
 			-mod=$(JUJU_GOMOD_MODE) \
 			-tags=$(FINAL_BUILD_TAGS) \
@@ -229,22 +217,41 @@ define run_go_build
 			-v ${PACKAGE}
 endef
 
+
+CROSS_BUILD ?= 1
+ifeq ($(CROSS_BUILD), 1)
+define run_cgo_build
+	@echo "Cross-building ${PACKAGE}..."
+	podman run -it --rm --userns=keep-id -u $(shell id -u):$(shell id -g) \
+		--volume $(PROJECT_DIR):$(PROJECT_DIR) -w $(PROJECT_DIR) \
+		--volume $(BUILD_DIR):$(BUILD_DIR) \
+		--volume $(shell go env GOCACHE):$(shell go env GOCACHE) --env GOCACHE=$(shell go env GOCACHE) \
+		--volume $(shell go env GOMODCACHE):$(shell go env GOMODCACHE) --env GOMODCACHE=$(shell go env GOMODCACHE) \
+		21a7afdf40eece3db1031320b13af37c7b4089c7997d18989f07bef6550fc55a \
+		make $@ CROSS_BUILD=0 BUILD_DIR=$(BUILD_DIR)
+endef
+else
+CC_amd64 = x86_64-linux-gnu-gcc
+CC_arm64 = aarch64-linux-gnu-gcc
+CC_s390x = s390x-linux-gnu-gcc
+CC_ppc64le = powerpc64le-linux-gnu-gcc
+PKG_CONFIG_PATH_amd64 = /usr/lib/x86_64-linux-gnu/pkgconfig
+PKG_CONFIG_PATH_arm64 = /usr/lib/aarch64-linux-gnu/pkgconfig
+PKG_CONFIG_PATH_s390x = /usr/lib/s390x-linux-gnu/pkgconfig
+PKG_CONFIG_PATH_ppc64le = /usr/lib/powerpc64le-linux-gnu/pkgconfig
 define run_cgo_build
 	$(eval OS = $(word 1,$(subst _, ,$*)))
 	$(eval ARCH = $(word 2,$(subst _, ,$*)))
 	$(eval BBIN_DIR = ${BUILD_DIR}/${OS}_${ARCH}/bin)
-	$(eval BUILD_ARCH = $(subst ppc64el,ppc64le,${ARCH}))
+	$(eval CC = $(CC_${ARCH}))
+	$(eval PKG_CONFIG_PATH = $(PKG_CONFIG_PATH_${ARCH}))
 	@@mkdir -p ${BBIN_DIR}
 	@echo "Building ${PACKAGE} for ${OS}/${ARCH}"
-	@env PATH="${MUSL_BIN_PATH}:${PATH}" \
-		CC="musl-gcc" \
-		CGO_CFLAGS="-I${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}/include" \
-		CGO_LDFLAGS="-L${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH} -luv -lraft -ldqlite -llz4 -lsqlite3" \
-		CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
-		LD_LIBRARY_PATH="${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}" \
-		CGO_ENABLED=1 \
+	@env CGO_ENABLED=1 \
 		GOOS=${OS} \
-		GOARCH=${BUILD_ARCH} \
+		GOARCH=${ARCH} \
+		CC=${CC} \
+		PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
 		go build \
 			-mod=$(JUJU_GOMOD_MODE) \
 			-tags=$(FINAL_BUILD_TAGS) \
@@ -253,6 +260,7 @@ define run_cgo_build
 			-ldflags ${CGO_LINK_FLAGS} \
 			-v ${PACKAGE}
 endef
+endif
 
 define run_go_install
 	@echo "Installing ${PACKAGE}"
@@ -266,13 +274,7 @@ endef
 
 define run_cgo_install
 	@echo "Installing ${PACKAGE}"
-	@env PATH="${MUSL_BIN_PATH}:${PATH}" \
-		CC="musl-gcc" \
-		CGO_CFLAGS="-I${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}/include" \
-		CGO_LDFLAGS="-L${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH} -luv -lraft -ldqlite -llz4 -lsqlite3" \
-		CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
-		LD_LIBRARY_PATH="${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}" \
-		CGO_ENABLED=1 \
+	@env CGO_ENABLED=1 \
 		GOOS=${GOOS} \
 		GOARCH=${GOARCH} \
 		go install \
@@ -287,39 +289,35 @@ default: build
 
 .PHONY: juju
 juju: PACKAGE = github.com/juju/juju/cmd/juju
-juju:
+juju: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/juju
 ## juju: Install juju without updating dependencies
-	${run_go_install}
-
-.PHONY: jujuc
-jujuc: PACKAGE = github.com/juju/juju/cmd/jujuc
-jujuc:
-## jujuc: Install jujuc without updating dependencies
-	${run_go_install}
-
-.PHONY: jujud
-jujud: PACKAGE = github.com/juju/juju/cmd/jujud
-jujud: musl-install-if-missing dqlite-install-if-missing
-## jujud: Install jujud without updating dependencies
-	${run_cgo_install}
-
-.PHONY: containeragent
-containeragent: PACKAGE = github.com/juju/juju/cmd/containeragent
-containeragent:
-## containeragent: Install containeragent without updating dependencies
 	${run_go_install}
 
 .PHONY: juju-metadata
 juju-metadata: PACKAGE = github.com/juju/juju/cmd/plugins/juju-metadata
-juju-metadata:
+juju-metadata: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/juju-metadata
 ## juju-metadata: Install juju-metadata without updating dependencies
 	${run_go_install}
 
+.PHONY: jujuc
+jujuc: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/jujuc
+## jujuc: Build jujuc without updating dependencies
+
+.PHONY: jujud
+jujud: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/jujud
+## jujud: Build jujud without updating dependencies
+
+.PHONY: jujud-controller
+jujud-controller: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/jujud-controller
+## jujud-controller: Build jujud-controller without updating dependencies
+
+.PHONY: containeragent
+containeragent: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/containeragent
+## containeragent: Build containeragent without updating dependencies
+
 .PHONY: pebble
-pebble: PACKAGE = github.com/canonical/pebble/cmd/pebble
-pebble:
-## pebble: Install pebble without updating dependencies
-	${run_go_install}
+pebble: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/pebble
+## pebble: Build pebble without updating dependencies
 
 .PHONY: phony_explicit
 phony_explicit:
@@ -336,8 +334,13 @@ ${BUILD_DIR}/%/bin/jujuc: phony_explicit
 	$(run_go_build)
 
 ${BUILD_DIR}/%/bin/jujud: PACKAGE = github.com/juju/juju/cmd/jujud
-${BUILD_DIR}/%/bin/jujud: phony_explicit musl-install-if-missing dqlite-install-if-missing
+${BUILD_DIR}/%/bin/jujud: phony_explicit
 # build for jujud
+	$(run_go_build)
+
+${BUILD_DIR}/%/bin/jujud-controller: PACKAGE = github.com/juju/juju/cmd/jujud-controller
+${BUILD_DIR}/%/bin/jujud-controller: phony_explicit
+# build for jujud-controller
 	$(run_cgo_build)
 
 ${BUILD_DIR}/%/bin/containeragent: PACKAGE = github.com/juju/juju/cmd/containeragent
@@ -411,7 +414,7 @@ race-test:
 
 .PHONY: run-tests run-go-tests go-test-alias
 # Can't make the length of the TMP dir too long or it hits socket name length issues.
-run-tests: musl-install-if-missing dqlite-install-if-missing
+run-tests: dqlite-install-if-missing
 ## run-tests: Run the unit tests
 	$(eval OS = $(shell go env GOOS))
 	$(eval ARCH = $(shell go env GOARCH))
@@ -420,17 +423,11 @@ run-tests: musl-install-if-missing dqlite-install-if-missing
 	$(eval TEST_PACKAGES := $(shell go list $(PROJECT)/... | sort | ([ -f "$(TEST_PACKAGE_LIST)" ] && comm -12 "$(TEST_PACKAGE_LIST)" - || cat) | grep -v $(PROJECT)$$ | grep -v $(PROJECT)/vendor/ | grep -v $(PROJECT)/acceptancetests/ | grep -v $(PROJECT)/generate/ | grep -v mocks))
 	@echo 'go test -mod=$(JUJU_GOMOD_MODE) -tags=$(FINAL_BUILD_TAGS) $(TEST_ARGS) $(CHECK_ARGS) -test.timeout=$(TEST_TIMEOUT) $$TEST_PACKAGES -check.v'
 	@TMPDIR=$(TMP) \
-		PATH="${MUSL_BIN_PATH}:${PATH}" \
-		CC="musl-gcc" \
-		CGO_CFLAGS="-I${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}/include" \
-		CGO_LDFLAGS="-L${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH} -luv -lraft -ldqlite -llz4 -lsqlite3" \
-		CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
-		LD_LIBRARY_PATH="${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}" \
 		CGO_ENABLED=1 \
 		go test -v -mod=$(JUJU_GOMOD_MODE) -tags=$(FINAL_BUILD_TAGS) $(TEST_ARGS) $(CHECK_ARGS) -ldflags ${CGO_LINK_FLAGS} -test.timeout=$(TEST_TIMEOUT) $(TEST_PACKAGES) -check.v
 	@rm -r $(TMP)
 
-run-go-tests: musl-install-if-missing dqlite-install-if-missing
+run-go-tests: dqlite-install-if-missing
 ## run-go-tests: Run the unit tests
 	$(eval OS = $(shell go env GOOS))
 	$(eval ARCH = $(shell go env GOARCH))
@@ -438,25 +435,12 @@ run-go-tests: musl-install-if-missing dqlite-install-if-missing
 	$(eval TEST_PACKAGES ?= "./...")
 	$(eval TEST_FILTER ?= "")
 	@echo 'go test -mod=$(JUJU_GOMOD_MODE) -tags=$(FINAL_BUILD_TAGS) $(TEST_ARGS) $(CHECK_ARGS) -test.timeout=$(TEST_TIMEOUT) $$TEST_PACKAGES -check.v -check.f $(TEST_FILTER)'
-	@PATH="${MUSL_BIN_PATH}:${PATH}" \
-		CC="musl-gcc" \
-		CGO_CFLAGS="-I${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}/include" \
-		CGO_LDFLAGS="-L${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH} -luv -lraft -ldqlite -llz4 -lsqlite3" \
-		CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
-		LD_LIBRARY_PATH="${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}" \
-		CGO_ENABLED=1 \
+	@CGO_ENABLED=1 \
 		go test -v -mod=$(JUJU_GOMOD_MODE) -tags=$(FINAL_BUILD_TAGS) $(TEST_ARGS) $(CHECK_ARGS) -ldflags ${CGO_LINK_FLAGS} -test.timeout=$(TEST_TIMEOUT) ${TEST_PACKAGES} -check.v -check.f $(TEST_FILTER)
 
-go-test-alias: musl-install-if-missing dqlite-install-if-missing
+go-test-alias: dqlite-install-if-missing
 ## go-test-alias: Prints out an alias command for easy running of tests.
-	$(eval PPATH := "PATH")
-	@echo alias jt=\'PATH=\"${MUSL_BIN_PATH}:$$${PPATH}\" \
-		CC=\"musl-gcc\" \
-		CGO_CFLAGS=\"-I${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}/include\" \
-		CGO_LDFLAGS=\"-L${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH} -luv -lraft -ldqlite -llz4 -lsqlite3\" \
-		CGO_LDFLAGS_ALLOW=\""(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"\" \
-		LD_LIBRARY_PATH=\"${DQLITE_EXTRACTED_DEPS_ARCHIVE_PATH}\" \
-		CGO_ENABLED=\"1\" \
+	@echo alias jt=\'CGO_ENABLED=\"1\" \
 		go test -mod=\"$(JUJU_GOMOD_MODE)\" -tags=\"$(FINAL_BUILD_TAGS)\" -ldflags \"${CGO_LINK_FLAGS}\"\'
 
 .PHONY: install
@@ -496,9 +480,9 @@ rebuild-schema:
 	@echo "Generating facade schema..."
 # GOOS and GOARCH environment variables are cleared in case the user is trying to cross architecture compilation.
 ifdef SCHEMA_PATH
-	@env GOOS= GOARCH= go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades "$(SCHEMA_PATH)"
+	@env GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) CGO_ENABLED=0 go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades "$(SCHEMA_PATH)"
 else
-	@env GOOS= GOARCH= go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades \
+	@env GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) CGO_ENABLED=0 go run $(COMPILE_FLAGS) $(PROJECT)/generate/schemagen -admin-facades \
 		./apiserver/facades/schema.json
 endif
 
@@ -536,6 +520,15 @@ install-mongo-dependencies:
 install-dependencies: install-snap-dependencies install-mongo-dependencies
 ## install-dependencies: Install all the dependencies
 	@echo "Installing dependencies"
+
+.PHONY: dqlite-install-if-missing
+dqlite-install-if-missing:
+## dqlite-install-if-missing: Install dqlite if it is missing.
+	@if ! dpkg -l libdqlite-dev | grep libdqlite-dev > /dev/null; then \
+		$(WAIT_FOR_DPKG); \
+		sudo add-apt-repository ppa:dqlite/dev -y; \
+		sudo apt-get install libdqlite-dev; \
+		fi
 
 .PHONY: install-etc
 # Install bash_completion
@@ -640,7 +633,7 @@ seed-repository:
 .PHONY: host-install
 host-install:
 ## host-install: installs juju for host os/architecture
-	+GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) make juju
+	+GOOS=$(GOHOSTOS) GOARCH=$(GOHOSTARCH) CGO_ENABLED=0 make juju
 
 .PHONY: minikube-operator-update
 minikube-operator-update: host-install operator-image
@@ -680,3 +673,46 @@ static-analysis: dqlite-install-if-missing
 	@cd tests && CGO_ENABLED=1 \
 		CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)" \
 		./main.sh static_analysis ${STATIC_ANALYSIS_JOB}
+
+.PHONY: snap-client
+snap-client:
+## snap-client: runs snapcraft for the client snap
+	@rm -rf ${PROJECT_DIR}/snap && cp -r ${PROJECT_DIR}/snap-client ${PROJECT_DIR}/snap && snapcraft && rm -rf ${PROJECT_DIR}/snap
+
+.PHONY: snap-controller
+snap-controller:
+## snap-controller: runs snapcraft for the controller snap
+	@rm -rf ${PROJECT_DIR}/snap && cp -r ${PROJECT_DIR}/snap-controller ${PROJECT_DIR}/snap && snapcraft && rm -rf ${PROJECT_DIR}/snap
+
+.PHONY: resnap-controller
+resnap-controller: ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/jujud-controller
+## resnap-controller: patch an existing controller snap
+	$(eval BUILD_ARCH = $(subst ppc64el,ppc64le,${GOARCH}))
+	$(eval UNSNAPDIR = $(shell mktemp -d))
+	@unsquashfs -d ${UNSNAPDIR} ${PROJECT_DIR}/jujud-controller_${JUJU_VERSION_CLEAN}_${BUILD_ARCH}.snap
+	@cp ${UNSNAPDIR}/bin/jujud-controller ${UNSNAPDIR}/bin/jujud-controller.old
+	@cp ${BUILD_DIR}/${GOOS}_${GOARCH}/bin/jujud-controller ${UNSNAPDIR}/bin/jujud-controller
+	@patchelf --force-rpath --set-rpath "$$(patchelf --print-rpath ${UNSNAPDIR}/bin/jujud-controller.old)" --set-interpreter "$$(patchelf --print-interpreter ${UNSNAPDIR}/bin/jujud-controller.old)" ${UNSNAPDIR}/bin/jujud-controller
+	@rm ${UNSNAPDIR}/bin/jujud-controller.old
+	@rm ${PROJECT_DIR}/jujud-controller_${JUJU_VERSION}_${BUILD_ARCH}.snap || true
+	@mksquashfs ${UNSNAPDIR}/* ${PROJECT_DIR}/jujud-controller_${JUJU_VERSION}_${BUILD_ARCH}.snap -comp lzo -all-root -noappend
+	@rm -rf ${UNSNAPDIR}
+
+.PHONY: rev
+rev:
+## rev: increase the builder number
+	@printf $$(($(JUJU_BUILD_NUMBER)+1)) > $(BUILD_DIR)/build.number
+	@cat $(BUILD_DIR)/build.number
+
+.PHONY: controller
+controller: rebuild-schema go-agent-build resnap-controller
+## controller: build everything for the controller and agents
+
+
+# 
+# GOARCH=arm64 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig make jujud-controller
+# podman run -it --rm --userns=keep-id -u $UID:$GID \
+--volume $(pwd):/host/project -w /host/project \
+--volume $(go env GOCACHE):/host/gocache --env GOCACHE=/host/gocache \
+--volume $(go env GOMODCACHE):/host/gomodcache --env GOMODCACHE=/host/gomodcache \
+21a7afdf40eece3db1031320b13af37c7b4089c7997d18989f07bef6550fc55a bash -c 'GOARCH=arm64 CC=aarch64-linux-gnu-gcc PKG_CONFIG_PATH=/usr/lib/aarch64-linux-gnu/pkgconfig make jujud-controller'
