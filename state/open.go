@@ -39,10 +39,6 @@ type OpenParams struct {
 	// for closing this session; Open will copy it.
 	MongoSession *mgo.Session
 
-	// NewPolicy, if non-nil, returns a policy which will be used to
-	// validate and modify behaviour of certain operations in state.
-	NewPolicy NewPolicyFunc
-
 	// InitDatabaseFunc, if non-nil, is a function that will be called
 	// just after the state database is opened.
 	InitDatabaseFunc InitDatabaseFunc
@@ -97,7 +93,6 @@ func open(
 	session *mgo.Session,
 	initDatabase InitDatabaseFunc,
 	controllerConfig *controller.Config,
-	newPolicy NewPolicyFunc,
 	clock clock.Clock,
 	charmServiceGetter func(modelUUID coremodel.UUID) (CharmService, error),
 	maxTxnAttempts int,
@@ -106,7 +101,6 @@ func open(
 		controllerModelTag,
 		controllerModelTag,
 		session,
-		newPolicy,
 		clock,
 		charmServiceGetter,
 		maxTxnAttempts)
@@ -134,7 +128,6 @@ func newState(
 	controllerTag names.ControllerTag,
 	modelTag, controllerModelTag names.ModelTag,
 	session *mgo.Session,
-	newPolicy NewPolicyFunc,
 	clock clock.Clock,
 	charmServiceGetter func(modelUUID coremodel.UUID) (CharmService, error),
 	maxTxnAttempts int,
@@ -177,12 +170,8 @@ func newState(
 		controllerModelTag: controllerModelTag,
 		session:            session,
 		database:           db,
-		newPolicy:          newPolicy,
 		charmServiceGetter: charmServiceGetter,
 		maxTxnAttempts:     maxTxnAttempts,
-	}
-	if newPolicy != nil {
-		st.policy = newPolicy(st)
 	}
 	// Record this State instance with the global tracker.
 	profileTracker.Add(st, 1)

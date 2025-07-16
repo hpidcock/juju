@@ -29,7 +29,6 @@ import (
 type StateSuite struct {
 	mgotesting.MgoSuite
 	testing.BaseSuite
-	NewPolicy                 state.NewPolicyFunc
 	Controller                *state.Controller
 	StatePool                 *state.StatePool
 	State                     *state.State
@@ -78,7 +77,6 @@ func (s *StateSuite) SetUpTest(c *tc.C) {
 		ControllerInheritedConfig: s.ControllerInheritedConfig,
 		ControllerModelType:       s.ControllerModelType,
 		RegionConfig:              s.RegionConfig,
-		NewPolicy:                 s.NewPolicy,
 		Clock:                     s.Clock,
 	})
 	s.AddCleanup(func(*tc.C) {

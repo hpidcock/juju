@@ -46,8 +46,8 @@ func NewHasHostedModelsError(i int) error {
 // NewModelNotEmptyError constructs a ModelNotEmpty with the error message
 // tailored to match the number of machines, applications, volumes and
 // filesystem's left. The returned error satisfies ModelNotEmptyError.
-func NewModelNotEmptyError(machines, applications, volumes, filesystems int) error {
-	if machines+applications+volumes+filesystems == 0 {
+func NewModelNotEmptyError(machines, applications int) error {
+	if machines+applications == 0 {
 		return nil
 	}
 	plural := func(n int, thing string) string {
@@ -63,12 +63,6 @@ func NewModelNotEmptyError(machines, applications, volumes, filesystems int) err
 	}
 	if n := applications; n > 0 {
 		contains = append(contains, plural(n, "application"))
-	}
-	if n := volumes; n > 0 {
-		contains = append(contains, plural(n, "volume"))
-	}
-	if n := filesystems; n > 0 {
-		contains = append(contains, plural(n, "filesystem"))
 	}
 	return fmt.Errorf("%w, found %s", ModelNotEmptyError, strings.Join(contains, ", "))
 }

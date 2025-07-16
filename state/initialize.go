@@ -50,10 +50,6 @@ type InitializeParams struct {
 	// models running on specific cloud regions.
 	RegionInheritedConfig cloud.RegionConfig
 
-	// NewPolicy is a function that returns the set of state policies
-	// to apply.
-	NewPolicy NewPolicyFunc
-
 	// MongoSession is the mgo.Session to use for storing and
 	// accessing state data. The caller remains responsible
 	// for closing this session; Initialize will copy it.
@@ -117,7 +113,6 @@ func Initialize(args InitializeParams) (_ *Controller, err error) {
 		MongoSession:        args.MongoSession,
 		MaxTxnAttempts:      args.MaxTxnAttempts,
 		WatcherPollInterval: args.WatcherPollInterval,
-		NewPolicy:           args.NewPolicy,
 		InitDatabaseFunc:    InitDatabase,
 		CharmServiceGetter:  args.CharmServiceGetter,
 	})

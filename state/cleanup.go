@@ -207,20 +207,10 @@ func (st *State) Cleanup(
 			err = st.cleanupRemovedUnit(doc.Prefix, args)
 		case cleanupApplicationsForDyingModel:
 			err = st.cleanupApplicationsForDyingModel(ctx, store, args)
-		case cleanupAttachmentsForDyingStorage:
-			err = st.cleanupAttachmentsForDyingStorage(doc.Prefix, args)
-		case cleanupAttachmentsForDyingVolume:
-			err = st.cleanupAttachmentsForDyingVolume(doc.Prefix)
-		case cleanupAttachmentsForDyingFilesystem:
-			err = st.cleanupAttachmentsForDyingFilesystem(doc.Prefix)
 		case cleanupModelsForDyingController:
 			err = st.cleanupModelsForDyingController(args)
 		case cleanupResourceBlob:
 			err = st.cleanupResourceBlob(ctx, store, doc.Prefix)
-		case cleanupStorageForDyingModel:
-			err = st.cleanupStorageForDyingModel(doc.Prefix, args)
-		case cleanupForceStorage:
-			err = st.cleanupForceStorage(args)
 		default:
 			err = errors.Errorf("unknown cleanup kind %q", doc.Kind)
 		}
@@ -264,8 +254,6 @@ func (st *State) cleanupModelsForDyingController(cleanupArgs []bson.Raw) (err er
 	switch n := len(cleanupArgs); n {
 	case 0:
 		// Old cleanups have no args, so follow the old behaviour.
-		destroyStorage := true
-		args.DestroyStorage = &destroyStorage
 	case 1:
 		if err := cleanupArgs[0].Unmarshal(&args); err != nil {
 			return errors.Annotate(err, "unmarshalling cleanup args")
@@ -295,86 +283,6 @@ func (st *State) cleanupModelsForDyingController(cleanupArgs []bson.Raw) (err er
 		}
 
 		if err := model.Destroy(args); err != nil {
-			return errors.Trace(err)
-		}
-	}
-	return nil
-}
-
-// cleanupStorageForDyingModel sets all storage to Dying, if they are not
-// already Dying or Dead. It's expected to be used when a model is destroyed.
-func (st *State) cleanupStorageForDyingModel(modelUUID string, cleanupArgs []bson.Raw) (err error) {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	var args DestroyModelParams
-	switch n := len(cleanupArgs); n {
-	case 0:
-		// Old cleanups have no args, so follow the old behaviour.
-	case 1:
-		if err := cleanupArgs[0].Unmarshal(&args); err != nil {
-			return errors.Annotate(err, "unmarshalling cleanup 'destroy model' args")
-		}
-	default:
-		return errors.Errorf("expected 0-1 arguments, got %d", n)
-	}
-
-	destroyStorage := sb.DestroyStorageInstance
-	if args.DestroyStorage == nil || !*args.DestroyStorage {
-		destroyStorage = sb.ReleaseStorageInstance
-	}
-
-	storage, err := sb.AllStorageInstances()
-	if err != nil {
-		return errors.Trace(err)
-	}
-	force := args.Force != nil && *args.Force
-	for _, s := range storage {
-		const destroyAttached = true
-		err := destroyStorage(s.StorageTag(), destroyAttached, force, args.MaxWait)
-		if errors.Is(err, errors.NotFound) {
-			continue
-		} else if err != nil {
-			return errors.Trace(err)
-		}
-	}
-	if force {
-		st.scheduleForceCleanup(cleanupForceStorage, modelUUID, args.MaxWait)
-	}
-	return nil
-}
-
-// cleanupForceStorage forcibly removes any remaining storage records from a dying model.
-func (st *State) cleanupForceStorage(cleanupArgs []bson.Raw) (err error) {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	// There may be unattached filesystems left over that need to be deleted.
-	filesystems, err := sb.AllFilesystems()
-	if err != nil {
-		return errors.Trace(err)
-	}
-	for _, fs := range filesystems {
-		if err := sb.DestroyFilesystem(fs.FilesystemTag(), true); err != nil {
-			return errors.Trace(err)
-		}
-		if err := sb.RemoveFilesystem(fs.FilesystemTag()); err != nil {
-			return errors.Trace(err)
-		}
-	}
-
-	// There may be unattached volumes left over that need to be deleted.
-	volumes, err := sb.AllVolumes()
-	if err != nil {
-		return errors.Trace(err)
-	}
-	for _, v := range volumes {
-		if err := sb.DestroyVolume(v.VolumeTag(), true); err != nil {
-			return errors.Trace(err)
-		}
-		if err := sb.RemoveVolume(v.VolumeTag()); err != nil {
 			return errors.Trace(err)
 		}
 	}
@@ -621,7 +529,7 @@ func (st *State) cleanupDyingUnit(name string, cleanupArgs []bson.Raw) error {
 		return errors.Errorf("expected 0, 1 or 3 arguments, got %d", n)
 	}
 
-	unit, err := st.Unit(name)
+	_, err := st.Unit(name)
 	if errors.Is(err, errors.NotFound) {
 		return nil
 	} else if err != nil {
@@ -635,15 +543,7 @@ func (st *State) cleanupDyingUnit(name string, cleanupArgs []bson.Raw) error {
 		st.scheduleForceCleanup(cleanupForceDestroyedUnit, name, maxWait)
 	}
 
-	if destroyStorage {
-		// Detach and mark storage instances as dying, allowing the
-		// unit to terminate.
-		return st.cleanupUnitStorageInstances(unit.unitTag(), force, maxWait)
-	} else {
-		// Mark storage attachments as dying, so that they are detached
-		// and removed from state, allowing the unit to terminate.
-		return st.cleanupUnitStorageAttachments(unit.unitTag(), false, force, maxWait)
-	}
+	return nil
 }
 
 func (st *State) scheduleForceCleanup(kind cleanupKind, name string, maxWait time.Duration) {
@@ -704,12 +604,6 @@ func (st *State) cleanupForceDestroyedUnit(ctx context.Context, store objectstor
 		}
 	}
 
-	// Detach all storage.
-	err = st.forceRemoveUnitStorageAttachments(unit)
-	if err != nil {
-		logger.Warningf(context.TODO(), "couldn't remove storage attachments for %q: %v", unitName, err)
-	}
-
 	// TODO(units) - remove me
 	// Dual write to state.
 	err = unit.EnsureDead()
@@ -725,29 +619,6 @@ func (st *State) cleanupForceDestroyedUnit(ctx context.Context, store objectstor
 	// Set up another cleanup to remove the unit in a minute if the
 	// deployer doesn't do it.
 	st.scheduleForceCleanup(cleanupForceRemoveUnit, unitName.String(), maxWait)
-	return nil
-}
-
-func (st *State) forceRemoveUnitStorageAttachments(unit *Unit) error {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Annotate(err, "couldn't get storage backend")
-	}
-	err = sb.DestroyUnitStorageAttachments(unit.unitTag())
-	if err != nil {
-		return errors.Annotatef(err, "destroying storage attachments for %q", unit.Tag().Id())
-	}
-	attachments, err := sb.UnitStorageAttachments(unit.unitTag())
-	if err != nil {
-		return errors.Annotatef(err, "getting storage attachments for %q", unit.Tag().Id())
-	}
-	for _, attachment := range attachments {
-		err := sb.RemoveStorageAttachment(
-			attachment.StorageInstance(), unit.unitTag(), true)
-		if err != nil {
-			logger.Warningf(context.TODO(), "couldn't remove storage attachment %q for %q: %v", attachment.StorageInstance(), unit, err)
-		}
-	}
 	return nil
 }
 
@@ -793,86 +664,6 @@ func (st *State) cleanupDyingUnitResources(unitId string, cleanupArgs []bson.Raw
 	default:
 		return errors.Errorf("expected 0 or 2 arguments, got %d", n)
 	}
-	unitTag := names.NewUnitTag(unitId)
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return err
-	}
-	filesystemAttachments, err := sb.UnitFilesystemAttachments(unitTag)
-	if err != nil {
-		err := errors.Annotate(err, "getting unit filesystem attachments")
-		if !force {
-			return err
-		}
-		logger.Warningf(context.TODO(), "%v", err)
-	}
-	volumeAttachments, err := sb.UnitVolumeAttachments(unitTag)
-	if err != nil {
-		err := errors.Annotate(err, "getting unit volume attachments")
-		if !force {
-			return err
-		}
-		logger.Warningf(context.TODO(), "%v", err)
-	}
-
-	cleaner := newDyingEntityStorageCleaner(sb, unitTag, false, force)
-	return errors.Trace(cleaner.cleanupStorage(filesystemAttachments, volumeAttachments))
-}
-
-func (st *State) cleanupUnitStorageAttachments(unitTag names.UnitTag, remove bool, force bool, maxWait time.Duration) error {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return err
-	}
-	storageAttachments, err := sb.UnitStorageAttachments(unitTag)
-	if err != nil {
-		return err
-	}
-	for _, storageAttachment := range storageAttachments {
-		storageTag := storageAttachment.StorageInstance()
-		err := sb.DetachStorage(storageTag, unitTag, force, maxWait)
-		if errors.Is(err, errors.NotFound) {
-			continue
-		} else if err != nil {
-			if !force {
-				return err
-			}
-			logger.Warningf(context.TODO(), "could not detach storage %v for unit %v: %v", storageTag.Id(), unitTag.Id(), err)
-		}
-		if !remove {
-			continue
-		}
-		err = sb.RemoveStorageAttachment(storageTag, unitTag, force)
-		if errors.Is(err, errors.NotFound) {
-			continue
-		} else if err != nil {
-			if !force {
-				return err
-			}
-			logger.Warningf(context.TODO(), "could not remove storage attachment for storage %v for unit %v: %v", storageTag.Id(), unitTag.Id(), err)
-		}
-	}
-	return nil
-}
-
-func (st *State) cleanupUnitStorageInstances(unitTag names.UnitTag, force bool, maxWait time.Duration) error {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return err
-	}
-	storageAttachments, err := sb.UnitStorageAttachments(unitTag)
-	if err != nil {
-		return err
-	}
-	for _, storageAttachment := range storageAttachments {
-		storageTag := storageAttachment.StorageInstance()
-		err := sb.DestroyStorageInstance(storageTag, true, force, maxWait)
-		if errors.Is(err, errors.NotFound) {
-			continue
-		} else if err != nil {
-			return err
-		}
-	}
 	return nil
 }
 
@@ -916,119 +707,6 @@ func (st *State) cleanupRemovedUnit(unitId string, cleanupArgs []bson.Raw) error
 		}
 	}
 
-	return nil
-}
-
-// cleanupAttachmentsForDyingStorage sets all storage attachments related
-// to the specified storage instance to Dying, if they are not already Dying
-// or Dead. It's expected to be used when a storage instance is destroyed.
-func (st *State) cleanupAttachmentsForDyingStorage(storageId string, cleanupArgs []bson.Raw) (err error) {
-	var force bool
-	var maxWait time.Duration
-	switch n := len(cleanupArgs); n {
-	case 0:
-	// It's valid to have no args: old cleanups have no args, so follow the old behaviour.
-	case 2:
-		if err := cleanupArgs[0].Unmarshal(&force); err != nil {
-			return errors.Annotate(err, "unmarshalling cleanup arg 'force'")
-		}
-		if err := cleanupArgs[1].Unmarshal(&maxWait); err != nil {
-			return errors.Annotate(err, "unmarshalling cleanup arg 'maxWait'")
-		}
-	default:
-		return errors.Errorf("expected 0 or 2 arguments, got %d", n)
-	}
-
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	storageTag := names.NewStorageTag(storageId)
-
-	// This won't miss attachments, because a Dying storage instance cannot
-	// have attachments added to it. But we do have to remove the attachments
-	// themselves via individual transactions, because they could be in
-	// any state at all.
-	coll, closer := st.db().GetCollection(storageAttachmentsC)
-	defer closer()
-
-	var doc storageAttachmentDoc
-	fields := bson.D{{"unitid", 1}}
-	iter := coll.Find(bson.D{{"storageid", storageId}}).Select(fields).Iter()
-	defer closeIter(iter, &err, "reading storage attachment document")
-	var detachErr error
-	for iter.Next(&doc) {
-		unitTag := names.NewUnitTag(doc.Unit)
-		if err := sb.DetachStorage(storageTag, unitTag, force, maxWait); err != nil {
-			detachErr = errors.Annotate(err, "destroying storage attachment")
-			logger.Warningf(context.TODO(), "%v", detachErr)
-		}
-	}
-	if !force && detachErr != nil {
-		return detachErr
-	}
-	return nil
-}
-
-// cleanupAttachmentsForDyingVolume sets all volume attachments related
-// to the specified volume to Dying, if they are not already Dying or
-// Dead. It's expected to be used when a volume is destroyed.
-func (st *State) cleanupAttachmentsForDyingVolume(volumeId string) (err error) {
-	volumeTag := names.NewVolumeTag(volumeId)
-
-	// This won't miss attachments, because a Dying volume cannot have
-	// attachments added to it. But we do have to remove the attachments
-	// themselves via individual transactions, because they could be in
-	// any state at all.
-	coll, closer := st.db().GetCollection(volumeAttachmentsC)
-	defer closer()
-
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-
-	var doc volumeAttachmentDoc
-	fields := bson.D{{"hostid", 1}}
-	iter := coll.Find(bson.D{{"volumeid", volumeId}}).Select(fields).Iter()
-	defer closeIter(iter, &err, "reading volume attachment document")
-	for iter.Next(&doc) {
-		hostTag := storageAttachmentHost(doc.Host)
-		if err := sb.DetachVolume(hostTag, volumeTag, false); err != nil {
-			return errors.Annotate(err, "destroying volume attachment")
-		}
-	}
-	return nil
-}
-
-// cleanupAttachmentsForDyingFilesystem sets all filesystem attachments related
-// to the specified filesystem to Dying, if they are not already Dying or
-// Dead. It's expected to be used when a filesystem is destroyed.
-func (st *State) cleanupAttachmentsForDyingFilesystem(filesystemId string) (err error) {
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-
-	filesystemTag := names.NewFilesystemTag(filesystemId)
-
-	// This won't miss attachments, because a Dying filesystem cannot have
-	// attachments added to it. But we do have to remove the attachments
-	// themselves via individual transactions, because they could be in
-	// any state at all.
-	coll, closer := sb.mb.db().GetCollection(filesystemAttachmentsC)
-	defer closer()
-
-	var doc filesystemAttachmentDoc
-	fields := bson.D{{"hostid", 1}}
-	iter := coll.Find(bson.D{{"filesystemid", filesystemId}}).Select(fields).Iter()
-	defer closeIter(iter, &err, "reading filesystem attachment document")
-	for iter.Next(&doc) {
-		hostTag := storageAttachmentHost(doc.Host)
-		if err := sb.DetachFilesystem(hostTag, filesystemTag); err != nil {
-			return errors.Annotate(err, "destroying filesystem attachment")
-		}
-	}
 	return nil
 }
 

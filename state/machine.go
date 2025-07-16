@@ -22,7 +22,6 @@ import (
 	"github.com/juju/juju/core/instance"
 	"github.com/juju/juju/core/network"
 	"github.com/juju/juju/core/semversion"
-	"github.com/juju/juju/core/status"
 	internalpassword "github.com/juju/juju/internal/password"
 	"github.com/juju/juju/internal/tools"
 	stateerrors "github.com/juju/juju/state/errors"
@@ -342,47 +341,11 @@ func (m *Machine) units() (units []*Unit, err error) {
 func (m *Machine) SetInstanceInfo(
 	id instance.Id, displayName string, nonce string, characteristics *instance.HardwareCharacteristics,
 	devicesArgs []LinkLayerDeviceArgs, devicesAddrs []LinkLayerDeviceAddress,
-	volumes map[names.VolumeTag]VolumeInfo,
-	volumeAttachments map[names.VolumeTag]VolumeAttachmentInfo,
 	charmProfiles []string,
 ) error {
 	logger.Tracef(context.TODO(),
 		"setting instance info: machine %v, deviceAddrs: %#v, devicesArgs: %#v",
 		m.Id(), devicesAddrs, devicesArgs)
-
-	sb, err := NewStorageBackend(m.st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-
-	// Record volumes and volume attachments, and set the initial
-	// status: attached or attaching.
-	if err := setProvisionedVolumeInfo(sb, volumes); err != nil {
-		return errors.Trace(err)
-	}
-	if err := setMachineVolumeAttachmentInfo(sb, m.Id(), volumeAttachments); err != nil {
-		return errors.Trace(err)
-	}
-	volumeStatus := make(map[names.VolumeTag]status.Status)
-	for tag := range volumes {
-		volumeStatus[tag] = status.Attaching
-	}
-	for tag := range volumeAttachments {
-		volumeStatus[tag] = status.Attached
-	}
-	for tag, volStatus := range volumeStatus {
-		vol, err := sb.Volume(tag)
-		if err != nil {
-			return errors.Trace(err)
-		}
-		if err := vol.SetStatus(status.StatusInfo{
-			Status: volStatus,
-		}); err != nil {
-			return errors.Annotatef(
-				err, "setting status of %s", names.ReadableString(tag),
-			)
-		}
-	}
 
 	return nil
 }
@@ -440,15 +403,6 @@ func (m *Machine) Constraints() (constraints.Value, error) {
 // Clean returns true if the machine does not have any deployed units or containers.
 func (m *Machine) Clean() bool {
 	return m.doc.Clean
-}
-
-// VolumeAttachments returns the machine's volume attachments.
-func (m *Machine) VolumeAttachments() ([]VolumeAttachment, error) {
-	sb, err := NewStorageBackend(m.st)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	return sb.MachineVolumeAttachments(m.MachineTag())
 }
 
 // PrepareActionPayload returns the payload to use in creating an action for this machine.

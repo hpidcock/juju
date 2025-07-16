@@ -199,48 +199,6 @@ func allCollections() CollectionSchema {
 
 		// -----
 
-		filesystemsC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid", "storageid"},
-			}, {
-				Key: []string{"model-uuid", "machineid"},
-			}},
-		},
-		filesystemAttachmentsC: {},
-		storageInstancesC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid", "owner"},
-			}},
-		},
-		storageAttachmentsC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid", "storageid"},
-			}, {
-				Key: []string{"model-uuid", "unitid"},
-			}},
-		},
-		volumesC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid", "storageid"},
-			}, {
-				Key: []string{"model-uuid", "hostid"},
-			}},
-		},
-		volumeAttachmentsC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid", "hostid"},
-			}, {
-				Key: []string{"model-uuid", "volumeid"},
-			}},
-		},
-		volumeAttachmentPlanC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid"},
-			}},
-		},
-
-		// -----
-
 		providerIDsC: {
 			indexes: []mgo.Index{{
 				Key: []string{"model-uuid"},
@@ -305,11 +263,6 @@ func allCollections() CollectionSchema {
 				Key: []string{"model-uuid"},
 			}},
 		},
-		storageConstraintsC: {
-			indexes: []mgo.Index{{
-				Key: []string{"model-uuid"},
-			}},
-		},
 		statusesC: {
 			indexes: []mgo.Index{{
 				Key: []string{"model-uuid", "_id"},
@@ -340,51 +293,43 @@ func allCollections() CollectionSchema {
 // it in allCollections, above; and please keep this list sorted for easy
 // inspection.
 const (
-	actionNotificationsC   = "actionnotifications"
-	actionresultsC         = "actionresults"
-	actionsC               = "actions"
-	assignUnitC            = "assignUnits"
-	bakeryStorageItemsC    = "bakeryStorageItems"
-	blocksC                = "blocks"
-	cleanupsC              = "cleanups"
-	cloudContainersC       = "cloudcontainers"
-	cloudServicesC         = "cloudservices"
-	constraintsC           = "constraints"
-	containerRefsC         = "containerRefs"
-	controllersC           = "controllers"
-	controllerNodesC       = "controllerNodes"
-	filesystemAttachmentsC = "filesystemAttachments"
-	filesystemsC           = "filesystems"
-	globalClockC           = "globalclock"
-	globalRefcountsC       = "globalRefcounts"
-	globalSettingsC        = "globalSettings"
-	machinesC              = "machines"
-	machineRemovalsC       = "machineremovals"
-	modelsC                = "models"
-	modelEntityRefsC       = "modelEntityRefs"
-	operationsC            = "operations"
-	providerIDsC           = "providerIDs"
-	sequenceC              = "sequence"
-	applicationsC          = "applications"
-	endpointBindingsC      = "endpointbindings"
-	settingsC              = "settings"
-	refcountsC             = "refcounts"
-	sshHostKeysC           = "sshhostkeys"
-	statusesC              = "statuses"
-	storageAttachmentsC    = "storageattachments"
-	storageConstraintsC    = "storageconstraints"
-	storageInstancesC      = "storageinstances"
-	linkLayerDevicesC      = "linklayerdevices"
-	ipAddressesC           = "ip.addresses"
-	toolsmetadataC         = "toolsmetadata"
-	txnsC                  = "txns"
-	unitsC                 = "units"
-	unitStatesC            = "unitstates"
-	upgradeInfoC           = "upgradeInfo"
-	usermodelnameC         = "usermodelname"
-	volumeAttachmentsC     = "volumeattachments"
-	volumeAttachmentPlanC  = "volumeattachmentplan"
-	volumesC               = "volumes"
+	actionNotificationsC = "actionnotifications"
+	actionresultsC       = "actionresults"
+	actionsC             = "actions"
+	assignUnitC          = "assignUnits"
+	bakeryStorageItemsC  = "bakeryStorageItems"
+	blocksC              = "blocks"
+	cleanupsC            = "cleanups"
+	cloudContainersC     = "cloudcontainers"
+	cloudServicesC       = "cloudservices"
+	constraintsC         = "constraints"
+	containerRefsC       = "containerRefs"
+	controllersC         = "controllers"
+	controllerNodesC     = "controllerNodes"
+	globalClockC         = "globalclock"
+	globalRefcountsC     = "globalRefcounts"
+	globalSettingsC      = "globalSettings"
+	machinesC            = "machines"
+	machineRemovalsC     = "machineremovals"
+	modelsC              = "models"
+	modelEntityRefsC     = "modelEntityRefs"
+	operationsC          = "operations"
+	providerIDsC         = "providerIDs"
+	sequenceC            = "sequence"
+	applicationsC        = "applications"
+	endpointBindingsC    = "endpointbindings"
+	settingsC            = "settings"
+	refcountsC           = "refcounts"
+	sshHostKeysC         = "sshhostkeys"
+	statusesC            = "statuses"
+	linkLayerDevicesC    = "linklayerdevices"
+	ipAddressesC         = "ip.addresses"
+	toolsmetadataC       = "toolsmetadata"
+	txnsC                = "txns"
+	unitsC               = "units"
+	unitStatesC          = "unitstates"
+	upgradeInfoC         = "upgradeInfo"
+	usermodelnameC       = "usermodelname"
 )
 
 // watcherIgnoreList contains all the collections in mongo that should not be watched by the

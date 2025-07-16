@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/juju/clock"
-	"github.com/juju/collections/set"
 	"github.com/juju/errors"
 	"github.com/juju/mgo/v3"
 	"github.com/juju/mgo/v3/bson"
@@ -36,7 +35,6 @@ import (
 	interrors "github.com/juju/juju/internal/errors"
 	internallogger "github.com/juju/juju/internal/logger"
 	"github.com/juju/juju/internal/mongo"
-	"github.com/juju/juju/internal/storage"
 	"github.com/juju/juju/state/watcher"
 )
 
@@ -56,8 +54,6 @@ type State struct {
 	controllerTag      names.ControllerTag
 	session            *mgo.Session
 	database           Database
-	policy             Policy
-	newPolicy          NewPolicyFunc
 	maxTxnAttempts     int
 	// Note(nvinuesa): Having a dqlite domain service here is an awful hack
 	// and should disapear as soon as we migrate units and applications.
@@ -77,7 +73,6 @@ func (st *State) newStateNoWorkers(modelUUID string) (*State, error) {
 		names.NewModelTag(modelUUID),
 		st.controllerModelTag,
 		session,
-		st.newPolicy,
 		st.stateClock,
 		st.charmServiceGetter,
 		st.maxTxnAttempts,
@@ -601,18 +596,6 @@ func (st *State) FindEntity(tag names.Tag) (Entity, error) {
 			return nil, errors.Trace(err)
 		}
 		return model.Operation(tag.Id())
-	case names.VolumeTag:
-		sb, err := NewStorageBackend(st)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		return sb.Volume(tag)
-	case names.FilesystemTag:
-		sb, err := NewStorageBackend(st)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		return sb.Filesystem(tag)
 	default:
 		return nil, errors.Errorf("unsupported tag %T", tag)
 	}
@@ -690,8 +673,6 @@ type AddApplicationArgs struct {
 	Charm             CharmRef
 	CharmURL          string
 	CharmOrigin       *CharmOrigin
-	Storage           map[string]StorageConstraints
-	AttachStorage     []names.StorageTag
 	EndpointBindings  map[string]string
 	ApplicationConfig *config.Config
 	CharmConfig       charm.Settings
@@ -735,26 +716,6 @@ func (st *State) AddApplication(
 		return nil, errors.Trace(err)
 	}
 
-	// CAAS charms don't support volume/block storage yet.
-	if model.Type() == ModelTypeCAAS {
-		for name, charmStorage := range args.Charm.Meta().Storage {
-			if storageKind(charmStorage.Type) != storage.StorageKindBlock {
-				continue
-			}
-			var count uint64
-			if arg, ok := args.Storage[name]; ok {
-				count = arg.Count
-			}
-			if charmStorage.CountMin > 0 || count > 0 {
-				return nil, errors.NotSupportedf("block storage on a container model")
-			}
-		}
-	}
-
-	if len(args.AttachStorage) > 0 && args.NumUnits != 1 {
-		return nil, errors.Errorf("AttachStorage is non-empty but NumUnits is %d, must be 1", args.NumUnits)
-	}
-
 	if err := jujuversion.CheckJujuMinVersion(args.Charm.Meta().MinJujuVersion, jujuversion.Current); err != nil {
 		return nil, errors.Trace(err)
 	}
@@ -766,25 +727,6 @@ func (st *State) AddApplication(
 	}
 	if err := checkModelActive(st); err != nil {
 		return nil, errors.Trace(err)
-	}
-
-	// ensure storage
-	if args.Storage == nil {
-		args.Storage = make(map[string]StorageConstraints)
-	}
-	sb, err := NewStorageConfigBackend(st)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	if err := addDefaultStorageConstraints(sb, args.Storage, args.Charm.Meta()); err != nil {
-		return nil, errors.Trace(err)
-	}
-	if err := validateStorageConstraints(sb.storageBackend, args.Storage, args.Charm.Meta()); err != nil {
-		return nil, errors.Trace(err)
-	}
-	storagePools := make(set.Strings)
-	for _, storageParams := range args.Storage {
-		storagePools.Add(storageParams.Pool)
 	}
 
 	// Always ensure that we snapshot the application architecture when adding
@@ -895,7 +837,6 @@ func (st *State) AddApplication(
 			statusDoc:         statusDoc,
 			operatorStatus:    operatorStatusDoc,
 			constraints:       args.Constraints,
-			storage:           args.Storage,
 			applicationConfig: appConfigAttrs,
 			charmConfig:       args.CharmConfig,
 		})
@@ -912,10 +853,8 @@ func (st *State) AddApplication(
 		for x := 0; x < args.NumUnits; x++ {
 			unitName, unitOps, err := app.addUnitOpsWithCons(
 				applicationAddUnitOpsArgs{
-					cons:          args.Constraints,
-					storageCons:   args.Storage,
-					attachStorage: args.AttachStorage,
-					charmMeta:     args.Charm.Meta(),
+					cons:      args.Constraints,
+					charmMeta: args.Charm.Meta(),
 				},
 			)
 			if err != nil {
@@ -968,48 +907,6 @@ func (st *State) processIAASModelApplicationArgs(args *AddApplicationArgs) error
 		return errors.Trace(err)
 	}
 
-	storagePools := make(set.Strings)
-	for _, storageParams := range args.Storage {
-		storagePools.Add(storageParams.Pool)
-	}
-
-	// Obtain volume attachment params corresponding to storage being
-	// attached. We need to pass them along to precheckInstance, in
-	// case the volumes cannot be attached to a machine with the given
-	// placement directive.
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	volumeAttachments := make([]storage.VolumeAttachmentParams, 0, len(args.AttachStorage))
-	for _, storageTag := range args.AttachStorage {
-		v, err := sb.StorageInstanceVolume(storageTag)
-		if errors.Is(err, errors.NotFound) {
-			continue
-		} else if err != nil {
-			return errors.Trace(err)
-		}
-		volumeInfo, err := v.Info()
-		if err != nil {
-			// Volume has not been provisioned yet,
-			// so it cannot be attached.
-			continue
-		}
-		providerType, _, _, err := poolStorageProvider(sb, volumeInfo.Pool)
-		if err != nil {
-			return errors.Annotatef(err, "cannot attach %s", names.ReadableString(storageTag))
-		}
-		storageName, _ := names.StorageName(storageTag.Id())
-		volumeAttachments = append(volumeAttachments, storage.VolumeAttachmentParams{
-			AttachmentParams: storage.AttachmentParams{
-				Provider: providerType,
-				ReadOnly: args.Charm.Meta().Storage[storageName].ReadOnly,
-			},
-			Volume:   v.VolumeTag(),
-			VolumeId: volumeInfo.VolumeId,
-		})
-	}
-
 	// Collect distinct placements that need to be checked.
 	for _, placement := range args.Placement {
 		data, err := st.parsePlacement(placement)
@@ -1025,7 +922,7 @@ func (st *State) processIAASModelApplicationArgs(args *AddApplicationArgs) error
 			}
 			subordinate := args.Charm.Meta().Subordinate
 			if err := validateUnitMachineAssignment(
-				st, m, appBase, subordinate, storagePools,
+				st, m, appBase, subordinate,
 			); err != nil {
 				return errors.Annotatef(
 					err, "cannot deploy to machine %s", m,

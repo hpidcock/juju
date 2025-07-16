@@ -10,7 +10,6 @@ import (
 
 	"github.com/juju/errors"
 	"github.com/juju/mgo/v3/txn"
-	"github.com/juju/names/v6"
 
 	"github.com/juju/juju/core/constraints"
 	"github.com/juju/juju/core/instance"
@@ -53,22 +52,6 @@ type MachineTemplate struct {
 	// on the machine.
 	LinkLayerDevices []LinkLayerDeviceArgs
 
-	// Volumes holds the parameters for volumes that are to be created
-	// and attached to the machine.
-	Volumes []HostVolumeParams
-
-	// VolumeAttachments holds the parameters for attaching existing
-	// volumes to the machine.
-	VolumeAttachments map[names.VolumeTag]VolumeAttachmentParams
-
-	// Filesystems holds the parameters for filesystems that are to be
-	// created and attached to the machine.
-	Filesystems []HostFilesystemParams
-
-	// FilesystemAttachments holds the parameters for attaching existing
-	// filesystems to the machine.
-	FilesystemAttachments map[names.FilesystemTag]FilesystemAttachmentParams
-
 	// Dirty signifies whether the new machine will be treated
 	// as unclean for unit-assignment purposes.
 	Dirty bool
@@ -80,20 +63,6 @@ type MachineTemplate struct {
 	// principals holds the principal units that will
 	// associated with the machine.
 	principals []string
-}
-
-// HostVolumeParams holds the parameters for creating a volume and
-// attaching it to a new host.
-type HostVolumeParams struct {
-	Volume     VolumeParams
-	Attachment VolumeAttachmentParams
-}
-
-// HostFilesystemParams holds the parameters for creating a filesystem
-// and attaching it to a new host.
-type HostFilesystemParams struct {
-	Filesystem FilesystemParams
-	Attachment FilesystemAttachmentParams
 }
 
 // AddMachineInsideNewMachine creates a new machine within a container
@@ -400,29 +369,6 @@ func (st *State) insertNewMachineOps(
 		modificationStatusDoc,
 		template.Constraints,
 	)
-
-	sb, err := NewStorageConfigBackend(st)
-	if err != nil {
-		return nil, txn.Op{}, errors.Trace(err)
-	}
-	storageOps, volumeAttachments, filesystemAttachments, err := sb.hostStorageOps(
-		mdoc.Id, &storageParams{
-			filesystems:           template.Filesystems,
-			filesystemAttachments: template.FilesystemAttachments,
-			volumes:               template.Volumes,
-			volumeAttachments:     template.VolumeAttachments,
-		},
-	)
-	if err != nil {
-		return nil, txn.Op{}, errors.Trace(err)
-	}
-	for _, a := range volumeAttachments {
-		mdoc.Volumes = append(mdoc.Volumes, a.tag.Id())
-	}
-	for _, a := range filesystemAttachments {
-		mdoc.Filesystems = append(mdoc.Filesystems, a.tag.Id())
-	}
-	prereqOps = append(prereqOps, storageOps...)
 
 	return prereqOps, machineOp, nil
 }

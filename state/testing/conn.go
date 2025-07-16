@@ -26,7 +26,6 @@ type InitializeArgs struct {
 	ControllerInheritedConfig map[string]interface{}
 	ControllerModelType       state.ModelType
 	RegionConfig              cloud.RegionConfig
-	NewPolicy                 state.NewPolicyFunc
 	Clock                     clock.Clock
 }
 
@@ -68,7 +67,6 @@ func InitializeWithArgs(c *tc.C, args InitializeArgs) *state.Controller {
 		CloudName:                 "dummy",
 		MongoSession:              session,
 		WatcherPollInterval:       10 * time.Millisecond,
-		NewPolicy:                 args.NewPolicy,
 	})
 	c.Assert(err, tc.ErrorIsNil)
 	return ctlr

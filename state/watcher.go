@@ -185,111 +185,6 @@ func (st *State) WatchModelLives() StringsWatcher {
 
 var machineOrUnitSnippet = "(" + names.NumberSnippet + "|" + names.UnitSnippet + ")"
 
-// WatchMachineAttachmentsPlans returns a StringsWatcher that notifies machine agents
-// that a volume has been attached to their instance by the environment provider.
-// This allows machine agents to do extra initialization to the volume, in cases
-// such as iSCSI disks, or other disks that have similar requirements
-func (sb *storageBackend) WatchMachineAttachmentsPlans(m names.MachineTag) StringsWatcher {
-	return sb.watchMachineVolumeAttachmentPlans(m)
-}
-
-func (sb *storageBackend) watchMachineVolumeAttachmentPlans(m names.MachineTag) StringsWatcher {
-	mb := sb.mb
-	pattern := fmt.Sprintf("^%s:%s$", mb.docID(m.Id()), names.NumberSnippet)
-	members := bson.D{{"_id", bson.D{{"$regex", pattern}}}}
-	prefix := fmt.Sprintf("%s:", m.Id())
-	filter := func(id interface{}) bool {
-		k, err := mb.strictLocalID(id.(string))
-		if err != nil {
-			return false
-		}
-		return strings.HasPrefix(k, prefix)
-	}
-	return newLifecycleWatcher(mb, volumeAttachmentPlanC, members, filter, nil)
-}
-
-// WatchModelVolumeAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all volume attachments related to environ-
-// scoped volumes.
-func (sb *storageBackend) WatchModelVolumeAttachments() StringsWatcher {
-	return sb.watchModelHostStorageAttachments(volumeAttachmentsC)
-}
-
-// WatchModelFilesystemAttachments returns a StringsWatcher that notifies
-// of changes to the lifecycles of all filesystem attachments related to
-// environ-scoped filesystems.
-func (sb *storageBackend) WatchModelFilesystemAttachments() StringsWatcher {
-	return sb.watchModelHostStorageAttachments(filesystemAttachmentsC)
-}
-
-func (sb *storageBackend) watchModelHostStorageAttachments(collection string) StringsWatcher {
-	mb := sb.mb
-	pattern := fmt.Sprintf("^%s.*:%s$", mb.docID(""), machineOrUnitSnippet)
-	members := bson.D{{"_id", bson.D{{"$regex", pattern}}}}
-	filter := func(id interface{}) bool {
-		k, err := mb.strictLocalID(id.(string))
-		if err != nil {
-			return false
-		}
-		colon := strings.IndexRune(k, ':')
-		if colon == -1 {
-			return false
-		}
-		return !strings.Contains(k[colon+1:], "/")
-	}
-	return newLifecycleWatcher(mb, collection, members, filter, nil)
-}
-
-// WatchMachineVolumeAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all volume attachments related to the specified
-// machine, for volumes scoped to the machine.
-func (sb *storageBackend) WatchMachineVolumeAttachments(m names.MachineTag) StringsWatcher {
-	return sb.watchHostStorageAttachments(m, volumeAttachmentsC)
-}
-
-// WatchMachineFilesystemAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all filesystem attachments related to the specified
-// machine, for filesystems scoped to the machine.
-func (sb *storageBackend) WatchMachineFilesystemAttachments(m names.MachineTag) StringsWatcher {
-	return sb.watchHostStorageAttachments(m, filesystemAttachmentsC)
-}
-
-// WatchUnitVolumeAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all volume attachments related to the specified
-// application's units, for volumes scoped to the application's units.
-// TODO(caas) - currently untested since units don't directly support attached volumes
-func (sb *storageBackend) WatchUnitVolumeAttachments(app names.ApplicationTag) StringsWatcher {
-	return sb.watchHostStorageAttachments(app, volumeAttachmentsC)
-}
-
-// WatchUnitFilesystemAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all filesystem attachments related to the specified
-// application's units, for filesystems scoped to the application's units.
-func (sb *storageBackend) WatchUnitFilesystemAttachments(app names.ApplicationTag) StringsWatcher {
-	return sb.watchHostStorageAttachments(app, filesystemAttachmentsC)
-}
-
-func (sb *storageBackend) watchHostStorageAttachments(host names.Tag, collection string) StringsWatcher {
-	mb := sb.mb
-	// Go's regex doesn't support lookbacks so the pattern match is a bit clumsy.
-	// We look for either a machine attachment id, eg 0:0/42
-	// or a unit attachment id, eg mariadb/0:mariadb/0/42
-	// The host parameter passed into this method is the application name, any of whose units we are interested in.
-	pattern := fmt.Sprintf("^%s(/%s)?:%s(/%s)?/.*", mb.docID(host.Id()), names.NumberSnippet, host.Id(), names.NumberSnippet)
-	members := bson.D{{"_id", bson.D{{"$regex", pattern}}}}
-	prefix := fmt.Sprintf("%s(/%s)?:%s(/%s)?/.*", host.Id(), names.NumberSnippet, host.Id(), names.NumberSnippet)
-	matchExp := regexp.MustCompile(prefix)
-	filter := func(id interface{}) bool {
-		k, err := mb.strictLocalID(id.(string))
-		if err != nil {
-			return false
-		}
-		matches := matchExp.FindStringSubmatch(k)
-		return len(matches) == 3 && matches[1] == matches[2]
-	}
-	return newLifecycleWatcher(mb, collection, members, filter, nil)
-}
-
 // WatchApplications returns a StringsWatcher that notifies of changes to
 // the lifecycles of the applications in the model.
 func (st *State) WatchApplications() StringsWatcher {
@@ -299,26 +194,6 @@ func (st *State) WatchApplications() StringsWatcher {
 // WatchMachines notifies when machines change.
 func (st *State) WatchMachines() StringsWatcher {
 	return newLifecycleWatcher(st, machinesC, nil, isLocalID(st), nil)
-}
-
-// WatchStorageAttachments returns a StringsWatcher that notifies of
-// changes to the lifecycles of all storage instances attached to the
-// specified unit.
-func (sb *storageBackend) WatchStorageAttachments(unit names.UnitTag) StringsWatcher {
-	members := bson.D{{"unitid", unit.Id()}}
-	prefix := unitGlobalKey(unit.Id()) + "#"
-	filter := func(id interface{}) bool {
-		k, err := sb.mb.strictLocalID(id.(string))
-		if err != nil {
-			return false
-		}
-		return strings.HasPrefix(k, prefix)
-	}
-	tr := func(id string) string {
-		// Transform storage attachment document ID to storage ID.
-		return id[len(prefix):]
-	}
-	return newLifecycleWatcher(sb.mb, storageAttachmentsC, members, filter, tr)
 }
 
 // WatchUnits returns a StringsWatcher that notifies of changes to the
@@ -804,27 +679,6 @@ func (st *State) WatchModelEntityReferences(mUUID string) NotifyWatcher {
 // assigned to machines.
 func (st *State) WatchForUnitAssignment() StringsWatcher {
 	return newCollectionWatcher(st, colWCfg{col: assignUnitC})
-}
-
-// WatchStorageAttachment returns a watcher for observing changes
-// to a storage attachment.
-func (sb *storageBackend) WatchStorageAttachment(s names.StorageTag, u names.UnitTag) NotifyWatcher {
-	id := storageAttachmentId(u.Id(), s.Id())
-	return newEntityWatcher(sb.mb, storageAttachmentsC, sb.mb.docID(id))
-}
-
-// WatchVolumeAttachment returns a watcher for observing changes
-// to a volume attachment.
-func (sb *storageBackend) WatchVolumeAttachment(host names.Tag, v names.VolumeTag) NotifyWatcher {
-	id := volumeAttachmentId(host.Id(), v.Id())
-	return newEntityWatcher(sb.mb, volumeAttachmentsC, sb.mb.docID(id))
-}
-
-// WatchFilesystemAttachment returns a watcher for observing changes
-// to a filesystem attachment.
-func (sb *storageBackend) WatchFilesystemAttachment(host names.Tag, f names.FilesystemTag) NotifyWatcher {
-	id := filesystemAttachmentId(host.Id(), f.Id())
-	return newEntityWatcher(sb.mb, filesystemAttachmentsC, sb.mb.docID(id))
 }
 
 // WatchLXDProfileUpgradeNotifications returns a watcher that observes the status

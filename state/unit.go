@@ -6,10 +6,8 @@ package state
 import (
 	"context"
 	"fmt"
-	"sort"
 	"time"
 
-	"github.com/juju/collections/set"
 	"github.com/juju/errors"
 	"github.com/juju/mgo/v3"
 	"github.com/juju/mgo/v3/bson"
@@ -25,7 +23,6 @@ import (
 	"github.com/juju/juju/core/status"
 	"github.com/juju/juju/internal/charm"
 	internallogger "github.com/juju/juju/internal/logger"
-	"github.com/juju/juju/internal/storage/provider"
 	"github.com/juju/juju/internal/tools"
 	stateerrors "github.com/juju/juju/state/errors"
 )
@@ -58,19 +55,18 @@ type MachineRef interface {
 // unitDoc represents the internal state of a unit in MongoDB.
 // Note the correspondence with UnitInfo in core/multiwatcher.
 type unitDoc struct {
-	DocID                  string `bson:"_id"`
-	Name                   string `bson:"name"`
-	ModelUUID              string `bson:"model-uuid"`
-	Base                   Base   `bson:"base"`
-	Application            string
-	CharmURL               *string
-	Principal              string
-	Subordinates           []string
-	StorageAttachmentCount int `bson:"storageattachmentcount"`
-	MachineId              string
-	Tools                  *tools.Tools `bson:",omitempty"`
-	Life                   Life
-	PasswordHash           string
+	DocID        string `bson:"_id"`
+	Name         string `bson:"name"`
+	ModelUUID    string `bson:"model-uuid"`
+	Base         Base   `bson:"base"`
+	Application  string
+	CharmURL     *string
+	Principal    string
+	Subordinates []string
+	MachineId    string
+	Tools        *tools.Tools `bson:",omitempty"`
+	Life         Life
+	PasswordHash string
 }
 
 // Unit represents the state of an application unit.
@@ -304,7 +300,7 @@ func (op *destroyUnitOperation) destroyOps() ([]txn.Op, error) {
 	}
 	if op.unit.doc.Principal != "" {
 		return setDyingOps(nil)
-	} else if len(op.unit.doc.Subordinates)+op.unit.doc.StorageAttachmentCount != 0 {
+	} else if len(op.unit.doc.Subordinates) != 0 {
 		return setDyingOps(nil)
 	}
 
@@ -827,38 +823,11 @@ func (u *Unit) assignToMachineOps(
 	if unused && !m.Clean() {
 		return nil, inUseErr
 	}
-	storageParams, err := u.storageParams()
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	sb, err := NewStorageConfigBackend(u.st)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	storagePools, err := storagePools(sb, storageParams)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
 	if err := validateUnitMachineAssignment(
-		u.st, m, u.doc.Base, u.doc.Principal != "", storagePools,
+		u.st, m, u.doc.Base, u.doc.Principal != "",
 	); err != nil {
 		return nil, errors.Trace(err)
 	}
-	storageOps, volumesAttached, filesystemsAttached, err := sb.hostStorageOps(m.Id(), storageParams)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	// addMachineStorageAttachmentsOps will add a txn.Op that ensures
-	// that no filesystems were concurrently added to the machine if
-	// any of the filesystems being attached specify a location.
-	attachmentOps, err := addMachineStorageAttachmentsOps(
-		u.st, m, volumesAttached, filesystemsAttached,
-	)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	storageOps = append(storageOps, attachmentOps...)
-
 	assert := append(isAliveDoc, bson.D{{
 		// The unit's subordinates must not change while we're
 		// assigning it to a machine, to ensure machine storage
@@ -887,7 +856,6 @@ func (u *Unit) assignToMachineOps(
 	},
 		removeStagedAssignmentOp(u.doc.DocID),
 	}
-	ops = append(ops, storageOps...)
 	return ops, nil
 }
 
@@ -898,7 +866,6 @@ func validateUnitMachineAssignment(
 	m MachineRef,
 	base Base,
 	isSubordinate bool,
-	storagePools set.Strings,
 ) (err error) {
 	if m.Life() != Alive {
 		return machineNotAliveErr
@@ -908,146 +875,6 @@ func validateUnitMachineAssignment(
 	}
 	if !base.compatibleWith(m.Base()) {
 		return fmt.Errorf("base does not match: unit has %q, machine has %q", base.DisplayString(), m.Base().DisplayString())
-	}
-	sb, err := NewStorageBackend(st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	if err := validateDynamicMachineStoragePools(sb, m, storagePools); err != nil {
-		return errors.Trace(err)
-	}
-	return nil
-}
-
-// validateDynamicMachineStorageParams validates that the provided machine
-// storage parameters are compatible with the specified machine.
-func validateDynamicMachineStorageParams(
-	m *Machine,
-	params *storageParams,
-) error {
-	sb, err := NewStorageConfigBackend(m.st)
-	if err != nil {
-		return errors.Trace(err)
-	}
-	pools, err := storagePools(sb, params)
-	if err != nil {
-		return err
-	}
-	if err := validateDynamicMachineStoragePools(sb.storageBackend, m, pools); err != nil {
-		return err
-	}
-	// Validate the volume/filesystem attachments for the machine.
-	for volumeTag := range params.volumeAttachments {
-		volume, err := getVolumeByTag(sb.mb, volumeTag)
-		if err != nil {
-			return errors.Trace(err)
-		}
-		if !volume.Detachable() && volume.doc.HostId != m.Id() {
-			return errors.Errorf(
-				"storage is non-detachable (bound to machine %s)",
-				volume.doc.HostId,
-			)
-		}
-	}
-	for filesystemTag := range params.filesystemAttachments {
-		filesystem, err := getFilesystemByTag(sb.mb, filesystemTag)
-		if err != nil {
-			return errors.Trace(err)
-		}
-		if !filesystem.Detachable() && filesystem.doc.HostId != m.Id() {
-			host := storageAttachmentHost(filesystem.doc.HostId)
-			return errors.Errorf(
-				"storage is non-detachable (bound to %s)",
-				names.ReadableString(host),
-			)
-		}
-	}
-	return nil
-}
-
-// storagePools returns the names of storage pools in each of the
-// volume, filesystem and attachments in the machine storage parameters.
-func storagePools(sb *storageConfigBackend, params *storageParams) (set.Strings, error) {
-	pools := make(set.Strings)
-	for _, v := range params.volumes {
-		v, err := sb.volumeParamsWithDefaults(v.Volume)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		pools.Add(v.Pool)
-	}
-	for _, f := range params.filesystems {
-		f, err := sb.filesystemParamsWithDefaults(f.Filesystem)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		pools.Add(f.Pool)
-	}
-	for volumeTag := range params.volumeAttachments {
-		volume, err := sb.Volume(volumeTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if params, ok := volume.Params(); ok {
-			pools.Add(params.Pool)
-		} else {
-			info, err := volume.Info()
-			if err != nil {
-				return nil, errors.Trace(err)
-			}
-			pools.Add(info.Pool)
-		}
-	}
-	for filesystemTag := range params.filesystemAttachments {
-		filesystem, err := sb.Filesystem(filesystemTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if params, ok := filesystem.Params(); ok {
-			pools.Add(params.Pool)
-		} else {
-			info, err := filesystem.Info()
-			if err != nil {
-				return nil, errors.Trace(err)
-			}
-			pools.Add(info.Pool)
-		}
-	}
-	return pools, nil
-}
-
-// validateDynamicMachineStoragePools validates that all of the specified
-// storage pools support dynamic storage provisioning. If any provider doesn't
-// support dynamic storage, then an IsNotSupported error is returned.
-func validateDynamicMachineStoragePools(sb *storageBackend, m MachineRef, pools set.Strings) error {
-	if pools.IsEmpty() {
-		return nil
-	}
-	return validateDynamicStoragePools(sb, pools, m.ContainerType())
-}
-
-// validateDynamicStoragePools validates that all of the specified storage
-// providers support dynamic storage provisioning. If any provider doesn't
-// support dynamic storage, then an IsNotSupported error is returned.
-func validateDynamicStoragePools(sb *storageBackend, pools set.Strings, containerType instance.ContainerType) error {
-	for pool := range pools {
-		providerType, p, _, err := poolStorageProvider(sb, pool)
-		if err != nil {
-			return errors.Trace(err)
-		}
-		if containerType != "" && !provider.AllowedContainerProvider(providerType) {
-			// TODO(axw) later we might allow *any* storage, and
-			// passthrough/bindmount storage. That would imply either
-			// container creation time only, or requiring containers
-			// to be restarted to pick up new configuration.
-			return errors.NotSupportedf("adding storage of type %q to %s container", providerType, containerType)
-		}
-		if !p.Dynamic() {
-			return errors.NewNotSupported(err, fmt.Sprintf(
-				"%q storage provider does not support dynamic storage",
-				providerType,
-			))
-		}
 	}
 	return nil
 }
@@ -1201,19 +1028,11 @@ func (u *Unit) assignToNewMachine(placement string) error {
 		if cons.HasContainer() {
 			containerType = *cons.Container
 		}
-		storageParams, err := u.storageParams()
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
 		template := MachineTemplate{
-			Base:                  u.doc.Base,
-			Constraints:           *cons,
-			Placement:             placement,
-			Dirty:                 placement != "",
-			Volumes:               storageParams.volumes,
-			VolumeAttachments:     storageParams.volumeAttachments,
-			Filesystems:           storageParams.filesystems,
-			FilesystemAttachments: storageParams.filesystemAttachments,
+			Base:        u.doc.Base,
+			Constraints: *cons,
+			Placement:   placement,
+			Dirty:       placement != "",
 		}
 		// Get the ops necessary to create a new machine, and the
 		// machine doc that will be added with those operations
@@ -1227,229 +1046,6 @@ func (u *Unit) assignToNewMachine(placement string) error {
 	}
 	u.doc.MachineId = m.doc.Id
 	return nil
-}
-
-type byStorageInstance []StorageAttachment
-
-func (b byStorageInstance) Len() int { return len(b) }
-
-func (b byStorageInstance) Swap(i, j int) { b[i], b[j] = b[j], b[i] }
-
-func (b byStorageInstance) Less(i, j int) bool {
-	return b[i].StorageInstance().String() < b[j].StorageInstance().String()
-}
-
-// storageParams returns parameters for creating volumes/filesystems
-// and volume/filesystem attachments when a unit is instantiated.
-func (u *Unit) storageParams() (*storageParams, error) {
-	params, err := unitStorageParams(u)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	for _, name := range u.doc.Subordinates {
-		sub, err := u.st.Unit(name)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		subParams, err := unitStorageParams(sub)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		params = combineStorageParams(params, subParams)
-	}
-	return params, nil
-}
-
-func unitStorageParams(u *Unit) (*storageParams, error) {
-	sb, err := NewStorageBackend(u.st)
-	if err != nil {
-		return nil, errors.Trace(err)
-	}
-	storageAttachments, err := sb.UnitStorageAttachments(u.unitTag())
-	if err != nil {
-		return nil, errors.Annotate(err, "getting storage attachments")
-	}
-	ch, err := u.charm()
-	if err != nil {
-		return nil, errors.Annotate(err, "getting charm")
-	}
-
-	// Sort storage attachments so the volume ids are consistent (for testing).
-	sort.Sort(byStorageInstance(storageAttachments))
-
-	var storageInstances []*storageInstance
-	for _, storageAttachment := range storageAttachments {
-		storage, err := sb.storageInstance(storageAttachment.StorageInstance())
-		if err != nil {
-			return nil, errors.Annotatef(err, "getting storage instance")
-		}
-		storageInstances = append(storageInstances, storage)
-	}
-	return storageParamsForUnit(sb, storageInstances, u.unitTag(), u.base(), ch.Meta())
-}
-
-func storageParamsForUnit(
-	sb *storageBackend, storageInstances []*storageInstance, tag names.UnitTag, base Base, chMeta *charm.Meta,
-) (*storageParams, error) {
-
-	var volumes []HostVolumeParams
-	var filesystems []HostFilesystemParams
-	volumeAttachments := make(map[names.VolumeTag]VolumeAttachmentParams)
-	filesystemAttachments := make(map[names.FilesystemTag]FilesystemAttachmentParams)
-	for _, storage := range storageInstances {
-		storageParams, err := storageParamsForStorageInstance(
-			sb, chMeta, base.OS, storage,
-		)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-
-		volumes = append(volumes, storageParams.volumes...)
-		for k, v := range storageParams.volumeAttachments {
-			volumeAttachments[k] = v
-		}
-
-		filesystems = append(filesystems, storageParams.filesystems...)
-		for k, v := range storageParams.filesystemAttachments {
-			filesystemAttachments[k] = v
-		}
-	}
-	result := &storageParams{
-		volumes,
-		volumeAttachments,
-		filesystems,
-		filesystemAttachments,
-	}
-	return result, nil
-}
-
-// storageParamsForStorageInstance returns parameters for creating
-// volumes/filesystems and volume/filesystem attachments for a host that
-// the unit will be assigned to. These parameters are based on a given storage
-// instance.
-func storageParamsForStorageInstance(
-	sb *storageBackend,
-	charmMeta *charm.Meta,
-	osName string,
-	storage *storageInstance,
-) (*storageParams, error) {
-
-	charmStorage := charmMeta.Storage[storage.StorageName()]
-
-	var volumes []HostVolumeParams
-	var filesystems []HostFilesystemParams
-	volumeAttachments := make(map[names.VolumeTag]VolumeAttachmentParams)
-	filesystemAttachments := make(map[names.FilesystemTag]FilesystemAttachmentParams)
-
-	switch storage.Kind() {
-	case StorageKindFilesystem:
-		location, err := FilesystemMountPoint(charmStorage, storage.StorageTag(), osName)
-		if err != nil {
-			return nil, errors.Annotatef(
-				err, "getting filesystem mount point for storage %s",
-				storage.StorageName(),
-			)
-		}
-		filesystemAttachmentParams := FilesystemAttachmentParams{
-			locationAutoGenerated: charmStorage.Location == "", // auto-generated location
-			Location:              location,
-			ReadOnly:              charmStorage.ReadOnly,
-		}
-		var volumeBacked bool
-		if filesystem, err := sb.StorageInstanceFilesystem(storage.StorageTag()); err == nil {
-			// The filesystem already exists, so just attach it.
-			// When creating ops to attach the storage to the
-			// machine, we will check if the attachment already
-			// exists, and whether the storage can be attached to
-			// the machine.
-			if !charmStorage.Shared {
-				// The storage is not shared, so make sure that it is
-				// not currently attached to any other machine. If it
-				// is, it should be in the process of being detached.
-				existing, err := sb.FilesystemAttachments(filesystem.FilesystemTag())
-				if err != nil {
-					return nil, errors.Trace(err)
-				}
-				if len(existing) > 0 {
-					return nil, errors.Errorf(
-						"%s is attached to %s",
-						names.ReadableString(filesystem.FilesystemTag()),
-						names.ReadableString(existing[0].Host()),
-					)
-				}
-			}
-			filesystemAttachments[filesystem.FilesystemTag()] = filesystemAttachmentParams
-			if _, err := filesystem.Volume(); err == nil {
-				// The filesystem is volume-backed, so make sure we attach the volume too.
-				volumeBacked = true
-			}
-		} else if errors.Is(err, errors.NotFound) {
-			filesystemParams := FilesystemParams{
-				storage: storage.StorageTag(),
-				Pool:    storage.doc.Constraints.Pool,
-				Size:    storage.doc.Constraints.Size,
-			}
-			filesystems = append(filesystems, HostFilesystemParams{
-				filesystemParams, filesystemAttachmentParams,
-			})
-		} else {
-			return nil, errors.Annotatef(err, "getting filesystem for storage %q", storage.Tag().Id())
-		}
-
-		if !volumeBacked {
-			break
-		}
-		// Fall through to attach the volume that backs the filesystem.
-		fallthrough
-
-	case StorageKindBlock:
-		volumeAttachmentParams := VolumeAttachmentParams{
-			charmStorage.ReadOnly,
-		}
-		if volume, err := sb.StorageInstanceVolume(storage.StorageTag()); err == nil {
-			// The volume already exists, so just attach it. When
-			// creating ops to attach the storage to the machine,
-			// we will check if the attachment already exists, and
-			// whether the storage can be attached to the machine.
-			if !charmStorage.Shared {
-				// The storage is not shared, so make sure that it is
-				// not currently attached to any other machine. If it
-				// is, it should be in the process of being detached.
-				existing, err := sb.VolumeAttachments(volume.VolumeTag())
-				if err != nil {
-					return nil, errors.Trace(err)
-				}
-				if len(existing) > 0 {
-					return nil, errors.Errorf(
-						"%s is attached to %s",
-						names.ReadableString(volume.VolumeTag()),
-						names.ReadableString(existing[0].Host()),
-					)
-				}
-			}
-			volumeAttachments[volume.VolumeTag()] = volumeAttachmentParams
-		} else if errors.Is(err, errors.NotFound) {
-			volumeParams := VolumeParams{
-				storage: storage.StorageTag(),
-				Pool:    storage.doc.Constraints.Pool,
-				Size:    storage.doc.Constraints.Size,
-			}
-			volumes = append(volumes, HostVolumeParams{
-				volumeParams, volumeAttachmentParams,
-			})
-		} else {
-			return nil, errors.Annotatef(err, "getting volume for storage %q", storage.Tag().Id())
-		}
-	default:
-		return nil, errors.Errorf("invalid storage kind %v", storage.Kind())
-	}
-	result := &storageParams{
-		volumes,
-		volumeAttachments,
-		filesystems,
-		filesystemAttachments,
-	}
-	return result, nil
 }
 
 var hasNoContainersTerm = bson.DocElem{
@@ -1551,25 +1147,6 @@ func (u *Unit) PendingActions() ([]Action, error) {
 // RunningActions returns a list of actions running on this unit.
 func (u *Unit) RunningActions() ([]Action, error) {
 	return u.st.matchingActionsRunning(u)
-}
-
-// storageConstraints returns the unit's storage constraints.
-func (u *Unit) storageConstraints() (map[string]StorageConstraints, error) {
-	if u.doc.CharmURL == nil {
-		app, err := u.st.Application(u.doc.Application)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		return app.StorageConstraints()
-	}
-	key := applicationStorageConstraintsKey(u.doc.Application, u.doc.CharmURL)
-	cons, err := readStorageConstraints(u.st, key)
-	if errors.Is(err, errors.NotFound) {
-		return nil, nil
-	} else if err != nil {
-		return nil, errors.Trace(err)
-	}
-	return cons, nil
 }
 
 type addUnitOpsArgs struct {

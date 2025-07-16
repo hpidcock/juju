@@ -241,7 +241,6 @@ func (ctlr *Controller) NewModel(args ModelArgs) (_ *Model, _ *State, err error)
 		names.NewModelTag(uuid),
 		controllerInfo.ModelTag,
 		session,
-		st.newPolicy,
 		st.clock(),
 		st.charmServiceGetter,
 		st.maxTxnAttempts,
@@ -508,16 +507,6 @@ type DestroyModelParams struct {
 	// TODO(axw) this should be moved to the Controller type.
 	DestroyHostedModels bool
 
-	// DestroyStorage controls whether or not storage in the
-	// model (and hosted models, if DestroyHostedModels is true)
-	// should be destroyed.
-	//
-	// This is ternary: nil, false, or true. If nil and
-	// there is persistent storage in the model (or hosted
-	// models), an error satisfying PersistentStorageError
-	// will be returned.
-	DestroyStorage *bool
-
 	// Force specifies whether model destruction will be forced, i.e.
 	// keep going despite operational errors.
 	Force *bool
@@ -630,33 +619,9 @@ func (m *Model) destroyOps(
 		}
 		isEmpty = false
 		prereqOps = nil
-		if args.DestroyStorage == nil {
-			// The model is non-empty, and the user has not specified
-			// whether storage should be destroyed or released. Make
-			// sure there are no filesystems or volumes in the model.
-			storageOps, err := checkModelEntityRefsNoPersistentStorage(m.st.db(), modelEntityRefs)
-			if err != nil {
-				return nil, errors.Trace(err)
-			}
-			prereqOps = storageOps
-		} else if !*args.DestroyStorage {
-			// The model is non-empty, and the user has specified that
-			// storage should be released. Make sure the storage is
-			// all releasable.
-			sb, err := NewStorageBackend(m.st)
-			if err != nil {
-				return nil, errors.Trace(err)
-			}
-			force := args.Force != nil && *args.Force
-			storageOps, err := checkModelEntityRefsAllReleasableStorage(sb, modelEntityRefs, force)
-			if err != nil {
-				return nil, errors.Trace(err)
-			}
-			prereqOps = storageOps
-		}
 	}
 
-	if m.IsControllerModel() && (!args.DestroyHostedModels || args.DestroyStorage == nil || !*args.DestroyStorage) {
+	if m.IsControllerModel() && !args.DestroyHostedModels {
 		// This is the controller model, and we've not been instructed
 		// to destroy hosted models, or we've not been instructed to
 		// destroy storage.
@@ -803,13 +768,6 @@ func (m *Model) destroyOps(
 		// that case we'll get errors if we try to enqueue model
 		// cleanups, because the cleanups collection is non-global.
 		ops = append(ops, newCleanupOp(cleanupApplicationsForDyingModel, modelUUID, args))
-		if args.DestroyStorage != nil {
-			// The user has specified that the storage should be destroyed
-			// or released, which we can do in a cleanup. If the user did
-			// not specify either, then we have already added prereq ops
-			// to assert that there is no storage in the model.
-			ops = append(ops, newCleanupOp(cleanupStorageForDyingModel, modelUUID, args))
-		}
 	}
 	return append(prereqOps, ops...), nil
 }
@@ -845,8 +803,6 @@ func checkModelEntityRefsEmpty(doc *modelEntityRefsDoc) ([]txn.Op, error) {
 	err := stateerrors.NewModelNotEmptyError(
 		len(doc.Machines),
 		len(doc.Applications),
-		len(doc.Volumes),
-		len(doc.Filesystems),
 	)
 	if err != nil {
 		return nil, err
@@ -869,127 +825,8 @@ func checkModelEntityRefsEmpty(doc *modelEntityRefsDoc) ([]txn.Op, error) {
 		Assert: bson.D{
 			isEmpty("machines"),
 			isEmpty("applications"),
-			isEmpty("volumes"),
-			isEmpty("filesystems"),
 		},
 	}}, nil
-}
-
-// checkModelEntityRefsNoPersistentStorage checks that there is no
-// persistent storage in the model. If there is, then an error of
-// type hasPersistentStorageError is returned. If there is not,
-// txn.Ops are returned to assert the same.
-func checkModelEntityRefsNoPersistentStorage(
-	db Database, doc *modelEntityRefsDoc,
-) ([]txn.Op, error) {
-	for _, volumeId := range doc.Volumes {
-		volumeTag := names.NewVolumeTag(volumeId)
-		detachable, err := isDetachableVolumeTag(db, volumeTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if detachable {
-			return nil, stateerrors.PersistentStorageError
-		}
-	}
-	for _, filesystemId := range doc.Filesystems {
-		filesystemTag := names.NewFilesystemTag(filesystemId)
-		detachable, err := isDetachableFilesystemTag(db, filesystemTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if detachable {
-			return nil, stateerrors.PersistentStorageError
-		}
-	}
-	return noNewStorageModelEntityRefs(doc), nil
-}
-
-// checkModelEntityRefsAllReleasableStorage checks that there all
-// persistent storage in the model is releasable. If it is, then
-// txn.Ops are returned to assert the same; if it is not, then an
-// error is returned.
-func checkModelEntityRefsAllReleasableStorage(sb *storageBackend, doc *modelEntityRefsDoc, force bool) ([]txn.Op, error) {
-	for _, volumeId := range doc.Volumes {
-		volumeTag := names.NewVolumeTag(volumeId)
-		volume, err := getVolumeByTag(sb.mb, volumeTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if !volume.Detachable() {
-			continue
-		}
-		if err := checkStoragePoolReleasable(sb, volume.pool()); err != nil {
-			logger.Warningf(context.TODO(), "error checking releasable volumes for model %s: %v", doc.UUID, err)
-			if !force {
-				// If the storage cannot be released, return the error without
-				// additional annotation.
-				if errors.Is(err, stateerrors.StorageNotReleasableError) {
-					return nil, errors.Trace(err)
-				}
-				return nil, errors.Annotatef(err,
-					"checking %s is releasable", names.ReadableString(volumeTag),
-				)
-			}
-		}
-	}
-	for _, filesystemId := range doc.Filesystems {
-		filesystemTag := names.NewFilesystemTag(filesystemId)
-		filesystem, err := getFilesystemByTag(sb.mb, filesystemTag)
-		if err != nil {
-			return nil, errors.Trace(err)
-		}
-		if !filesystem.Detachable() {
-			continue
-		}
-		if err := checkStoragePoolReleasable(sb, filesystem.pool()); err != nil {
-			logger.Warningf(context.TODO(), "error checking releasable filesystems for model %s: %v", doc.UUID, err)
-			if !force {
-				// If the storage cannot be released, return the error without
-				// additional annotation.
-				if errors.Is(err, stateerrors.StorageNotReleasableError) {
-					return nil, errors.Trace(err)
-				}
-				return nil, errors.Annotatef(err,
-					"checking %s is releasable", names.ReadableString(filesystemTag),
-				)
-			}
-		}
-	}
-	return noNewStorageModelEntityRefs(doc), nil
-}
-
-func noNewStorageModelEntityRefs(doc *modelEntityRefsDoc) []txn.Op {
-	noNewVolumes := bson.DocElem{
-		"volumes", bson.D{{
-			"$not", bson.D{{
-				"$elemMatch", bson.D{{
-					"$nin", doc.Volumes,
-				}},
-			}},
-		}},
-		// There are no volumes that are not in
-		// the set of volumes we previously knew
-		// about => the current set of volumes
-		// is a subset of the previously known set.
-	}
-	noNewFilesystems := bson.DocElem{
-		Name: "filesystems", Value: bson.D{{
-			"$not", bson.D{{
-				"$elemMatch", bson.D{{
-					"$nin", doc.Filesystems,
-				}},
-			}},
-		}},
-	}
-	return []txn.Op{{
-		C:  modelEntityRefsC,
-		Id: doc.UUID,
-		Assert: bson.D{
-			noNewVolumes,
-			noNewFilesystems,
-		},
-	}}
 }
 
 func addModelMachineRefOp(mb modelBackend, machineId string) txn.Op {
