@@ -318,6 +318,23 @@ parts:
     stage-packages:
       - openssh-client
 
+  pebble:
+    plugin: go
+    source: https://github.com/canonical/pebble.git
+    source-type: git
+    source-depth: 1
+    build-snaps:
+      - go/1.26/stable
+    override-build: |
+      set -ex
+
+      export GOTOOLCHAIN=go1.26.0+auto
+      export GOBIN="${CRAFT_PART_INSTALL}/bin"
+      export CGO_ENABLED=0
+      export GO_LDFLAGS='-s -w -extldflags "-static"'
+      go mod download
+      go install -ldflags "${GO_LDFLAGS}" ./cmd/pebble
+
 hooks:
   connect-plug-peers: {}
   disconnect-plug-peers: {}
