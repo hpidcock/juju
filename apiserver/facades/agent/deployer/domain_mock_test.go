@@ -73,6 +73,7 @@ type MockApplicationService struct {
 // MockApplicationServiceMockRecorder is the mock recorder for MockApplicationService.
 type MockApplicationServiceMockRecorder struct {
 	mock                               *MockApplicationService
+	getUnitContainerNamesExpects       []*gomock.Call2_2[context.Context, unit.Name, []string, error]
 	getUnitLifeExpects                 []*gomock.Call2_2[context.Context, unit.Name, life.Value, error]
 	getUnitNamesOnMachineExpects       []*gomock.Call2_2[context.Context, machine.Name, []unit.Name, error]
 	getUnitUUIDExpects                 []*gomock.Call2_2[context.Context, unit.Name, unit.UUID, error]
@@ -90,6 +91,24 @@ func NewMockApplicationService(ctrl *gomock.Controller) *MockApplicationService 
 func (m *MockApplicationService) EXPECT() *MockApplicationServiceMockRecorder {
 	return m.recorder
 }
+
+// GetUnitContainerNames mocks base method.
+func (m *MockApplicationService) GetUnitContainerNames(arg0 context.Context, arg1 unit.Name) ([]string, error) {
+	m.ctrl.T.Helper()
+	return gomock.Dispatch2_2(&m.recorder.getUnitContainerNamesExpects, m.ctrl, m, "GetUnitContainerNames", arg0, arg1)
+}
+
+// GetUnitContainerNames indicates an expected call of GetUnitContainerNames.
+func (mr *MockApplicationServiceMockRecorder) GetUnitContainerNames(arg0, arg1 any) *MockApplicationServiceGetUnitContainerNamesCall {
+	mr.mock.ctrl.T.Helper()
+	call := gomock.NewCall2_2[context.Context, unit.Name, []string, error](mr.mock.ctrl.T, mr.mock, "GetUnitContainerNames", gomock.EnsureMatcher(arg0), gomock.EnsureMatcher(arg1))
+	mr.getUnitContainerNamesExpects = append(mr.getUnitContainerNamesExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
+}
+
+// MockApplicationServiceGetUnitContainerNamesCall is the typed call wrapper for GetUnitContainerNames.
+type MockApplicationServiceGetUnitContainerNamesCall = gomock.Call2_2[context.Context, unit.Name, []string, error]
 
 // GetUnitLife mocks base method.
 func (m *MockApplicationService) GetUnitLife(arg0 context.Context, arg1 unit.Name) (life.Value, error) {

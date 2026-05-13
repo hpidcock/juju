@@ -130,6 +130,12 @@ type UnitState interface {
 	// satisfying [applicationerrors.UnitNotFound] if the unit is not found.
 	GetUnitLife(context.Context, coreunit.Name) (life.Life, error)
 
+	// GetUnitContainerNames returns the sorted container names from the charm
+	// metadata for the specified unit's charm.
+	// The following errors may be returned:
+	// - [applicationerrors.UnitNotFound] if the unit does not exist.
+	GetUnitContainerNames(context.Context, coreunit.Name) ([]string, error)
+
 	// GetUnitPrincipal gets the subordinates principal unit. If no principal unit
 	// is found, for example, when the unit is not a subordinate, then false is
 	// returned.
@@ -1166,6 +1172,27 @@ func (s *Service) GetUnitLife(ctx context.Context, unitName coreunit.Name) (core
 		return "", errors.Errorf("getting life for %q: %w", unitName, err)
 	}
 	return unitLife.Value()
+}
+
+// GetUnitContainerNames returns the sorted container names from the charm
+// metadata for the specified unit's charm. Returns an empty slice for charms
+// with no containers.
+//
+// The following errors may be returned:
+// - [applicationerrors.UnitNotFound] if the unit does not exist.
+func (s *Service) GetUnitContainerNames(ctx context.Context, unitName coreunit.Name) ([]string, error) {
+	ctx, span := trace.Start(ctx, trace.NameFromFunc())
+	defer span.End()
+
+	if err := unitName.Validate(); err != nil {
+		return nil, errors.Capture(err)
+	}
+
+	names, err := s.st.GetUnitContainerNames(ctx, unitName)
+	if err != nil {
+		return nil, errors.Errorf("getting container names for unit %q: %w", unitName, err)
+	}
+	return names, nil
 }
 
 // GetUnitPrincipal gets the subordinates principal unit. If no principal unit

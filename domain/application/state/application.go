@@ -527,6 +527,77 @@ WHERE  name = $unitNameLife.name
 	return life.Life(unit.LifeID), nil
 }
 
+// GetUnitContainerNames returns the sorted container names from the charm
+// metadata for the specified unit's charm.
+// The following errors may be returned:
+// - [applicationerrors.UnitNotFound] if the unit does not exist.
+func (st *State) GetUnitContainerNames(ctx context.Context, unitName coreunit.Name) ([]string, error) {
+	db, err := st.DB(ctx)
+	if err != nil {
+		return nil, errors.Capture(err)
+	}
+
+	uName := unitName.String()
+	unit := unitName
+	_ = unit
+
+	type containerKeyRow struct {
+		Key string `db:"key"`
+	}
+	type unitNameParam struct {
+		Name string `db:"name"`
+	}
+
+	query := `
+SELECT cc.key AS &containerKeyRow.key
+FROM unit u
+JOIN charm_container cc ON u.charm_uuid = cc.charm_uuid
+WHERE u.name = $unitNameParam.name
+ORDER BY cc.key
+`
+	param := unitNameParam{Name: uName}
+	stmt, err := st.Prepare(query, param, containerKeyRow{})
+	if err != nil {
+		return nil, errors.Capture(err)
+	}
+
+	var result []string
+	if err := db.Txn(ctx, func(ctx context.Context, tx *sqlair.TX) error {
+		// First check that the unit exists.
+		var unitLife unitNameLife
+		unitLife.Name = uName
+		queryUnit := `
+SELECT &unitNameLife.life_id
+FROM   unit
+WHERE  name = $unitNameLife.name
+`
+		queryUnitStmt, err := st.Prepare(queryUnit, unitLife)
+		if err != nil {
+			return errors.Capture(err)
+		}
+		if err := tx.Query(ctx, queryUnitStmt, unitLife).Get(&unitLife); err != nil {
+			if errors.Is(err, sqlair.ErrNoRows) {
+				return errors.Errorf("%w: %s", applicationerrors.UnitNotFound, unitName)
+			}
+			return errors.Capture(err)
+		}
+
+		var rows []containerKeyRow
+		if err := tx.Query(ctx, stmt, param).GetAll(&rows); errors.Is(err, sqlair.ErrNoRows) {
+			return nil
+		} else if err != nil {
+			return errors.Capture(err)
+		}
+		for _, r := range rows {
+			result = append(result, r.Key)
+		}
+		return nil
+	}); err != nil {
+		return nil, errors.Errorf("querying container names for unit %q: %w", unitName, err)
+	}
+	return result, nil
+}
+
 // GetApplicationScaleState looks up the scale state of the specified application, returning an error
 // satisfying [applicationerrors.ApplicationNotFound] if the application is not found.
 func (st *State) GetApplicationScaleState(ctx context.Context, appUUID coreapplication.UUID) (application.ScaleState, error) {

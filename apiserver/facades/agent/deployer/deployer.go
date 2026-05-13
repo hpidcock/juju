@@ -62,6 +62,13 @@ type ApplicationService interface {
 	// - [applicationerrors.UnitNotFound] if the unit doesn't exist.
 	GetUnitLife(context.Context, coreunit.Name) (life.Value, error)
 
+	// GetUnitContainerNames returns the sorted container names from the charm
+	// metadata for the specified unit's charm.
+	//
+	// The following errors may be returned:
+	// - [applicationerrors.UnitNotFound] if the unit doesn't exist.
+	GetUnitContainerNames(context.Context, coreunit.Name) ([]string, error)
+
 	// WatchUnitAddRemoveOnMachine returns a watcher that observes changes to
 	// the units on a specified machine, emitting the names of the units. That
 	// is, we emit unit names only when a unit is created or deleted on the
@@ -353,6 +360,49 @@ func (d *DeployerAPI) Remove(ctx context.Context, args params.Entities) (params.
 			result.Results[i].Error = apiservererrors.ServerError(err)
 			continue
 		}
+	}
+	return result, nil
+}
+
+// UnitContainerNames returns the container names for the specified units'
+// charms.
+func (d *DeployerAPI) UnitContainerNames(ctx context.Context, args params.Entities) (params.StringsResults, error) {
+	result := params.StringsResults{
+		Results: make([]params.StringsResult, len(args.Entities)),
+	}
+	if len(args.Entities) == 0 {
+		return result, nil
+	}
+	canRead, err := d.getAuth(ctx)
+	if err != nil {
+		return params.StringsResults{}, errors.Trace(err)
+	}
+
+	for i, entity := range args.Entities {
+		tag, err := names.ParseUnitTag(entity.Tag)
+		if err != nil {
+			result.Results[i].Error = apiservererrors.ServerError(apiservererrors.ErrPerm)
+			continue
+		}
+
+		if !canRead(tag) {
+			result.Results[i].Error = apiservererrors.ServerError(apiservererrors.ErrPerm)
+			continue
+		}
+		unitName, err := coreunit.NewName(tag.Id())
+		if err != nil {
+			result.Results[i].Error = apiservererrors.ServerError(err)
+			continue
+		}
+		containerNames, err := d.applicationService.GetUnitContainerNames(ctx, unitName)
+		if errors.Is(err, applicationerrors.UnitNotFound) {
+			err = errors.NotFoundf("unit %s", unitName)
+		}
+		if err != nil {
+			result.Results[i].Error = apiservererrors.ServerError(err)
+			continue
+		}
+		result.Results[i].Result = containerNames
 	}
 	return result, nil
 }

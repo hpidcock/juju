@@ -221,3 +221,114 @@ func alwaysAllow(context.Context) (common.AuthFunc, error) {
 		return true
 	}, nil
 }
+
+func (s *deployerSuite) TestUnitContainerNamesPermissionDenied(c *tc.C) {
+	defer s.setupMocks(c).Finish()
+
+	neverAllow := func(context.Context) (common.AuthFunc, error) {
+		return func(tag names.Tag) bool {
+			return false
+		}, nil
+	}
+
+	api := &DeployerAPI{
+		applicationService: s.applicationService,
+		getAuth:            neverAllow,
+	}
+
+	result, err := api.UnitContainerNames(c.Context(), params.Entities{
+		Entities: []params.Entity{
+			{Tag: names.NewUnitTag("foo/0").String()},
+		},
+	})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(result.Results[0].Error, tc.Satisfies, params.IsCodeUnauthorized)
+}
+
+func (s *deployerSuite) TestUnitContainerNamesInvalidTag(c *tc.C) {
+	defer s.setupMocks(c).Finish()
+
+	api := &DeployerAPI{
+		applicationService: s.applicationService,
+		getAuth:            alwaysAllow,
+	}
+
+	result, err := api.UnitContainerNames(c.Context(), params.Entities{
+		Entities: []params.Entity{
+			{Tag: names.NewMachineTag("0").String()},
+		},
+	})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(result.Results[0].Error, tc.Satisfies, params.IsCodeUnauthorized)
+}
+
+func (s *deployerSuite) TestUnitContainerNamesUnitNotFound(c *tc.C) {
+	defer s.setupMocks(c).Finish()
+
+	s.applicationService.EXPECT().
+		GetUnitContainerNames(gomock.Any(), unit.Name("foo/0")).
+		Return(nil, applicationerrors.UnitNotFound)
+
+	api := &DeployerAPI{
+		applicationService: s.applicationService,
+		getAuth:            alwaysAllow,
+	}
+
+	result, err := api.UnitContainerNames(c.Context(), params.Entities{
+		Entities: []params.Entity{
+			{Tag: names.NewUnitTag("foo/0").String()},
+		},
+	})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(result.Results[0].Error, tc.Satisfies, params.IsCodeNotFound)
+}
+
+func (s *deployerSuite) TestUnitContainerNames(c *tc.C) {
+	defer s.setupMocks(c).Finish()
+
+	s.applicationService.EXPECT().
+		GetUnitContainerNames(gomock.Any(), unit.Name("foo/0")).
+		Return([]string{"container-a", "container-b"}, nil)
+
+	api := &DeployerAPI{
+		applicationService: s.applicationService,
+		getAuth:            alwaysAllow,
+	}
+
+	result, err := api.UnitContainerNames(c.Context(), params.Entities{
+		Entities: []params.Entity{
+			{Tag: names.NewUnitTag("foo/0").String()},
+		},
+	})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Check(result, tc.DeepEquals, params.StringsResults{
+		Results: []params.StringsResult{
+			{Result: []string{"container-a", "container-b"}},
+		},
+	})
+}
+
+func (s *deployerSuite) TestUnitContainerNamesEmpty(c *tc.C) {
+	defer s.setupMocks(c).Finish()
+
+	s.applicationService.EXPECT().
+		GetUnitContainerNames(gomock.Any(), unit.Name("foo/0")).
+		Return(nil, nil)
+
+	api := &DeployerAPI{
+		applicationService: s.applicationService,
+		getAuth:            alwaysAllow,
+	}
+
+	result, err := api.UnitContainerNames(c.Context(), params.Entities{
+		Entities: []params.Entity{
+			{Tag: names.NewUnitTag("foo/0").String()},
+		},
+	})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Check(result, tc.DeepEquals, params.StringsResults{
+		Results: []params.StringsResult{
+			{},
+		},
+	})
+}

@@ -440,6 +440,7 @@ type MockStateMockRecorder struct {
 	getStorageAddInfoByUnitUUIDExpects                        []*gomock.Call3_2[context.Context, unit.UUID, storage.Name, internal.StorageInfoForAdd, error]
 	getStorageAttachInfoByUnitUUIDAndStorageUUIDExpects       []*gomock.Call3_2[context.Context, unit.UUID, storage0.StorageInstanceUUID, storage0.StorageInstanceInfoForUnitAttach, error]
 	getStorageAttachInfoForStorageInstancesExpects            []*gomock.Call2_2[context.Context, []storage0.StorageInstanceUUID, []storage0.StorageInstanceInfoForAttach, error]
+	getUnitContainerNamesExpects                              []*gomock.Call2_2[context.Context, unit.Name, []string, error]
 	getUnitK8sPodInfoExpects                                  []*gomock.Call2_2[context.Context, unit.Name, application0.K8sPodInfo, error]
 	getUnitLifeExpects                                        []*gomock.Call2_2[context.Context, unit.Name, life.Life, error]
 	getUnitMachineNameExpects                                 []*gomock.Call2_2[context.Context, string, string, error]
@@ -1873,6 +1874,24 @@ func (mr *MockStateMockRecorder) GetStorageAttachInfoForStorageInstances(ctx, st
 
 // MockStateGetStorageAttachInfoForStorageInstancesCall is the typed call wrapper for GetStorageAttachInfoForStorageInstances.
 type MockStateGetStorageAttachInfoForStorageInstancesCall = gomock.Call2_2[context.Context, []storage0.StorageInstanceUUID, []storage0.StorageInstanceInfoForAttach, error]
+
+// GetUnitContainerNames mocks base method.
+func (m *MockState) GetUnitContainerNames(arg0 context.Context, arg1 unit.Name) ([]string, error) {
+	m.ctrl.T.Helper()
+	return gomock.Dispatch2_2(&m.recorder.getUnitContainerNamesExpects, m.ctrl, m, "GetUnitContainerNames", arg0, arg1)
+}
+
+// GetUnitContainerNames indicates an expected call of GetUnitContainerNames.
+func (mr *MockStateMockRecorder) GetUnitContainerNames(arg0, arg1 any) *MockStateGetUnitContainerNamesCall {
+	mr.mock.ctrl.T.Helper()
+	call := gomock.NewCall2_2[context.Context, unit.Name, []string, error](mr.mock.ctrl.T, mr.mock, "GetUnitContainerNames", gomock.EnsureMatcher(arg0), gomock.EnsureMatcher(arg1))
+	mr.getUnitContainerNamesExpects = append(mr.getUnitContainerNamesExpects, call)
+	mr.mock.ctrl.Track(call.Call)
+	return call
+}
+
+// MockStateGetUnitContainerNamesCall is the typed call wrapper for GetUnitContainerNames.
+type MockStateGetUnitContainerNamesCall = gomock.Call2_2[context.Context, unit.Name, []string, error]
 
 // GetUnitK8sPodInfo mocks base method.
 func (m *MockState) GetUnitK8sPodInfo(arg0 context.Context, arg1 unit.Name) (application0.K8sPodInfo, error) {
