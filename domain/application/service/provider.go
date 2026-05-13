@@ -240,6 +240,8 @@ func (s *ProviderService) GetSupportedFeatures(ctx context.Context) (assumes.Fea
 
 	supportedFeatureProvider, err := s.caasApplicationProvider(ctx)
 	if errors.Is(err, coreerrors.NotSupported) {
+		// IAAS models support the containerd runtime.
+		fs.Add(assumes.ContainerdFeature())
 		return fs, nil
 	} else if err != nil {
 		return fs, err
