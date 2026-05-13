@@ -36,6 +36,7 @@ type pebblePoller struct {
 	clock           clock.Clock
 	tomb            tomb.Tomb
 	newPebbleClient NewPebbleClientFunc
+	socketPathFunc  func(containerName string) string
 
 	workloadEventChan chan string
 	workloadEvents    container.WorkloadEvents
@@ -56,10 +57,25 @@ func NewPebblePoller(logger logger.Logger,
 	workloadEventChan chan string,
 	workloadEvents container.WorkloadEvents,
 	newPebbleClient NewPebbleClientFunc) worker.Worker {
+	return NewPebblePollerWithSocketPath(logger, clock, containerNames, workloadEventChan, workloadEvents, newPebbleClient, nil)
+}
+
+// NewPebblePollerWithSocketPath starts a worker that polls Pebble interfaces
+// using a configurable socket path resolver.
+func NewPebblePollerWithSocketPath(logger logger.Logger,
+	clock clock.Clock,
+	containerNames []string,
+	workloadEventChan chan string,
+	workloadEvents container.WorkloadEvents,
+	newPebbleClient NewPebbleClientFunc,
+	socketPathFunc func(containerName string) string) worker.Worker {
 	if newPebbleClient == nil {
 		newPebbleClient = func(config *client.Config) (PebbleClient, error) {
 			return client.New(config)
 		}
+	}
+	if socketPathFunc == nil {
+		socketPathFunc = defaultPebbleSocketPath
 	}
 	p := &pebblePoller{
 		logger:            logger,
@@ -67,6 +83,7 @@ func NewPebblePoller(logger logger.Logger,
 		workloadEventChan: workloadEventChan,
 		workloadEvents:    workloadEvents,
 		newPebbleClient:   newPebbleClient,
+		socketPathFunc:    socketPathFunc,
 		pebbleBootIDs:     make(map[string]string),
 	}
 	for _, v := range containerNames {
@@ -111,14 +128,18 @@ func (p *pebblePoller) run(containerName string) error {
 	}
 }
 
-func newPebbleConfig(containerName string) *client.Config {
+func defaultPebbleSocketPath(containerName string) string {
+	return path.Join("/charm/containers", containerName, "pebble.socket")
+}
+
+func newPebbleConfig(socketPath string) *client.Config {
 	return &client.Config{
-		Socket: path.Join("/charm/containers", containerName, "pebble.socket"),
+		Socket: socketPath,
 	}
 }
 
 func (p *pebblePoller) poll(containerName string) error {
-	config := newPebbleConfig(containerName)
+	config := newPebbleConfig(p.socketPathFunc(containerName))
 	pc, err := p.newPebbleClient(config)
 	if err != nil {
 		return errors.Annotate(err, "failed to create Pebble client")

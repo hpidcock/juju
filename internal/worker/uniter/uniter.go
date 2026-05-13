@@ -7,6 +7,7 @@ import (
 	stdcontext "context"
 	"fmt"
 	"os"
+	"path/filepath"
 	"sync"
 
 	"github.com/juju/clock"
@@ -832,11 +833,19 @@ func (u *Uniter) init(ctx stdcontext.Context, unitTag names.UnitTag) (err error)
 	u.workloadEvents = container.NewWorkloadEvents()
 	u.workloadEventChannel = make(chan string)
 	if len(u.containerNames) > 0 {
-		poller := NewPebblePoller(u.logger, u.clock, u.containerNames, u.workloadEventChannel, u.workloadEvents, u.newPebbleClient)
+		socketPathFunc := defaultPebbleSocketPath
+		if u.modelType == model.IAAS {
+			containersDir := filepath.Join(u.paths.State.CharmDir, "containers")
+			socketPathFunc = func(containerName string) string {
+				return filepath.Join(containersDir, containerName, "pebble.socket")
+			}
+		}
+
+		poller := NewPebblePollerWithSocketPath(u.logger, u.clock, u.containerNames, u.workloadEventChannel, u.workloadEvents, u.newPebbleClient, socketPathFunc)
 		if err := u.catacomb.Add(poller); err != nil {
 			return errors.Trace(err)
 		}
-		noticer := NewPebbleNoticer(u.logger, u.clock, u.containerNames, u.workloadEventChannel, u.workloadEvents, u.newPebbleClient)
+		noticer := NewPebbleNoticerWithSocketPath(u.logger, u.clock, u.containerNames, u.workloadEventChannel, u.workloadEvents, u.newPebbleClient, socketPathFunc)
 		if err := u.catacomb.Add(noticer); err != nil {
 			return errors.Trace(err)
 		}

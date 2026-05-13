@@ -37,13 +37,26 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 			Start: func(ctx context.Context, getter dependency.Getter) (worker.Worker, error) {
 				return nil, dependency.ErrMissing
 			},
+			Output: output,
 		}
 	}
 
-	return engine.AgentAPIManifold(engine.AgentAPIManifoldConfig{
+	m := engine.AgentAPIManifold(engine.AgentAPIManifoldConfig{
 		AgentName:     config.AgentName,
 		APICallerName: config.APICallerName,
 	}, config.start)
+	m.Output = output
+	return m
+}
+
+func output(in worker.Worker, out any) error {
+	switch outPtr := out.(type) {
+	case *worker.Worker:
+		*outPtr = in
+	default:
+		return fmt.Errorf("expected *worker.Worker output, got %T", out)
+	}
+	return nil
 }
 
 func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller base.APICaller) (worker.Worker, error) {
