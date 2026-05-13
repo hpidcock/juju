@@ -31,15 +31,16 @@ type CommandRunner interface {
 
 // Config holds the configuration for the container runner worker.
 type Config struct {
-	Logger          logger.Logger
-	DataDir         string
-	ContainerNames  []string
-	CharmMeta       map[string]ContainerMeta
-	ImageDetails    map[string]ImageDetails
-	CommandRunner   CommandRunner
-	StorageResolver StorageResolver
-	StatusReporter  StatusReporter
-	LogSink         LogSink
+	Logger           logger.Logger
+	DataDir          string
+	ContainerNames   []string
+	CharmMeta        map[string]ContainerMeta
+	ImageDetails     map[string]ImageDetails
+	CommandRunner    CommandRunner
+	StorageResolver  StorageResolver
+	StatusReporter   StatusReporter
+	LogSink          LogSink
+	PebbleSourcePath string // optional override for pebble binary source path
 }
 
 // ImageDetails holds the information needed to pull and run an OCI image.
@@ -287,6 +288,30 @@ func (w *Worker) containerID(containerName string) string {
 	return fmt.Sprintf("juju-%s-%s", base, containerName)
 }
 
+// pebbleSourcePaths is the ordered list of paths to search for the pebble
+// binary. The snap path is preferred; the /usr/lib/juju/bin fallback is for
+// deb/rpm installations.
+var pebbleSourcePaths = []string{
+	"/snap/juju/current/bin/pebble",
+	"/usr/lib/juju/bin/pebble",
+}
+
+// findPebbleSource returns the first existing pebble source path, or "" if none
+// are found. If PebbleSourcePath is set in config, that takes precedence.
+func (w *Worker) findPebbleSource() string {
+	if w.config.PebbleSourcePath != "" {
+		if _, err := os.Stat(w.config.PebbleSourcePath); err == nil {
+			return w.config.PebbleSourcePath
+		}
+	}
+	for _, p := range pebbleSourcePaths {
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+	}
+	return ""
+}
+
 // ensurePebbleBinary ensures the pebble binary is available in the unit's
 // charm/bin/ directory.
 func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
@@ -298,10 +323,9 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 		return nil
 	}
 
-	// Look for pebble in the snap.
-	sourcePath := "/snap/juju/current/bin/pebble"
-	if _, err := os.Stat(sourcePath); err != nil {
-		return fmt.Errorf("pebble binary not found at %s: %w", sourcePath, err)
+	sourcePath := w.findPebbleSource()
+	if sourcePath == "" {
+		return fmt.Errorf("pebble binary not found in any of %v", pebbleSourcePaths)
 	}
 
 	if err := os.MkdirAll(destDir, 0755); err != nil {
@@ -317,7 +341,7 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 		return fmt.Errorf("writing pebble binary: %w", err)
 	}
 
-	w.config.Logger.Infof(ctx, "copied pebble binary to %s", destPath)
+	w.config.Logger.Infof(ctx, "copied pebble binary from %s to %s", sourcePath, destPath)
 	return nil
 }
 
@@ -325,12 +349,15 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 // a juju snap update). If the source and deployed binaries differ, it replaces
 // the deployed binary and sets pebbleUpgraded so containers are restarted.
 func (w *Worker) ensurePebbleCurrent(ctx context.Context) error {
-	sourcePath := "/snap/juju/current/bin/pebble"
+	sourcePath := w.findPebbleSource()
+	if sourcePath == "" {
+		// Source not available - skip check.
+		return nil
+	}
 	destPath := filepath.Join(w.config.DataDir, "charm", "bin", "pebble")
 
 	sourceHash, err := fileHash(sourcePath)
 	if err != nil {
-		// Source not available (e.g., not running from snap) - skip check.
 		return nil
 	}
 	destHash, err := fileHash(destPath)

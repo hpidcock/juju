@@ -13,12 +13,14 @@ import (
 
 	"github.com/juju/juju/agent"
 	"github.com/juju/juju/agent/engine"
+	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/core/logger"
 )
 
 // ManifoldConfig defines the configuration for the container runner manifold.
 type ManifoldConfig struct {
 	AgentName      string
+	APICallerName  string
 	ContainerNames []string
 	Logger         logger.Logger
 }
@@ -35,12 +37,13 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 		}
 	}
 
-	return engine.AgentManifold(engine.AgentManifoldConfig{
-		AgentName: config.AgentName,
+	return engine.AgentAPIManifold(engine.AgentAPIManifoldConfig{
+		AgentName:     config.AgentName,
+		APICallerName: config.APICallerName,
 	}, config.start)
 }
 
-func (config ManifoldConfig) start(a agent.Agent) (worker.Worker, error) {
+func (config ManifoldConfig) start(_ context.Context, a agent.Agent, apiCaller base.APICaller) (worker.Worker, error) {
 	agentConfig := a.CurrentConfig()
 
 	return New(Config{
