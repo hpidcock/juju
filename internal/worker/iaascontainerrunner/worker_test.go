@@ -173,6 +173,38 @@ func (s *workerSuite) TestContainerID(c *tc.C) {
 	c.Assert(w.containerID("workload"), tc.Equals, "juju-unit-mysql-0-workload")
 }
 
+func (s *workerSuite) TestFileHash(c *tc.C) {
+	path := filepath.Join(c.MkDir(), "f")
+	c.Assert(os.WriteFile(path, []byte("hello"), 0644), tc.ErrorIsNil)
+	hash, err := fileHash(path)
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(hash, tc.Equals, "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824")
+}
+
+func (s *workerSuite) TestEnsureRunningReplacesOnPebbleUpgrade(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl inspect --format", []byte("true"), nil)
+	runner.addResponse("nerdctl inspect juju-unit-mysql-0-workload", nil, nil)
+	runner.addResponse("nerdctl stop", nil, nil)
+	runner.addResponse("nerdctl rm", nil, nil)
+	runner.addResponse("nerdctl run", nil, nil)
+
+	w := &Worker{
+		config: Config{
+			Logger:        loggertesting.WrapCheckLog(c),
+			DataDir:       "/var/lib/juju/agents/unit-mysql-0",
+			CommandRunner: runner,
+		},
+		pebbleUpgraded: true,
+	}
+
+	err := w.ensureRunning(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(runner.hasCommand("nerdctl stop"), tc.IsTrue)
+	c.Assert(runner.hasCommand("nerdctl rm"), tc.IsTrue)
+	c.Assert(runner.hasCommand("nerdctl run"), tc.IsTrue)
+}
+
 func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 	m := Manifold(ManifoldConfig{
 		AgentName:      "agent",

@@ -5,7 +5,9 @@ package iaascontainerrunner
 
 import (
 	"context"
+	"crypto/sha256"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -51,8 +53,9 @@ func (c Config) Validate() error {
 
 // Worker manages OCI workload containers for a unit on an IAAS machine.
 type Worker struct {
-	tomb   tomb.Tomb
-	config Config
+	tomb           tomb.Tomb
+	config         Config
+	pebbleUpgraded bool
 }
 
 // New creates and starts a new container runner worker.
@@ -80,6 +83,10 @@ func (w *Worker) loop() error {
 
 	if err := w.ensurePebbleBinary(ctx); err != nil {
 		return fmt.Errorf("ensuring pebble binary: %w", err)
+	}
+
+	if err := w.ensurePebbleCurrent(ctx); err != nil {
+		return fmt.Errorf("ensuring pebble current: %w", err)
 	}
 
 	if err := w.ensureNerdctl(ctx); err != nil {
@@ -149,6 +156,54 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 	return nil
 }
 
+// ensurePebbleCurrent checks if the pebble binary has been upgraded (e.g., after
+// a juju snap update). If the source and deployed binaries differ, it replaces
+// the deployed binary and sets pebbleUpgraded so containers are restarted.
+func (w *Worker) ensurePebbleCurrent(ctx context.Context) error {
+	sourcePath := "/snap/juju/current/bin/pebble"
+	destPath := filepath.Join(w.config.DataDir, "charm", "bin", "pebble")
+
+	sourceHash, err := fileHash(sourcePath)
+	if err != nil {
+		// Source not available (e.g., not running from snap) - skip check.
+		return nil
+	}
+	destHash, err := fileHash(destPath)
+	if err != nil {
+		// Destination doesn't exist - ensurePebbleBinary should have handled this.
+		return nil
+	}
+
+	if sourceHash == destHash {
+		return nil
+	}
+
+	w.config.Logger.Infof(ctx, "pebble binary changed, updating deployed binary")
+	data, err := os.ReadFile(sourcePath)
+	if err != nil {
+		return fmt.Errorf("reading updated pebble binary: %w", err)
+	}
+	if err := os.WriteFile(destPath, data, 0755); err != nil {
+		return fmt.Errorf("writing updated pebble binary: %w", err)
+	}
+	w.pebbleUpgraded = true
+	return nil
+}
+
+// fileHash computes the SHA256 hash of a file.
+func fileHash(path string) (string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+	h := sha256.New()
+	if _, err := io.Copy(h, f); err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%x", h.Sum(nil)), nil
+}
+
 // ensureNerdctl checks that nerdctl is available on the system.
 func (w *Worker) ensureNerdctl(ctx context.Context) error {
 	_, err := w.config.CommandRunner.Run(ctx, "nerdctl", "version")
@@ -177,6 +232,14 @@ func (w *Worker) ensureRunning(ctx context.Context, containerName string) error 
 	// Check if already running.
 	running, err := w.isRunning(ctx, id)
 	if err == nil && running {
+		// If pebble was upgraded, force container replacement to pick up new binary.
+		if w.pebbleUpgraded {
+			w.config.Logger.Infof(ctx, "pebble upgraded, replacing container %q", containerName)
+			if err := w.stopContainer(ctx, containerName); err != nil {
+				return fmt.Errorf("stopping container for pebble upgrade: %w", err)
+			}
+			return w.runContainer(ctx, containerName)
+		}
 		w.config.Logger.Debugf(ctx, "container %q already running", containerName)
 		return nil
 	}
