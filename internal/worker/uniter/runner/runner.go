@@ -24,6 +24,7 @@ import (
 
 	"github.com/juju/juju/cmd/cmd"
 	corelogger "github.com/juju/juju/core/logger"
+	"github.com/juju/juju/core/model"
 	"github.com/juju/juju/core/operation"
 	"github.com/juju/juju/internal/worker/common/charmrunner"
 	"github.com/juju/juju/internal/worker/uniter/runner/context"
@@ -66,6 +67,11 @@ const (
 	DispatchingHookHandler = HookHandlerType("dispatch")
 
 	hookDispatcherScript = "dispatch"
+)
+
+var (
+	legacyCharmPath   = "/charm"
+	legacyCharmPathMu sync.Mutex
 )
 
 // Runner is responsible for invoking commands in a context.
@@ -423,6 +429,12 @@ const (
 
 // Check still tested
 func (runner *runner) runCharmProcessOnLocal(hook, hookName, charmDir string, env []string) error {
+	cleanupLegacyCharmPath, err := runner.setupLegacyCharmPathForWorkloadHook(charmDir, env)
+	if err != nil {
+		return errors.Trace(err)
+	}
+	defer cleanupLegacyCharmPath()
+
 	ps := exec.Command(hook)
 	ps.Env = env
 	ps.Dir = charmDir
@@ -511,6 +523,91 @@ func (runner *runner) runCharmProcessOnLocal(hook, hookName, charmDir string, en
 	}
 
 	return errors.Trace(exitErr)
+}
+
+func (runner *runner) setupLegacyCharmPathForWorkloadHook(charmDir string, env []string) (func(), error) {
+	if runner.context.ModelType() == model.CAAS || !hasWorkloadEnvVar(env) {
+		return func() {}, nil
+	}
+
+	legacyCharmPathMu.Lock()
+
+	unlock := func() {
+		legacyCharmPathMu.Unlock()
+	}
+
+	info, err := os.Lstat(legacyCharmPath)
+	if err != nil {
+		if !os.IsNotExist(err) {
+			unlock()
+			return nil, errors.Annotatef(err, "checking %q", legacyCharmPath)
+		}
+
+		if err := os.Symlink(charmDir, legacyCharmPath); err != nil {
+			unlock()
+			return nil, errors.Annotatef(err, "creating %q symlink", legacyCharmPath)
+		}
+
+		return func() {
+			_ = os.Remove(legacyCharmPath)
+			unlock()
+		}, nil
+	}
+
+	if info.Mode()&os.ModeSymlink == 0 {
+		unlock()
+		return nil, errors.Errorf("%q exists and is not a symlink", legacyCharmPath)
+	}
+
+	currentTarget, err := os.Readlink(legacyCharmPath)
+	if err != nil {
+		unlock()
+		return nil, errors.Annotatef(err, "reading %q symlink", legacyCharmPath)
+	}
+
+	if sameSymlinkTarget(currentTarget, charmDir) {
+		return unlock, nil
+	}
+
+	if err := os.Remove(legacyCharmPath); err != nil {
+		unlock()
+		return nil, errors.Annotatef(err, "removing existing %q symlink", legacyCharmPath)
+	}
+	if err := os.Symlink(charmDir, legacyCharmPath); err != nil {
+		unlock()
+		return nil, errors.Annotatef(err, "creating %q symlink", legacyCharmPath)
+	}
+
+	return func() {
+		_ = os.Remove(legacyCharmPath)
+		_ = os.Symlink(currentTarget, legacyCharmPath)
+		unlock()
+	}, nil
+}
+
+func hasWorkloadEnvVar(env []string) bool {
+	for _, e := range env {
+		if strings.HasPrefix(e, "JUJU_WORKLOAD_NAME=") {
+			return true
+		}
+	}
+	return false
+}
+
+func sameSymlinkTarget(target, expected string) bool {
+	if !filepath.IsAbs(target) {
+		target = filepath.Join(filepath.Dir(legacyCharmPath), target)
+	}
+
+	absTarget, err := filepath.Abs(target)
+	if err != nil {
+		return false
+	}
+	absExpected, err := filepath.Abs(expected)
+	if err != nil {
+		return false
+	}
+	return filepath.Clean(absTarget) == filepath.Clean(absExpected)
 }
 
 // discoverHookHandler checks to see if the dispatch script exists, if not,

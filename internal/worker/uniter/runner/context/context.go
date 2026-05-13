@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"maps"
 	"os"
+	"path/filepath"
 	"slices"
 	"strconv"
 	"strings"
@@ -1465,6 +1466,9 @@ func (c *HookContext) HookVars(
 	}
 	if c.workloadName != "" {
 		vars = append(vars, "JUJU_WORKLOAD_NAME="+c.workloadName)
+		if c.modelType != model.CAAS {
+			vars = append(vars, "PEBBLE_SOCKET="+filepath.Join(paths.GetCharmDir(), "containers", c.workloadName, "pebble.socket"))
+		}
 		if c.noticeID != "" {
 			vars = append(vars,
 				"JUJU_NOTICE_ID="+c.noticeID,

@@ -150,6 +150,7 @@ func (s *EnvSuite) setWorkload(ctx *context.HookContext) (expectVars []string) {
 	context.SetEnvironmentHookContextWorkload(ctx, workload)
 	return []string{
 		"JUJU_WORKLOAD_NAME=" + workload,
+		"PEBBLE_SOCKET=path-to-charm/containers/" + workload + "/pebble.socket",
 	}
 }
 
