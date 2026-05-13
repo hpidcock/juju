@@ -5,14 +5,17 @@ package iaascontainerrunner
 
 import (
 	"context"
+	"fmt"
 	"os/exec"
 	"strings"
 
+	"github.com/juju/names/v6"
 	"github.com/juju/worker/v5"
 	"github.com/juju/worker/v5/dependency"
 
 	"github.com/juju/juju/agent"
 	"github.com/juju/juju/agent/engine"
+	apiclient "github.com/juju/juju/api/agent/iaascontainerrunner"
 	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/core/logger"
 )
@@ -43,13 +46,48 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 	}, config.start)
 }
 
-func (config ManifoldConfig) start(_ context.Context, a agent.Agent, apiCaller base.APICaller) (worker.Worker, error) {
+func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller base.APICaller) (worker.Worker, error) {
 	agentConfig := a.CurrentConfig()
+	unitTag, err := names.ParseUnitTag(agentConfig.Tag().String())
+	if err != nil {
+		return nil, fmt.Errorf("invalid unit tag %q: %w", agentConfig.Tag(), err)
+	}
+
+	// Resolve charm container resources via the uniter's resources API.
+	client, err := apiclient.NewClient(apiCaller, unitTag)
+	if err != nil {
+		return nil, fmt.Errorf("creating iaas container runner client: %w", err)
+	}
+
+	// Resolve image details and charm metadata for each container.
+	imageDetails := make(map[string]ImageDetails, len(config.ContainerNames))
+	charmMeta := make(map[string]ContainerMeta, len(config.ContainerNames))
+
+	for _, name := range config.ContainerNames {
+		info, err := client.GetContainerResourceInfo(ctx, name)
+		if err != nil {
+			config.Logger.Warningf(ctx, "could not get resource info for container %q: %v", name, err)
+			charmMeta[name] = ContainerMeta{ResourceName: name}
+			continue
+		}
+		if info != nil {
+			imageDetails[name] = ImageDetails{
+				RegistryPath: info.RegistryPath,
+				Username:     info.Username,
+				Password:     info.Password,
+			}
+		}
+		if charmMeta[name].ResourceName == "" {
+			charmMeta[name] = ContainerMeta{ResourceName: name}
+		}
+	}
 
 	return New(Config{
 		Logger:         config.Logger,
 		DataDir:        agentConfig.Dir(),
 		ContainerNames: config.ContainerNames,
+		CharmMeta:      charmMeta,
+		ImageDetails:   imageDetails,
 		CommandRunner:  &defaultCommandRunner{},
 	})
 }
