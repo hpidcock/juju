@@ -5,12 +5,14 @@ package deployer
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/juju/names/v6"
 
 	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/api/common"
 	"github.com/juju/juju/core/life"
+	"github.com/juju/juju/rpc/params"
 )
 
 // Option is a function that can be used to configure a Client.
@@ -60,4 +62,24 @@ func (c *Client) Machine(tag names.MachineTag) (*Machine, error) {
 		tag:    tag,
 		client: c,
 	}, nil
+}
+
+// UnitContainerNames returns the container names from the charm metadata
+// for the given unit.
+func (c *Client) UnitContainerNames(ctx context.Context, tag names.UnitTag) ([]string, error) {
+	var result params.StringsResults
+	args := params.Entities{
+		Entities: []params.Entity{{Tag: tag.String()}},
+	}
+	err := c.facade.FacadeCall(ctx, "UnitContainerNames", args, &result)
+	if err != nil {
+		return nil, err
+	}
+	if len(result.Results) != 1 {
+		return nil, fmt.Errorf("expected 1 result, got %d", len(result.Results))
+	}
+	if result.Results[0].Error != nil {
+		return nil, result.Results[0].Error
+	}
+	return result.Results[0].Result, nil
 }

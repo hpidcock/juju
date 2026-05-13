@@ -5,6 +5,7 @@ package deployer
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/juju/names/v6"
 
@@ -87,4 +88,23 @@ func (u *Unit) SetStatus(ctx context.Context, unitStatus status.Status, info str
 		return err
 	}
 	return result.OneError()
+}
+
+// ContainerNames returns the container names from the charm metadata for this unit.
+func (u *Unit) ContainerNames(ctx context.Context) ([]string, error) {
+	var result params.StringsResults
+	args := params.Entities{
+		Entities: []params.Entity{{Tag: u.tag.String()}},
+	}
+	err := u.client.facade.FacadeCall(ctx, "UnitContainerNames", args, &result)
+	if err != nil {
+		return nil, err
+	}
+	if len(result.Results) != 1 {
+		return nil, fmt.Errorf("expected 1 result, got %d", len(result.Results))
+	}
+	if result.Results[0].Error != nil {
+		return nil, result.Results[0].Error
+	}
+	return result.Results[0].Result, nil
 }

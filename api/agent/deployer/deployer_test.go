@@ -229,3 +229,99 @@ func (s *deployerSuite) TestUnitSetStatus(c *tc.C) {
 	c.Assert(err, tc.ErrorIsNil)
 	c.Assert(calls, tc.Equals, 2)
 }
+
+func (s *deployerSuite) TestUnitContainerNames(c *tc.C) {
+	calls := 0
+	apiCaller := testing.APICallerFunc(func(objType string, version int, id, request string, arg, result any) error {
+		c.Check(objType, tc.Equals, "Deployer")
+		c.Check(version, tc.Equals, 0)
+		c.Check(id, tc.Equals, "")
+		if calls > 0 {
+			c.Check(request, tc.Equals, "UnitContainerNames")
+			c.Check(arg, tc.DeepEquals, params.Entities{Entities: []params.Entity{{
+				Tag: "unit-mysql-666",
+			}}})
+			c.Assert(result, tc.FitsTypeOf, &params.StringsResults{})
+			*(result.(*params.StringsResults)) = params.StringsResults{
+				Results: []params.StringsResult{{
+					Result: []string{"container1", "container2"},
+				}},
+			}
+		} else {
+			c.Check(request, tc.Equals, "Life")
+			c.Assert(result, tc.FitsTypeOf, &params.LifeResults{})
+			*(result.(*params.LifeResults)) = params.LifeResults{
+				Results: []params.LifeResult{{
+					Life: life.Alive,
+				}},
+			}
+		}
+		calls++
+		return nil
+	})
+
+	client := deployer.NewClient(apiCaller)
+	unitTag := names.NewUnitTag("mysql/666")
+	unit, err := client.Unit(c.Context(), unitTag)
+	c.Assert(err, tc.ErrorIsNil)
+	names, err := unit.ContainerNames(c.Context())
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(names, tc.DeepEquals, []string{"container1", "container2"})
+	c.Assert(calls, tc.Equals, 2)
+}
+
+func (s *deployerSuite) TestUnitContainerNamesEmpty(c *tc.C) {
+	calls := 0
+	apiCaller := testing.APICallerFunc(func(objType string, version int, id, request string, arg, result any) error {
+		if calls > 0 {
+			c.Check(request, tc.Equals, "UnitContainerNames")
+			c.Assert(result, tc.FitsTypeOf, &params.StringsResults{})
+			*(result.(*params.StringsResults)) = params.StringsResults{
+				Results: []params.StringsResult{{
+					Result: nil,
+				}},
+			}
+		} else {
+			c.Check(request, tc.Equals, "Life")
+			c.Assert(result, tc.FitsTypeOf, &params.LifeResults{})
+			*(result.(*params.LifeResults)) = params.LifeResults{
+				Results: []params.LifeResult{{
+					Life: life.Alive,
+				}},
+			}
+		}
+		calls++
+		return nil
+	})
+
+	client := deployer.NewClient(apiCaller)
+	unitTag := names.NewUnitTag("mysql/666")
+	unit, err := client.Unit(c.Context(), unitTag)
+	c.Assert(err, tc.ErrorIsNil)
+	names, err := unit.ContainerNames(c.Context())
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(names, tc.IsNil)
+}
+
+func (s *deployerSuite) TestClientUnitContainerNames(c *tc.C) {
+	apiCaller := testing.APICallerFunc(func(objType string, version int, id, request string, arg, result any) error {
+		c.Check(objType, tc.Equals, "Deployer")
+		c.Check(request, tc.Equals, "UnitContainerNames")
+		c.Check(arg, tc.DeepEquals, params.Entities{Entities: []params.Entity{{
+			Tag: "unit-mysql-666",
+		}}})
+		c.Assert(result, tc.FitsTypeOf, &params.StringsResults{})
+		*(result.(*params.StringsResults)) = params.StringsResults{
+			Results: []params.StringsResult{{
+				Result: []string{"mycontainer"},
+			}},
+		}
+		return nil
+	})
+
+	client := deployer.NewClient(apiCaller)
+	unitTag := names.NewUnitTag("mysql/666")
+	names, err := client.UnitContainerNames(c.Context(), unitTag)
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(names, tc.DeepEquals, []string{"mycontainer"})
+}
