@@ -29,6 +29,7 @@ import (
 	"github.com/juju/juju/internal/worker/apicaller"
 	"github.com/juju/juju/internal/worker/apiconfigwatcher"
 	"github.com/juju/juju/internal/worker/fortress"
+	"github.com/juju/juju/internal/worker/iaascontainerrunner"
 	"github.com/juju/juju/internal/worker/leadership"
 	loggerworker "github.com/juju/juju/internal/worker/logger"
 	"github.com/juju/juju/internal/worker/logrouter"
@@ -259,6 +260,17 @@ func UnitManifolds(config UnitManifoldsConfig) dependency.Manifolds {
 			Logger:        config.LoggerContext.GetLogger("juju.worker.retrystrategy"),
 		})),
 
+		// The iaas-container-runner manages OCI workload containers for
+		// FormatV2 charms on IAAS machines. It is a no-op when
+		// ContainerNames is empty (standard IAAS charms).
+		iaasContainerRunnerName: ifNotMigrating(iaascontainerrunner.Manifold(
+			iaascontainerrunner.ManifoldConfig{
+				AgentName:      agentName,
+				ContainerNames: config.ContainerNames,
+				Logger:         config.LoggerContext.GetLogger("juju.worker.iaascontainerrunner"),
+			},
+		)),
+
 		// The uniter installs charms; manages the unit's presence in its
 		// relations; creates subordinate units; runs all the hooks; sends
 		// metrics; etc etc etc. We expect to break it up further in the
@@ -338,6 +350,8 @@ const (
 	uniterName            = "uniter"
 	upgraderName          = "upgrader"
 	traceName             = "trace"
+
+	iaasContainerRunnerName = "iaas-container-runner"
 
 	secretDrainWorker = "secret-drain-worker"
 )

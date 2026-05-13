@@ -57,6 +57,7 @@ func (s *ManifoldsSuite) TestManifoldNames(c *tc.C) {
 		"api-config-watcher",
 		"charm-dir",
 		"hook-retry-strategy",
+		"iaas-container-runner",
 		"leadership-tracker",
 		"log-router",
 		"logging-config-updater",
@@ -143,6 +144,14 @@ var expectedUnitManifoldsWithDependencies = map[string][]string{
 	},
 
 	"hook-retry-strategy": {
+		"agent",
+		"api-caller",
+		"api-config-watcher",
+		"migration-fortress",
+		"migration-inactive-flag",
+	},
+
+	"iaas-container-runner": {
 		"agent",
 		"api-caller",
 		"api-config-watcher",
