@@ -35,10 +35,18 @@ type Config struct {
 	DataDir         string
 	ContainerNames  []string
 	CharmMeta       map[string]ContainerMeta
+	ImageDetails    map[string]ImageDetails
 	CommandRunner   CommandRunner
 	StorageResolver StorageResolver
 	StatusReporter  StatusReporter
 	LogSink         LogSink
+}
+
+// ImageDetails holds the information needed to pull and run an OCI image.
+type ImageDetails struct {
+	RegistryPath string
+	Username     string
+	Password     string
 }
 
 // ContainerMeta describes IAAS-specific runtime metadata for a charm
@@ -390,12 +398,9 @@ func (w *Worker) ensureRunning(ctx context.Context, containerName string) error 
 	running, err := w.isRunning(ctx, id)
 	if err == nil && running {
 		// If pebble was upgraded, force container replacement to pick up new binary.
-		if w.pebbleUpgraded {
-			w.config.Logger.Infof(ctx, "pebble upgraded, replacing container %q", containerName)
-			if err := w.stopContainer(ctx, containerName); err != nil {
-				return fmt.Errorf("stopping container for pebble upgrade: %w", err)
-			}
-			return w.runContainer(ctx, containerName)
+		if w.pebbleUpgraded || w.imageMismatch(ctx, id, containerName) {
+			w.config.Logger.Infof(ctx, "replacing container %q", containerName)
+			return w.replaceContainer(ctx, containerName)
 		}
 		w.config.Logger.Debugf(ctx, "container %q already running", containerName)
 		return nil
@@ -410,6 +415,42 @@ func (w *Worker) ensureRunning(ctx context.Context, containerName string) error 
 
 	// Run a new container.
 	return w.runContainer(ctx, containerName)
+}
+
+func (w *Worker) replaceContainer(ctx context.Context, containerName string) error {
+	if err := w.stopContainer(ctx, containerName); err != nil {
+		return fmt.Errorf("stopping container for replacement: %w", err)
+	}
+	return w.runContainer(ctx, containerName)
+}
+
+func (w *Worker) imageMismatch(ctx context.Context, id, containerName string) bool {
+	image, ok := w.config.ImageDetails[containerName]
+	if !ok || image.RegistryPath == "" {
+		return false
+	}
+	expected := image.RegistryPath
+	actual, err := w.currentImage(ctx, id)
+	if err != nil {
+		w.config.Logger.Warningf(ctx, "could not inspect image for container %q: %v", containerName, err)
+		return false
+	}
+	return actual != expected
+}
+
+func (w *Worker) currentImage(ctx context.Context, id string) (string, error) {
+	out, err := w.config.CommandRunner.Run(ctx, "nerdctl", "inspect", "--format", "{{.Image}}", id)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(out)), nil
+}
+
+func (w *Worker) containerImage(containerName string) string {
+	if image, ok := w.config.ImageDetails[containerName]; ok && image.RegistryPath != "" {
+		return image.RegistryPath
+	}
+	return "ubuntu:22.04"
 }
 
 // runContainer starts a new container with nerdctl.
@@ -437,9 +478,7 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 	}
 	args = append(args, storageArgs...)
 	args = append(args,
-		// Use ubuntu as a default base image; real implementation will
-		// resolve from charm resources.
-		"ubuntu:22.04",
+		w.containerImage(containerName),
 		"run", "--create-dirs", "--hold", "--http", "", "--verbose",
 	)
 

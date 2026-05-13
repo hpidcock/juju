@@ -185,6 +185,7 @@ func (s *workerSuite) TestFileHash(c *tc.C) {
 func (s *workerSuite) TestEnsureRunningReplacesOnPebbleUpgrade(c *tc.C) {
 	runner := &mockCommandRunner{}
 	runner.addResponse("nerdctl inspect --format", []byte("true"), nil)
+	runner.addResponse("nerdctl inspect --format", []byte("ubuntu:22.04"), nil)
 	runner.addResponse("nerdctl inspect juju-unit-mysql-0-workload", nil, nil)
 	runner.addResponse("nerdctl stop", nil, nil)
 	runner.addResponse("nerdctl rm", nil, nil)
@@ -204,6 +205,56 @@ func (s *workerSuite) TestEnsureRunningReplacesOnPebbleUpgrade(c *tc.C) {
 	c.Assert(runner.hasCommand("nerdctl stop"), tc.IsTrue)
 	c.Assert(runner.hasCommand("nerdctl rm"), tc.IsTrue)
 	c.Assert(runner.hasCommand("nerdctl run"), tc.IsTrue)
+}
+
+func (s *workerSuite) TestEnsureRunningReplacesOnImageMismatch(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl inspect --format", []byte("true"), nil)
+	runner.addResponse("nerdctl inspect --format", []byte("old-image"), nil)
+	runner.addResponse("nerdctl inspect juju-unit-mysql-0-workload", nil, nil)
+	runner.addResponse("nerdctl stop", nil, nil)
+	runner.addResponse("nerdctl rm", nil, nil)
+	runner.addResponse("nerdctl run", nil, nil)
+
+	w := &Worker{
+		config: Config{
+			Logger:        loggertesting.WrapCheckLog(c),
+			DataDir:       "/var/lib/juju/agents/unit-mysql-0",
+			CommandRunner: runner,
+			ImageDetails: map[string]ImageDetails{
+				"workload": {RegistryPath: "new-image"},
+			},
+		},
+	}
+
+	err := w.ensureRunning(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(runner.hasCommand("nerdctl stop"), tc.IsTrue)
+	c.Assert(runner.hasCommand("nerdctl rm"), tc.IsTrue)
+	c.Assert(runner.hasCommand("nerdctl run"), tc.IsTrue)
+	c.Assert(runner.hasCommandContaining("new-image"), tc.IsTrue)
+}
+
+func (s *workerSuite) TestEnsureRunningSkipsWhenImageMatches(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl inspect --format", []byte("true"), nil)
+	runner.addResponse("nerdctl inspect --format", []byte("new-image"), nil)
+
+	w := &Worker{
+		config: Config{
+			Logger:        loggertesting.WrapCheckLog(c),
+			DataDir:       "/var/lib/juju/agents/unit-mysql-0",
+			CommandRunner: runner,
+			ImageDetails: map[string]ImageDetails{
+				"workload": {RegistryPath: "new-image"},
+			},
+		},
+	}
+
+	err := w.ensureRunning(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(runner.hasCommand("nerdctl run"), tc.IsFalse)
+	c.Assert(runner.hasCommand("nerdctl stop"), tc.IsFalse)
 }
 
 func (s *workerSuite) TestMonitorContainersReportsRunning(c *tc.C) {
