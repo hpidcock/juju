@@ -49,6 +49,7 @@ type ManifoldConfig struct {
 	CharmDirName          string
 	HookRetryStrategyName string
 	TraceName             string
+	ContainerRunnerName   string
 
 	ModelType                    model.ModelType
 	MachineLock                  machinelock.Lock
@@ -80,19 +81,30 @@ func (config *ManifoldConfig) Validate() error {
 // Manifold returns a dependency manifold that runs a uniter worker,
 // using the resource names defined in the supplied config.
 func Manifold(config ManifoldConfig) dependency.Manifold {
+	inputs := []string{
+		config.AgentName,
+		config.APICallerName,
+		config.S3CallerName,
+		config.LeadershipTrackerName,
+		config.CharmDirName,
+		config.HookRetryStrategyName,
+		config.TraceName,
+	}
+	if config.ContainerRunnerName != "" {
+		inputs = append(inputs, config.ContainerRunnerName)
+	}
+
 	return dependency.Manifold{
-		Inputs: []string{
-			config.AgentName,
-			config.APICallerName,
-			config.S3CallerName,
-			config.LeadershipTrackerName,
-			config.CharmDirName,
-			config.HookRetryStrategyName,
-			config.TraceName,
-		},
+		Inputs: inputs,
 		Start: func(ctx stdcontext.Context, getter dependency.Getter) (worker.Worker, error) {
 			if err := config.Validate(); err != nil {
 				return nil, errors.Trace(err)
+			}
+			if config.ContainerRunnerName != "" {
+				var containerRunner worker.Worker
+				if err := getter.Get(config.ContainerRunnerName, &containerRunner); err != nil {
+					return nil, errors.Trace(err)
+				}
 			}
 			// Collect all required resources.
 			var agent agent.Agent

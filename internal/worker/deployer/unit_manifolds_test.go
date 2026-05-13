@@ -211,6 +211,7 @@ var expectedUnitManifoldsWithDependencies = map[string][]string{
 		"api-config-watcher",
 		"charm-dir",
 		"hook-retry-strategy",
+		"iaas-container-runner",
 		"leadership-tracker",
 		"migration-fortress",
 		"migration-inactive-flag",

@@ -282,6 +282,7 @@ func UnitManifolds(config UnitManifoldsConfig) dependency.Manifolds {
 			APICallerName:         apiCallerName,
 			S3CallerName:          s3CallerName,
 			TraceName:             traceName,
+			ContainerRunnerName:   iaasContainerRunnerName,
 			MachineLock:           config.MachineLock,
 			Clock:                 config.Clock,
 			LeadershipTrackerName: leadershipTrackerName,
