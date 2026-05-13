@@ -205,6 +205,48 @@ func (s *workerSuite) TestEnsureRunningReplacesOnPebbleUpgrade(c *tc.C) {
 	c.Assert(runner.hasCommand("nerdctl run"), tc.IsTrue)
 }
 
+func (s *workerSuite) TestMonitorContainersReportsRunning(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl inspect --format", []byte("true"), nil)
+	reporter := &mockStatusReporter{}
+
+	w := &Worker{
+		config: Config{
+			Logger:         loggertesting.WrapCheckLog(c),
+			DataDir:        "/var/lib/juju/agents/unit-mysql-0",
+			ContainerNames: []string{"workload"},
+			CommandRunner:  runner,
+			StatusReporter: reporter,
+		},
+	}
+
+	w.monitorContainers(c.Context())
+	c.Assert(reporter.statuses, tc.HasLen, 1)
+	c.Assert(reporter.statuses[0].State, tc.Equals, "running")
+}
+
+func (s *workerSuite) TestMonitorContainersRestartsStopped(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl inspect --format", []byte("false"), nil)
+	runner.addResponse("nerdctl start", nil, nil)
+	reporter := &mockStatusReporter{}
+
+	w := &Worker{
+		config: Config{
+			Logger:         loggertesting.WrapCheckLog(c),
+			DataDir:        "/var/lib/juju/agents/unit-mysql-0",
+			ContainerNames: []string{"workload"},
+			CommandRunner:  runner,
+			StatusReporter: reporter,
+		},
+	}
+
+	w.monitorContainers(c.Context())
+	c.Assert(runner.hasCommand("nerdctl start"), tc.IsTrue)
+	c.Assert(reporter.statuses, tc.HasLen, 1)
+	c.Assert(reporter.statuses[0].Message, tc.Equals, "container restarted")
+}
+
 func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 	m := Manifold(ManifoldConfig{
 		AgentName:      "agent",
@@ -220,6 +262,15 @@ func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 type mockCommandRunner struct {
 	commands  []string
 	responses []mockResponse
+}
+
+type mockStatusReporter struct {
+	statuses []ContainerStatus
+}
+
+func (m *mockStatusReporter) ReportContainerStatus(_ context.Context, _ string, status ContainerStatus) error {
+	m.statuses = append(m.statuses, status)
+	return nil
 }
 
 type mockResponse struct {

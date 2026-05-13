@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"gopkg.in/tomb.v2"
 
@@ -32,6 +33,18 @@ type Config struct {
 	DataDir        string
 	ContainerNames []string
 	CommandRunner  CommandRunner
+	StatusReporter StatusReporter
+}
+
+// ContainerStatus captures the runtime status of a workload container.
+type ContainerStatus struct {
+	State   string
+	Message string
+}
+
+// StatusReporter optionally receives container status updates.
+type StatusReporter interface {
+	ReportContainerStatus(ctx context.Context, containerName string, status ContainerStatus) error
 }
 
 // Validate returns an error if the config is invalid.
@@ -102,16 +115,55 @@ func (w *Worker) loop() error {
 		}
 	}
 
-	w.config.Logger.Infof(ctx, "all containers started, waiting for shutdown")
-	<-w.tomb.Dying()
+	w.config.Logger.Infof(ctx, "all containers started, entering monitor loop")
+	ticker := time.NewTicker(30 * time.Second)
+	defer ticker.Stop()
 
-	// Stop all containers gracefully.
-	for _, name := range w.config.ContainerNames {
-		if err := w.stopContainer(context.Background(), name); err != nil {
-			w.config.Logger.Errorf(context.Background(), "stopping container %q: %v", name, err)
+	for {
+		select {
+		case <-w.tomb.Dying():
+			// Stop all containers gracefully.
+			for _, name := range w.config.ContainerNames {
+				if err := w.stopContainer(context.Background(), name); err != nil {
+					w.config.Logger.Errorf(context.Background(), "stopping container %q: %v", name, err)
+				}
+			}
+			return tomb.ErrDying
+		case <-ticker.C:
+			w.monitorContainers(ctx)
 		}
 	}
-	return tomb.ErrDying
+}
+
+func (w *Worker) monitorContainers(ctx context.Context) {
+	for _, name := range w.config.ContainerNames {
+		id := w.containerID(name)
+		running, err := w.isRunning(ctx, id)
+		if err != nil {
+			w.reportStatus(ctx, name, ContainerStatus{State: "unknown", Message: err.Error()})
+			continue
+		}
+		if running {
+			w.reportStatus(ctx, name, ContainerStatus{State: "running", Message: "container running"})
+			continue
+		}
+
+		w.config.Logger.Warningf(ctx, "container %q is not running, attempting restart", name)
+		if _, err := w.config.CommandRunner.Run(ctx, "nerdctl", "start", id); err != nil {
+			w.reportStatus(ctx, name, ContainerStatus{State: "crashed", Message: err.Error()})
+			continue
+		}
+		w.reportStatus(ctx, name, ContainerStatus{State: "running", Message: "container restarted"})
+	}
+}
+
+func (w *Worker) reportStatus(ctx context.Context, containerName string, status ContainerStatus) {
+	if w.config.StatusReporter == nil {
+		return
+	}
+	if err := w.config.StatusReporter.ReportContainerStatus(ctx, containerName, status); err != nil {
+		w.config.Logger.Errorf(ctx, "reporting container status for %q failed: %v", containerName, err)
+	}
 }
 
 // containerID returns the nerdctl container name for a given container.
