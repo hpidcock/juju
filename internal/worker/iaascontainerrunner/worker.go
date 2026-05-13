@@ -29,11 +29,31 @@ type CommandRunner interface {
 
 // Config holds the configuration for the container runner worker.
 type Config struct {
-	Logger         logger.Logger
-	DataDir        string
-	ContainerNames []string
-	CommandRunner  CommandRunner
-	StatusReporter StatusReporter
+	Logger          logger.Logger
+	DataDir         string
+	ContainerNames  []string
+	CharmMeta       map[string]ContainerMeta
+	CommandRunner   CommandRunner
+	StorageResolver StorageResolver
+	StatusReporter  StatusReporter
+}
+
+// ContainerMeta describes IAAS-specific runtime metadata for a charm
+// container.
+type ContainerMeta struct {
+	ResourceName string
+	Mounts       []Mount
+}
+
+// Mount describes a charm-declared storage mount for a container.
+type Mount struct {
+	StorageName string
+	Location    string
+}
+
+// StorageResolver resolves charm storage names to host mount paths.
+type StorageResolver interface {
+	GetStorageMountPath(ctx context.Context, storageName string) (string, error)
 }
 
 // ContainerStatus captures the runtime status of a workload container.
@@ -325,15 +345,39 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 		"-e", "PEBBLE=/charm/bin/pebble",
 		"-e", "PEBBLE_COPY_ONCE=/var/lib/pebble/default",
 		"--entrypoint", "/charm/bin/pebble",
+	}
+	storageArgs, err := w.storageMountArgs(ctx, containerName)
+	if err != nil {
+		return err
+	}
+	args = append(args, storageArgs...)
+	args = append(args,
 		// Use ubuntu as a default base image; real implementation will
 		// resolve from charm resources.
 		"ubuntu:22.04",
 		"run", "--create-dirs", "--hold", "--http", "", "--verbose",
-	}
+	)
 
 	w.config.Logger.Infof(ctx, "running container %q", containerName)
-	_, err := w.config.CommandRunner.Run(ctx, "nerdctl", args...)
+	_, err = w.config.CommandRunner.Run(ctx, "nerdctl", args...)
 	return err
+}
+
+func (w *Worker) storageMountArgs(ctx context.Context, containerName string) ([]string, error) {
+	if w.config.StorageResolver == nil {
+		return nil, nil
+	}
+	meta := w.config.CharmMeta[containerName]
+	args := make([]string, 0, len(meta.Mounts)*2)
+	for _, mount := range meta.Mounts {
+		hostPath, err := w.config.StorageResolver.GetStorageMountPath(ctx, mount.StorageName)
+		if err != nil {
+			w.config.Logger.Warningf(ctx, "skipping storage mount %q for container %q: %v", mount.StorageName, containerName, err)
+			continue
+		}
+		args = append(args, "-v", fmt.Sprintf("%s:%s", hostPath, mount.Location))
+	}
+	return args, nil
 }
 
 // stopContainer gracefully stops and removes a container.

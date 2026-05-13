@@ -247,6 +247,76 @@ func (s *workerSuite) TestMonitorContainersRestartsStopped(c *tc.C) {
 	c.Assert(reporter.statuses[0].Message, tc.Equals, "container restarted")
 }
 
+func (s *workerSuite) TestStorageMountArgs(c *tc.C) {
+	resolver := &mockStorageResolver{
+		paths: map[string]string{
+			"data": "/var/lib/juju/storage/data/0",
+		},
+	}
+	w := &Worker{
+		config: Config{
+			Logger: loggertesting.WrapCheckLog(c),
+			CharmMeta: map[string]ContainerMeta{
+				"workload": {
+					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+				},
+			},
+			StorageResolver: resolver,
+		},
+	}
+
+	args, err := w.storageMountArgs(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(args, tc.DeepEquals, []string{"-v", "/var/lib/juju/storage/data/0:/data"})
+}
+
+func (s *workerSuite) TestStorageMountArgsSkipsMissingStorage(c *tc.C) {
+	resolver := &mockStorageResolver{err: fmt.Errorf("not attached")}
+	w := &Worker{
+		config: Config{
+			Logger: loggertesting.WrapCheckLog(c),
+			CharmMeta: map[string]ContainerMeta{
+				"workload": {
+					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+				},
+			},
+			StorageResolver: resolver,
+		},
+	}
+
+	args, err := w.storageMountArgs(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(args, tc.HasLen, 0)
+}
+
+func (s *workerSuite) TestRunContainerIncludesStorageMountArgs(c *tc.C) {
+	runner := &mockCommandRunner{}
+	runner.addResponse("nerdctl run", nil, nil)
+	resolver := &mockStorageResolver{
+		paths: map[string]string{
+			"data": "/var/lib/juju/storage/data/0",
+		},
+	}
+	w := &Worker{
+		config: Config{
+			Logger:        loggertesting.WrapCheckLog(c),
+			DataDir:       "/var/lib/juju/agents/unit-mysql-0",
+			CommandRunner: runner,
+			CharmMeta: map[string]ContainerMeta{
+				"workload": {
+					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+				},
+			},
+			StorageResolver: resolver,
+		},
+	}
+
+	err := w.runContainer(c.Context(), "workload")
+	c.Assert(err, tc.ErrorIsNil)
+	c.Assert(runner.hasCommand("nerdctl run"), tc.IsTrue)
+	c.Assert(runner.hasCommandContaining("/var/lib/juju/storage/data/0:/data"), tc.IsTrue)
+}
+
 func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 	m := Manifold(ManifoldConfig{
 		AgentName:      "agent",
@@ -266,6 +336,18 @@ type mockCommandRunner struct {
 
 type mockStatusReporter struct {
 	statuses []ContainerStatus
+}
+
+type mockStorageResolver struct {
+	paths map[string]string
+	err   error
+}
+
+func (m *mockStorageResolver) GetStorageMountPath(_ context.Context, storageName string) (string, error) {
+	if m.err != nil {
+		return "", m.err
+	}
+	return m.paths[storageName], nil
 }
 
 func (m *mockStatusReporter) ReportContainerStatus(_ context.Context, _ string, status ContainerStatus) error {
@@ -304,6 +386,15 @@ func (m *mockCommandRunner) RunStdin(_ context.Context, _ string, name string, a
 func (m *mockCommandRunner) hasCommand(prefix string) bool {
 	for _, cmd := range m.commands {
 		if strings.HasPrefix(cmd, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *mockCommandRunner) hasCommandContaining(substr string) bool {
+	for _, cmd := range m.commands {
+		if strings.Contains(cmd, substr) {
 			return true
 		}
 	}
