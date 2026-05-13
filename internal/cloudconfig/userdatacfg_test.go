@@ -750,6 +750,23 @@ func (s *cloudinitSuite) TestCloudInitConfigCloudInitUserData(c *tc.C) {
 	c.Check(testCmd, tc.DeepEquals, []any{"test line one"})
 }
 
+func (s *cloudinitSuite) TestCloudInitProvisioningInstallsNerdctlAndPebble(c *tc.C) {
+	environConfig := minimalModelConfig(c)
+	instanceCfg := s.createInstanceConfig(c, environConfig)
+	cloudcfg, err := cloudinit.New("ubuntu")
+	c.Assert(err, tc.ErrorIsNil)
+	udata, err := cloudconfig.NewUserdataConfig(instanceCfg, cloudcfg)
+	c.Assert(err, tc.ErrorIsNil)
+	err = udata.Configure()
+	c.Assert(err, tc.ErrorIsNil)
+
+	cmds := cloudcfg.RunCmds()
+	assertCommandsContain(c, cmds, "nerdctl-full-")
+	assertCommandsContain(c, cmds, "/usr/lib/juju/bin/nerdctl")
+	assertCommandsContain(c, cmds, "canonical/pebble/releases")
+	assertCommandsContain(c, cmds, "/usr/lib/juju/bin/pebble")
+}
+
 var validCloudInitUserData = `
 packages:
   - 'python-keystoneclient'
