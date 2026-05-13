@@ -57,6 +57,10 @@ type nestedContext struct {
 	errors map[string]error
 	runner *worker.Runner
 
+	// getContainerNames optionally fetches the container names from the
+	// charm metadata for a given unit.
+	getContainerNames func(ctx context.Context, unitTag names.UnitTag) ([]string, error)
+
 	// rebootMonitorStatePurger allows the deployer to clean up the
 	// internal reboot tracking state when a unit gets removed.
 	rebootMonitorStatePurger RebootMonitorStatePurger
@@ -75,6 +79,10 @@ type ContextConfig struct {
 	SetupLogging             func(logger.LoggerContext, agent.Config)
 	UnitManifolds            func(config UnitManifoldsConfig) dependency.Manifolds
 	RebootMonitorStatePurger RebootMonitorStatePurger
+	// GetContainerNames returns the container names from the charm metadata
+	// for the given unit. May be nil for environments that do not support
+	// containers (or when no deployer facade is available).
+	GetContainerNames func(ctx context.Context, unitTag names.UnitTag) ([]string, error)
 }
 
 // Validate ensures all the required values are set.
@@ -148,6 +156,7 @@ func NewNestedContext(config ContextConfig) (Context, error) {
 		units:                    make(map[string]*UnitAgent),
 		errors:                   make(map[string]error),
 		runner:                   runner,
+		getContainerNames:        config.GetContainerNames,
 		rebootMonitorStatePurger: config.RebootMonitorStatePurger,
 	}
 
@@ -191,6 +200,18 @@ func NewNestedContext(config ContextConfig) (Context, error) {
 func (c *nestedContext) newUnitAgent(unitName string) (*UnitAgent, error) {
 	unitConfig := c.baseUnitConfig
 	unitConfig.Name = unitName
+
+	// Fetch container names from the charm metadata if the callback is available.
+	if c.getContainerNames != nil {
+		tag := names.NewUnitTag(unitName)
+		containerNames, err := c.getContainerNames(context.TODO(), tag)
+		if err != nil {
+			c.logger.Warningf(context.TODO(), "unable to get container names for %q: %v", unitName, err)
+		} else {
+			unitConfig.ContainerNames = containerNames
+		}
+	}
+
 	// Add a Filter function to the engine config with a method that has the
 	// unitName bound in.
 	engineConfig := unitConfig.UnitEngineConfig()

@@ -114,6 +114,9 @@ func (config ManifoldConfig) start(ctx context.Context, getter dependency.Getter
 		SetupLogging:       config.SetupLogging,
 		UnitManifolds:      UnitManifolds,
 		HTTPClientGetter:   httpClientGetter,
+		GetContainerNames: func(ctx context.Context, unitTag names.UnitTag) ([]string, error) {
+			return deployerFacade.UnitContainerNames(ctx, unitTag)
+		},
 	}
 
 	context, err := config.NewDeployContext(contextConfig)
