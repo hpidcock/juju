@@ -4,11 +4,13 @@
 package iaascontainerrunner
 
 import (
+	"bufio"
 	"context"
 	"crypto/sha256"
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -36,6 +38,7 @@ type Config struct {
 	CommandRunner   CommandRunner
 	StorageResolver StorageResolver
 	StatusReporter  StatusReporter
+	LogSink         LogSink
 }
 
 // ContainerMeta describes IAAS-specific runtime metadata for a charm
@@ -67,6 +70,11 @@ type StatusReporter interface {
 	ReportContainerStatus(ctx context.Context, containerName string, status ContainerStatus) error
 }
 
+// LogSink optionally receives workload log messages emitted by containers.
+type LogSink interface {
+	Log(containerName string, timestamp time.Time, message string)
+}
+
 // Validate returns an error if the config is invalid.
 func (c Config) Validate() error {
 	if c.Logger == nil {
@@ -89,6 +97,7 @@ type Worker struct {
 	tomb           tomb.Tomb
 	config         Config
 	pebbleUpgraded bool
+	logCancels     map[string]context.CancelFunc
 }
 
 // New creates and starts a new container runner worker.
@@ -96,7 +105,10 @@ func New(config Config) (*Worker, error) {
 	if err := config.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid config: %w", err)
 	}
-	w := &Worker{config: config}
+	w := &Worker{
+		config:     config,
+		logCancels: make(map[string]context.CancelFunc),
+	}
 	w.tomb.Go(w.loop)
 	return w, nil
 }
@@ -133,6 +145,7 @@ func (w *Worker) loop() error {
 		if err := w.ensureRunning(ctx, name); err != nil {
 			return fmt.Errorf("ensuring container %q running: %w", name, err)
 		}
+		w.startLogTailing(name)
 	}
 
 	w.config.Logger.Infof(ctx, "all containers started, entering monitor loop")
@@ -142,6 +155,7 @@ func (w *Worker) loop() error {
 	for {
 		select {
 		case <-w.tomb.Dying():
+			w.cancelLogTails()
 			// Stop all containers gracefully.
 			for _, name := range w.config.ContainerNames {
 				if err := w.stopContainer(context.Background(), name); err != nil {
@@ -153,6 +167,77 @@ func (w *Worker) loop() error {
 			w.monitorContainers(ctx)
 		}
 	}
+}
+
+func (w *Worker) startLogTailing(containerName string) {
+	if w.config.LogSink == nil {
+		return
+	}
+	if w.logCancels == nil {
+		w.logCancels = make(map[string]context.CancelFunc)
+	}
+	if cancel, ok := w.logCancels[containerName]; ok {
+		cancel()
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	w.logCancels[containerName] = cancel
+	w.tomb.Go(func() error {
+		return w.tailLogs(ctx, containerName)
+	})
+}
+
+func (w *Worker) cancelLogTails() {
+	for _, cancel := range w.logCancels {
+		cancel()
+	}
+}
+
+func (w *Worker) tailLogs(ctx context.Context, containerName string) error {
+	id := w.containerID(containerName)
+	cmd := exec.CommandContext(ctx, "nerdctl", "logs", "--follow", "--timestamps", id)
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return err
+	}
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		return err
+	}
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	done := make(chan struct{}, 2)
+	go func() {
+		w.forwardLogLines(containerName, stdout)
+		done <- struct{}{}
+	}()
+	go func() {
+		w.forwardLogLines(containerName, stderr)
+		done <- struct{}{}
+	}()
+	<-done
+	<-done
+	return cmd.Wait()
+}
+
+func (w *Worker) forwardLogLines(containerName string, r io.Reader) {
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		ts, message := parseLogLine(scanner.Text())
+		w.config.LogSink.Log(containerName, ts, message)
+	}
+}
+
+func parseLogLine(line string) (time.Time, string) {
+	parts := strings.SplitN(line, " ", 2)
+	if len(parts) != 2 {
+		return time.Time{}, line
+	}
+	ts, err := time.Parse(time.RFC3339Nano, parts[0])
+	if err != nil {
+		return time.Time{}, line
+	}
+	return ts, parts[1]
 }
 
 func (w *Worker) monitorContainers(ctx context.Context) {

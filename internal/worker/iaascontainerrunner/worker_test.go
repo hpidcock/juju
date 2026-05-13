@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/juju/tc"
 	"github.com/juju/worker/v5/dependency"
@@ -317,6 +318,32 @@ func (s *workerSuite) TestRunContainerIncludesStorageMountArgs(c *tc.C) {
 	c.Assert(runner.hasCommandContaining("/var/lib/juju/storage/data/0:/data"), tc.IsTrue)
 }
 
+func (s *workerSuite) TestParseLogLineWithTimestamp(c *tc.C) {
+	ts, message := parseLogLine("2024-01-01T00:00:00Z workload started")
+	c.Assert(ts, tc.Equals, time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC))
+	c.Assert(message, tc.Equals, "workload started")
+}
+
+func (s *workerSuite) TestParseLogLineWithoutTimestamp(c *tc.C) {
+	ts, message := parseLogLine("plain log line")
+	c.Assert(ts.IsZero(), tc.IsTrue)
+	c.Assert(message, tc.Equals, "plain log line")
+}
+
+func (s *workerSuite) TestForwardLogLines(c *tc.C) {
+	sink := &mockLogSink{}
+	w := &Worker{
+		config: Config{
+			LogSink: sink,
+		},
+	}
+	w.forwardLogLines("workload", strings.NewReader("2024-01-01T00:00:00Z hello\nno timestamp\n"))
+	c.Assert(sink.records, tc.HasLen, 2)
+	c.Assert(sink.records[0].containerName, tc.Equals, "workload")
+	c.Assert(sink.records[0].message, tc.Equals, "hello")
+	c.Assert(sink.records[1].message, tc.Equals, "no timestamp")
+}
+
 func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 	m := Manifold(ManifoldConfig{
 		AgentName:      "agent",
@@ -341,6 +368,24 @@ type mockStatusReporter struct {
 type mockStorageResolver struct {
 	paths map[string]string
 	err   error
+}
+
+type mockLogSink struct {
+	records []mockLogRecord
+}
+
+type mockLogRecord struct {
+	containerName string
+	timestamp     time.Time
+	message       string
+}
+
+func (m *mockLogSink) Log(containerName string, timestamp time.Time, message string) {
+	m.records = append(m.records, mockLogRecord{
+		containerName: containerName,
+		timestamp:     timestamp,
+		message:       message,
+	})
 }
 
 func (m *mockStorageResolver) GetStorageMountPath(_ context.Context, storageName string) (string, error) {
