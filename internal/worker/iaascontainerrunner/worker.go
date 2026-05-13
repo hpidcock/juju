@@ -334,8 +334,7 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 
 	sourcePath := w.findPebbleSource()
 	if sourcePath == "" {
-		w.config.Logger.Warningf(ctx, "pebble binary not found in any of %v; continuing without local pebble bind mount", pebbleSourcePaths)
-		return nil
+		return fmt.Errorf("pebble binary not found in any of %v", pebbleSourcePaths)
 	}
 
 	if err := os.MkdirAll(destDir, 0755); err != nil {
@@ -406,51 +405,14 @@ func fileHash(path string) (string, error) {
 	return fmt.Sprintf("%x", h.Sum(nil)), nil
 }
 
-// ensureNerdctl checks that nerdctl is available on the system.
+// ensureNerdctl checks that an OCI runtime CLI is available on the system.
+// It expects a containerd + nerdctl setup.
 func (w *Worker) ensureNerdctl(ctx context.Context) error {
 	if bin, ok := w.detectNerdctl(ctx); ok {
 		w.nerdctlBin = bin
 		return nil
 	}
-
-	w.config.Logger.Infof(ctx, "nerdctl not found, attempting snap install")
-
-	var installErr error
-	for attempt := 1; attempt <= 6; attempt++ {
-		if out, err := w.config.CommandRunner.Run(ctx, "snap", "install", "nerdctl", "--classic"); err == nil {
-			w.config.Logger.Infof(ctx, "installed nerdctl with snap --classic: %s", strings.TrimSpace(string(out)))
-			if bin, ok := w.detectNerdctl(ctx); ok {
-				w.nerdctlBin = bin
-				return nil
-			}
-		} else {
-			installErr = fmt.Errorf("snap install nerdctl --classic failed: %w (output: %s)", err, strings.TrimSpace(string(out)))
-		}
-
-		if out, err := w.config.CommandRunner.Run(ctx, "snap", "install", "nerdctl"); err == nil {
-			w.config.Logger.Infof(ctx, "installed nerdctl with snap: %s", strings.TrimSpace(string(out)))
-			if bin, ok := w.detectNerdctl(ctx); ok {
-				w.nerdctlBin = bin
-				return nil
-			}
-		} else {
-			installErr = fmt.Errorf("snap install nerdctl failed: %w (output: %s)", err, strings.TrimSpace(string(out)))
-		}
-
-		if attempt < 6 {
-			w.config.Logger.Warningf(ctx, "nerdctl install attempt %d failed; retrying", attempt)
-			select {
-			case <-ctx.Done():
-				return ctx.Err()
-			case <-time.After(10 * time.Second):
-			}
-		}
-	}
-
-	if installErr != nil {
-		return installErr
-	}
-	return fmt.Errorf("nerdctl not available after installation attempts")
+	return fmt.Errorf("no supported container runtime found in PATH or known locations")
 }
 
 func (w *Worker) detectNerdctl(ctx context.Context) (string, bool) {
@@ -459,6 +421,16 @@ func (w *Worker) detectNerdctl(ctx context.Context) (string, bool) {
 	}
 	if _, err := w.config.CommandRunner.Run(ctx, "/snap/bin/nerdctl", "version"); err == nil {
 		return "/snap/bin/nerdctl", true
+	}
+	if _, err := w.config.CommandRunner.Run(ctx, "/usr/lib/juju/bin/nerdctl", "version"); err == nil {
+		return "/usr/lib/juju/bin/nerdctl", true
+	}
+	if _, err := w.config.CommandRunner.Run(ctx, "/snap/juju/current/usr/lib/juju/bin/nerdctl", "version"); err == nil {
+		return "/snap/juju/current/usr/lib/juju/bin/nerdctl", true
+	}
+	local := filepath.Join(w.config.DataDir, "charm", "bin", "nerdctl")
+	if _, err := w.config.CommandRunner.Run(ctx, local, "version"); err == nil {
+		return local, true
 	}
 	return "", false
 }
@@ -488,8 +460,11 @@ func (w *Worker) ensureRunning(ctx context.Context, containerName string) error 
 	// Check if container exists but is stopped.
 	if w.isCreated(ctx, id) {
 		w.config.Logger.Infof(ctx, "starting existing container %q", containerName)
-		_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id)
-		return err
+		out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id)
+		if err != nil {
+			return fmt.Errorf("starting container %q: %w (output: %s)", containerName, err, strings.TrimSpace(string(out)))
+		}
+		return nil
 	}
 
 	// Run a new container.
@@ -546,7 +521,7 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 		"-v", fmt.Sprintf("%s:/charm/container", socketDir),
 		"-e", fmt.Sprintf("JUJU_CONTAINER_NAME=%s", containerName),
 		"-e", "PEBBLE_SOCKET=/charm/container/pebble.socket",
-		"-e", "PEBBLE=/charm/bin/pebble",
+		"-e", "PEBBLE=/charm/container",
 		"-e", "PEBBLE_COPY_ONCE=/var/lib/pebble/default",
 		"--entrypoint", "/charm/bin/pebble",
 	}
@@ -562,12 +537,15 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 	args = append(args, storageArgs...)
 	args = append(args,
 		w.containerImage(containerName),
-		"run", "--create-dirs", "--hold", "--http", "", "--verbose",
+		"run", "--create-dirs", "--hold", "--verbose",
 	)
 
 	w.config.Logger.Infof(ctx, "running container %q", containerName)
-	_, err = w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), args...)
-	return err
+	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), args...)
+	if err != nil {
+		return fmt.Errorf("running container %q: %w (output: %s)", containerName, err, strings.TrimSpace(string(out)))
+	}
+	return nil
 }
 
 func (w *Worker) storageMountArgs(ctx context.Context, containerName string) ([]string, error) {

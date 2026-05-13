@@ -428,7 +428,19 @@ func (w *userdataConfig) ConfigureJuju() error {
 
 func defaultProvisionedRuntimeInstallScript() string {
 	return fmt.Sprintf(`#!/bin/bash
-set -euo pipefail
+set -u
+
+warn() {
+	echo "runtime prereq install warning: $*"
+}
+
+curl_flags=(
+	-fsSL
+	--connect-timeout 10
+	--max-time 120
+	--retry 5
+	--retry-delay 2
+)
 
 arch="$(dpkg --print-architecture)"
 case "${arch}" in
@@ -446,16 +458,28 @@ trap 'rm -rf "${tmpdir}"' EXIT
 
 if [ ! -x /usr/lib/juju/bin/nerdctl ]; then
 	nerdctl_url="https://github.com/containerd/nerdctl/releases/download/v%s/nerdctl-full-%s-linux-${arch}.tar.gz"
-	curl -fsSL -o "${tmpdir}/nerdctl-full.tar.gz" "${nerdctl_url}"
-	tar -xzf "${tmpdir}/nerdctl-full.tar.gz" -C "${tmpdir}" bin/nerdctl
-	install -m 0755 "${tmpdir}/bin/nerdctl" /usr/lib/juju/bin/nerdctl
+	if curl "${curl_flags[@]}" -o "${tmpdir}/nerdctl-full.tar.gz" "${nerdctl_url}"; then
+		if tar -xzf "${tmpdir}/nerdctl-full.tar.gz" -C "${tmpdir}" bin/nerdctl; then
+			install -m 0755 "${tmpdir}/bin/nerdctl" /usr/lib/juju/bin/nerdctl || warn "failed to install nerdctl"
+		else
+			warn "failed to extract nerdctl archive"
+		fi
+	else
+		warn "failed to download nerdctl archive from ${nerdctl_url}"
+	fi
 fi
 
 if [ ! -x /usr/lib/juju/bin/pebble ]; then
 	pebble_url="https://github.com/canonical/pebble/releases/download/v%s/pebble_v%s_linux_${arch}.tar.gz"
-	curl -fsSL -o "${tmpdir}/pebble.tar.gz" "${pebble_url}"
-	tar -xzf "${tmpdir}/pebble.tar.gz" -C "${tmpdir}" pebble
-	install -m 0755 "${tmpdir}/pebble" /usr/lib/juju/bin/pebble
+	if curl "${curl_flags[@]}" -o "${tmpdir}/pebble.tar.gz" "${pebble_url}"; then
+		if tar -xzf "${tmpdir}/pebble.tar.gz" -C "${tmpdir}" pebble; then
+			install -m 0755 "${tmpdir}/pebble" /usr/lib/juju/bin/pebble || warn "failed to install pebble"
+		else
+			warn "failed to extract pebble archive"
+		fi
+	else
+		warn "failed to download pebble archive from ${pebble_url}"
+	fi
 fi
 `, defaultNerdctlVersion, defaultNerdctlVersion, defaultPebbleVersion, defaultPebbleVersion)
 }

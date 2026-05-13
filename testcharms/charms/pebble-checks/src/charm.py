@@ -18,6 +18,7 @@ class PebbleChecksCharm(ops.CharmBase):
         framework.observe(self.on["ubuntu"].pebble_check_recovered, self._on_check_recovered)
 
     def _on_ready(self, _):
+        self.unit.status = ops.ActiveStatus("pebble ready")
         layer = ops.pebble.Layer(
             {
                 "summary": "Dummy layer",
@@ -33,6 +34,7 @@ class PebbleChecksCharm(ops.CharmBase):
                 "checks": {
                     "exec-check": {
                         "override": "replace",
+                        "level": "alive",
                         "period": "0.1s",
                         "threshold": 1,
                         "exec": {
