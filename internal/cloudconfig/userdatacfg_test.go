@@ -713,13 +713,11 @@ func (s *cloudinitSuite) TestCloudInitConfigCloudInitUserData(c *tc.C) {
 
 	// Verify the settings against cloudinit-userdata
 	cfgPackages := cloudcfg.Packages()
-	expectedPackages := []string{
-		`tmux`, // last juju specified package
+	c.Assert(len(cfgPackages), tc.GreaterThan, 2)
+	c.Assert(cfgPackages[len(cfgPackages)-2:], tc.DeepEquals, []string{
 		`python-keystoneclient`,
 		`python-glanceclient`,
-	}
-	c.Assert(len(cfgPackages), tc.GreaterThan, 2)
-	c.Assert(cfgPackages[len(cfgPackages)-3:], tc.DeepEquals, expectedPackages)
+	})
 
 	cmds := cloudcfg.RunCmds()
 	beginning := []string{
@@ -744,6 +742,9 @@ func (s *cloudinitSuite) TestCloudInitConfigCloudInitUserData(c *tc.C) {
 	ciContent := make(map[any]any)
 	err = goyaml.Unmarshal(data, &ciContent)
 	c.Assert(err, tc.ErrorIsNil)
+	checkPackage(c, ciContent, "containerd", true)
+	checkPackage(c, ciContent, "curl", true)
+	checkPackage(c, ciContent, "tar", true)
 	testCmd, ok := ciContent["test-key"].([]any)
 	c.Assert(ok, tc.IsTrue)
 	c.Check(testCmd, tc.DeepEquals, []any{"test line one"})

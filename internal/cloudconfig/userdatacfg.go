@@ -70,6 +70,14 @@ while true; do
     n=$((n+1))
 done`
 
+	// defaultNerdctlVersion is the nerdctl release to install during
+	// machine provisioning.
+	defaultNerdctlVersion = "2.1.4"
+
+	// defaultPebbleVersion is the pebble release to install during
+	// machine provisioning.
+	defaultPebbleVersion = "1.30.1"
+
 	// removeServicesScript is written to /sbin and can be used to remove
 	// all Juju services from a machine.
 	// Once this script is run, logic to check whether such a machine is already
@@ -330,6 +338,14 @@ func (w *userdataConfig) ConfigureJuju() error {
 		return errors.Trace(err)
 	}
 
+	// POC tradeoff: install runtime prerequisites on all newly provisioned
+	// machines so unit agents can start OCI workloads consistently.
+	w.conf.AddPackage("containerd")
+	w.conf.AddPackage("curl")
+	w.conf.AddPackage("tar")
+	w.conf.AddRunCmd("systemctl enable --now containerd || true")
+	w.conf.AddScripts(defaultProvisionedRuntimeInstallScript())
+
 	// Write out the normal proxy settings so that the settings are
 	// sourced by bash, and ssh through that.
 	w.conf.AddScripts(JujuProxyProfileScript)
@@ -408,6 +424,40 @@ func (w *userdataConfig) ConfigureJuju() error {
 	w.conf.AddRunTextFile("/sbin/remove-juju-services", removeServicesScript, 0755)
 
 	return w.addMachineAgentToBoot()
+}
+
+func defaultProvisionedRuntimeInstallScript() string {
+	return fmt.Sprintf(`#!/bin/bash
+set -euo pipefail
+
+arch="$(dpkg --print-architecture)"
+case "${arch}" in
+	amd64|arm64)
+		;;
+	*)
+		echo "unsupported architecture for runtime prereqs: ${arch}"
+		exit 0
+		;;
+esac
+
+install -d -m 0755 /usr/lib/juju/bin
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "${tmpdir}"' EXIT
+
+if [ ! -x /usr/lib/juju/bin/nerdctl ]; then
+	nerdctl_url="https://github.com/containerd/nerdctl/releases/download/v%s/nerdctl-full-%s-linux-${arch}.tar.gz"
+	curl -fsSL -o "${tmpdir}/nerdctl-full.tar.gz" "${nerdctl_url}"
+	tar -xzf "${tmpdir}/nerdctl-full.tar.gz" -C "${tmpdir}" bin/nerdctl
+	install -m 0755 "${tmpdir}/bin/nerdctl" /usr/lib/juju/bin/nerdctl
+fi
+
+if [ ! -x /usr/lib/juju/bin/pebble ]; then
+	pebble_url="https://github.com/canonical/pebble/releases/download/v%s/pebble_v%s_linux_${arch}.tar.gz"
+	curl -fsSL -o "${tmpdir}/pebble.tar.gz" "${pebble_url}"
+	tar -xzf "${tmpdir}/pebble.tar.gz" -C "${tmpdir}" pebble
+	install -m 0755 "${tmpdir}/pebble" /usr/lib/juju/bin/pebble
+fi
+`, defaultNerdctlVersion, defaultNerdctlVersion, defaultPebbleVersion, defaultPebbleVersion)
 }
 
 // runCmdToString converts a postruncmd or preruncmd value to a string.
