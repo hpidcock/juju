@@ -107,6 +107,7 @@ type Worker struct {
 	config         Config
 	pebbleUpgraded bool
 	logCancels     map[string]context.CancelFunc
+	nerdctlBin     string
 }
 
 // New creates and starts a new container runner worker.
@@ -117,6 +118,7 @@ func New(config Config) (*Worker, error) {
 	w := &Worker{
 		config:     config,
 		logCancels: make(map[string]context.CancelFunc),
+		nerdctlBin: "nerdctl",
 	}
 	w.tomb.Go(w.loop)
 	return w, nil
@@ -201,9 +203,16 @@ func (w *Worker) cancelLogTails() {
 	}
 }
 
+func (w *Worker) nerdctlCmd() string {
+	if w.nerdctlBin != "" {
+		return w.nerdctlBin
+	}
+	return "nerdctl"
+}
+
 func (w *Worker) tailLogs(ctx context.Context, containerName string) error {
 	id := w.containerID(containerName)
-	cmd := exec.CommandContext(ctx, "nerdctl", "logs", "--follow", "--timestamps", id)
+	cmd := exec.CommandContext(ctx, w.nerdctlCmd(), "logs", "--follow", "--timestamps", id)
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return err
@@ -263,7 +272,7 @@ func (w *Worker) monitorContainers(ctx context.Context) {
 		}
 
 		w.config.Logger.Warningf(ctx, "container %q is not running, attempting restart", name)
-		if _, err := w.config.CommandRunner.Run(ctx, "nerdctl", "start", id); err != nil {
+		if _, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id); err != nil {
 			w.reportStatus(ctx, name, ContainerStatus{State: "crashed", Message: err.Error()})
 			continue
 		}
@@ -325,7 +334,8 @@ func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
 
 	sourcePath := w.findPebbleSource()
 	if sourcePath == "" {
-		return fmt.Errorf("pebble binary not found in any of %v", pebbleSourcePaths)
+		w.config.Logger.Warningf(ctx, "pebble binary not found in any of %v; continuing without local pebble bind mount", pebbleSourcePaths)
+		return nil
 	}
 
 	if err := os.MkdirAll(destDir, 0755); err != nil {
@@ -398,17 +408,59 @@ func fileHash(path string) (string, error) {
 
 // ensureNerdctl checks that nerdctl is available on the system.
 func (w *Worker) ensureNerdctl(ctx context.Context) error {
-	_, err := w.config.CommandRunner.Run(ctx, "nerdctl", "version")
-	if err == nil {
+	if bin, ok := w.detectNerdctl(ctx); ok {
+		w.nerdctlBin = bin
 		return nil
 	}
 
 	w.config.Logger.Infof(ctx, "nerdctl not found, attempting snap install")
-	_, err = w.config.CommandRunner.Run(ctx, "snap", "install", "nerdctl", "--classic")
-	if err != nil {
-		return fmt.Errorf("installing nerdctl: %w", err)
+
+	var installErr error
+	for attempt := 1; attempt <= 6; attempt++ {
+		if out, err := w.config.CommandRunner.Run(ctx, "snap", "install", "nerdctl", "--classic"); err == nil {
+			w.config.Logger.Infof(ctx, "installed nerdctl with snap --classic: %s", strings.TrimSpace(string(out)))
+			if bin, ok := w.detectNerdctl(ctx); ok {
+				w.nerdctlBin = bin
+				return nil
+			}
+		} else {
+			installErr = fmt.Errorf("snap install nerdctl --classic failed: %w (output: %s)", err, strings.TrimSpace(string(out)))
+		}
+
+		if out, err := w.config.CommandRunner.Run(ctx, "snap", "install", "nerdctl"); err == nil {
+			w.config.Logger.Infof(ctx, "installed nerdctl with snap: %s", strings.TrimSpace(string(out)))
+			if bin, ok := w.detectNerdctl(ctx); ok {
+				w.nerdctlBin = bin
+				return nil
+			}
+		} else {
+			installErr = fmt.Errorf("snap install nerdctl failed: %w (output: %s)", err, strings.TrimSpace(string(out)))
+		}
+
+		if attempt < 6 {
+			w.config.Logger.Warningf(ctx, "nerdctl install attempt %d failed; retrying", attempt)
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-time.After(10 * time.Second):
+			}
+		}
 	}
-	return nil
+
+	if installErr != nil {
+		return installErr
+	}
+	return fmt.Errorf("nerdctl not available after installation attempts")
+}
+
+func (w *Worker) detectNerdctl(ctx context.Context) (string, bool) {
+	if _, err := w.config.CommandRunner.Run(ctx, "nerdctl", "version"); err == nil {
+		return "nerdctl", true
+	}
+	if _, err := w.config.CommandRunner.Run(ctx, "/snap/bin/nerdctl", "version"); err == nil {
+		return "/snap/bin/nerdctl", true
+	}
+	return "", false
 }
 
 // ensureContainerDirs creates the socket directory for the container.
@@ -436,7 +488,7 @@ func (w *Worker) ensureRunning(ctx context.Context, containerName string) error 
 	// Check if container exists but is stopped.
 	if w.isCreated(ctx, id) {
 		w.config.Logger.Infof(ctx, "starting existing container %q", containerName)
-		_, err := w.config.CommandRunner.Run(ctx, "nerdctl", "start", id)
+		_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id)
 		return err
 	}
 
@@ -466,7 +518,7 @@ func (w *Worker) imageMismatch(ctx context.Context, id, containerName string) bo
 }
 
 func (w *Worker) currentImage(ctx context.Context, id string) (string, error) {
-	out, err := w.config.CommandRunner.Run(ctx, "nerdctl", "inspect", "--format", "{{.Image}}", id)
+	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", "--format", "{{.Image}}", id)
 	if err != nil {
 		return "", err
 	}
@@ -491,13 +543,17 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 		"--name", id,
 		"--network", "host",
 		"--restart", "unless-stopped",
-		"-v", fmt.Sprintf("%s:/charm/bin/pebble:ro", pebbleBin),
 		"-v", fmt.Sprintf("%s:/charm/container", socketDir),
 		"-e", fmt.Sprintf("JUJU_CONTAINER_NAME=%s", containerName),
 		"-e", "PEBBLE_SOCKET=/charm/container/pebble.socket",
 		"-e", "PEBBLE=/charm/bin/pebble",
 		"-e", "PEBBLE_COPY_ONCE=/var/lib/pebble/default",
 		"--entrypoint", "/charm/bin/pebble",
+	}
+	if _, err := os.Stat(pebbleBin); err == nil {
+		args = append(args, "-v", fmt.Sprintf("%s:/charm/bin/pebble:ro", pebbleBin))
+	} else {
+		w.config.Logger.Warningf(ctx, "local pebble binary %q not present; relying on image-provided /charm/bin/pebble", pebbleBin)
 	}
 	storageArgs, err := w.storageMountArgs(ctx, containerName)
 	if err != nil {
@@ -510,7 +566,7 @@ func (w *Worker) runContainer(ctx context.Context, containerName string) error {
 	)
 
 	w.config.Logger.Infof(ctx, "running container %q", containerName)
-	_, err = w.config.CommandRunner.Run(ctx, "nerdctl", args...)
+	_, err = w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), args...)
 	return err
 }
 
@@ -540,14 +596,14 @@ func (w *Worker) stopContainer(ctx context.Context, containerName string) error 
 	}
 
 	w.config.Logger.Infof(ctx, "stopping container %q", containerName)
-	_, _ = w.config.CommandRunner.Run(ctx, "nerdctl", "stop", "--time", "30", id)
-	_, err := w.config.CommandRunner.Run(ctx, "nerdctl", "rm", id)
+	_, _ = w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "stop", "--time", "30", id)
+	_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "rm", id)
 	return err
 }
 
 // isRunning checks if a container is currently running.
 func (w *Worker) isRunning(ctx context.Context, id string) (bool, error) {
-	out, err := w.config.CommandRunner.Run(ctx, "nerdctl", "inspect", "--format", "{{.State.Running}}", id)
+	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", "--format", "{{.State.Running}}", id)
 	if err != nil {
 		return false, err
 	}
@@ -556,6 +612,6 @@ func (w *Worker) isRunning(ctx context.Context, id string) (bool, error) {
 
 // isCreated checks if a container exists (running or stopped).
 func (w *Worker) isCreated(ctx context.Context, id string) bool {
-	_, err := w.config.CommandRunner.Run(ctx, "nerdctl", "inspect", id)
+	_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", id)
 	return err == nil
 }
