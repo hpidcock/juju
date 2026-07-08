@@ -1581,6 +1581,17 @@
                         }
                     }
                 },
+                "UnitContainerNames": {
+                    "type": "object",
+                    "properties": {
+                        "Params": {
+                            "$ref": "#/definitions/Entities"
+                        },
+                        "Result": {
+                            "$ref": "#/definitions/StringsResults"
+                        }
+                    }
+                },
                 "WatchAPIHostPorts": {
                     "type": "object",
                     "properties": {
@@ -1939,6 +1950,21 @@
                         }
                     },
                     "additionalProperties": false
+                },
+                "StringsResults": {
+                    "type": "object",
+                    "properties": {
+                        "results": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/StringsResult"
+                            }
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                        "results"
+                    ]
                 },
                 "StringsWatchResult": {
                     "type": "object",
