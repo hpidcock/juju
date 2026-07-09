@@ -39,10 +39,11 @@ func (s *runtimeSuite) TestEnsureRunningCreatesNewContainer(c *tc.C) {
 	isNestedLXDContainer = func() bool { return false }
 
 	fake := newFakeServer()
-	r := NewWithClient(fake)
-
 	baseDir := c.MkDir()
+	r := NewWithClient(fake, baseDir)
+
 	socketDir := filepath.Join(baseDir, "charm", "containers", "workload")
+	loopbackDir := filepath.Join(baseDir, "peel", "lo")
 
 	spec := iaascontainerrunner.ContainerSpec{
 		Name:             "juju-unit-mysql-0-workload",
@@ -56,8 +57,6 @@ func (s *runtimeSuite) TestEnsureRunningCreatesNewContainer(c *tc.C) {
 	err := r.EnsureRunning(c.Context(), spec)
 	c.Assert(err, tc.ErrorIsNil)
 
-	expectedLoopbackDir := filepath.Join(baseDir, "charm", "peel-lo")
-
 	fake.mu.Lock()
 	defer fake.mu.Unlock()
 	inst, ok := fake.instances[spec.Name]
@@ -68,7 +67,7 @@ func (s *runtimeSuite) TestEnsureRunningCreatesNewContainer(c *tc.C) {
 	c.Check(inst.Devices["pebble-bin"]["source"], tc.Equals, "/snap/pebble/current/bin/pebble")
 	c.Check(inst.Devices["pebble-bin"]["path"], tc.Equals, "/charm/bin/pebble")
 	c.Check(inst.Devices["pebble-bin"]["shift"], tc.Equals, "") // no shift on read-only binary
-	c.Check(inst.Devices["peel-lo"]["source"], tc.Equals, expectedLoopbackDir)
+	c.Check(inst.Devices["peel-lo"]["source"], tc.Equals, loopbackDir)
 	c.Check(inst.Devices["peel-lo"]["path"], tc.Equals, "/peel/lo")
 	c.Check(inst.Devices["peel-lo"]["shift"], tc.Equals, "true")
 	c.Check(inst.Devices["charm-container"]["source"], tc.Equals, spec.SocketDir)
@@ -91,9 +90,9 @@ func (s *runtimeSuite) TestEnsureRunningCreatesPrivilegedContainerInNestedZFS(c 
 	isNestedLXDContainer = func() bool { return true }
 
 	fake := newFakeServer()
-	r := NewWithClient(fake)
-
 	baseDir := c.MkDir()
+	r := NewWithClient(fake, baseDir)
+
 	socketDir := filepath.Join(baseDir, "charm", "containers", "workload")
 
 	spec := iaascontainerrunner.ContainerSpec{
@@ -121,13 +120,13 @@ func (s *runtimeSuite) TestEnsureRunningCreatesPrivilegedContainerInNestedZFS(c 
 
 func (s *runtimeSuite) TestEnsureRunningStartsStoppedContainer(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	spec := iaascontainerrunner.ContainerSpec{
 		Name:  "juju-unit-mysql-0-workload",
 		Image: iaascontainerrunner.ImageDetails{RegistryPath: "docker.io/library/nginx:1.27"},
 	}
-	config, devices, err := renderConfig(spec, false)
+	config, devices, err := renderConfig(spec, false, "")
 	c.Assert(err, tc.ErrorIsNil)
 	fake.instances[spec.Name] = &lxdapi.Instance{
 		Name:       spec.Name,
@@ -152,13 +151,13 @@ func (s *runtimeSuite) TestEnsureRunningStartsStoppedContainer(c *tc.C) {
 
 func (s *runtimeSuite) TestEnsureRunningNoopWhenAlreadyRunning(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	spec := iaascontainerrunner.ContainerSpec{
 		Name:  "juju-unit-mysql-0-workload",
 		Image: iaascontainerrunner.ImageDetails{RegistryPath: "docker.io/library/nginx:1.27"},
 	}
-	config, devices, err := renderConfig(spec, false)
+	config, devices, err := renderConfig(spec, false, "")
 	c.Assert(err, tc.ErrorIsNil)
 	fake.instances[spec.Name] = &lxdapi.Instance{
 		Name:       spec.Name,
@@ -182,7 +181,7 @@ func (s *runtimeSuite) TestEnsureRunningNoopWhenAlreadyRunning(c *tc.C) {
 
 func (s *runtimeSuite) TestEnsureRunningReplacesOnImageChange(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	spec := iaascontainerrunner.ContainerSpec{
 		Name:  "juju-unit-mysql-0-workload",
@@ -190,7 +189,7 @@ func (s *runtimeSuite) TestEnsureRunningReplacesOnImageChange(c *tc.C) {
 	}
 	oldSpec := spec
 	oldSpec.Image = iaascontainerrunner.ImageDetails{RegistryPath: "docker.io/library/nginx:1.26"}
-	config, devices, err := renderConfig(oldSpec, false)
+	config, devices, err := renderConfig(oldSpec, false, "")
 	c.Assert(err, tc.ErrorIsNil)
 	fake.instances[spec.Name] = &lxdapi.Instance{
 		Name:       spec.Name,
@@ -218,14 +217,14 @@ func (s *runtimeSuite) TestEnsureRunningReplacesOnPrivilegedModeChange(c *tc.C) 
 	// the environment now requires privileged mode (configMatches detects
 	// the security.privileged change).
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	spec := iaascontainerrunner.ContainerSpec{
 		Name:  "juju-unit-mysql-0-workload",
 		Image: iaascontainerrunner.ImageDetails{RegistryPath: "docker.io/library/nginx:1.27"},
 	}
 	// Pre-populate with a non-privileged container.
-	config, devices, err := renderConfig(spec, false)
+	config, devices, err := renderConfig(spec, false, "")
 	c.Assert(err, tc.ErrorIsNil)
 	fake.instances[spec.Name] = &lxdapi.Instance{
 		Name:       spec.Name,
@@ -251,7 +250,7 @@ func (s *runtimeSuite) TestEnsureRunningReplacesOnPrivilegedModeChange(c *tc.C) 
 
 func (s *runtimeSuite) TestStopDeletesRunningContainer(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	fake.instances["foo"] = &lxdapi.Instance{Name: "foo", StatusCode: lxdapi.Running}
 
@@ -265,7 +264,7 @@ func (s *runtimeSuite) TestStopDeletesRunningContainer(c *tc.C) {
 
 func (s *runtimeSuite) TestStopIsNoopWhenMissing(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	err := r.Stop(c.Context(), "does-not-exist")
 	c.Assert(err, tc.ErrorIsNil)
@@ -275,7 +274,7 @@ func (s *runtimeSuite) TestStopIsNoopWhenMissing(c *tc.C) {
 
 func (s *runtimeSuite) TestStatusReportsRunning(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 	fake.instances["foo"] = &lxdapi.Instance{Name: "foo", StatusCode: lxdapi.Running, Status: "Running"}
 
 	status, err := r.Status(c.Context(), "foo")
@@ -285,7 +284,7 @@ func (s *runtimeSuite) TestStatusReportsRunning(c *tc.C) {
 
 func (s *runtimeSuite) TestStatusReportsStoppedWhenMissing(c *tc.C) {
 	fake := newFakeServer()
-	r := NewWithClient(fake)
+	r := NewWithClient(fake, "")
 
 	status, err := r.Status(c.Context(), "does-not-exist")
 	c.Assert(err, tc.ErrorIsNil)

@@ -79,6 +79,7 @@ type Runtime struct {
 	client      instanceServer
 	imageServer string
 	imageAlias  string
+	dataDir     string
 }
 
 var (
@@ -89,7 +90,7 @@ var (
 // New returns a Runtime that talks to the local LXD daemon over its default
 // unix socket. It installs and initialises LXD and pebble if they are not
 // already present on the host.
-func New() (*Runtime, error) {
+func New(dataDir string) (*Runtime, error) {
 	if err := Initialise(DefaultLXDSnapChannel); err != nil {
 		return nil, fmt.Errorf("initialising lxdpeel: %w", err)
 	}
@@ -97,22 +98,23 @@ func New() (*Runtime, error) {
 	if err != nil {
 		return nil, fmt.Errorf("connecting to local LXD: %w", err)
 	}
-	return NewWithClient(client), nil
+	return NewWithClient(client, dataDir), nil
 }
 
 // NewWithClient returns a Runtime that uses the given LXD instance server.
 // It is exposed primarily for testing.
-func NewWithClient(client instanceServer) *Runtime {
+func NewWithClient(client instanceServer, dataDir string) *Runtime {
 	return &Runtime{
 		client:      client,
 		imageServer: DefaultImageServer,
 		imageAlias:  DefaultImageAlias,
+		dataDir:     dataDir,
 	}
 }
 
 // EnsureRunning implements iaascontainerrunner.ContainerRuntime.
 func (r *Runtime) EnsureRunning(ctx context.Context, spec iaascontainerrunner.ContainerSpec) error {
-	loopbackDir := loopbackDirForSpec(spec)
+	loopbackDir := r.loopbackDir()
 	if err := ensureLoopbackDir(loopbackDir); err != nil {
 		return fmt.Errorf("creating peel loopback dir for %q: %w", spec.Name, err)
 	}
@@ -124,7 +126,7 @@ func (r *Runtime) EnsureRunning(ctx context.Context, spec iaascontainerrunner.Co
 	// ZFS, LXD uses the native ZFS idmap path and shift=true works there.
 	privileged := isOnZFS(spec.SocketDir) && isNestedLXDContainer()
 
-	config, devices, err := renderConfig(spec, privileged)
+	config, devices, err := renderConfig(spec, privileged, loopbackDir)
 	if err != nil {
 		return fmt.Errorf("rendering LXD config for container %q: %w", spec.Name, err)
 	}
@@ -286,20 +288,16 @@ var managedConfigKeys = []string{
 	"security.privileged",
 }
 
-// loopbackDirForSpec derives the host path of the peel loopback directory
-// shared by all containers in the same pod. It is placed alongside the
-// containers directory inside the unit's charm directory so that it is
-// cleaned up with the unit.
+// loopbackDir returns the host path of the peel loopback directory for
+// this unit, at <dataDir>/peel/lo. It is shared by all containers in the
+// same pod and mounted inside each at /peel/lo.
 //
-// Returns "" if spec.SocketDir is empty, in which case no /peel/lo device
-// is added to the container.
-func loopbackDirForSpec(spec iaascontainerrunner.ContainerSpec) string {
-	if spec.SocketDir == "" {
+// Returns "" when r.dataDir is empty, suppressing the /peel/lo device.
+func (r *Runtime) loopbackDir() string {
+	if r.dataDir == "" {
 		return ""
 	}
-	// spec.SocketDir = <DataDir>/charm/containers/<containerName>
-	// Two levels up gives <DataDir>/charm.
-	return filepath.Join(filepath.Dir(filepath.Dir(spec.SocketDir)), "peel-lo")
+	return filepath.Join(r.dataDir, "peel", "lo")
 }
 
 // ensureLoopbackDir creates the loopback directory on the host if it does
@@ -318,7 +316,7 @@ func ensureLoopbackDir(dir string) error {
 // inside a nested LXD container where mount_setattr idmapping does not work.
 // When privileged is false, shift=true is used on all writable disk devices
 // instead.
-func renderConfig(spec iaascontainerrunner.ContainerSpec, privileged bool) (map[string]string, map[string]map[string]string, error) {
+func renderConfig(spec iaascontainerrunner.ContainerSpec, privileged bool, loopbackDir string) (map[string]string, map[string]map[string]string, error) {
 	entrypoint, err := json.Marshal([]string{pebbleEntrypoint})
 	if err != nil {
 		return nil, nil, err
@@ -390,7 +388,7 @@ func renderConfig(spec iaascontainerrunner.ContainerSpec, privileged bool) (map[
 			// UID remapping in either mode.
 		}
 	}
-	if loopbackDir := loopbackDirForSpec(spec); loopbackDir != "" {
+	if loopbackDir != "" {
 		loDevice := map[string]string{
 			"type":   "disk",
 			"source": loopbackDir,

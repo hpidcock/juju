@@ -36,7 +36,9 @@ type ManifoldConfig struct {
 	// out of this package to avoid a dependency on any specific container
 	// technology (e.g. the LXD+peel implementation in the lxdpeel
 	// sub-package) - callers wire in the implementation they want.
-	NewRuntime func() (ContainerRuntime, error)
+	// dataDir is the agent data directory, which the runtime may use for
+	// its own host-side storage (e.g. the peel loopback directory).
+	NewRuntime func(dataDir string) (ContainerRuntime, error)
 }
 
 // Manifold returns a dependency.Manifold that runs OCI containers for units.
@@ -109,7 +111,7 @@ func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller
 	if config.NewRuntime == nil {
 		return nil, fmt.Errorf("no container runtime configured")
 	}
-	runtime, err := config.NewRuntime()
+	runtime, err := config.NewRuntime(agentConfig.Dir())
 	if err != nil {
 		return nil, fmt.Errorf("creating container runtime: %w", err)
 	}

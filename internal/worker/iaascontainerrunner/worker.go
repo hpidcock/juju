@@ -28,6 +28,10 @@ type Config struct {
 	StatusReporter   StatusReporter
 	LogSink          LogSink
 	PebbleBinaryPath string // host path of the pebble binary to mount into every container
+	// ContainerSocketRoot is the root directory under which
+	// /charm/containers/<name> socket directories are created on the host.
+	// It defaults to "/" and is overridden in tests.
+	ContainerSocketRoot string
 }
 
 // ImageDetails holds the information needed to pull and run an OCI image.
@@ -100,6 +104,9 @@ type Worker struct {
 func New(config Config) (*Worker, error) {
 	if err := config.Validate(); err != nil {
 		return nil, fmt.Errorf("invalid config: %w", err)
+	}
+	if config.ContainerSocketRoot == "" {
+		config.ContainerSocketRoot = "/"
 	}
 	w := &Worker{
 		config:     config,
@@ -252,13 +259,28 @@ func (w *Worker) containerID(containerName string) string {
 	return id[:63-len(suffix)] + suffix
 }
 
-// ensureContainerDirs creates the socket directory for the container.
+// ensureContainerDirs creates the socket directory hierarchy for the
+// container at <ContainerSocketRoot>/charm/containers/<containerName> on
+// the host. Each directory is created owned by root (this worker always
+// runs as root) and restricted to root-only access (0700).
 func (w *Worker) ensureContainerDirs(containerName string) error {
-	return os.MkdirAll(w.socketDir(containerName), 0755)
+	for _, dir := range []string{
+		filepath.Join(w.config.ContainerSocketRoot, "charm"),
+		filepath.Join(w.config.ContainerSocketRoot, "charm", "containers"),
+		w.socketDir(containerName),
+	} {
+		if err := os.Mkdir(dir, 0700); err != nil && !os.IsExist(err) {
+			return err
+		}
+		if err := os.Chmod(dir, 0700); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (w *Worker) socketDir(containerName string) string {
-	return filepath.Join(w.config.DataDir, "charm", "containers", containerName)
+	return filepath.Join(w.config.ContainerSocketRoot, "charm", "containers", containerName)
 }
 
 // buildContainerSpec resolves the desired ContainerSpec for a charm

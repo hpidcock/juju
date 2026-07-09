@@ -59,14 +59,16 @@ func (s *workerSuite) TestValidateNilRuntime(c *tc.C) {
 
 func (s *workerSuite) TestEnsureRunningStartsContainer(c *tc.C) {
 	dataDir := c.MkDir()
+	socketRoot := c.MkDir()
 	runtime := newFakeRuntime()
 
 	w, err := New(Config{
-		Logger:           loggertesting.WrapCheckLog(c),
-		DataDir:          dataDir,
-		ContainerNames:   []string{"mycontainer"},
-		Runtime:          runtime,
-		PebbleBinaryPath: "/snap/pebble/current/bin/pebble",
+		Logger:              loggertesting.WrapCheckLog(c),
+		DataDir:             dataDir,
+		ContainerNames:      []string{"mycontainer"},
+		Runtime:             runtime,
+		PebbleBinaryPath:    "/snap/pebble/current/bin/pebble",
+		ContainerSocketRoot: socketRoot,
 	})
 	c.Assert(err, tc.ErrorIsNil)
 
@@ -84,13 +86,15 @@ func (s *workerSuite) TestEnsureRunningStartsContainer(c *tc.C) {
 
 func (s *workerSuite) TestStopContainerOnShutdown(c *tc.C) {
 	dataDir := c.MkDir()
+	socketRoot := c.MkDir()
 	runtime := newFakeRuntime()
 
 	w, err := New(Config{
-		Logger:         loggertesting.WrapCheckLog(c),
-		DataDir:        dataDir,
-		ContainerNames: []string{"mycontainer"},
-		Runtime:        runtime,
+		Logger:              loggertesting.WrapCheckLog(c),
+		DataDir:             dataDir,
+		ContainerNames:      []string{"mycontainer"},
+		Runtime:             runtime,
+		ContainerSocketRoot: socketRoot,
 	})
 	c.Assert(err, tc.ErrorIsNil)
 
@@ -214,8 +218,9 @@ func (s *workerSuite) TestBuildContainerSpecIncludesResolvedMounts(c *tc.C) {
 	}
 	w := &Worker{
 		config: Config{
-			Logger:  loggertesting.WrapCheckLog(c),
-			DataDir: "/var/lib/juju/agents/unit-mysql-0",
+			Logger:              loggertesting.WrapCheckLog(c),
+			DataDir:             "/var/lib/juju/agents/unit-mysql-0",
+			ContainerSocketRoot: "/",
 			CharmMeta: map[string]ContainerMeta{
 				"workload": {
 					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
@@ -233,7 +238,7 @@ func (s *workerSuite) TestBuildContainerSpecIncludesResolvedMounts(c *tc.C) {
 	c.Check(spec.Image.RegistryPath, tc.Equals, "docker.io/library/nginx:1.27")
 	c.Check(spec.Mounts, tc.DeepEquals, []ResolvedMount{{HostPath: "/var/lib/juju/storage/data/0", Location: "/data"}})
 	c.Check(spec.Pod, tc.Equals, "unit-mysql-0")
-	c.Check(spec.SocketDir, tc.Equals, "/var/lib/juju/agents/unit-mysql-0/charm/containers/workload")
+	c.Check(spec.SocketDir, tc.Equals, "/charm/containers/workload")
 	c.Check(spec.Env["JUJU_CONTAINER_NAME"], tc.Equals, "workload")
 }
 

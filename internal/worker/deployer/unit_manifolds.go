@@ -276,8 +276,8 @@ func UnitManifolds(config UnitManifoldsConfig) dependency.Manifolds {
 				APICallerName:  apiCallerName,
 				ContainerNames: config.ContainerNames,
 				Logger:         config.LoggerContext.GetLogger("juju.worker.iaascontainerrunner"),
-				NewRuntime: func() (iaascontainerrunner.ContainerRuntime, error) {
-					return lxdpeel.New()
+				NewRuntime: func(dataDir string) (iaascontainerrunner.ContainerRuntime, error) {
+					return lxdpeel.New(dataDir)
 				},
 			},
 		)),

@@ -64,9 +64,8 @@ type ContainerSpec struct {
 
 	// Pod is the name of the unit pod that groups all workload containers
 	// (e.g. "unit-mysql-0"). Container runtimes use this to associate
-	// related containers: LXD+peel uses it to derive a shared loopback
-	// listener directory mounted at /peel/lo; a future podman runtime
-	// would use it to create a named podman pod.
+	// related containers: a future podman runtime would use it to create
+	// a named podman pod.
 	Pod string
 
 	// Env holds additional environment variables to set inside the
