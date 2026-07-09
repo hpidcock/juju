@@ -4,30 +4,17 @@
 package iaascontainerrunner
 
 import (
-	"bufio"
 	"context"
 	"crypto/sha256"
 	"fmt"
-	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"gopkg.in/tomb.v2"
 
 	"github.com/juju/juju/core/logger"
 )
-
-// CommandRunner is an interface for executing system commands.
-// It enables testing without actually running nerdctl.
-type CommandRunner interface {
-	// Run executes a command and returns combined output.
-	Run(ctx context.Context, name string, args ...string) ([]byte, error)
-	// RunStdin executes a command with stdin input and returns combined output.
-	RunStdin(ctx context.Context, stdin string, name string, args ...string) ([]byte, error)
-}
 
 // Config holds the configuration for the container runner worker.
 type Config struct {
@@ -36,11 +23,11 @@ type Config struct {
 	ContainerNames   []string
 	CharmMeta        map[string]ContainerMeta
 	ImageDetails     map[string]ImageDetails
-	CommandRunner    CommandRunner
+	Runtime          ContainerRuntime
 	StorageResolver  StorageResolver
 	StatusReporter   StatusReporter
 	LogSink          LogSink
-	PebbleSourcePath string // optional override for pebble binary source path
+	PebbleBinaryPath string // host path of the pebble binary to mount into every container
 }
 
 // ImageDetails holds the information needed to pull and run an OCI image.
@@ -95,19 +82,18 @@ func (c Config) Validate() error {
 	if len(c.ContainerNames) == 0 {
 		return fmt.Errorf("empty ContainerNames not valid")
 	}
-	if c.CommandRunner == nil {
-		return fmt.Errorf("nil CommandRunner not valid")
+	if c.Runtime == nil {
+		return fmt.Errorf("nil Runtime not valid")
 	}
 	return nil
 }
 
-// Worker manages OCI workload containers for a unit on an IAAS machine.
+// Worker manages OCI workload containers for a unit on an IAAS machine,
+// delegating the actual container lifecycle to a ContainerRuntime.
 type Worker struct {
-	tomb           tomb.Tomb
-	config         Config
-	pebbleUpgraded bool
-	logCancels     map[string]context.CancelFunc
-	nerdctlBin     string
+	tomb       tomb.Tomb
+	config     Config
+	logCancels map[string]context.CancelFunc
 }
 
 // New creates and starts a new container runner worker.
@@ -118,7 +104,6 @@ func New(config Config) (*Worker, error) {
 	w := &Worker{
 		config:     config,
 		logCancels: make(map[string]context.CancelFunc),
-		nerdctlBin: "nerdctl",
 	}
 	w.tomb.Go(w.loop)
 	return w, nil
@@ -137,23 +122,15 @@ func (w *Worker) Wait() error {
 func (w *Worker) loop() error {
 	ctx := w.tomb.Context(context.Background())
 
-	if err := w.ensurePebbleBinary(ctx); err != nil {
-		return fmt.Errorf("ensuring pebble binary: %w", err)
-	}
-
-	if err := w.ensurePebbleCurrent(ctx); err != nil {
-		return fmt.Errorf("ensuring pebble current: %w", err)
-	}
-
-	if err := w.ensureNerdctl(ctx); err != nil {
-		return fmt.Errorf("ensuring nerdctl: %w", err)
-	}
-
 	for _, name := range w.config.ContainerNames {
 		if err := w.ensureContainerDirs(name); err != nil {
 			return fmt.Errorf("creating container dirs for %q: %w", name, err)
 		}
-		if err := w.ensureRunning(ctx, name); err != nil {
+		spec, err := w.buildContainerSpec(ctx, name)
+		if err != nil {
+			return fmt.Errorf("building container spec for %q: %w", name, err)
+		}
+		if err := w.config.Runtime.EnsureRunning(ctx, spec); err != nil {
 			return fmt.Errorf("ensuring container %q running: %w", name, err)
 		}
 		w.startLogTailing(name)
@@ -184,6 +161,10 @@ func (w *Worker) startLogTailing(containerName string) {
 	if w.config.LogSink == nil {
 		return
 	}
+	tailer, ok := w.config.Runtime.(LogTailer)
+	if !ok {
+		return
+	}
 	if w.logCancels == nil {
 		w.logCancels = make(map[string]context.CancelFunc)
 	}
@@ -192,8 +173,10 @@ func (w *Worker) startLogTailing(containerName string) {
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	w.logCancels[containerName] = cancel
+	id := w.containerID(containerName)
+	sink := containerLogSink{name: containerName, sink: w.config.LogSink}
 	w.tomb.Go(func() error {
-		return w.tailLogs(ctx, containerName)
+		return tailer.TailLogs(ctx, id, sink)
 	})
 }
 
@@ -203,76 +186,38 @@ func (w *Worker) cancelLogTails() {
 	}
 }
 
-func (w *Worker) nerdctlCmd() string {
-	if w.nerdctlBin != "" {
-		return w.nerdctlBin
-	}
-	return "nerdctl"
+// containerLogSink adapts a LogSink so that log lines reported against a
+// runtime-specific container id are attributed to the charm's container
+// name instead.
+type containerLogSink struct {
+	name string
+	sink LogSink
 }
 
-func (w *Worker) tailLogs(ctx context.Context, containerName string) error {
-	id := w.containerID(containerName)
-	cmd := exec.CommandContext(ctx, w.nerdctlCmd(), "logs", "--follow", "--timestamps", id)
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		return err
-	}
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		return err
-	}
-	if err := cmd.Start(); err != nil {
-		return err
-	}
-	done := make(chan struct{}, 2)
-	go func() {
-		w.forwardLogLines(containerName, stdout)
-		done <- struct{}{}
-	}()
-	go func() {
-		w.forwardLogLines(containerName, stderr)
-		done <- struct{}{}
-	}()
-	<-done
-	<-done
-	return cmd.Wait()
-}
-
-func (w *Worker) forwardLogLines(containerName string, r io.Reader) {
-	scanner := bufio.NewScanner(r)
-	for scanner.Scan() {
-		ts, message := parseLogLine(scanner.Text())
-		w.config.LogSink.Log(containerName, ts, message)
-	}
-}
-
-func parseLogLine(line string) (time.Time, string) {
-	parts := strings.SplitN(line, " ", 2)
-	if len(parts) != 2 {
-		return time.Time{}, line
-	}
-	ts, err := time.Parse(time.RFC3339Nano, parts[0])
-	if err != nil {
-		return time.Time{}, line
-	}
-	return ts, parts[1]
+func (c containerLogSink) Log(_ string, timestamp time.Time, message string) {
+	c.sink.Log(c.name, timestamp, message)
 }
 
 func (w *Worker) monitorContainers(ctx context.Context) {
 	for _, name := range w.config.ContainerNames {
 		id := w.containerID(name)
-		running, err := w.isRunning(ctx, id)
+		status, err := w.config.Runtime.Status(ctx, id)
 		if err != nil {
 			w.reportStatus(ctx, name, ContainerStatus{State: "unknown", Message: err.Error()})
 			continue
 		}
-		if running {
-			w.reportStatus(ctx, name, ContainerStatus{State: "running", Message: "container running"})
+		if status.State == "running" {
+			w.reportStatus(ctx, name, status)
 			continue
 		}
 
-		w.config.Logger.Warningf(ctx, "container %q is not running, attempting restart", name)
-		if _, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id); err != nil {
+		w.config.Logger.Warningf(ctx, "container %q is not running (%s), attempting restart", name, status.State)
+		spec, err := w.buildContainerSpec(ctx, name)
+		if err != nil {
+			w.reportStatus(ctx, name, ContainerStatus{State: "crashed", Message: err.Error()})
+			continue
+		}
+		if err := w.config.Runtime.EnsureRunning(ctx, spec); err != nil {
 			w.reportStatus(ctx, name, ContainerStatus{State: "crashed", Message: err.Error()})
 			continue
 		}
@@ -289,307 +234,87 @@ func (w *Worker) reportStatus(ctx context.Context, containerName string, status 
 	}
 }
 
-// containerID returns the nerdctl container name for a given container.
+// containerID returns the runtime-unique container name for a given charm
+// container. The result only ever contains characters valid in an LXD
+// instance name (letters, digits and hyphens).
 func (w *Worker) containerID(containerName string) string {
 	// Use the unit's directory name as a unique prefix.
 	// DataDir is like /var/lib/juju/agents/unit-app-0
 	base := filepath.Base(w.config.DataDir)
-	return fmt.Sprintf("juju-%s-%s", base, containerName)
-}
-
-// pebbleSourcePaths is the ordered list of paths to search for the pebble
-// binary. The snap path is preferred; the /usr/lib/juju/bin fallback is for
-// deb/rpm installations.
-var pebbleSourcePaths = []string{
-	"/snap/juju/current/bin/pebble",
-	"/usr/lib/juju/bin/pebble",
-}
-
-// findPebbleSource returns the first existing pebble source path, or "" if none
-// are found. If PebbleSourcePath is set in config, that takes precedence.
-func (w *Worker) findPebbleSource() string {
-	if w.config.PebbleSourcePath != "" {
-		if _, err := os.Stat(w.config.PebbleSourcePath); err == nil {
-			return w.config.PebbleSourcePath
-		}
+	id := fmt.Sprintf("juju-%s-%s", base, containerName)
+	if len(id) <= 63 {
+		return id
 	}
-	for _, p := range pebbleSourcePaths {
-		if _, err := os.Stat(p); err == nil {
-			return p
-		}
-	}
-	return ""
-}
-
-// ensurePebbleBinary ensures the pebble binary is available in the unit's
-// charm/bin/ directory.
-func (w *Worker) ensurePebbleBinary(ctx context.Context) error {
-	destDir := filepath.Join(w.config.DataDir, "charm", "bin")
-	destPath := filepath.Join(destDir, "pebble")
-
-	// Check if already exists.
-	if _, err := os.Stat(destPath); err == nil {
-		return nil
-	}
-
-	sourcePath := w.findPebbleSource()
-	if sourcePath == "" {
-		return fmt.Errorf("pebble binary not found in any of %v", pebbleSourcePaths)
-	}
-
-	if err := os.MkdirAll(destDir, 0755); err != nil {
-		return fmt.Errorf("creating charm bin dir: %w", err)
-	}
-
-	// Copy the binary.
-	data, err := os.ReadFile(sourcePath)
-	if err != nil {
-		return fmt.Errorf("reading pebble binary: %w", err)
-	}
-	if err := os.WriteFile(destPath, data, 0755); err != nil {
-		return fmt.Errorf("writing pebble binary: %w", err)
-	}
-
-	w.config.Logger.Infof(ctx, "copied pebble binary from %s to %s", sourcePath, destPath)
-	return nil
-}
-
-// ensurePebbleCurrent checks if the pebble binary has been upgraded (e.g., after
-// a juju snap update). If the source and deployed binaries differ, it replaces
-// the deployed binary and sets pebbleUpgraded so containers are restarted.
-func (w *Worker) ensurePebbleCurrent(ctx context.Context) error {
-	sourcePath := w.findPebbleSource()
-	if sourcePath == "" {
-		// Source not available - skip check.
-		return nil
-	}
-	destPath := filepath.Join(w.config.DataDir, "charm", "bin", "pebble")
-
-	sourceHash, err := fileHash(sourcePath)
-	if err != nil {
-		return nil
-	}
-	destHash, err := fileHash(destPath)
-	if err != nil {
-		// Destination doesn't exist - ensurePebbleBinary should have handled this.
-		return nil
-	}
-
-	if sourceHash == destHash {
-		return nil
-	}
-
-	w.config.Logger.Infof(ctx, "pebble binary changed, updating deployed binary")
-	data, err := os.ReadFile(sourcePath)
-	if err != nil {
-		return fmt.Errorf("reading updated pebble binary: %w", err)
-	}
-	if err := os.WriteFile(destPath, data, 0755); err != nil {
-		return fmt.Errorf("writing updated pebble binary: %w", err)
-	}
-	w.pebbleUpgraded = true
-	return nil
-}
-
-// fileHash computes the SHA256 hash of a file.
-func fileHash(path string) (string, error) {
-	f, err := os.Open(path)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-	h := sha256.New()
-	if _, err := io.Copy(h, f); err != nil {
-		return "", err
-	}
-	return fmt.Sprintf("%x", h.Sum(nil)), nil
-}
-
-// ensureNerdctl checks that an OCI runtime CLI is available on the system.
-// It expects a containerd + nerdctl setup.
-func (w *Worker) ensureNerdctl(ctx context.Context) error {
-	if bin, ok := w.detectNerdctl(ctx); ok {
-		w.nerdctlBin = bin
-		return nil
-	}
-	return fmt.Errorf("no supported container runtime found in PATH or known locations")
-}
-
-func (w *Worker) detectNerdctl(ctx context.Context) (string, bool) {
-	if _, err := w.config.CommandRunner.Run(ctx, "nerdctl", "version"); err == nil {
-		return "nerdctl", true
-	}
-	if _, err := w.config.CommandRunner.Run(ctx, "/snap/bin/nerdctl", "version"); err == nil {
-		return "/snap/bin/nerdctl", true
-	}
-	if _, err := w.config.CommandRunner.Run(ctx, "/usr/lib/juju/bin/nerdctl", "version"); err == nil {
-		return "/usr/lib/juju/bin/nerdctl", true
-	}
-	if _, err := w.config.CommandRunner.Run(ctx, "/snap/juju/current/usr/lib/juju/bin/nerdctl", "version"); err == nil {
-		return "/snap/juju/current/usr/lib/juju/bin/nerdctl", true
-	}
-	local := filepath.Join(w.config.DataDir, "charm", "bin", "nerdctl")
-	if _, err := w.config.CommandRunner.Run(ctx, local, "version"); err == nil {
-		return local, true
-	}
-	return "", false
+	// Truncate and append a short hash to keep the name unique but within
+	// LXD's 63 character instance name limit.
+	sum := sha256.Sum256([]byte(id))
+	suffix := fmt.Sprintf("-%x", sum[:4])
+	return id[:63-len(suffix)] + suffix
 }
 
 // ensureContainerDirs creates the socket directory for the container.
 func (w *Worker) ensureContainerDirs(containerName string) error {
-	socketDir := filepath.Join(w.config.DataDir, "charm", "containers", containerName)
-	return os.MkdirAll(socketDir, 0755)
+	return os.MkdirAll(w.socketDir(containerName), 0755)
 }
 
-// ensureRunning checks if a container is running and starts it if not.
-func (w *Worker) ensureRunning(ctx context.Context, containerName string) error {
-	id := w.containerID(containerName)
-
-	// Check if already running.
-	running, err := w.isRunning(ctx, id)
-	if err == nil && running {
-		// If pebble was upgraded, force container replacement to pick up new binary.
-		if w.pebbleUpgraded || w.imageMismatch(ctx, id, containerName) {
-			w.config.Logger.Infof(ctx, "replacing container %q", containerName)
-			return w.replaceContainer(ctx, containerName)
-		}
-		w.config.Logger.Debugf(ctx, "container %q already running", containerName)
-		return nil
-	}
-
-	// Check if container exists but is stopped.
-	if w.isCreated(ctx, id) {
-		w.config.Logger.Infof(ctx, "starting existing container %q", containerName)
-		out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "start", id)
-		if err != nil {
-			return fmt.Errorf("starting container %q: %w (output: %s)", containerName, err, strings.TrimSpace(string(out)))
-		}
-		return nil
-	}
-
-	// Run a new container.
-	return w.runContainer(ctx, containerName)
+func (w *Worker) socketDir(containerName string) string {
+	return filepath.Join(w.config.DataDir, "charm", "containers", containerName)
 }
 
-func (w *Worker) replaceContainer(ctx context.Context, containerName string) error {
-	if err := w.stopContainer(ctx, containerName); err != nil {
-		return fmt.Errorf("stopping container for replacement: %w", err)
+// buildContainerSpec resolves the desired ContainerSpec for a charm
+// container, ready to be passed to the ContainerRuntime.
+func (w *Worker) buildContainerSpec(ctx context.Context, containerName string) (ContainerSpec, error) {
+	mounts, err := w.resolveMounts(ctx, containerName)
+	if err != nil {
+		return ContainerSpec{}, err
 	}
-	return w.runContainer(ctx, containerName)
+
+	return ContainerSpec{
+		Name:             w.containerID(containerName),
+		Pod:              filepath.Base(w.config.DataDir),
+		Image:            w.containerImageDetails(containerName),
+		PebbleBinaryPath: w.config.PebbleBinaryPath,
+		SocketDir:        w.socketDir(containerName),
+		Env: map[string]string{
+			"JUJU_CONTAINER_NAME": containerName,
+			"PEBBLE_SOCKET":       "/charm/container/pebble.socket",
+			"PEBBLE":              "/charm/container",
+			"PEBBLE_COPY_ONCE":    "/var/lib/pebble/default",
+		},
+		Mounts: mounts,
+	}, nil
 }
 
-func (w *Worker) imageMismatch(ctx context.Context, id, containerName string) bool {
+// defaultImage is used when the charm resource for a container has not
+// resolved to a specific OCI image reference.
+const defaultImage = "docker.io/library/ubuntu:22.04"
+
+func (w *Worker) containerImageDetails(containerName string) ImageDetails {
 	image, ok := w.config.ImageDetails[containerName]
 	if !ok || image.RegistryPath == "" {
-		return false
+		return ImageDetails{RegistryPath: defaultImage}
 	}
-	expected := image.RegistryPath
-	actual, err := w.currentImage(ctx, id)
-	if err != nil {
-		w.config.Logger.Warningf(ctx, "could not inspect image for container %q: %v", containerName, err)
-		return false
-	}
-	return actual != expected
+	return image
 }
 
-func (w *Worker) currentImage(ctx context.Context, id string) (string, error) {
-	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", "--format", "{{.Image}}", id)
-	if err != nil {
-		return "", err
-	}
-	return strings.TrimSpace(string(out)), nil
-}
-
-func (w *Worker) containerImage(containerName string) string {
-	if image, ok := w.config.ImageDetails[containerName]; ok && image.RegistryPath != "" {
-		return image.RegistryPath
-	}
-	return "ubuntu:22.04"
-}
-
-// runContainer starts a new container with nerdctl.
-func (w *Worker) runContainer(ctx context.Context, containerName string) error {
-	id := w.containerID(containerName)
-	pebbleBin := filepath.Join(w.config.DataDir, "charm", "bin", "pebble")
-	socketDir := filepath.Join(w.config.DataDir, "charm", "containers", containerName)
-
-	args := []string{
-		"run", "-d",
-		"--name", id,
-		"--network", "host",
-		"--restart", "unless-stopped",
-		"-v", fmt.Sprintf("%s:/charm/container", socketDir),
-		"-e", fmt.Sprintf("JUJU_CONTAINER_NAME=%s", containerName),
-		"-e", "PEBBLE_SOCKET=/charm/container/pebble.socket",
-		"-e", "PEBBLE=/charm/container",
-		"-e", "PEBBLE_COPY_ONCE=/var/lib/pebble/default",
-		"--entrypoint", "/charm/bin/pebble",
-	}
-	if _, err := os.Stat(pebbleBin); err == nil {
-		args = append(args, "-v", fmt.Sprintf("%s:/charm/bin/pebble:ro", pebbleBin))
-	} else {
-		w.config.Logger.Warningf(ctx, "local pebble binary %q not present; relying on image-provided /charm/bin/pebble", pebbleBin)
-	}
-	storageArgs, err := w.storageMountArgs(ctx, containerName)
-	if err != nil {
-		return err
-	}
-	args = append(args, storageArgs...)
-	args = append(args,
-		w.containerImage(containerName),
-		"run", "--create-dirs", "--hold", "--verbose",
-	)
-
-	w.config.Logger.Infof(ctx, "running container %q", containerName)
-	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), args...)
-	if err != nil {
-		return fmt.Errorf("running container %q: %w (output: %s)", containerName, err, strings.TrimSpace(string(out)))
-	}
-	return nil
-}
-
-func (w *Worker) storageMountArgs(ctx context.Context, containerName string) ([]string, error) {
+func (w *Worker) resolveMounts(ctx context.Context, containerName string) ([]ResolvedMount, error) {
 	if w.config.StorageResolver == nil {
 		return nil, nil
 	}
 	meta := w.config.CharmMeta[containerName]
-	args := make([]string, 0, len(meta.Mounts)*2)
+	mounts := make([]ResolvedMount, 0, len(meta.Mounts))
 	for _, mount := range meta.Mounts {
 		hostPath, err := w.config.StorageResolver.GetStorageMountPath(ctx, mount.StorageName)
 		if err != nil {
 			w.config.Logger.Warningf(ctx, "skipping storage mount %q for container %q: %v", mount.StorageName, containerName, err)
 			continue
 		}
-		args = append(args, "-v", fmt.Sprintf("%s:%s", hostPath, mount.Location))
+		mounts = append(mounts, ResolvedMount{HostPath: hostPath, Location: mount.Location})
 	}
-	return args, nil
+	return mounts, nil
 }
 
 // stopContainer gracefully stops and removes a container.
 func (w *Worker) stopContainer(ctx context.Context, containerName string) error {
-	id := w.containerID(containerName)
-
-	if !w.isCreated(ctx, id) {
-		return nil
-	}
-
-	w.config.Logger.Infof(ctx, "stopping container %q", containerName)
-	_, _ = w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "stop", "--time", "30", id)
-	_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "rm", id)
-	return err
-}
-
-// isRunning checks if a container is currently running.
-func (w *Worker) isRunning(ctx context.Context, id string) (bool, error) {
-	out, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", "--format", "{{.State.Running}}", id)
-	if err != nil {
-		return false, err
-	}
-	return strings.TrimSpace(string(out)) == "true", nil
-}
-
-// isCreated checks if a container exists (running or stopped).
-func (w *Worker) isCreated(ctx context.Context, id string) bool {
-	_, err := w.config.CommandRunner.Run(ctx, w.nerdctlCmd(), "inspect", id)
-	return err == nil
+	return w.config.Runtime.Stop(ctx, w.containerID(containerName))
 }

@@ -6,8 +6,6 @@ package iaascontainerrunner
 import (
 	"context"
 	"fmt"
-	"os/exec"
-	"strings"
 
 	"github.com/juju/names/v6"
 	"github.com/juju/worker/v5"
@@ -20,12 +18,25 @@ import (
 	"github.com/juju/juju/core/logger"
 )
 
+// defaultPebbleBinaryPath is the host path where the pebble snap installs
+// its binary. iaascontainerrunner mounts this binary directly into every
+// workload container; it never bundles or copies pebble itself, relying
+// instead on cloudinit provisioning to have installed the pebble snap.
+const defaultPebbleBinaryPath = "/snap/pebble/current/bin/pebble"
+
 // ManifoldConfig defines the configuration for the container runner manifold.
 type ManifoldConfig struct {
 	AgentName      string
 	APICallerName  string
 	ContainerNames []string
 	Logger         logger.Logger
+
+	// NewRuntime constructs the ContainerRuntime used to run workload
+	// containers. This is a factory, rather than a concrete value, kept
+	// out of this package to avoid a dependency on any specific container
+	// technology (e.g. the LXD+peel implementation in the lxdpeel
+	// sub-package) - callers wire in the implementation they want.
+	NewRuntime func() (ContainerRuntime, error)
 }
 
 // Manifold returns a dependency.Manifold that runs OCI containers for units.
@@ -95,26 +106,21 @@ func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller
 		}
 	}
 
+	if config.NewRuntime == nil {
+		return nil, fmt.Errorf("no container runtime configured")
+	}
+	runtime, err := config.NewRuntime()
+	if err != nil {
+		return nil, fmt.Errorf("creating container runtime: %w", err)
+	}
+
 	return New(Config{
-		Logger:         config.Logger,
-		DataDir:        agentConfig.Dir(),
-		ContainerNames: config.ContainerNames,
-		CharmMeta:      charmMeta,
-		ImageDetails:   imageDetails,
-		CommandRunner:  &defaultCommandRunner{},
+		Logger:           config.Logger,
+		DataDir:          agentConfig.Dir(),
+		ContainerNames:   config.ContainerNames,
+		CharmMeta:        charmMeta,
+		ImageDetails:     imageDetails,
+		Runtime:          runtime,
+		PebbleBinaryPath: defaultPebbleBinaryPath,
 	})
-}
-
-// defaultCommandRunner executes commands on the host system.
-type defaultCommandRunner struct{}
-
-func (r *defaultCommandRunner) Run(ctx context.Context, name string, args ...string) ([]byte, error) {
-	cmd := exec.CommandContext(ctx, name, args...)
-	return cmd.CombinedOutput()
-}
-
-func (r *defaultCommandRunner) RunStdin(ctx context.Context, stdin string, name string, args ...string) ([]byte, error) {
-	cmd := exec.CommandContext(ctx, name, args...)
-	cmd.Stdin = strings.NewReader(stdin)
-	return cmd.CombinedOutput()
 }

@@ -1,16 +1,21 @@
 // Copyright 2025 Canonical Ltd.
 // Licensed under the AGPLv3, see LICENCE file for details.
 
-// Package iaascontainerrunner manages OCI workload containers on IAAS VMs
-// using nerdctl/containerd. It provides the runtime environment needed for
-// FormatV2 (sidecar) charms to run on non-Kubernetes machines.
+// Package iaascontainerrunner manages OCI workload containers for units on
+// IAAS machines.
 //
-// For each container declared in the charm's metadata, the worker:
-//   - Resolves the OCI image from the charm's resources
-//   - Pulls the image via nerdctl
-//   - Runs the container with pebble as the entrypoint
-//   - Exposes the pebble socket for the uniter to connect to
+// Workload containers are declared in a charm's metadata (see
+// domain/deployment/charm.Meta.Containers); no "assumes" feature is
+// required to unlock this support. For each declared container, the Worker
+// resolves an OCI image from the charm's resources and asks a
+// ContainerRuntime to ensure a matching container is running, with the
+// host's pebble binary mounted in at /charm/bin/pebble and the pebble
+// socket exposed at a path the uniter can reach. ContainerRuntime
+// abstracts away the underlying container technology; the Worker itself
+// has no knowledge of it. The Worker is gated on a non-empty
+// ContainerNames list, and does nothing for traditional FormatV1 charms.
 //
-// The worker is gated on non-empty ContainerNames - it does nothing for
-// traditional FormatV1 charms or when no containers are declared.
+// See the lxdpeel sub-package for the LXD+peel ContainerRuntime
+// implementation used today. See domain/deployment/charm for the
+// Containers metadata that drives this package.
 package iaascontainerrunner

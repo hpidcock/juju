@@ -2,8 +2,10 @@
 # Manage universal charms
 
 Universal charms are Kubernetes-style charms with a `containers:` section that
-can also run on IAAS models. On IAAS, Juju runs each workload container with
-`nerdctl` and exposes the container's Pebble socket to the unit agent.
+can also run on IAAS models. On IAAS, Juju runs each workload container as its
+own LXD container using [peel](https://github.com/canonical/peel) to unpack
+and run the OCI image, and exposes the container's Pebble socket to the unit
+agent.
 
 See also: {ref}`Manage charms or bundles <manage-charms>`, {ref}`Manage charm resources <manage-charm-resources>`, {ref}`Manage storage <manage-storage>`.
 
@@ -24,24 +26,18 @@ juju deploy my-universal-charm
 
 Juju detects the charm's `containers:` metadata, starts the workload containers
 on the unit machine, and then runs the charm's Pebble hooks when the sockets are
-ready.
+ready. No `assumes` feature is required to unlock this: any IAAS machine that
+can run LXD is able to run a universal charm's containers.
 
 See more: {ref}`juju deploy <command-juju-deploy>`
 
-## Require container support in a charm
+## Container runtime requirements
 
-To require an IAAS model that supports workload containers, add the `containerd`
-feature to the charm's `assumes` expression:
-
-```text
-assumes:
-  - containerd
-```
-
-For IAAS models, Juju advertises this feature at deploy time. On the target
-machine, the unit worker installs and uses `nerdctl` to run OCI workload
-containers. If `nerdctl` cannot be installed or started, the unit reports a clear
-runtime error.
+On the target machine, Juju provisions LXD and installs the Pebble snap during
+cloud-init. The unit worker uses LXD, together with peel, to run each declared
+container, bind-mounting the host's Pebble binary into the container at
+`/charm/bin/pebble`. If LXD is not present or cannot be initialised, the unit
+reports a clear runtime error.
 
 ## View universal charm status
 
@@ -94,8 +90,9 @@ To view unit and workload logs, use `juju debug-log`:
 juju debug-log --include unit-my-universal-charm-0
 ```
 
-On IAAS, Juju tails container logs and forwards them to the Juju logging
-pipeline so workload output can be inspected alongside unit-agent logs.
+On IAAS, Juju polls each container's console log and forwards new output to the
+Juju logging pipeline so workload output can be inspected alongside unit-agent
+logs.
 
 See more: {ref}`juju debug-log <command-juju-debug-log>`
 
@@ -106,11 +103,11 @@ To troubleshoot a universal charm on IAAS, inspect these layers in order:
 1. Use `juju status` to check whether the unit is blocked, waiting, or active.
 2. Use `juju debug-log` to inspect unit-agent and workload-container logs.
 3. Use `juju exec --unit <unit> -- pebble services` to check Pebble connectivity.
-4. If container startup fails, inspect the unit machine for `nerdctl` and
-   container state.
+4. If container startup fails, inspect the unit machine's LXD containers with
+   `lxc list` and `lxc info <container>`.
 
 ```{warning}
-Avoid modifying Juju-managed containers directly with `nerdctl` except during
+Avoid modifying Juju-managed containers directly with `lxc` except during
 manual troubleshooting. Juju reconciles container state and may restart or
 replace containers when the unit worker restarts.
 ```

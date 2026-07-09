@@ -30,6 +30,7 @@ import (
 	"github.com/juju/juju/internal/worker/apiconfigwatcher"
 	"github.com/juju/juju/internal/worker/fortress"
 	"github.com/juju/juju/internal/worker/iaascontainerrunner"
+	"github.com/juju/juju/internal/worker/iaascontainerrunner/lxdpeel"
 	"github.com/juju/juju/internal/worker/leadership"
 	loggerworker "github.com/juju/juju/internal/worker/logger"
 	"github.com/juju/juju/internal/worker/logrouter"
@@ -267,13 +268,17 @@ func UnitManifolds(config UnitManifoldsConfig) dependency.Manifolds {
 
 		// The iaas-container-runner manages OCI workload containers for
 		// FormatV2 charms on IAAS machines. It is a no-op when
-		// ContainerNames is empty (standard IAAS charms).
+		// ContainerNames is empty (standard IAAS charms). Containers are
+		// run using LXD+peel; see the lxdpeel package for details.
 		iaasContainerRunnerName: ifNotMigrating(iaascontainerrunner.Manifold(
 			iaascontainerrunner.ManifoldConfig{
 				AgentName:      agentName,
 				APICallerName:  apiCallerName,
 				ContainerNames: config.ContainerNames,
 				Logger:         config.LoggerContext.GetLogger("juju.worker.iaascontainerrunner"),
+				NewRuntime: func() (iaascontainerrunner.ContainerRuntime, error) {
+					return lxdpeel.New()
+				},
 			},
 		)),
 
