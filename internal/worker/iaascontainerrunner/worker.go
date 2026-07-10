@@ -144,6 +144,19 @@ func (w *Worker) loop() error {
 	}
 
 	w.config.Logger.Infof(ctx, "all containers started, entering monitor loop")
+
+	// If the runtime implements PortProxyRunner, start it in a background
+	// goroutine under the worker's tomb so it is cancelled when the worker
+	// stops.
+	if runner, ok := w.config.Runtime.(PortProxyRunner); ok {
+		w.tomb.Go(func() error {
+			if err := runner.RunPortProxy(w.tomb.Context(context.Background())); err != nil {
+				w.config.Logger.Warningf(context.Background(), "port proxy stopped: %v", err)
+			}
+			return nil
+		})
+	}
+
 	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
 

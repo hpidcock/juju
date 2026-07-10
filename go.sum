@@ -128,6 +128,12 @@ github.com/canonical/lxd v0.0.0-20251125210512-b190d213bd11 h1:QOyXTFkf5zh/UezMu
 github.com/canonical/lxd v0.0.0-20251125210512-b190d213bd11/go.mod h1:vE1tA6TE1rvEzMcFKUfqh7BMhGH0vlkhYDy4YzeLHbM=
 github.com/canonical/pebble v1.26.0 h1:jsPJmHe/E5PU6epAoq8QC/U2itPsMX947/oP4zcsWCA=
 github.com/canonical/pebble v1.26.0/go.mod h1:HtGFWX2hq+/jxXHvN3ibXUAqFGCRXmT2e4jYkpZi/O0=
+github.com/canonical/peel v0.1.0 h1:yB0Wqmb75P7/HOdAJu43VEK/Ao4/eJHbr+BV+L/uMCk=
+github.com/canonical/peel v0.1.0/go.mod h1:EDCuJZJ8P91WO0CIOxWKa0HyOATxXb/2IjIiAblh9VI=
+github.com/canonical/peel v0.1.1 h1:mkVgn6w9viWTegfrXYXt8tCTnnPOgZeoeuAaoJFyEjA=
+github.com/canonical/peel v0.1.1/go.mod h1:EDCuJZJ8P91WO0CIOxWKa0HyOATxXb/2IjIiAblh9VI=
+github.com/canonical/peel v0.1.2 h1:D677W5eKgzCUeM/9CfjJunoOrW7337mzPkvmrwgtfv4=
+github.com/canonical/peel v0.1.2/go.mod h1:EDCuJZJ8P91WO0CIOxWKa0HyOATxXb/2IjIiAblh9VI=
 github.com/canonical/sqlair v0.0.0-20260218132926-bd54c4999dea h1:m9TQ00PXBFNgp11bl7CFz7vnywKEcmWd+o325Ff7PfY=
 github.com/canonical/sqlair v0.0.0-20260218132926-bd54c4999dea/go.mod h1:odcb8D8AbEICcCVrHjzQg9i2rmWoFMyRTd0bt2dOGUQ=
 github.com/canonical/x-go v0.0.0-20230522092633-7947a7587f5b h1:Da2fardddn+JDlVEYtrzBLTtyzoyU3nIS0Cf0GvjmwU=
@@ -502,6 +508,7 @@ github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.18.1 h1:bcSGx7UbpBqMChDtsF28Lw6v/G94LPrrbMbdC3JH2co=
 github.com/klauspost/compress v1.18.1/go.mod h1:ZQFFVG+MdnR0P+l6wpXgIL4NTtwiKIdBnrBd8Nrxr+0=
+github.com/klauspost/compress v1.19.0 h1:sXLILfc9jV2QYWkzFOPWStmcUVH2RHEB1JCdY2oVvCQ=
 github.com/kr/fs v0.1.0 h1:Jskdu9ieNAYnjxsi0LbQp1ulIKZV1LAFgK1tWhpZgl8=
 github.com/kr/fs v0.1.0/go.mod h1:FFnZGqtBN9Gxj7eW1uZ42v5BccTP0vu6NEaFoC2HwRg=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
@@ -637,6 +644,7 @@ github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8
 github.com/opencontainers/go-digest v1.0.0/go.mod h1:0JzlMkj0TRzQZfJkVvzbP0HBR3IKzErnv2BNG4W4MAM=
 github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799 h1:rc3tiVYb5z54aKaDfakKn0dDjIyPpTtszkjuMzyt7ec=
 github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799/go.mod h1:BtxoFyWECRxE4U/7sNtV5W15zMzWCbyJoFRP3s7yZA0=
+github.com/opencontainers/image-spec v1.1.1 h1:y0fUlFfIZhPF1W537XOLg0/fcx6zcHCJwooC2xJA040=
 github.com/opencontainers/runc v1.1.3 h1:vIXrkId+0/J2Ymu2m7VjGvbSlAId9XNRPhn2p4b+d8w=
 github.com/opencontainers/runc v1.1.3/go.mod h1:1J5XiS+vdZ3wCyZybsuxXZWGrgSr8fFJHLXuG2PsnNg=
 github.com/oracle/oci-go-sdk/v65 v65.55.0 h1:enKyHVLdJYDJrc9232w33u5F6t2p8Din4593kn3nh/w=
@@ -689,6 +697,8 @@ github.com/segmentio/asm v1.2.0 h1:9BQrFxC+YOHJlTlHGkTrFWf59nbL3XnCoFLTwDCI7ys=
 github.com/segmentio/asm v1.2.0/go.mod h1:BqMnlJP91P8d+4ibuonYZw9mfnzI9HfxselHZr5aAcs=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
+github.com/sirupsen/logrus v1.9.4 h1:TsZE7l11zFCLZnZ+teH4Umoq5BhEIfIzfRDZ1Uzql2w=
+github.com/sirupsen/logrus v1.9.4/go.mod h1:ftWc9WdOfJ0a92nsE2jF5u5ZwH8Bv2zdeOC42RjbV2g=
 github.com/sony/gobreaker v0.5.0 h1:dRCvqm0P490vZPmy7ppEk2qCnCieBooFJ+YoXGYB+yg=
 github.com/sony/gobreaker v0.5.0/go.mod h1:ZKptC7FHNvhBz7dN2LGjPVBz2sZJmc0/PkyDJOjmxWY=
 github.com/spf13/cobra v1.10.1/go.mod h1:7SmJGaTHFVBY0jW4NXGluQoLvhqFQM+6XSKD+P4XaB0=

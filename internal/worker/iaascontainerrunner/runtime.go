@@ -85,3 +85,13 @@ type ResolvedMount struct {
 	// at.
 	Location string
 }
+
+// PortProxyRunner is optionally implemented by a ContainerRuntime that can
+// automatically forward container listening ports onto the host. The
+// lxdpeel runtime implements this by watching each container's peel
+// lo-socket and managing LXD proxy devices accordingly.
+type PortProxyRunner interface {
+	// RunPortProxy starts watching container ports and managing host
+	// proxy devices, blocking until ctx is cancelled.
+	RunPortProxy(ctx context.Context) error
+}

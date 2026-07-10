@@ -324,6 +324,7 @@ type fakeServer struct {
 	mu          sync.Mutex
 	instances   map[string]*lxdapi.Instance
 	createCalls int
+	updateCalls int
 	startCalls  int
 	stopCalls   int
 	deleteCalls int
@@ -354,6 +355,19 @@ func (f *fakeServer) CreateInstance(instance lxdapi.InstancesPost) (lxdclient.Op
 	inst.Config = instance.InstancePut.Config
 	inst.Devices = instance.InstancePut.Devices
 	f.instances[instance.Name] = inst
+	return &fakeOperation{}, nil
+}
+
+func (f *fakeServer) UpdateInstance(name string, instance lxdapi.InstancePut, _ string) (lxdclient.Operation, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	inst, ok := f.instances[name]
+	if !ok {
+		return nil, lxdapi.StatusErrorf(http.StatusNotFound, "not found")
+	}
+	f.updateCalls++
+	inst.Config = instance.Config
+	inst.Devices = instance.Devices
 	return &fakeOperation{}, nil
 }
 

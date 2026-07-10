@@ -67,6 +67,7 @@ var isNestedLXDContainer = func() bool {
 type instanceServer interface {
 	GetInstance(name string) (*lxdapi.Instance, string, error)
 	CreateInstance(instance lxdapi.InstancesPost) (lxdclient.Operation, error)
+	UpdateInstance(name string, instance lxdapi.InstancePut, ETag string) (lxdclient.Operation, error)
 	UpdateInstanceState(name string, state lxdapi.InstanceStatePut, ETag string) (lxdclient.Operation, error)
 	DeleteInstance(name string) (lxdclient.Operation, error)
 	GetInstanceState(name string) (*lxdapi.InstanceState, string, error)
@@ -432,7 +433,7 @@ func isManagedDeviceName(name string) bool {
 	case "charm-container", "pebble-bin", "peel-lo":
 		return true
 	default:
-		return strings.HasPrefix(name, "storage-")
+		return strings.HasPrefix(name, "storage-") || strings.HasPrefix(name, "port-proxy-")
 	}
 }
 

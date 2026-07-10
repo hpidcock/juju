@@ -14,6 +14,7 @@ import (
 	time "time"
 
 	gomock "github.com/canonical/gomock/gomock"
+
 	application "github.com/juju/juju/core/application"
 	blockdevice "github.com/juju/juju/core/blockdevice"
 	instance "github.com/juju/juju/core/instance"
