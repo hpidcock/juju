@@ -5,6 +5,7 @@ package iaascontainerrunner
 
 import (
 	"context"
+	"io"
 	"strings"
 
 	"github.com/juju/errors"
@@ -14,6 +15,7 @@ import (
 	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/core/resource"
 	domainresource "github.com/juju/juju/domain/deployment/charm/resource"
+	"github.com/juju/juju/internal/docker"
 	"github.com/juju/juju/rpc/params"
 )
 
@@ -45,18 +47,22 @@ type ResourceInfo struct {
 }
 
 // GetContainerResourceInfo returns OCI image details for the named resource.
-// Returns nil if the resource is not found or is not an OCI image.
+// It tries the resource name directly, then common suffixed variants used by
+// charm authors to name OCI image resources.
+// Returns errors.NotFound if no matching OCI image resource can be resolved.
 func (c *Client) GetContainerResourceInfo(ctx context.Context, resourceName string) (*ResourceInfo, error) {
 	candidates := []string{resourceName, resourceName + "-image", resourceName + "_image"}
 	for _, candidate := range candidates {
-		res, _, err := c.resources.GetResource(ctx, candidate)
+		res, body, err := c.resources.GetResource(ctx, candidate)
 		if err != nil {
 			if isResourceNotFound(err) {
 				continue
 			}
 			return nil, errors.Trace(err)
 		}
-		info, err := resourceInfoFromResource(res)
+		info, err := resourceInfoFromBody(res, body)
+		// Always close after reading, regardless of outcome.
+		body.Close()
 		if err != nil {
 			return nil, err
 		}
@@ -66,7 +72,7 @@ func (c *Client) GetContainerResourceInfo(ctx context.Context, resourceName stri
 	}
 
 	// No matching OCI resource found for this container.
-	return nil, nil
+	return nil, errors.NotFoundf("OCI image resource for container %q", resourceName)
 }
 
 func isResourceNotFound(err error) bool {
@@ -76,15 +82,25 @@ func isResourceNotFound(err error) bool {
 	return strings.Contains(strings.ToLower(err.Error()), "resource not found")
 }
 
-// resourceInfoFromResource extracts OCI image details from a resource.Resource.
-func resourceInfoFromResource(res resource.Resource) (*ResourceInfo, error) {
+// resourceInfoFromBody extracts OCI image details from a resource response.
+// For container image resources the HTTP response body contains a JSON-encoded
+// docker.DockerImageDetails value produced by the container image metadata
+// service; all other resource types return nil.
+func resourceInfoFromBody(res resource.Resource, body io.Reader) (*ResourceInfo, error) {
 	if res.Type != domainresource.TypeContainerImage {
 		return nil, nil
 	}
-	// The OCI image registry path is embedded in the resource metadata
-	// from the charm store. For OCI image resources, the Path field in
-	// Meta holds the registry path.
+	data, err := io.ReadAll(body)
+	if err != nil {
+		return nil, errors.Annotate(err, "reading container image resource body")
+	}
+	details, err := docker.UnmarshalDockerResource(data)
+	if err != nil {
+		return nil, errors.Annotate(err, "parsing container image resource")
+	}
 	return &ResourceInfo{
-		RegistryPath: res.Path,
+		RegistryPath: details.RegistryPath,
+		Username:     details.Username,
+		Password:     details.Password,
 	}, nil
 }
