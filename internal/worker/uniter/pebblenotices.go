@@ -24,7 +24,6 @@ type pebbleNoticer struct {
 	workloadEventChan chan string
 	workloadEvents    container.WorkloadEvents
 	newPebbleClient   NewPebbleClientFunc
-	socketPathFunc    func(containerName string) string
 
 	tomb tomb.Tomb
 }
@@ -39,27 +38,10 @@ func NewPebbleNoticer(
 	workloadEvents container.WorkloadEvents,
 	newPebbleClient NewPebbleClientFunc,
 ) worker.Worker {
-	return NewPebbleNoticerWithSocketPath(logger, clock, containerNames, workloadEventChan, workloadEvents, newPebbleClient, nil)
-}
-
-// NewPebbleNoticerWithSocketPath starts a worker that watches Pebble notices
-// using a configurable socket path resolver.
-func NewPebbleNoticerWithSocketPath(
-	logger logger.Logger,
-	clock clock.Clock,
-	containerNames []string,
-	workloadEventChan chan string,
-	workloadEvents container.WorkloadEvents,
-	newPebbleClient NewPebbleClientFunc,
-	socketPathFunc func(containerName string) string,
-) worker.Worker {
 	if newPebbleClient == nil {
 		newPebbleClient = func(config *client.Config) (PebbleClient, error) {
 			return client.New(config)
 		}
-	}
-	if socketPathFunc == nil {
-		socketPathFunc = defaultPebbleSocketPath
 	}
 	noticer := &pebbleNoticer{
 		logger:            logger,
@@ -67,7 +49,6 @@ func NewPebbleNoticerWithSocketPath(
 		workloadEventChan: workloadEventChan,
 		workloadEvents:    workloadEvents,
 		newPebbleClient:   newPebbleClient,
-		socketPathFunc:    socketPathFunc,
 	}
 	for _, name := range containerNames {
 		noticer.tomb.Go(func() error {
@@ -99,7 +80,7 @@ func (n *pebbleNoticer) run(containerName string) (err error) {
 	n.logger.Debugf(ctx, "container %q: pebbleNoticer starting", containerName)
 	defer n.logger.Debugf(ctx, "container %q: pebbleNoticer stopped, error %v", containerName, err)
 
-	config := newPebbleConfig(n.socketPathFunc(containerName))
+	config := newPebbleConfig(containerName)
 	pebbleClient, err := n.newPebbleClient(config)
 	if err != nil {
 		return errors.Trace(err)
