@@ -273,7 +273,6 @@ func UnitManifolds(config UnitManifoldsConfig) dependency.Manifolds {
 		iaasContainerRunnerName: ifNotMigrating(iaascontainerrunner.Manifold(
 			iaascontainerrunner.ManifoldConfig{
 				AgentName:      agentName,
-				APICallerName:  apiCallerName,
 				ContainerNames: config.ContainerNames,
 				Logger:         config.LoggerContext.GetLogger("juju.worker.iaascontainerrunner"),
 				NewRuntime: func(dataDir string) (iaascontainerrunner.ContainerRuntime, error) {

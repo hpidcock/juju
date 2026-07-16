@@ -39,8 +39,12 @@ type ResolverConfig struct {
 	Storage             resolver.Resolver
 	Commands            resolver.Resolver
 	Secrets             resolver.Resolver
-	OptionalResolvers   []resolver.Resolver
-	Logger              logger.Logger
+	// Container is an optional resolver that manages IAAS workload container
+	// lifecycle. When non-nil it runs after the Storage resolver so that all
+	// storage attachments are available before containers are started.
+	Container         resolver.Resolver
+	OptionalResolvers []resolver.Resolver
+	Logger            logger.Logger
 }
 
 type uniterResolver struct {
@@ -148,6 +152,14 @@ func (s *uniterResolver) NextOp(
 	op, err = s.config.Storage.NextOp(ctx, localState, remoteState, opFactory)
 	if errors.Cause(err) != resolver.ErrNoOperation {
 		return op, err
+	}
+
+	if s.config.Container != nil {
+		badge = "container"
+		op, err = s.config.Container.NextOp(ctx, localState, remoteState, opFactory)
+		if errors.Cause(err) != resolver.ErrNoOperation {
+			return op, err
+		}
 	}
 
 	// If we are to shut down, we don't want to start running any more queued/pending hooks.

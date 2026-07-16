@@ -72,8 +72,7 @@ func (s *workerSuite) TestEnsureRunningStartsContainer(c *tc.C) {
 	})
 	c.Assert(err, tc.ErrorIsNil)
 
-	w.Kill()
-	err = w.Wait()
+	err = w.EnsureContainers(c.Context(), RunnerConfig{})
 	c.Assert(err, tc.ErrorIsNil)
 
 	id := w.containerID("mycontainer")
@@ -82,6 +81,9 @@ func (s *workerSuite) TestEnsureRunningStartsContainer(c *tc.C) {
 	c.Check(spec.PebbleBinaryPath, tc.Equals, "/snap/pebble/current/bin/pebble")
 	c.Check(spec.Image.RegistryPath, tc.Equals, defaultImage)
 	c.Check(runtime.ensureCalls[id], tc.Equals, 1)
+
+	w.Kill()
+	c.Assert(w.Wait(), tc.ErrorIsNil)
 }
 
 func (s *workerSuite) TestStopContainerOnShutdown(c *tc.C) {
@@ -96,6 +98,14 @@ func (s *workerSuite) TestStopContainerOnShutdown(c *tc.C) {
 		Runtime:             runtime,
 		ContainerSocketRoot: socketRoot,
 	})
+	c.Assert(err, tc.ErrorIsNil)
+
+	errc := make(chan error, 1)
+	go func() {
+		errc <- w.EnsureContainers(c.Context(), RunnerConfig{})
+	}()
+	// Wait for EnsureContainers to complete, then kill.
+	err = <-errc
 	c.Assert(err, tc.ErrorIsNil)
 
 	w.Kill()
@@ -141,7 +151,7 @@ func (s *workerSuite) TestMonitorContainersReportsRunning(c *tc.C) {
 	id := w.containerID("workload")
 	runtime.statuses[id] = ContainerStatus{State: "running", Message: "container running"}
 
-	w.monitorContainers(c.Context())
+	w.monitorContainers(c.Context(), RunnerConfig{})
 	c.Assert(reporter.statuses, tc.HasLen, 1)
 	c.Assert(reporter.statuses[0].State, tc.Equals, "running")
 }
@@ -162,7 +172,7 @@ func (s *workerSuite) TestMonitorContainersRestartsStopped(c *tc.C) {
 	id := w.containerID("workload")
 	runtime.statuses[id] = ContainerStatus{State: "stopped", Message: "container does not exist"}
 
-	w.monitorContainers(c.Context())
+	w.monitorContainers(c.Context(), RunnerConfig{})
 	c.Assert(runtime.ensureCalls[id], tc.Equals, 1)
 	c.Assert(reporter.statuses, tc.HasLen, 1)
 	c.Assert(reporter.statuses[0].Message, tc.Equals, "container restarted")
@@ -177,16 +187,18 @@ func (s *workerSuite) TestResolveMounts(c *tc.C) {
 	w := &Worker{
 		config: Config{
 			Logger: loggertesting.WrapCheckLog(c),
-			CharmMeta: map[string]ContainerMeta{
-				"workload": {
-					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
-				},
-			},
-			StorageResolver: resolver,
 		},
 	}
 
-	mounts, err := w.resolveMounts(c.Context(), "workload")
+	runnerCfg := RunnerConfig{
+		CharmMeta: map[string]ContainerMeta{
+			"workload": {
+				Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+			},
+		},
+		StorageResolver: resolver,
+	}
+	mounts, err := w.resolveMounts(c.Context(), "workload", runnerCfg)
 	c.Assert(err, tc.ErrorIsNil)
 	c.Assert(mounts, tc.DeepEquals, []ResolvedMount{{HostPath: "/var/lib/juju/storage/data/0", Location: "/data"}})
 }
@@ -196,16 +208,18 @@ func (s *workerSuite) TestResolveMountsSkipsMissingStorage(c *tc.C) {
 	w := &Worker{
 		config: Config{
 			Logger: loggertesting.WrapCheckLog(c),
-			CharmMeta: map[string]ContainerMeta{
-				"workload": {
-					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
-				},
-			},
-			StorageResolver: resolver,
 		},
 	}
 
-	mounts, err := w.resolveMounts(c.Context(), "workload")
+	runnerCfg := RunnerConfig{
+		CharmMeta: map[string]ContainerMeta{
+			"workload": {
+				Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+			},
+		},
+		StorageResolver: resolver,
+	}
+	mounts, err := w.resolveMounts(c.Context(), "workload", runnerCfg)
 	c.Assert(err, tc.ErrorIsNil)
 	c.Assert(mounts, tc.HasLen, 0)
 }
@@ -221,19 +235,22 @@ func (s *workerSuite) TestBuildContainerSpecIncludesResolvedMounts(c *tc.C) {
 			Logger:              loggertesting.WrapCheckLog(c),
 			DataDir:             "/var/lib/juju/agents/unit-mysql-0",
 			ContainerSocketRoot: "/",
-			CharmMeta: map[string]ContainerMeta{
-				"workload": {
-					Mounts: []Mount{{StorageName: "data", Location: "/data"}},
-				},
-			},
-			StorageResolver: resolver,
-			ImageDetails: map[string]ImageDetails{
-				"workload": {RegistryPath: "docker.io/library/nginx:1.27"},
-			},
 		},
 	}
 
-	spec, err := w.buildContainerSpec(c.Context(), "workload")
+	runnerCfg := RunnerConfig{
+		CharmMeta: map[string]ContainerMeta{
+			"workload": {
+				Mounts: []Mount{{StorageName: "data", Location: "/data"}},
+			},
+		},
+		StorageResolver: resolver,
+		ImageDetails: map[string]ImageDetails{
+			"workload": {RegistryPath: "docker.io/library/nginx:1.27"},
+		},
+	}
+
+	spec, err := w.buildContainerSpec(c.Context(), "workload", runnerCfg)
 	c.Assert(err, tc.ErrorIsNil)
 	c.Check(spec.Image.RegistryPath, tc.Equals, "docker.io/library/nginx:1.27")
 	c.Check(spec.Mounts, tc.DeepEquals, []ResolvedMount{{HostPath: "/var/lib/juju/storage/data/0", Location: "/data"}})
@@ -251,6 +268,36 @@ func (s *workerSuite) TestManifoldEmptyContainerNames(c *tc.C) {
 	// Start should return ErrMissing.
 	_, err := m.Start(c.Context(), nil)
 	c.Assert(err, tc.Equals, dependency.ErrMissing)
+}
+
+func (s *workerSuite) TestEnsureContainersStartsAndWaits(c *tc.C) {
+	dataDir := c.MkDir()
+	socketRoot := c.MkDir()
+	runtime := newFakeRuntime()
+
+	w, err := New(Config{
+		Logger:              loggertesting.WrapCheckLog(c),
+		DataDir:             dataDir,
+		ContainerNames:      []string{"mycontainer"},
+		Runtime:             runtime,
+		ContainerSocketRoot: socketRoot,
+	})
+	c.Assert(err, tc.ErrorIsNil)
+
+	err = w.EnsureContainers(c.Context(), RunnerConfig{})
+	c.Assert(err, tc.ErrorIsNil)
+
+	id := w.containerID("mycontainer")
+	c.Check(runtime.ensureCalls[id], tc.Equals, 1)
+
+	// Second call recreates containers.
+	err = w.EnsureContainers(c.Context(), RunnerConfig{})
+	c.Assert(err, tc.ErrorIsNil)
+	c.Check(runtime.ensureCalls[id], tc.Equals, 2)
+	c.Check(runtime.stopCalls[id], tc.Equals, 1)
+
+	w.Kill()
+	c.Assert(w.Wait(), tc.ErrorIsNil)
 }
 
 // fakeRuntime is a test double for ContainerRuntime.

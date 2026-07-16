@@ -7,14 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/juju/names/v6"
 	"github.com/juju/worker/v5"
 	"github.com/juju/worker/v5/dependency"
 
 	"github.com/juju/juju/agent"
 	"github.com/juju/juju/agent/engine"
-	apiclient "github.com/juju/juju/api/agent/iaascontainerrunner"
-	"github.com/juju/juju/api/base"
 	"github.com/juju/juju/core/logger"
 )
 
@@ -27,7 +24,6 @@ const defaultPebbleBinaryPath = "/snap/pebble/current/bin/pebble"
 // ManifoldConfig defines the configuration for the container runner manifold.
 type ManifoldConfig struct {
 	AgentName      string
-	APICallerName  string
 	ContainerNames []string
 	Logger         logger.Logger
 
@@ -54,59 +50,29 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 		}
 	}
 
-	m := engine.AgentAPIManifold(engine.AgentAPIManifoldConfig{
-		AgentName:     config.AgentName,
-		APICallerName: config.APICallerName,
+	m := engine.AgentManifold(engine.AgentManifoldConfig{
+		AgentName: config.AgentName,
 	}, config.start)
 	m.Output = output
 	return m
 }
 
 func output(in worker.Worker, out any) error {
+	w, ok := in.(*Worker)
+	if !ok {
+		return fmt.Errorf("expected *Worker, got %T", in)
+	}
 	switch outPtr := out.(type) {
-	case *worker.Worker:
-		*outPtr = in
+	case *Runner:
+		*outPtr = w
 	default:
-		return fmt.Errorf("expected *worker.Worker output, got %T", out)
+		return fmt.Errorf("expected *Runner output, got %T", out)
 	}
 	return nil
 }
 
-func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller base.APICaller) (worker.Worker, error) {
+func (config ManifoldConfig) start(a agent.Agent) (worker.Worker, error) {
 	agentConfig := a.CurrentConfig()
-	unitTag, err := names.ParseUnitTag(agentConfig.Tag().String())
-	if err != nil {
-		return nil, fmt.Errorf("invalid unit tag %q: %w", agentConfig.Tag(), err)
-	}
-
-	// Resolve charm container resources via the uniter's resources API.
-	client, err := apiclient.NewClient(apiCaller, unitTag)
-	if err != nil {
-		return nil, fmt.Errorf("creating iaas container runner client: %w", err)
-	}
-
-	// Resolve image details and charm metadata for each container.
-	imageDetails := make(map[string]ImageDetails, len(config.ContainerNames))
-	charmMeta := make(map[string]ContainerMeta, len(config.ContainerNames))
-
-	for _, name := range config.ContainerNames {
-		info, err := client.GetContainerResourceInfo(ctx, name)
-		if err != nil {
-			config.Logger.Warningf(ctx, "could not get resource info for container %q: %v", name, err)
-			charmMeta[name] = ContainerMeta{ResourceName: name}
-			continue
-		}
-		if info != nil {
-			imageDetails[name] = ImageDetails{
-				RegistryPath: info.RegistryPath,
-				Username:     info.Username,
-				Password:     info.Password,
-			}
-		}
-		if charmMeta[name].ResourceName == "" {
-			charmMeta[name] = ContainerMeta{ResourceName: name}
-		}
-	}
 
 	if config.NewRuntime == nil {
 		return nil, fmt.Errorf("no container runtime configured")
@@ -120,8 +86,6 @@ func (config ManifoldConfig) start(ctx context.Context, a agent.Agent, apiCaller
 		Logger:           config.Logger,
 		DataDir:          agentConfig.Dir(),
 		ContainerNames:   config.ContainerNames,
-		CharmMeta:        charmMeta,
-		ImageDetails:     imageDetails,
 		Runtime:          runtime,
 		PebbleBinaryPath: defaultPebbleBinaryPath,
 	})

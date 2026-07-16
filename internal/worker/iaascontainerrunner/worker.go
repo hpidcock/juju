@@ -16,15 +16,42 @@ import (
 	"github.com/juju/juju/core/logger"
 )
 
+// Runner is the interface exposed to the uniter for controlling workload
+// containers.
+type Runner interface {
+	// EnsureContainers creates or re-creates workload containers with the
+	// given configuration. It blocks until all containers are running or
+	// returns an error. Calling it again with a new config (e.g. after a
+	// charm upgrade) stops existing containers and starts new ones.
+	EnsureContainers(ctx context.Context, cfg RunnerConfig) error
+}
+
+// RunnerConfig is the per-deployment configuration provided by the uniter
+// when it is ready to start or update workload containers.
+type RunnerConfig struct {
+	// CharmMeta contains the storage mount declarations for each container,
+	// keyed by container name.
+	CharmMeta map[string]ContainerMeta
+	// ImageDetails contains OCI image pull credentials for each container,
+	// keyed by container name.
+	ImageDetails map[string]ImageDetails
+	// StorageResolver resolves charm storage names to host mount paths.
+	StorageResolver StorageResolver
+}
+
+// configRequest is sent on the configCh channel when EnsureContainers is
+// called.
+type configRequest struct {
+	cfg      RunnerConfig
+	resultCh chan error
+}
+
 // Config holds the configuration for the container runner worker.
 type Config struct {
 	Logger           logger.Logger
 	DataDir          string
 	ContainerNames   []string
-	CharmMeta        map[string]ContainerMeta
-	ImageDetails     map[string]ImageDetails
 	Runtime          ContainerRuntime
-	StorageResolver  StorageResolver
 	StatusReporter   StatusReporter
 	LogSink          LogSink
 	PebbleBinaryPath string // host path of the pebble binary to mount into every container
@@ -98,7 +125,10 @@ type Worker struct {
 	tomb       tomb.Tomb
 	config     Config
 	logCancels map[string]context.CancelFunc
+	configCh   chan configRequest
 }
+
+var _ Runner = (*Worker)(nil)
 
 // New creates and starts a new container runner worker.
 func New(config Config) (*Worker, error) {
@@ -111,6 +141,7 @@ func New(config Config) (*Worker, error) {
 	w := &Worker{
 		config:     config,
 		logCancels: make(map[string]context.CancelFunc),
+		configCh:   make(chan configRequest, 1),
 	}
 	w.tomb.Go(w.loop)
 	return w, nil
@@ -126,21 +157,47 @@ func (w *Worker) Wait() error {
 	return w.tomb.Wait()
 }
 
+// EnsureContainers creates or re-creates workload containers with the given
+// configuration. It blocks until all containers are running or an error
+// occurs.
+func (w *Worker) EnsureContainers(ctx context.Context, cfg RunnerConfig) error {
+	req := configRequest{
+		cfg:      cfg,
+		resultCh: make(chan error, 1),
+	}
+	select {
+	case w.configCh <- req:
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-w.tomb.Dying():
+		return w.tomb.Err()
+	}
+	select {
+	case err := <-req.resultCh:
+		return err
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-w.tomb.Dying():
+		return w.tomb.Err()
+	}
+}
+
 func (w *Worker) loop() error {
 	ctx := w.tomb.Context(context.Background())
 
-	for _, name := range w.config.ContainerNames {
-		if err := w.ensureContainerDirs(name); err != nil {
-			return fmt.Errorf("creating container dirs for %q: %w", name, err)
+	// Wait for the initial configuration from the uniter before starting any
+	// containers. The uniter calls EnsureContainers once storage is ready.
+	var currentCfg RunnerConfig
+	select {
+	case <-w.tomb.Dying():
+		return tomb.ErrDying
+	case req := <-w.configCh:
+		currentCfg = req.cfg
+		if err := w.startAllContainers(ctx, currentCfg); err != nil {
+			req.resultCh <- fmt.Errorf("starting containers: %w", err)
+			return fmt.Errorf("starting containers: %w", err)
 		}
-		spec, err := w.buildContainerSpec(ctx, name)
-		if err != nil {
-			return fmt.Errorf("building container spec for %q: %w", name, err)
-		}
-		if err := w.config.Runtime.EnsureRunning(ctx, spec); err != nil {
-			return fmt.Errorf("ensuring container %q running: %w", name, err)
-		}
-		w.startLogTailing(name)
+		req.resultCh <- nil
 	}
 
 	w.config.Logger.Infof(ctx, "all containers started, entering monitor loop")
@@ -171,10 +228,51 @@ func (w *Worker) loop() error {
 				}
 			}
 			return tomb.ErrDying
+
+		case req := <-w.configCh:
+			// A new config has arrived (e.g. charm upgrade). Recreate all
+			// containers with the new configuration.
+			currentCfg = req.cfg
+			if err := w.recreateAllContainers(ctx, currentCfg); err != nil {
+				w.config.Logger.Errorf(ctx, "recreating containers: %v", err)
+				req.resultCh <- err
+			} else {
+				req.resultCh <- nil
+			}
+
 		case <-ticker.C:
-			w.monitorContainers(ctx)
+			w.monitorContainers(ctx, currentCfg)
 		}
 	}
+}
+
+// startAllContainers creates and starts all configured containers.
+func (w *Worker) startAllContainers(ctx context.Context, cfg RunnerConfig) error {
+	for _, name := range w.config.ContainerNames {
+		if err := w.ensureContainerDirs(name); err != nil {
+			return fmt.Errorf("creating container dirs for %q: %w", name, err)
+		}
+		spec, err := w.buildContainerSpec(ctx, name, cfg)
+		if err != nil {
+			return fmt.Errorf("building container spec for %q: %w", name, err)
+		}
+		if err := w.config.Runtime.EnsureRunning(ctx, spec); err != nil {
+			return fmt.Errorf("ensuring container %q running: %w", name, err)
+		}
+		w.startLogTailing(name)
+	}
+	return nil
+}
+
+// recreateAllContainers stops all existing containers and starts them with
+// the new configuration. This is used for charm upgrades.
+func (w *Worker) recreateAllContainers(ctx context.Context, cfg RunnerConfig) error {
+	for _, name := range w.config.ContainerNames {
+		if err := w.stopContainer(ctx, name); err != nil {
+			w.config.Logger.Warningf(ctx, "stopping container %q during recreate: %v", name, err)
+		}
+	}
+	return w.startAllContainers(ctx, cfg)
 }
 
 func (w *Worker) startLogTailing(containerName string) {
@@ -218,7 +316,7 @@ func (c containerLogSink) Log(_ string, timestamp time.Time, message string) {
 	c.sink.Log(c.name, timestamp, message)
 }
 
-func (w *Worker) monitorContainers(ctx context.Context) {
+func (w *Worker) monitorContainers(ctx context.Context, cfg RunnerConfig) {
 	for _, name := range w.config.ContainerNames {
 		id := w.containerID(name)
 		status, err := w.config.Runtime.Status(ctx, id)
@@ -232,7 +330,7 @@ func (w *Worker) monitorContainers(ctx context.Context) {
 		}
 
 		w.config.Logger.Warningf(ctx, "container %q is not running (%s), attempting restart", name, status.State)
-		spec, err := w.buildContainerSpec(ctx, name)
+		spec, err := w.buildContainerSpec(ctx, name, cfg)
 		if err != nil {
 			w.reportStatus(ctx, name, ContainerStatus{State: "crashed", Message: err.Error()})
 			continue
@@ -298,8 +396,8 @@ func (w *Worker) socketDir(containerName string) string {
 
 // buildContainerSpec resolves the desired ContainerSpec for a charm
 // container, ready to be passed to the ContainerRuntime.
-func (w *Worker) buildContainerSpec(ctx context.Context, containerName string) (ContainerSpec, error) {
-	mounts, err := w.resolveMounts(ctx, containerName)
+func (w *Worker) buildContainerSpec(ctx context.Context, containerName string, cfg RunnerConfig) (ContainerSpec, error) {
+	mounts, err := w.resolveMounts(ctx, containerName, cfg)
 	if err != nil {
 		return ContainerSpec{}, err
 	}
@@ -307,7 +405,7 @@ func (w *Worker) buildContainerSpec(ctx context.Context, containerName string) (
 	return ContainerSpec{
 		Name:             w.containerID(containerName),
 		Pod:              filepath.Base(w.config.DataDir),
-		Image:            w.containerImageDetails(containerName),
+		Image:            w.containerImageDetails(containerName, cfg),
 		PebbleBinaryPath: w.config.PebbleBinaryPath,
 		SocketDir:        w.socketDir(containerName),
 		Env: map[string]string{
@@ -324,22 +422,22 @@ func (w *Worker) buildContainerSpec(ctx context.Context, containerName string) (
 // resolved to a specific OCI image reference.
 const defaultImage = "docker.io/library/ubuntu:22.04"
 
-func (w *Worker) containerImageDetails(containerName string) ImageDetails {
-	image, ok := w.config.ImageDetails[containerName]
+func (w *Worker) containerImageDetails(containerName string, cfg RunnerConfig) ImageDetails {
+	image, ok := cfg.ImageDetails[containerName]
 	if !ok || image.RegistryPath == "" {
 		return ImageDetails{RegistryPath: defaultImage}
 	}
 	return image
 }
 
-func (w *Worker) resolveMounts(ctx context.Context, containerName string) ([]ResolvedMount, error) {
-	if w.config.StorageResolver == nil {
+func (w *Worker) resolveMounts(ctx context.Context, containerName string, cfg RunnerConfig) ([]ResolvedMount, error) {
+	if cfg.StorageResolver == nil {
 		return nil, nil
 	}
-	meta := w.config.CharmMeta[containerName]
+	meta := cfg.CharmMeta[containerName]
 	mounts := make([]ResolvedMount, 0, len(meta.Mounts))
 	for _, mount := range meta.Mounts {
-		hostPath, err := w.config.StorageResolver.GetStorageMountPath(ctx, mount.StorageName)
+		hostPath, err := cfg.StorageResolver.GetStorageMountPath(ctx, mount.StorageName)
 		if err != nil {
 			w.config.Logger.Warningf(ctx, "skipping storage mount %q for container %q: %v", mount.StorageName, containerName, err)
 			continue

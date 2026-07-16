@@ -28,6 +28,7 @@ import (
 	coretrace "github.com/juju/juju/core/trace"
 	jworker "github.com/juju/juju/internal/worker"
 	"github.com/juju/juju/internal/worker/fortress"
+	"github.com/juju/juju/internal/worker/iaascontainerrunner"
 	"github.com/juju/juju/internal/worker/uniter/actions"
 	"github.com/juju/juju/internal/worker/uniter/api"
 	"github.com/juju/juju/internal/worker/uniter/charm"
@@ -123,6 +124,14 @@ type Uniter struct {
 	// unit agent.
 	containerNames []string
 
+	// containerRunner manages workload containers for IAAS charms.
+	containerRunner iaascontainerrunner.Runner
+	// containerImageClient fetches OCI image details for container resources.
+	containerImageClient containerImageFetcher
+	// containersStartedVersion is the charm modified version for which
+	// containers were last successfully started (-1 = never).
+	containersStartedVersion int
+
 	workloadEvents       container.WorkloadEvents
 	workloadEventChannel chan string
 
@@ -181,6 +190,13 @@ type UniterParams struct {
 	ContainerNames               []string
 	NewPebbleClient              NewPebbleClientFunc
 	Tracer                       coretrace.Tracer
+	// ContainerRunner is the runner used to start and recreate IAAS workload
+	// containers. It is passed from the manifold after the iaascontainerrunner
+	// worker starts.
+	ContainerRunner iaascontainerrunner.Runner
+	// ContainerImageClient fetches OCI image details for container resources.
+	// Required when ContainerRunner is non-nil.
+	ContainerImageClient containerImageFetcher
 }
 
 // NewOperationExecutorFunc is a func which returns an operations.Executor.
@@ -233,6 +249,9 @@ func newUniter(uniterParams *UniterParams) func() (worker.Worker, error) {
 			enforcedCharmModifiedVersion: uniterParams.EnforcedCharmModifiedVersion,
 			containerNames:               uniterParams.ContainerNames,
 			newPebbleClient:              uniterParams.NewPebbleClient,
+			containerRunner:              uniterParams.ContainerRunner,
+			containerImageClient:         uniterParams.ContainerImageClient,
+			containersStartedVersion:     -1,
 			shutdownChannel:              make(chan bool, 1),
 		}
 		plan := catacomb.Plan{
@@ -458,6 +477,19 @@ func (u *Uniter) loop(unitTag names.UnitTag) (err error) {
 				u.workloadEvents,
 				watcher.WorkloadEventCompleted),
 			)
+		}
+		if len(u.containerNames) > 0 && u.containerRunner != nil {
+			cfg.Container = newContainerResolver(containerResolverConfig{
+				Runner:            u.containerRunner,
+				ContainerNames:    u.containerNames,
+				Storage:           u.storage,
+				ImageFetcher:      u.containerImageClient,
+				CharmDir:          u.paths.State.CharmDir,
+				ModelType:         u.modelType,
+				GetStartedVersion: func() int { return u.containersStartedVersion },
+				SetStartedVersion: func(v int) { u.containersStartedVersion = v },
+				Logger:            u.logger.Child("container"),
+			})
 		}
 		uniterResolver := NewUniterResolver(cfg)
 

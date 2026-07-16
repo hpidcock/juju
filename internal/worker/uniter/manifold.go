@@ -28,6 +28,7 @@ import (
 	"github.com/juju/juju/internal/secrets"
 	"github.com/juju/juju/internal/worker/common/reboot"
 	"github.com/juju/juju/internal/worker/fortress"
+	"github.com/juju/juju/internal/worker/iaascontainerrunner"
 	"github.com/juju/juju/internal/worker/secretexpire"
 	"github.com/juju/juju/internal/worker/secretrotate"
 	"github.com/juju/juju/internal/worker/trace"
@@ -100,8 +101,8 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 			if err := config.Validate(); err != nil {
 				return nil, errors.Trace(err)
 			}
+			var containerRunner iaascontainerrunner.Runner
 			if config.ContainerRunnerName != "" {
-				var containerRunner worker.Worker
 				if err := getter.Get(config.ContainerRunnerName, &containerRunner); err != nil {
 					return nil, errors.Trace(err)
 				}
@@ -230,6 +231,8 @@ func Manifold(config ManifoldConfig) dependency.Manifold {
 				EnforcedCharmModifiedVersion: config.EnforcedCharmModifiedVersion,
 				ContainerNames:               config.ContainerNames,
 				Tracer:                       tracer,
+				ContainerRunner:              containerRunner,
+				ContainerImageClient:         resourcesClient,
 			})
 			if err != nil {
 				return nil, errors.Trace(err)
