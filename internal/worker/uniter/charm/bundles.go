@@ -104,6 +104,13 @@ func (d *BundlesDir) bundlePath(info BundleInfo) string {
 	return d.bundleURLPath(info.URL())
 }
 
+// BundlePath returns the local filesystem path where the downloaded zip for
+// the bundle identified by info is stored. The bundle must have already been
+// downloaded via Read before this path is valid.
+func (d *BundlesDir) BundlePath(info BundleInfo) string {
+	return d.bundlePath(info)
+}
+
 // bundleURLPath returns the path to the location where the verified charm
 // bundle identified by url will be, or has been, saved.
 func (d *BundlesDir) bundleURLPath(url string) string {

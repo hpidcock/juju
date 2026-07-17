@@ -132,6 +132,11 @@ require (
 require github.com/canonical/peel v0.1.2
 
 require (
+	github.com/canonical/starlark v0.0.0-20260428155828-9a81051fac39 // indirect
+	github.com/sergi/go-diff v1.4.0 // indirect
+)
+
+require (
 	cloud.google.com/go/auth v0.17.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.10.0 // indirect

@@ -272,6 +272,11 @@ const (
 	// CharmHubURLKey is the key for the url to use for CharmHub API calls
 	CharmHubURLKey = "charmhub-url"
 
+	// CharmPatchesURLKey is the key for the URL pointing to a zip file
+	// containing Starlark patch scripts applied to charm archives at deploy
+	// time.
+	CharmPatchesURLKey = "charm-patches"
+
 	// ModeKey is the key for defining the mode that a given model should be
 	// using.
 	// It is expected that when in a different mode, Juju will perform in a
@@ -753,6 +758,9 @@ func Validate(_ctx context.Context, cfg, old *Config) error {
 	}
 
 	if err := cfg.validateCharmHubURL(); err != nil {
+		return errors.Trace(err)
+	}
+	if err := cfg.validateCharmPatchesURL(); err != nil {
 		return errors.Trace(err)
 	}
 
@@ -1382,6 +1390,26 @@ func (c *Config) validateCharmHubURL() error {
 	return nil
 }
 
+// CharmPatchesURL returns the URL of the charm-patches zip, or empty
+// string if not configured.
+func (c *Config) CharmPatchesURL() string {
+	if v, ok := c.defined[CharmPatchesURLKey].(string); ok {
+		return v
+	}
+	return ""
+}
+
+func (c *Config) validateCharmPatchesURL() error {
+	v, ok := c.defined[CharmPatchesURLKey].(string)
+	if !ok || v == "" {
+		return nil
+	}
+	if _, err := url.ParseRequestURI(v); err != nil {
+		return errors.NotValidf("charm-patches URL %q", v)
+	}
+	return nil
+}
+
 const (
 	// RequiresPromptsMode is used to tell clients interacting with
 	// model that confirmation prompts are required when removing
@@ -1692,6 +1720,7 @@ var alwaysOptional = schema.Defaults{
 	DefaultSpaceKey:                 schema.Omit,
 	LXDSnapChannel:                  schema.Omit,
 	CharmHubURLKey:                  schema.Omit,
+	CharmPatchesURLKey:              schema.Omit,
 
 	AgentMetadataURLKey:                       schema.Omit,
 	ImageStreamKey:                            schema.Omit,

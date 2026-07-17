@@ -32,6 +32,7 @@ import (
 	"github.com/juju/juju/internal/worker/uniter/actions"
 	"github.com/juju/juju/internal/worker/uniter/api"
 	"github.com/juju/juju/internal/worker/uniter/charm"
+	charmPatcher "github.com/juju/juju/internal/worker/uniter/charm/patcher"
 	"github.com/juju/juju/internal/worker/uniter/container"
 	"github.com/juju/juju/internal/worker/uniter/hook"
 	uniterleadership "github.com/juju/juju/internal/worker/uniter/leadership"
@@ -769,13 +770,15 @@ func (u *Uniter) init(ctx stdcontext.Context, unitTag names.UnitTag) (err error)
 		u.logger.Warningf(ctx, err.Error())
 	}
 	charmLogger := u.logger.Child("charm")
+	bundlesDir := charm.NewBundlesDir(
+		u.paths.State.BundlesDir,
+		u.downloader,
+		charmLogger,
+	)
 	deployer, err := u.newDeployer(
 		u.paths.State.CharmDir,
 		u.paths.State.DeployerDir,
-		charm.NewBundlesDir(
-			u.paths.State.BundlesDir,
-			u.downloader,
-			charmLogger),
+		charmPatcher.NewPatchingBundleReader(bundlesDir, u.client, charmLogger),
 		charmLogger,
 	)
 	if err != nil {

@@ -669,6 +669,11 @@ For example:
 		Type:        configschema.Tstring,
 		Group:       configschema.EnvironGroup,
 	},
+	CharmPatchesURLKey: {
+		Description: `URL of a zip file containing Starlark scripts that patch charm archives at deploy time`,
+		Type:        configschema.Tstring,
+		Group:       configschema.EnvironGroup,
+	},
 	CharmHubURLKey: {
 		Description: `The url for CharmHub API calls`,
 		Type:        configschema.Tstring,

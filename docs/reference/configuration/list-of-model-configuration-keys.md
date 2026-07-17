@@ -192,6 +192,27 @@ Directory used to store the backup working directory.
 **Type:** string
 
 
+(model-config-charm-patches)=
+## `charm-patches`
+
+URL of a zip file containing Starlark scripts applied to charm archives at
+deploy and upgrade time.
+
+**Default value:** `""`
+
+**Type:** string
+
+**Description:**
+
+When set, the Juju unit agent downloads the zip from this URL on every charm
+deploy or upgrade, runs every `.star` script found inside it against the
+charm's files in memory, and then unpacks the (possibly modified) archive to
+disk.
+
+See {ref}`charm-patches` for full documentation including available
+functions, the execution environment, and example scripts.
+
+
 (model-config-charmhub-url)=
 ## `charmhub-url`
 
