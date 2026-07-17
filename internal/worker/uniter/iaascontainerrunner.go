@@ -71,11 +71,16 @@ func newContainerResolver(cfg containerResolverConfig) *containerResolver {
 	return &containerResolver{cfg: cfg}
 }
 
-// NextOp implements resolver.Resolver. It blocks the resolver loop (returns
-// ErrWaiting) until all initial storage attachments are committed, then
-// calls runner.EnsureContainers. On charm upgrades it calls
-// EnsureContainers again to recreate containers with the updated
+// NextOp implements resolver.Resolver. It blocks the resolver loop
+// (returns ErrWaiting) until all initial storage attachments are
+// committed, then calls runner.EnsureContainers. On charm upgrades it
+// calls EnsureContainers again to recreate containers with the updated
 // configuration.
+//
+// Critically, this resolver sits before hook dispatch in the uniter
+// resolver chain. It therefore acts as a gate: the start hook cannot
+// run until EnsureContainers has successfully completed for the current
+// charm version.
 func (r *containerResolver) NextOp(
 	ctx context.Context,
 	localState resolver.LocalState,
@@ -86,22 +91,27 @@ func (r *containerResolver) NextOp(
 		return nil, resolver.ErrNoOperation
 	}
 
-	// For IAAS models: wait for all initial storage attachments to be
-	// committed before starting containers so that storage mounts are
-	// available when the containers first start.
+	// Check whether containers need to be (re)started. The started
+	// version is stored on the Uniter so it persists across
+	// resolver-loop restarts (e.g. after an ErrRestart from a charm
+	// upgrade). This early exit must come before the hook-dispatch
+	// switch in the resolver chain, ensuring that EnsureContainers has
+	// already been called before the start hook is allowed to run.
+	targetVersion := remoteState.CharmModifiedVersion
+	if r.cfg.GetStartedVersion() == targetVersion {
+		return nil, resolver.ErrNoOperation
+	}
+
+	// Containers need to be (re)started. For IAAS models, wait for all
+	// initial storage attachments to be committed before starting
+	// containers so that storage mounts are available when containers
+	// first start. This guard only applies before the install hook runs
+	// (i.e. when !localState.Installed).
 	if r.cfg.ModelType == model.IAAS &&
 		!localState.Installed &&
 		r.cfg.Storage != nil &&
 		r.cfg.Storage.Pending() > 0 {
 		return nil, resolver.ErrWaiting
-	}
-
-	// Check whether containers need to be (re)started. The started version
-	// is stored on the Uniter so it persists across resolver-loop restarts
-	// (e.g. after an ErrRestart from a charm upgrade).
-	targetVersion := remoteState.CharmModifiedVersion
-	if r.cfg.GetStartedVersion() == targetVersion {
-		return nil, resolver.ErrNoOperation
 	}
 
 	// Read container mount and resource declarations from the deployed charm.

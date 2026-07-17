@@ -40,8 +40,10 @@ type ResolverConfig struct {
 	Commands            resolver.Resolver
 	Secrets             resolver.Resolver
 	// Container is an optional resolver that manages IAAS workload container
-	// lifecycle. When non-nil it runs after the Storage resolver so that all
-	// storage attachments are available before containers are started.
+	// lifecycle. It runs after the Storage resolver (so all storage
+	// attachments are available before containers start) and before hook
+	// dispatch, which guarantees that EnsureContainers completes before
+	// the start hook is allowed to run.
 	Container         resolver.Resolver
 	OptionalResolvers []resolver.Resolver
 	Logger            logger.Logger
